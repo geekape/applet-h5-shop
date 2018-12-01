@@ -161,6 +161,9 @@ window.localStorage.setItem("openid", -3);
 
 ![](https://user-gold-cdn.xitu.io/2018/12/1/167685e14b0b20e1?w=392&h=559&f=png&s=70387)
 
-- [线上预览](https://leyao.tv/yi/public/wap/index.html?pbid=78)，复制链接到微信浏览器打开，不然获取不到信息
+- 扫码预览，要用微信扫码打开，不然获取不到用户信息
+
+![](https://user-gold-cdn.xitu.io/2018/12/1/167689444c4caf44?w=400&h=400&f=png&s=10824)
+
 - [Github商城源码](https://github.com/geekape/applet-h5-shop)，欢迎star！
 - 前端交流的QQ群：361979424，有兴趣可以加
