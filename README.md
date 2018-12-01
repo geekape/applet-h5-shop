@@ -158,7 +158,9 @@ window.localStorage.setItem("openid", -3);
 ## 5. 最后
 最后说几句，项目经内部多人测试，完全可以用于商用，当然由于环境的不同，开发人员的不同还有很多潜在的问题，如果你有兴趣使用这个开源的项目，可以先看看[weiphp5.0二次开发手册](https://www.kancloud.cn/fanxing/weiphp5)，使用过程中碰到任何的问题，都可以在[在线提交Bug](https://bug.weiphp.cn/index.php?s=/w10/Bug/Wap/invite/project_id/88)，也欢迎加入我们的内测群，一起交流！
 
-![](https://user-gold-cdn.xitu.io/2018/12/1/167685b22b2f206e?w=1080&h=1920&f=jpeg&s=104758)
+
+![](https://user-gold-cdn.xitu.io/2018/12/1/167685e14b0b20e1?w=392&h=559&f=png&s=70387)
+
 - [线上预览](https://leyao.tv/yi/public/wap/index.html?pbid=78)，复制链接到微信浏览器打开，不然获取不到信息
 - [Github商城源码](https://github.com/geekape/applet-h5-shop)，欢迎star！
 - 前端交流的QQ群：361979424，有兴趣可以加
