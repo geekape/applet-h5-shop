@@ -1,0 +1,162 @@
+{extend name="common@base/common" /}
+{block name="body"}
+<style type="text/css">
+.money {
+	width: 50px;
+}
+.specTable .param {
+	display: none;
+}
+.specTable p {
+	display: block;
+	line-height: 50px;
+}
+.text-center {
+	text-align: center;
+}
+.check-tips {
+	color: #aaa;
+	margin-left: 50px
+}
+</style>
+<!-- 标签页导航 -->
+
+<div class="span9 page_message">
+  <section id="contents"> {include file="common@base/_nav" /}
+    <div class="tab-content"> 
+      <!-- 表单 -->
+      {php} !empty($post_url) || $post_url = U( ACTION_NAME. '?model='.$model['id'], $get_param);{/php}
+      <form class="form-horizontal form-center" method="post" action="{$post_url}" id="form">
+      	<!-- 测试选择用户 -->
+        
+        <!-- 测试选择用户end -->
+        <form class="form-horizontal form-center" method="post" action="{$post_url}" id="form">
+        <div class="form-item cf toggle-truename">
+          <label class="item-label"> <span class="need_flag">*</span> 真实名字 </label>
+          <div class="controls">
+            <input type="text" value="{$data.truename}" name="truename" class="text" placeholder="请填写真实名字">
+          </div>
+        </div>
+        <div class="form-item cf toggle-mobile">
+          <label class="item-label"> <span class="need_flag">*</span> 联系号码 </label>
+          <div class="controls">
+            <input type="text" value="{$data.mobile}" name="mobile" class="text" placeholder="请填写联系号码">
+          </div>
+        </div>
+         <div class="form-item cf toggle-uid">
+         {eq name="is_edit" value="0" }
+          <label class="item-label"> <span class="need_flag">*</span> 微信名称 </label>
+          {/eq}
+          <div class="controls">
+          	{eq name="is_edit" value="0" }
+            <input type="text" value="{$data.nickname}" readonly="readonly"  name="nickname" class="text" placeholder="请选择微信名称"  onClick="selectUser();" style="cursor: pointer;background-color: #fff;">
+          	<img id='userimg' src={empty name="data.userimg"}'__IMG__/default_head_50.png'{else/}{$data.userimg}{/empty} style="border: 1px solid darkgray;vertical-align: middle;width: 40px;height: 40px;"/>
+          	{/eq}
+         	<input type='hidden' name='uid' value="{$data.uid}"/>
+          </div>
+        </div>
+        <div class="form-item cf toggle-wechat">
+          <label class="item-label"> <span class="need_flag">*</span> 微信号</label>
+          <div class="controls">
+            <input type="text" value="{$data.wechat}" name="wechat" class="text" placeholder="请填写微信号">
+          </div>
+        </div>
+        <div class="form-item cf toggle-inviter">
+          <label class="item-label"> <span class="need_flag"></span> 邀请人</label>
+          <div class="controls">
+            <input type="text" value="{$data.inviter}" name="inviter" class="text" placeholder="请填写邀请人">
+          </div>
+        </div>
+        
+<!--        <div class="form-item cf toggle-branch_id"> -->
+<!--           <label class="item-label"> <span class="need_flag">*</span> 授权门店 </label> -->
+<!--           <div class="controls"> -->
+<!--           	<select name='branch_id'> -->
+<!--           		<option value='0' {eq name='data.branch_id' value='0'}selected{/eq}>所有门店</option> -->
+<!--           		{volist name='stores' key='key' id='vo'} -->
+<!--           			<option value='{$key}' {eq name='data.branch_id' value='{$key}'}selected{/eq}>{$vo}</option> -->
+<!--           		{/volist} -->
+<!--           	</select> -->
+<!--           </div> -->
+<!--         </div>   -->
+        
+<!--         <div class="form-item cf toggle-enable"> -->
+<!--           <label class="item-label"> 是否启用 </label> -->
+<!--           <div class="controls"> -->
+<!--             <div class="check-item"> -->
+<!--               <input type="radio" name="enable" id="enable_0" value="0" class="regular-radio enable" {if condition="intval($data['enable'])==0"}checked="checked"{/if} > -->
+<!--               <label for="enable_0"></label> -->
+<!--               否</div> -->
+<!--             <div class="check-item"> -->
+<!--               <input type="radio" name="enable" id="enable_1" value="1" class="regular-radio enable" {if condition="$data['enable']==1"}checked="checked"{/if} > -->
+<!--               <label for="enable_1"></label> -->
+<!--               是</div> -->
+<!--           </div> -->
+<!--         </div> -->
+        
+<!--          <div class="form-item cf toggle-qr_code"> -->
+<!--           <label class="item-label"> <span class="need_flag"></span> 渠道二维码 </label> -->
+<!--           <div class="controls"> -->
+<!--             <img height='200' width='200' src/> -->
+<!--             <a>获取二维码</a> -->
+<!--            </div> -->
+<!--         </div> -->
+      
+        <div class="form-item form_bh">
+          {notempty name="data.id"}
+            <input type="hidden" name="id" value="{$data.id|default=0}">
+          {/notempty}
+          <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">{$submit_name|default='确 定'}</button>
+        </div>
+      </form>
+    
+    </div>
+  </section>
+</div>
+{/block}
+{block name="script"}
+  <link href="__STATIC__/datetimepicker/css/datetimepicker.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+  {php} if(config('COLOR_STYLE')=='blue_color') echo '
+    <link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+    '; {/php}
+  <link href="__STATIC__/datetimepicker/css/dropdown.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script> 
+  <script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js?v={:SITE_VERSION}" charset="UTF-8"></script> 
+  <script type="text/javascript">
+$(function(){    
+	initUploadImg();
+	initUploadFile();
+    $('.time').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        language:"zh-CN",
+        minView:0,
+        autoclose:true
+    });
+    $('.date').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language:"zh-CN",
+        minView:2,
+        autoclose:true
+    });	
+	
+});
+//选择用户
+function selectUser(){
+	$.WeiPHP.openSelectUsers("{:U ( 'weixin/UserCenter/lists_choose')}",1,function(data){
+		if(data && data.length>0){
+			for(var i=0;i<data.length;i++){
+				$("input[name='uid']").val(data[i].id);
+				$("input[name='nickname']").val(data[i].nickname);
+				$('#userimg').attr('src',data[i].img);
+// 				var $html = $('<div class="item">'+
+// 							'<img src="'+data[i].img+'"/>'+
+// 							'<input type="hidden" name="user_ids[]" value="'+data[i].id+'"/>'+
+// 							'<em class="del" onClick="$(this).parent().remove();">X</em>'+
+// 						'</div>');
+// 				$html.insertBefore($('#userList .common_add_btn'));
+			}
+		}
+	})
+}
+</script> 
+{/block}

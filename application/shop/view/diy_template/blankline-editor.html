@@ -1,0 +1,29 @@
+<div>
+	<!--页面标题设置-->
+	<div class="app_editor">
+		<em class="arrow-left"></em>
+		
+        <div class="form_item">
+			<label>线条颜色</label>
+			<div class="iput">
+				<div data-color="borderColor" class="color_picker" ng-click="colorPicker($event)"  ng-style="{'background-color':activeItem.params.borderColor}"  ng-model="activeItem.params.borderColor"></div>
+			</div>
+		</div>
+        <div class="form_item">
+			<label>线条宽度</label>
+			<div class="iput">
+				<input style=" width:350px" type="range" max="20" min="1" ng-model="activeItem.params.borderWidth"/>
+			</div>
+		</div>
+         <div class="form_item">
+			<label>线条样式</label>
+			<div class="iput pt_8">
+				<input type="radio" name="align" value="dotted" ng-model="activeItem.params.borderStyle"/>点线&nbsp;&nbsp;&nbsp;
+                <input type="radio" name="align" value="dashed" ng-model="activeItem.params.borderStyle"/>虚线&nbsp;&nbsp;&nbsp;
+                <input type="radio" name="align" value="solid" ng-model="activeItem.params.borderStyle"/>实线&nbsp;&nbsp;&nbsp;
+                <input type="radio" name="align" value="ridge" ng-model="activeItem.params.borderStyle"/> 垄状&nbsp;&nbsp;&nbsp;
+                <input type="radio" name="align" value="groove" ng-model="activeItem.params.borderStyle"/> 凹槽
+			</div>
+		</div>
+	</div>
+</div>

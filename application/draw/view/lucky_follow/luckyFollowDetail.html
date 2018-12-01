@@ -1,0 +1,55 @@
+{extend name="common@base/common" /}
+{block name="body"}
+  <div class="span9 page_message">
+    <section id="contents"> 
+      <ul class="tab-nav nav">
+<!-- 		<li><a href="{:U('lists')}">活动管理</a></li> -->
+        <li><a href="{:U ( 'Draw/Award/lists')}">奖品库管理</a></li>
+        <li><a href="{:U ( 'Draw/LuckyFollow/lists')}">兑奖</a></li>
+		<li class="current"><a href="">个人信息</a></li>
+      </ul>
+      <!-- 数据列表 -->
+      <div style="padding:20px; min-height:90px;">
+      	<h1 style="line-height:40px">兑奖人详情</h1>
+        <div class="detail">
+        	<div class="u_head" style="float:left; width:70px; height:90px; text-align:center;">
+            	<img src="{$luckyfollow.headimgurl}" width="70" height="70px" style="display:block"/>
+                <span style="display:block; background:#CCC">{$luckyfollow.nickname2}</span>
+            </div>
+            <div class="u_sum" style="padding-left:80px; line-height:24px;">
+            	<p>姓名：{$luckyfollow.truename}</p>
+                <p>手机号码：{$luckyfollow.mobile}</p>
+                <p>积分：{$luckyfollow.score|intval}</p>
+                <p>个人中心链接:{:U ( 'Sports/Wap/user_center')}</p>
+            </div>
+        </div>
+      </div>
+      <div class="data-table table-striped">
+          <table cellspacing='1'>
+            <!-- 表头 -->
+            <thead>
+              <tr>
+                
+                {volist name="list_grids" id="field"}
+                  <th>{$field.title}</th>
+                {/volist}
+              </tr>
+            </thead>
+            
+            <!-- 列表 -->
+            <tbody>
+              {volist name="list_data" id="data"}
+                <tr>
+                 {volist name="list_grids" id="grid"}
+                    {if ($grid.raw == 1) OR ($grid.come_from == 1) }<td>{$data[$key]|raw}</td>{else /}<td>{$data[$key]}</td>{/if}
+                  {/volist}
+                </tr>
+              {/volist}
+            </tbody>
+          </table>
+        
+      </div>
+      <div class="page"> {$_page|raw|default=''} </div>
+    </section>
+  </div>
+{/block}

@@ -1,0 +1,37 @@
+{switch name="addons_config.editor_type"}
+		<!-- 只需挂在一个textarea上  另外通过上传按钮通过class侦听 
+        这是个钩子
+        -->
+		<script type="text/javascript" charset="utf-8" src="__STATIC__/{$driver_file}/ueditor.config.js?v={:SITE_VERSION}"></script>
+        <script type="text/javascript" charset="utf-8" src="__STATIC__/{$driver_file}/ueditor.all.js?v={:SITE_VERSION}"></script>
+        <script type="text/javascript" charset="utf-8" src="__STATIC__/{$driver_file}/lang/zh-cn/zh-cn.js?v={:SITE_VERSION}"></script>
+        <script type="text/javascript">
+            window.UEDITOR_HOME_URL = "__STATIC__/{$driver_file}/";
+            window.UEDITOR_CONFIG.initialFrameHeight = parseInt('{$addons_config.editor_height}');
+            window.UEDITOR_CONFIG.scaleEnabled = {eq name="addons_config.editor_resize_type" value="1"}true{else/}false{/eq};
+            window.UEDITOR_CONFIG.imageUrl = '{:U ( "home/Uploads/ue_upimg")}';
+            window.UEDITOR_CONFIG.imagePath = '';
+            window.UEDITOR_CONFIG.imageFieldName = 'imgFile';
+            var imageEditor = UE.getEditor('editor_id_{$addons_data.id}');
+			imageEditor.ready(function () {
+				  //设置编辑器不可用
+				  imageEditor.setDisabled();
+				  //隐藏编辑器，因为不会用到这个编辑器实例，所以要隐藏
+				  imageEditor.hide();
+				  //侦听图片上传
+				  imageEditor.addListener('beforeInsertImage', function (t, arg) {
+					 //将地址赋值给相应的input,只去第一张图片的路径
+					 $("#picture").attr("value", arg[0].src);
+					 //图片预览
+					 $("#preview").attr("src", arg[0].src);
+					 console.log(arg);
+				  })
+				  $('.{$addons_data.className}').bind('click',function(){
+					  	var uploadImage = imageEditor.getDialog("insertimage");
+				 			uploadImage.open();
+					  })
+				 
+			 });
+        </script>
+		
+{/switch}

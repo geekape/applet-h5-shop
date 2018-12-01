@@ -1,0 +1,24 @@
+{include file="common@base/mobile_head"/}
+<link href="__CSS__/Coupon.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+<body>
+<div class="container body" style="position:relative; background:#eee;">
+	<div class="detail">
+      <p class="title">优惠券介绍</p>
+      <div class="content">
+      	{$info.use_tips|raw}
+        <br/>
+      </div>
+      <p class="title">使用说明</p>
+      <div class="content">
+        {if condition="!empty($info['use_start_time']) && !empty($info['over_time'])"} 
+            <p>· 有效期：{$info.use_start_time|time_format}至{$info.over_time|time_format}</p>
+         {/if}	
+        {if condition="$info['max_num']!=0"}
+        	<p>· 每人限领取{$info.max_num}张</p>
+        {/if}
+      </div>
+      <p class="copyright">{$system_copy_right|raw}{$tongji_code|raw}</p>
+  </div>
+</div>
+</body>
+</html>

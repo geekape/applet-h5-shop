@@ -1,0 +1,19 @@
+<template name="4b79de62">
+  <view class="_div data-v-fce77668 my-address">
+    <view class="_div data-v-fce77668 address-item" wx:if="{{address.truename}}">
+      <view class="_div data-v-fce77668 address-item__bd">
+        <view class="_div data-v-fce77668 g-flex">
+          <view class="_p data-v-fce77668 address-item__name g-flex__item">{{address.truename}}</view>
+          <view class="_p data-v-fce77668 address-item__moblie">{{address.mobile}}</view>
+        </view>
+        <view class="_p data-v-fce77668 address-item__info">{{address.address + address.address_detail}}</view>
+      </view>
+      <view class="_div data-v-fce77668 address-item__ft g-flex">
+        <van-checkbox bindchange="handleProxy" wx:if="{{address.is_use == 1}}" class="_van-checkbox data-v-fce77668 address-item__checkbox" value="{{address.is_use == 1}}" data-eventid="{{'0'}}" data-comkey="{{$k}}">默认地址</van-checkbox>
+        <van-checkbox wx:else class="_van-checkbox data-v-fce77668 address-item__checkbox active" value="{{address.is_use == 0}}">默认地址</van-checkbox>
+      </view>
+    </view>
+    <navigator open-type="redirect" wx:else url="../add_address/main?id=0" class="_a data-v-fce77668 u-button u-button--primary u-button--big">新增地址</navigator>
+    <navigator open-type="redirect" wx:if="{{address.truename}}" url="../add_address/main?id=1" class="_a data-v-fce77668 u-button u-button--primary u-button--big">修改地址</navigator>
+  </view>
+</template>

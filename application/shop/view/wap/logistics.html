@@ -1,0 +1,45 @@
+{extend name="shop@wap/common_file" /} {block name="common_body"}
+<!-- 头部导航 -->
+<div class="top-nav">
+    <div class="flex">
+      <i class="iconfont icon-back" id="go-back"></i>
+        <slot>
+            <span class="title">查看物流</span>
+        </slot>
+    </div>
+</div>
+<div class="wrap">
+    
+    
+   <!-- 物流基本信息 -->
+    {if condition="($info.send_code_name != '') OR ($info.send_number != '')"}
+    <div class="card f-pl-base">
+     <p>
+       <span class="gray">物流公司：</span>
+       <span>{$info.send_code_name}</span>
+     </p>
+     <p>
+       <span class ="gray">物流单号：</span>
+       <span>{$info.send_number}</span>
+     </p>
+   </div>
+   {/if}
+
+   <!-- /物流基本信息 -->
+  
+
+    <!-- 物流时间轴 -->
+    <div class="time-line">
+      <h3 class="time-line-title">订单跟踪</h3>
+      <ul class="time-line-box">
+      {volist name="log" id="vo"}
+        <li class="time-line-item">
+          <p {eq name="i" value="0"}class="red"{/eq}>{$vo.remark}</p>
+          <small>{$vo.cTime|time_format}</small>
+        </li>
+        {/volist}
+      </ul>
+    </div>
+    <!-- /物流时间轴 -->
+</div>
+{/block}

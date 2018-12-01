@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="小程序开发，微信开发，小程序商城，weiphp，店付宝，公众号开发，微信商城" name="keywords"/>
+    <meta content="小程序开发，微信开发，商城小程序，小程序定制开发-深圳市圆梦云科技有限公司，店付宝小程序，微信小程序，微信商城，weiphp,新零售|O2O模式|餐饮|小程序开发|社区|门店|教育|教程|视频|解决方案" name="description"/>
+    <link rel="shortcut icon" href="{:SITE_URL}/favicon.ico">
+    <title>插件详情|weiphp|小程序开发|微信开发|微信小程序开发|小程序定制开发|小程序商城|weiphp店付宝|公众号|小程序|圆梦云</title>
+    <link type="text/css" rel="stylesheet" href="__CSS__/oweb.css?v={:SITE_VERSION}" />
+    <link type="text/css" rel="stylesheet" href="__CSS__/fullpage.css?v={:SITE_VERSION}" />
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css"></head>
+    <script type="text/javascript" src="__STATIC__/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/fullpage.js"></script>
+    <script type="text/javascript" src="__STATIC__/fullpage.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+{include file="index/_head" /}
+<div class="body" style="margin:70px 0 0;padding:20px 0;background: rgb(250, 247, 250);">
+    <div class="apps_detail">
+        <h3 class="apps_name">{$info.title}</h3>
+        <div class='card'>{$info.content|raw}</div>
+        <div class="buttons">
+            {notempty name="info.sale_price"}
+            <button class="btn" data-toggle="modal" data-target="#myModal">联系购买</button>
+            <button class="btn" href="https://www.kancloud.cn/fanxing/weiphp5/853624">安装教程</button>
+            {else /}
+            <button class="btn" href="{$info.down_url}">免费下载</button>
+            <button class="btn" href="https://www.kancloud.cn/fanxing/weiphp5/853623">安装教程</button>
+            {/notempty}
+        </div>
+        <div class="apps_price"><span>{$info.sale_price}元</span>/<del>{$info.market_price}元</del></div>
+        <div class="clear:both"></div>
+    </div>
+</div>
+{include file="index/_footer" /}
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="contact getqrcode">
+            <img src="__IMG__/oweb/code.jpg">
+            <span>扫码联系购买</span>
+        </div>
+    </div><!-- /.modal -->
+</div>
+
+<script>
+    $(document).ready(function(){
+        var width = $(window).width();
+        var docwidth = $(document).width();
+        var height = width;
+        $(".body").css({'width' : width});
+        $(".head").css('width',width);
+        $(".foot").css('width',width);
+        $(window).resize(function () {
+            var width = $(window).width();
+            var height = width;
+            $(".body").css({'width' : width});
+            $(".head").css('width',width);
+            $(".foot").css('width',width,);
+        })
+    })
+</script>
+</body>
+</html>

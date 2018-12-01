@@ -1,0 +1,91 @@
+{extend name="shop@wap/common_file" /} {block name="common_body"}
+<!-- 头部导航 -->
+<div class="top-nav">
+    <div class="flex">
+        <i class="iconfont icon-back" id="go-back"></i>
+        <slot>
+            <span class="title">优惠券</span>
+        </slot>
+    </div>
+</div>
+<div class="wrap">
+    
+
+    <div class="weui-tab">
+{empty name="is_select"}
+      <div class="weui-navbar">
+
+        <a class="weui-navbar__item weui-bar__item--on" href="#tab1">
+          未使用
+        </a>
+        <a class="weui-navbar__item" href="#tab2">
+          已使用
+        </a>
+      </div>
+{/empty}
+
+      <div class="weui-tab__bd">
+        <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
+
+          {notempty name="lists[0]"} {volist name="lists[0]" id="vo"}
+            <div class="chit-tp flex coupon-tp">
+                <div class="chit-tp-left">
+                {notempty name="vo.prize_title"}
+                  <p class="money"><span class="prize-icon">¥</span>{$vo.prize_title}</p>
+                {/notempty}
+                  <div class="flex-item coupon-info">
+                    <p class="chit-tp-right-sum">{$vo.title}</p>
+                    <p class="time">{notempty name="vo.end_time"}{$vo.start_time} 至 {$vo.end_time}{/notempty}</p>
+                   {notempty name="vo.near_end"}
+                      <p class="red f12">[即将过期]</p>
+                   {/notempty}
+                  </div>
+  
+                </div>
+                <div class="chit-tp-right">
+                   {empty name="is_select"}
+		           <a class="weui-btn weui-btn_mini weui-btn_plain-primary" href="{:U('coupon/Wap/show',['id'=>$vo['id'],'sn_id'=>$vo['sn_id']])}">立即使用</a>
+                   {else /}
+                   <a class="weui-btn weui-btn_mini weui-btn_plain-primary" href="{:U('shop/wap/confirm_order',['sn_id'=>$vo['sn_id']])}">立即使用</a>
+                   {/empty}
+                </div>
+            </div>
+
+
+{/volist}{/notempty}  
+        </div>
+        <div id="tab2" class="weui-tab__bd-item">
+        {notempty name="lists[1]"} {volist name="lists[1]" id="vo"}
+          <div class="chit-tp flex used coupon-tp">
+              <div class="chit-tp-left">
+
+                <p class="money"><span class="prize-icon">¥</span>{$vo.prize_title}</p>
+                <div class="flex-item coupon-info">
+                  <p class="chit-tp-right-sum">{$vo.title}</p>
+                  <p class="time">{notempty name="vo.end_time"}{$vo.start_time|day_format} 至 {$vo.end_time|day_format}{/notempty}</p>
+                 {notempty name="vo.near_end"}
+                    <p class="red f12">[即将过期]</p>
+                 {/notempty}
+              </div>
+              
+          </div>
+          <div class="chit-tp-right">
+              
+              <a class="weui-btn weui-btn_mini weui-btn_plain-primary">立即使用</a>
+          </div>
+            
+        </div>
+        {/volist}{/notempty}  
+      </div>
+
+
+
+
+
+	</div>
+
+
+
+    
+</div>
+{/block}

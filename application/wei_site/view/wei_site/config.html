@@ -1,0 +1,118 @@
+{extend name="common@base/common" /} {block name="body"}
+<div class="span9 page_message">
+    <section id="contents">
+        {include file="common@base/_nav" /}
+        <div class="tab-content">
+            <div style="float:left;width:50%">
+                <form method="post" class="form-horizontal" action="{:U('config')}">
+                    <div class="form-group row cf">
+                        <label class="col-sm-2"> 封面标题: <span class="form-text text-muted"></span> </label>
+                        <div class="col-sm-8">
+                            <input type="text" value="{$data['title']}" class="text input-large" name="title">
+                        </div>
+                    </div>
+                    <div class="form-group row cf">
+                        <label class="col-sm-2"> 封面图片: </label>
+                        <div class="col-sm-8" >
+                            <div class="uploadrow2" data-max="1" title="点击修改图片" rel="cover">
+                                <input type="file" id="upload_picture_cover">
+                            <input type="hidden" name="cover" id="cover_id_cover" value="{$data['cover']}" />
+                            <div class="upload-img-box">
+                                {notempty name="data['cover']"}
+                                <div class="upload-pre-item2"><img width="100" height="100" src="{$data['cover']|get_cover_url}" /></div>
+                                <em class="edit_img_icon">&nbsp;</em> {/notempty}
+                            </div>
+                            </div>
+                            <span class="form-text text-muted">最佳尺寸为900*500</span>
+                        </div>
+                        
+                            
+                    </div>
+                    <div class="form-group row cf">
+                        <label class="col-sm-2"> 封面简介: <span class="form-text text-muted"></span> </label>
+                        <div class="col-sm-8">
+                            <label class="textarea input-large">
+                                <textarea name="info" style="width:100%;min-width: auto">{$data['info']}</textarea>
+                            </label>
+                        </div>
+                    </div>
+            </div>
+            <!--通用的微信预览模板-->
+            <!--头部标题栏-->
+            <!--鉴于样式title放进具体每块模块-->
+            <!--CSS模块-->
+            <div class="weixin-preview">
+                <p class="preview-tips">微信里回复“微官网”的回复效果</p>
+                <div class="weixin-box">
+                    <p class="weixin-title"></p>
+                    <div class="weixin-cover"><img class="weixin-cover-pic" src="" /></div>
+                    <p class="weixin-content">
+                    </p>
+                </div>
+            </div>
+            <div class="form-group row" style="clear:both;">
+               <div class="offset-sm-1 col-sm-4"> <button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button></div>
+            </div>
+            </form>
+        </div>
+    </section>
+</div>
+<script type="text/javascript">
+$('.tab-content').addClass('has-weixinpreivew');
+if ($('input[name="title"]').val() != undefined) {
+    $('.weixin-title').html($('input[name="title"]').val());
+} else {
+    $('.weixin-title').html($('input[name="title"]').val());
+}
+if ($('textarea[name="content"]').val() != undefined) {
+    $('.weixin-content').html($('textarea[name="content"]').val());
+} else if ($('textarea[name="intro"]').val() != undefined) {
+    $('.weixin-content').html($('textarea[name="intro"]').val());
+} else {
+    $('.weixin-content').html($('textarea[name="info"]').val());
+}
+var weixin_cover_picurl = $('#cover_id_picurl').next().find('img').attr('src');
+if (weixin_cover_picurl == undefined) weixin_cover_picurl = $('#cover_id_cover').next().find('img').attr('src');
+if ($('#cover_id_cover').val() == undefined && $('#cover_id_picurl').val() == undefined) {
+    $('.weixin-preview').hide();
+}
+if (weixin_cover_picurl == undefined || weixin_cover_picurl == "") {
+    $('.weixin-cover-pic').attr('src', "__STATIC__/base/images/no_cover.png");
+} else {
+    $('.weixin-cover-pic').attr('src', weixin_cover_picurl);
+}
+
+
+$('input[name="title"]').keyup(function() {
+    $('.weixin-title').html($(this).val());
+});
+$('input[name="title"]').keyup(function() {
+    $('.weixin-title').html($(this).val());
+});
+$('textarea[name="content"]').keyup(function() {
+    $('.weixin-content').html($(this).val());
+});
+$('textarea[name="info"]').keyup(function() {
+    $('.weixin-content').html($(this).val());
+});
+$('textarea[name="info"]').keyup(function() {
+    $('.weixin-content').html($(this).val());
+});
+$('textarea[name="des_jj"]').keyup(function() {
+    $('.weixin-content').html($(this).val());
+});
+$('textarea[name="intro"]').keyup(function() {
+    $('.weixin-content').html($(this).val());
+});
+</script>
+{/block} {block name="script"}
+<script type="text/javascript" charset="utf-8">
+$(function() {
+    //初始化上传图片插件
+    initUploadImg();
+    initUploadFile();
+    //支持tab
+    showTab();
+})
+</script>
+{/block}

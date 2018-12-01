@@ -1,0 +1,49 @@
+<!-- 提示 -->
+<div id="top-alert" class="top-alert-tips alert-error" style="display: none;">
+  <a class="close" href="javascript:;"><b class="fa fa-times-circle"></b></a>
+  <div class="alert-content"></div>
+</div>
+<!-- 导航条
+================================================== -->
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="wrap">
+
+       <a class="brand" title="{:config('WEB_SITE_TITLE')}" href="{:U('index/index')}">
+       		<img height="52" src="__IMG__/logo.png"/>
+       </a>
+      {php} $index_2 = parse_name(MODULE_NAME) . '/' . parse_name(CONTROLLER_NAME) . '/*' ; $index_3 = parse_name(MODULE_NAME) . '/' . parse_name(CONTROLLER_NAME) . '/' . parse_name(ACTION_NAME ); {/php}
+
+            <div class="top_nav">
+                {if condition="is_login()"}
+                    <ul class="nav" style="margin-right:0">
+                        {volist name="top_menu" id="vo"}
+                    	<li class="{$vo.class}"><a href="{$vo.url}" target="{$vo.target}">{$vo.title}</a></li>
+                        {/volist}
+
+                        <li class="dropdown admin_nav">
+                            <a href="#" class="dropdown-toggle login-nav" data-toggle="dropdown" style="">
+                                <img class="admin_head url" src="{$myinfo.headimgurl}"/>
+                                {$myinfo.nickname|getShort=4}<b class="pl_5 fa fa-sort-down"></b>
+                            </a>
+                            <ul class="dropdown-menu" style="display:none">
+                               {if condition="$mid==config('user_administrator')"}
+                               <li><a href="{:U ('Admin/Index/Index')}" target="_blank">后台管理</a></li>
+                               {/if}
+                                <li><a href="{:U('home/User/profile')}">修改密码</a></li>
+                                <li><a href="{:U('home/User/logout')}">退出</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                {else/}
+                    <ul class="nav" style="margin-right:0">
+                        <li>
+                            <a href="{:U('home/User/login')}">登录</a>
+                        </li>
+                        <li>
+                            <a href="{:U('admin/index/index')}" style="padding-right:0">后台入口</a>
+                        </li>
+                    </ul>
+                {/if}
+            </div>
+        </div>
+</div>

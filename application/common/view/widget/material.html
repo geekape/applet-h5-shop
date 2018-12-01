@@ -1,0 +1,413 @@
+<style>
+.image_material, .text_material, .voice_material, .video_material {
+	display: block;
+	border: 1px dashed #ddd;
+	width: 308px;
+	height: auto;
+	background: #eee;
+	text-align: center;
+	color: #333;
+	display: block;
+	float: left;
+	position: relative;
+}
+
+.image_material .select_image, .voice_material .select_voice,
+	.video_material .select_video, .text_material .select_text {
+	line-height: 196px;
+	display: block;
+	height: 200px;
+}
+
+#voice_area, #video_area, #image_area {
+	position: relative;
+}
+
+#image_area .delete, #voice_area .delete, #video_area .delete,
+	.text_material .delete {
+	position: absolute;
+	top: 1px;
+	white-space: nowrap;
+	display: none;
+}
+
+.appmsg_item {
+	padding: 15px;
+	width: 278px;
+}
+
+
+
+#image_area .image_wrap {
+	border: 1px dashed #ddd;
+	width: 308px;
+	display: none;
+}
+
+.video_wrap, .voice_wrap {
+	background: #fff;
+}
+
+.voice_wrap {
+	width: 308px;
+	float: left
+}
+
+.video_wrap {
+	width: 222px;
+}
+
+.select_video, .select_voice, .select_image {
+	height: 240px;
+	line-height: 240px;
+	cursor: pointer
+}
+.sound_item {
+    min-height: 80px;
+    padding: 10px;
+    width: 100%;
+}
+.audio_name .colorless {
+    display: block;
+}
+
+
+/* 选择类型文本换行 */
+.text_wrap {
+    padding: 15px;
+    word-wrap: break-word;
+    text-align: left;
+}
+
+.m-voice {
+  height: 80px;
+}
+.picture_item {
+    border: 0;
+    background: #f9f9f9;
+}
+
+.picture_item .m-img {
+  display: block;
+  width: 60px;
+  height: 60px;
+  float: left;
+  margin-right: 10px;
+}
+.sound_item .ctime {padding-top: 0;}
+.material_list li {border:0;}
+.picture_item .sound_item{
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+}
+.material_list img {
+    max-width: initial;
+}
+.sound_item .icon_sound {
+    position: static;
+}
+.picture_item .content{
+    margin-left: 1em;
+}
+.picture_item .content{
+    overflow: hidden;
+    flex: 1;
+}
+.appmsg_dialog .material_list li {
+    position: static!important;
+    background: #f9f9f9;
+    max-height: 300px;
+}
+.material_list {
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+    flex-wrap: wrap;
+    height: auto;
+}
+</style>
+<div id="material_{$name}"></div>
+<input type="hidden" value="{$default_value}" name="{$name}"
+	id="material_res_{$name}" data-type='{$default_type}'
+	data-id='{$default_id}' />
+<div class="form-item cf material-block">
+	<div class="controls">
+		<div class="check-item">
+			<input type="radio" name="material_{$name}_type"
+				id="material_{$name}_text" value="text" class="regular-radio"
+				onClick="changeOption()"> <label for="material_{$name}_text"></label>文本
+		</div>
+		<div class="check-item">
+			<input type="radio" name="material_{$name}_type"
+				id="material_{$name}_img" value="img" class="regular-radio"
+				onClick="changeOption()"> <label for="material_{$name}_img"></label>
+			图片
+		</div>
+		<div class="check-item">
+			<input type="radio" name="material_{$name}_type"
+				id="material_{$name}_news" value="news" class="regular-radio"
+				onClick="changeOption()"> <label for="material_{$name}_news"></label>图文
+		</div>
+		<div class="check-item">
+			<input type="radio" name="material_{$name}_type"
+				id="material_{$name}_voice" value="voice" class="regular-radio"
+				onClick="changeOption()"> <label
+				for="material_{$name}_voice"></label>语音
+		</div>
+		<div class="check-item">
+			<input type="radio" name="material_{$name}_type"
+				id="material_{$name}_video" value="video" class="regular-radio"
+				onClick="changeOption()"> <label
+				for="material_{$name}_video"></label>视频
+		</div>
+	</div>
+
+	<div class="form-item cf show showtext text_area my-3" id="text_area"
+		style="width: 100%;">
+		<input type="hidden" name="material_{$name}_text_id"
+			value="{:isset($text_id)?$text_id:''}" />
+		<div class='text_material' id='text_material'>
+			<a class="select_text" href="javascript:;"
+				onClick="$.WeiPHP.openSelectAppText('{:U('material/Material/text_lists',array('isAjax'=>'ajax','isRadio'=>1))}',selectTextCallback)">选择文本</a>
+			<div class="text_wrap"></div>
+			<a class="delete ml-2 ml-2" href="javascript:;" style="left: 310px;">删除</a>
+		</div>
+	</div>
+	<div class="form-item cf show shownews appmsg_area" id="appmsg_area"
+		style="width: 100%;">
+		<input type="hidden" name="material_{$name}_news_id"
+			value="{$news_id}" /> <a class="select_appmsg" href="javascript:;"
+			onClick="$.WeiPHP.openSelectAppMsg('{:U('material/Material/material_data',array('isAjax'=>'ajax','isRadio'=>1))}',selectAppMsgCallback)">选择图文</a>
+		<div class="appmsg_wrap" style="height: auto;"></div>
+		<a class="delete ml-2" href="javascript:;" style="left: 310px;">删除</a>
+	</div>
+	<div class="form-item cf show showimg image_area" id="image_area"
+		style="width: 100%;">
+		<input type="hidden" name="material_{$name}_img_id" value="{$img_id}" />
+		<a class="select_image image_material" href="javascript:;"
+			onClick="$.WeiPHP.openSelectAppMsg('{:U('material/Material/picture_data',array('isAjax'=>'ajax','isRadio'=>1))}',selectImageCallback)">从素材库选择图片</a>
+		<div class="image_wrap"></div>
+		<a class="delete ml-2" href="javascript:;" style="left: 310px;">删除</a>
+	</div>
+	<div class="form-item cf show showvoice voice_area" id="voice_area"
+		style="width: 100%;">
+		<input type="hidden" name="material_{$name}_voice_id"
+			value="{$voice_id}" /> <a class="voice_material select_voice"
+			href="javascript:;"
+			onClick="$.WeiPHP.openSelectAppMsg('{:U('material/Material/voice_data',array('isAjax'=>'ajax','isRadio'=>1))}',selectVoiceCallback,'选择语音素材')">选择语音素材</a>
+		<div class="voice_wrap"></div>
+		<a class="delete ml-2" href="javascript:;">删除</a>
+	</div>
+	<div class="form-item cf show showvideo video_area" id="video_area"
+		style="width: 100%;">
+		<input type="hidden" name="material_{$name}_video_id"
+			value="{$video_id}" /> <a class="voice_material select_video"
+			href="javascript:;"
+			onClick="$.WeiPHP.openSelectAppMsg('{:U('material/Material/video_data',array('isAjax'=>'ajax','isRadio'=>1))}',selectVideoCallback,'选择视频素材')">选择视频素材</a>
+		<div class="video_wrap" style="float: left;"></div>
+		<a class="delete ml-2" href="javascript:;" style="left: 230px;">删除</a>
+	</div>
+</div>
+
+<script type="text/javascript">
+function changeOption() {
+    $(".show").each(function() {
+        $(this).hide();
+
+    });
+    var val = $("input[name='material_{$name}_type']:checked").val();
+    $("#material_{$name}").attr('data-type', val);
+
+    if (val == 'news') {
+        var group_id = $("input[name='material_{$name}_news_id']").val();
+        if (group_id) {
+            $.post("{:U('material/Material/get_news_by_group_id')}", { 'group_id': group_id }, function(vo) {
+                var html_str = '';
+                if (vo.length == 1) {
+                    html_str = '<div class="appmsg_item"><h6>' + vo[0]['title'] + '</h6><div class="main_img"><img src="' + vo[0]['img_url'] + '"/></div><p class="desc">' + vo[0]['intro'] + '</p></div>';
+                } else {
+                    for (var i = 0; i < vo.length; i++) {
+                        if (vo[i]['id'] == group_id) {
+                            html_str = '<div class="appmsg_item"><div class="main_img"><img src="' + vo[i]['img_url'] + '"/><h6 class="ellipsis"">' + vo[i]['title'] + '</h6></div><p class="desc">' + vo[i]['intro'] + '</p></div>';
+                        } else {
+                            html_str += ' <div class="appmsg_sub_item"><p class="title">' + vo[i]['title'] + '</p><div class="main_img"><img src="' + vo[i]['img_url'] + '"/></div></div>';
+                        }
+                    }
+                    html_str += '';
+                }
+                $('.appmsg_wrap').html(html_str).show();
+                $('.select_appmsg').hide();
+                $('.appmsg_area .delete').show();
+
+            })
+        }
+    } else if (val == 'img') {
+        var img_id = $("input[name='material_{$name}_img_id']").val();
+        var img_html = '';
+        if (img_id) {
+            $.post("{:U('material/Material/ajax_picture_by_id')}", { 'img_id': img_id }, function(imgpath) {
+                if (imgpath) {
+                    img_html = '<div class="appmsg_item"><div class="main_img"><img src="' + imgpath + '"/></div></div>';
+                    $('.image_wrap').html(img_html).show();
+                    $('.select_image').hide();
+                    $('#image_area .delete').show();
+                }
+            });
+        }
+    } else if (val == 'text') {
+        var text_id = $("input[name='material_{$name}_text_id']").val();
+        var text_html = '';
+        $.post("{:U('material/Material/ajax_text_by_id')}", { 'text_id': text_id }, function(content) {
+            if (content) {
+                text_html = content;
+                $('.text_wrap').html(text_html).show();
+                $('.select_text').hide();
+                $('.showtext .delete').show();
+
+            }
+        });
+    } else if (val == 'voice') {
+        var voice_id = $("input[name='material_{$name}_voice_id']").val();
+        var voice_html = '';
+        if (voice_id) {
+            $.post("{:U('material/Material/ajax_voice_by_id')}", { 'voice_id': voice_id }, function(vo) {
+                if (vo) {
+                    voice_html += '<div class="picture_item m-voice"><div class="sound_item" onclick="playSound(\'sound_' + voice_id + '\',this);"><div class="m-img"><img class="icon_sound" src="__STATIC__/base/images/icon_sound.png"></div><p class="audio_name ellipsis"">' + vo['title'] + '<span class="colorless">' + vo['playtime'] + '</span></p><audio id="sound_' + voice_id + '" src="' + vo['file_path'] + '"></audio></div></div>';
+                    $('.voice_wrap').html(voice_html).show();
+                    $('.select_voice').hide();
+                    $('#voice_area .delete').show();
+                }
+            });
+        }
+    } else if (val == 'video') {
+        var video_id = $("input[name='material_{$name}_video_id']").val();
+        var video_html = '';
+        if (video_id) {
+            $.post("{:U('material/Material/ajax_video_by_id')}", { 'video_id': video_id }, function(vo) {
+                if (vo) {
+                    video_html += '<div class="picture_item"><div class="video_item"><p class="title ellipsis"">' + vo['title'] + '</p> <p class="ctime colorless">' + vo['cTime'] + '</p><div class="video_area"><video src="' + vo['file_url'] + '" controls="controls">您的浏览器不支持 video 标签。</video></div><p></p></div></div>';
+                    $('.video_wrap').html(video_html).show();
+                    $('.select_video').hide();
+                    $('#video_area .delete').show();
+                }
+            });
+        }
+    }
+
+    $('.show' + val).each(function() {
+        $(this).show();
+    });
+    setRes();
+}
+$(function() {
+    var type = '{$default_value}';
+    var arrType = type.split(":");
+    if (arrType[0] == "")
+        arrType[0] = 'text';
+    $("input[name='material_{$name}_type'][value=" + arrType[0] + "]").attr("checked", true);
+    
+    changeOption();
+    $('.appmsg_area .delete').click(function() {
+        $('.appmsg_wrap').html('').hide();
+        $('.select_appmsg').show();
+        $('.appmsg_area .delete').hide();
+        $('input[name="material_{$name}_news_id"]').val(0);
+    })
+    $('#image_area .delete').click(function() {
+        $('.image_wrap').html('').hide();
+        $('.select_image').show();
+        $('#image_area .delete').hide();
+        $('input[name="material_{$name}_img_id"]').val(0);
+    })
+    $('.showtext .delete').click(function() {
+        $('.text_wrap').html('').hide();
+        $('.select_text').show();
+        $('.showtext .delete').hide();
+        $('input[name="material_{$name}_text_id"]').val(0);
+    })
+    $('#voice_area .delete').click(function() {
+        $('.voice_wrap').html('').hide();
+        $('.select_voice').show();
+        $('#voice_area .delete').hide();
+        $('input[name="material_{$name}_voice_id"]').val(0);
+    })
+    $('#video_area .delete').click(function() {
+        $('.video_wrap').html('').hide();
+        $('.select_video').show();
+        $('#video_area .delete').hide();
+        $('input[name="material_{$name}_video_id"]').val(0);
+    })
+})
+
+function selectAppMsgCallback(_this) {
+    $('.appmsg_wrap').html($(_this).html()).show();
+    $('.select_appmsg').hide();
+    $('.appmsg_area .delete').show();
+    $('input[name="material_{$name}_news_id"]').val($(_this).data('group_id'));
+    $.Dialog.close();
+    setRes();
+}
+
+function selectImageCallback(_this) {
+    $('.image_wrap').html($(_this).html()).show();
+    $('.select_image').hide();
+    $('#image_area .delete').show();
+    $('input[name="material_{$name}_img_id"]').val($(_this).data('id'));
+    $.Dialog.close();
+    setRes();
+}
+
+function selectTextCallback(_this) {
+    $('.text_wrap').html(_this['content']).show();
+    $('.select_text').hide();
+    $('.showtext .delete').show();
+    $('input[name="material_{$name}_text_id"]').val(_this['id']);
+    $.Dialog.close();
+    setRes();
+}
+
+function selectVoiceCallback(_this) {
+    // $(_this).find('.icon_sound').attr('src', STATIC_PATH + '/base/images/icon_sound.png');
+    $('.voice_wrap').html($(_this).html()).show();
+    $('.select_voice').hide();
+    $('#voice_area .delete').show();
+    $('input[name="material_{$name}_voice_id"]').val($(_this).data('id'));
+    $.Dialog.close();
+    setRes();
+
+}
+
+function selectVideoCallback(_this) {
+    $('.video_wrap').html($(_this).html()).show();
+    $('.select_video').hide();
+    $('#video_area .delete').show();
+    $('input[name="material_{$name}_video_id"]').val($(_this).data('id'));
+    $.Dialog.close();
+    setRes();
+}
+
+function setRes() {
+    var type = $("input[name='material_{$name}_type']:checked").val();
+    if (type == 'text') {
+        var id = $('input[name="material_{$name}_text_id"]').val();
+    } else if (type == 'img') {
+        var id = $('input[name="material_{$name}_img_id"]').val();
+    } else if (type == 'news') {
+        var id = $('input[name="material_{$name}_news_id"]').val();
+    } else if (type == 'voice') {
+        var id = $('input[name="material_{$name}_voice_id"]').val();
+    } else if (type == 'video') {
+        var id = $('input[name="material_{$name}_video_id"]').val();
+    }
+    /*console.log(type);
+    console.log(id);*/
+    var res = type + ':' + id;
+    /*console.log(res);*/
+    $('#material_res_{$name}').val(res);
+}
+</script>

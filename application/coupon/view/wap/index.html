@@ -1,0 +1,62 @@
+{extend name="shop@wap/common_file" /} {block name="common_body"}
+<!-- 头部导航 -->
+<div class="top-nav">
+    <div class="flex">
+        <i class="iconfont icon-back" id="go-back"></i>
+        <slot>
+            <span class="title">领取优惠券</span>
+        </slot>
+    </div>
+</div>
+<div class="wrap white-bg" style="bottom:45px">
+    
+    
+
+	<!-- banner -->
+    {notempty name="info.background"}
+	<div class="big-banner">
+		<img src="{$info.background|get_cover_url}">
+	</div>
+    {/notempty}
+	<!-- /banner -->
+
+	<!-- 优惠卷 -->
+	<div class="m-chit">
+		<div class="m-chit-img">
+			<img src="__STATIC__/default/img/coupon.png">
+		</div>
+
+		<div class="m-chit-info">
+			<h4>{$info.title}</h4>
+			<p class="m-chit-info-time">有效期： {$info.use_start_time|day_format} - {$info.over_time|day_format}</p>
+		</div>
+	</div>
+	<!-- /优惠卷 -->
+   
+
+	<!-- 优惠卷说明 -->
+	<div class="m-explain f-pb-lg">
+		<h3>优惠券使用说明</h3>
+            {$info.use_tips|raw}
+	</div>
+	<!-- /优惠卷说明 -->
+	
+    
+
+	
+
+
+</div>
+
+	<div class="bottom-nav bottom-nav-clear">
+    	<a class="weui-btn weui-btn_primary" href="{$jumpURL}">点击领取</a>
+ 	 </div>
+    <script type="text/javascript">
+    	$.WeiPHP.initWxShare({
+			title:"{$info.title}",
+			imgUrl:"{$info.shop_logo|get_cover_url}",
+			desc:"{$info.shop_name}",
+			link:window.location.href
+		})
+    </script>
+{/block}

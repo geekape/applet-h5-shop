@@ -1,0 +1,376 @@
+{extend name="common@base/common" /}
+{block name="body"}
+  <div class="span9 page_message">
+  <section id="contents"> 
+  	
+    {volist name="shop_nav" id="vo"}
+    	<a href="{$vo.url}">{$vo.title}</a>
+    {/volist}
+    <div class="tab-content"> 
+<!--     	<h3 class="mb10">全部店铺</h3> -->
+
+		<dl class='right_table'>
+			<dt>提现操作</dt>
+			<dd>
+				<a href="javascript:;">可提现金额                	
+	               	<input class="btn_cashout" type="button" value="申请提现" onclick="openNewCashOut();">
+                	<br />
+                <span>{$can_profit}¥</span>
+                </a>
+			</dd>
+			<dd>
+				<a href="javascript:;">待结算金额           
+				<br/>     	
+                <span>{$wait_profit}¥</span>
+                </a>
+			</dd>
+			<dd>
+				<a href="javascript:;">已提现金额           
+				<input class="btn_log" type="button" value="提现记录" onclick="javascript:toCashoutLogs();" >
+				
+				<br/>     	
+                <span>{$has_profit}¥</span>
+                </a>
+			</dd>
+			<dt>提现账号
+				<span style="margin-left:20px;">
+	        		<a href='javascript:;' id='edit'>编辑</a>
+	        	</span>
+	        	<span style="margin-left:20px;"><a href="javascript:;" id='saveEdit'>确认修改</a></span>
+			</dt>
+			<dd>
+				<a href="javascript:;">提现方式          	
+                	<br />
+                <span>
+                {notempty name='cashout_account'}
+                	{eq name='cashout_account.type' value='0'}
+                		<p class='is_show' id='typeVal'>支付宝</p>
+                		{else/}
+                		<p class='is_show' id='typeVal'>银行卡</p>
+                	{/eq}
+                	<p class='is_show' id='typeVal'></p>
+                {/notempty}
+                <input type='hidden' value='{$cashout_account.id}' name='cashout_id'/>
+                <select class='is_hide' name='type'>
+                	<option value='0' {eq name='cashout_account.type' value='0'}selected{/eq}>支付宝</option>
+                	<option value='1' {eq name='cashout_account.type' value='1'}selected{/eq}>银行卡</option>	
+                </select>
+                </span>
+                </a>
+			</dd>
+			<dd>
+				<a href="javascript:;">账号     
+				<br/>     	
+                <span>
+                	<p class='is_show' id='accountVal'>{$cashout_account.account}</p>
+                	<p class='is_hide'><input type='text' name='account' value='{$cashout_account.account}'/></p>
+                </span>
+                </a>
+			</dd>
+			<dd>
+				<a href="javascript:;">姓名
+				<br/>     	
+                <span>
+                	<p class='is_show' id='nameVal'>{$cashout_account.name}</p>
+                	<p class='is_hide'><input type='text' name='name' value='{$cashout_account.name}'/></p>
+                </span>
+                </a>
+			</dd>
+			<dt>提成设定</dt>
+			<dd>
+				<a href="javascript:;">一级分销用户提成比例	
+                	<br />
+                <span>{$level1}</span>
+                </a>
+			</dd>
+			<dd>
+				<a href="javascript:;">二级分销用户提成比例	  
+				<br/>     	
+                <span>{$level2}</span>
+                </a>
+			</dd>
+			<dd>
+				<a href="javascript:;">三级分销用户提成比例	
+				<br/>     	
+                <span>{$level3}</span>
+                </a>
+			</dd>
+		</dl>
+    </div>
+    <div id='distribution'>
+    	<div style="border:1px solid #DDDEE0;">
+    		<span style="margin-left: 15px;">店铺预计佣金</span>
+    		<div style="display: inline;margin-left: 60%;">
+    			<select id='select_year' class='select_year_month'>
+    			{php}
+    				$nowYear= time_format(time(),'Y');
+    				for($i=1989;$i<=$nowYear;$i++){
+    					if($nowYear ==$i){
+    						echo "<option value='$i' selected>$i</option>";
+    					}else{
+    						echo "<option value='$i'>$i</option>";
+    					}
+    				}
+    			{/php}
+    			</select>
+    			
+    			<select id='select_month' class='select_year_month'>
+    				<option value='1'>一月</option>
+    				<option value='2'>二月</option>
+    				<option value='3'>三月</option>
+    				<option value='4'>四月</option>
+    				<option value='5'>五月</option>
+    				<option value='6'>六月</option>
+    				<option value='7'>七月</option>
+    				<option value='8'>八月</option>
+    				<option value='9'>九月</option>
+    				<option value='10'>十月</option>
+    				<option value='11'>十一月</option>
+    				<option value='12'>十二月</option>
+    			</select>
+    		</div>
+    		</div>
+    		
+    	<table cellpadding='0' cellspacing='0'>
+    		
+    	</table>
+    </div>
+    
+  </section>
+  </div>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+	$('.delShopBtn').click(function(){
+		__this = $(this);
+		if(confirm("确认要删除此店铺吗")){
+			$.get($(this).attr('href'),function(){
+				$(__this).parents('li').remove();
+			});
+		}
+		return false;
+	})
+	$('document').ready(function(){
+		var mydate = new Date();
+		var month=mydate.getMonth() +1;
+		var year=mydate.getFullYear();
+		$("#select_month option[value="+month+"]").attr('selected','selected');
+		
+		getDayProfit(year,month);	
+		$('#select_month,#select_year').change(function(){
+			var month=$('#select_month').val();
+			var year=$('#select_year').val();
+			getDayProfit(year,month);
+		});
+		$('#edit').click(function(){
+			$('.is_hide').show();
+			$('.is_show').hide();
+		});
+		$('#saveEdit').click(function(){
+			var type=$("select[name='type'] option:selected").val();
+			var typeText=$("select[name='type'] option:selected").text();
+			var name=$("input[name='name']").val();
+			if(!name){
+				alert('请编辑姓名');
+				return false;
+			}
+			var account=$("input[name='account']").val();
+			if(!account){
+				alert('请编辑账号');
+				return false;
+			}
+			$.post("{:U ( 'Shop/Shop/set_account')}",{'name':name,'account':account,'type':type},function(res){
+				if(res){
+					$('#typeVal').text(typeText);
+					$('#nameVal').text(name);
+					$('#accountVal').text(account);
+					$("input[name='cashout_id']").val(res);
+					$('.is_hide').hide();
+					$('.is_show').show();
+				}
+			});
+		});
+		
+	});
+	//获取所选月份每天所获得佣金
+	function getDayProfit(year,month){
+		$.ajax({
+			type:'post',
+			url:"{:U ( 'Shop/Shop/distribution_data')}",
+			data:{'year':year,'month':month},
+			dataType:'json',
+			success:function(res){
+				var day_count=31;
+				if(month==2){
+					if(checkYear(year)){
+						day_count=29;
+					}else{
+						day_count=28;
+					}
+				}else if(month==4||month==6||month==9||month==12){
+					day_count=30;
+				}else{
+					day_count=31;
+				}
+				$("table").html("");
+				var tdstr='<tr>';
+				for(var j=1;j<=day_count;j++){
+					var day=j;
+					var profit="<p class='td_profit'> ¥ 0.00</p>";
+					for(var i=0;i<res.length;i++){
+						if(j == res[i]['thedate']){
+							profit="<p class='td_profit' style='color:red'> ¥ "+res[i]['dateprofit']+"</p>";
+							break;
+						}
+					}
+					tdstr +="<td><p class='td_date'>"+day+"</p> "+profit+"</td>";
+					if(j%10==0 && j!=day_count){
+						tdstr+='</tr><tr>'
+					}else if(j==day_count){
+						tdstr +='</tr>';
+					}
+				}
+				$(tdstr).appendTo('table');
+			}
+		});
+	}
+	function checkYear(year){
+		if(year%400==0 || year%4==0 && year%100!=0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	//显示提现记录
+	function toCashoutLogs(){
+		var url="{:U ( 'Shop/Shop/cashout_lists')}"
+		location.href=url;
+	}
+	
+	//添加提现记录
+	function openNewCashOut(){
+		var cid=$("input[name='cashout_id']").val();
+		if(cid){
+			var typeText=$("select[name='type'] option:selected").text();
+			var $cashoutHtml = $("<div style='padding: 20px;'><label>可提现金额（¥）：</label><label style='color:red'>{$can_profit}</label><div style='display: inline;margin-left: 75px;'><label>支付方式：</label><label>"+typeText+"</label></div><div><label>提现金额(¥)：</label><input type='text' style='width: 155px;margin-top: 20px;' name='amount' /><label style='color:red' id='errTip'>&nbsp;</label></div><div><label>备注：</label><textarea rols='5' cols='55' name='remark' style='margin-top: 10px;' ></textarea></div><div class='m15' style='margin-top: 30px;margin-left: 150px;'><a href='javascript:;' class='btn' id='confirmBtn' style='padding: 10px 30px 10px 30px;'>确定</a></div></div>");
+			$.Dialog.open("新增提现记录",{width:500,height:400},$cashoutHtml);
+			$('#confirmBtn',$cashoutHtml).click(function(){
+				var amount=$("input[name='amount']").val();
+				var remark=$("textarea[name='remark']").val();
+				if(!amount){
+					$('#errTip').text('提现金额不能为0！');
+					return false;
+				}
+				var total={$can_profit};
+				if(amount > total){
+					$('#errTip').text(' 不能超出可提现金额！');
+					return false;
+				}
+				$.post("{:U ( 'Shop/Shop/cashout_add')}",{'cashout_amount':amount,'remark':remark},function(d){
+					if(d){
+						$.Dialog.close();
+						 window.location.reload();
+					}
+				});
+			});
+		}else{
+			alert('请编辑提现帐号');
+		}
+	}
+	
+	
+</script> 
+
+
+<style type='text/css'>
+	.right_table dt,dd{
+	    border: 1px solid #DDDEE0;
+	}
+	.right_table dd span{
+	   font-weight:bolder;
+	}
+	.right_table  dt{
+		padding:8px;
+	    font-weight: bolder;
+		line-height:38px;
+	}
+	.right_table  dd{
+	width:33.1%;
+    float: left;
+		
+	}
+.btn_cashout {
+    padding: 7px 10px;
+    color: #FFF;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 1px solid #645B68;
+    background: #645B68;
+	margin-left:30px;
+	float:right;
+	margin-top:10px;
+	margin-right:20px;
+	
+}
+.right_table dd a {
+	color: currentColor;
+    display: block;
+    padding-left: 15px;
+    padding-top: 30px;
+    line-height: 30px;
+    height: 90px;
+}
+.btn_log {
+    color: #333;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 1px solid #645B68;
+    background: #f5f5f5;
+	padding:7px 10px;
+	float:right;
+	margin-top:10px;
+	margin-right:20px;
+}
+#distribution{
+		margin_top:15%;
+		padding:20px 20px;
+}
+#distribution table{
+	width:100%;
+    border: 1px solid #DDDEE0;
+}
+#distribution table td{
+	border-right:1px solid #DDDEE0;
+	border-bottom:1px solid #DDDEE0;
+}
+table th{
+	text-align:left;
+	height:40px;
+	line-height:40px;
+	padding:5px 5px 2px 20px;
+}
+table td p{
+	line-height: 50px;
+    padding: 0 20px;
+    height: 50%;
+}
+.td_date{
+    text-align: right;
+    color: #999999;
+	
+}
+.td_profit{
+	text-align:left;
+}
+
+.select_year_month{
+	width:110px;
+	margin-right:15px;
+	border:none;
+}
+.is_hide{
+	display:none;
+}
+
+</style>
+{/block}

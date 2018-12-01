@@ -1,0 +1,50 @@
+{extend name="common@base/common" /}
+{block name="body"}
+  <script type="text/javascript" src="__STATIC__/qrcode/qrcode.js"></script>
+  <script type="text/javascript" src="__STATIC__/qrcode/jquery.qrcode.js"></script>
+  <style type="text/css">
+#phone {
+	margin: 0 auto;
+	width: 510px;
+	height: 814px;
+	background: url(__STATIC__/base/images/preview_phone.jpg) no-repeat;
+}
+#frame {
+	margin: 100px 0 0 97px;
+	width: 320px;
+	border: 2px solid #333;
+  background: #fff;
+}
+#qrcode {
+	position: absolute;
+	top: 200px;
+	left: 50%;
+	margin-left: 230px;
+	width: 200px;
+	height: 300px;
+	text-align: center;
+	line-height: 30px;
+}
+</style>
+  
+   <div class="setting_step app_setting content_step" style="margin-top:20px;">
+         <a class="step " href="{:U('wei_site/template/lists',array('mdm'=>I('mdm')))}">1.选择列表模板</a>
+       	 <a class="step " href="{:U('wei_site/template/detail',array('mdm'=>I('mdm')))}">2.选择内容模板</a>
+         <a class="step step_cur" href="{:U('wei_site/Cms/lists',array('mdm'=>I('mdm')))}">3.内容管理</a> 
+         <a class="step step_cur_1" href="{:U('wei_site/WeiSite/preview_cms',array('mdm'=>I('mdm')))}">4.效果预览</a>
+  </div>
+  
+  <div class="mt-3 py-3 bg-white" style=" clear:both;position:relative;">
+  <div id="phone" style="margin:0 0 80px">
+    <iframe id="frame" src="{$url}" height="565" width="320" frameborder="0"></iframe>
+  </div>
+  <div id="qrcode" style="top:50px; left:360px;">
+    <div id="canvas" style="height:200px; width:200px;"></div>
+    用微信扫一扫预览 </div>
+{/block}
+{block name="script"}
+  <script type="text/javascript">
+    	var url = "{$url}&publicid={$public_info.id}";
+        $('#canvas').qrcode({width:200,height:200,text:url}); 
+</script>
+{/block}

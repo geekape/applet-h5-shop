@@ -1,0 +1,100 @@
+{extend name="publics/base"/}
+
+{block name="body"}
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>模型列表</h2>
+
+	</div>
+    <div class="tools">
+        <a class="btn" href="{:U('Model/add')}">新 增</a>
+        <a class="btn" href="{:U('Model/update_sql')}">批量更新插件的安装SQL文件</a>
+<!--        <a class="btn" href="{:U('Model/freshDBtoFile')}">从数据库更新到文件</a>
+        <a class="btn" href="{:U('Model/freshFiletoDB')}">从文件更新到数据库</a>-->
+    <div class="search-form fr cf">
+			<div class="sleft">
+                {php} $search_url = U('index');{/php}
+                {php}$search_key='title';{/php}
+				<input type="text" name="{$search_key}" class="search-input" value="{:I($search_key)}" placeholder="请输入关键字">
+				<a class="sch-btn" href="javascript:;" id="search" url="{$search_url}"><i class="btn-search"></i></a>
+			</div>
+	</div>        
+    </div>
+
+
+	<!-- 数据列表 -->
+	<div class="data-table">
+        <div class="data-table table-striped">
+<table>
+    <thead>
+        <tr>
+		<th>编号</th>
+		<th>标识</th>
+		<th>名称</th>
+        <th>所属应用</th>
+		<th>操作</th>
+		</tr>
+    </thead>
+    <tbody>
+	{notempty name="_list"}
+		{volist name="_list" id="vo"}
+		<tr>
+			<td>{$vo.id} </td>
+			<td>{$vo.name}</td>
+			<td><a data-id="{$vo.id}" href="{:U('model/edit?id='.$vo['id'])}#2">{$vo.title}</a></td>
+            <td>{$vo.addon_title|default=''}</td>
+			<td>
+            {notempty name="vo.table_exists"}
+            {notempty name="vo.update_file"}<a href="{:U('freshDBtoFile?model_id='.$vo['id'])}">更新文件</a>&nbsp;&nbsp;&nbsp;{/notempty}
+            {notempty name="vo.update_db"}<a href="{:U('freshFiletoDB?model_id='.$vo['id'])}">更新数据表</a>&nbsp;&nbsp;&nbsp;{/notempty}
+                <a href="{:U('attribute/index?model_id='.$vo['id'])}">字段管理</a>&nbsp;&nbsp;&nbsp;
+				<a href="{:U('model/edit?id='.$vo['id'])}#2">编辑</a>
+				{else /}
+<a href="{:U('importModel',['model_name'=>$vo['name'],'model_addon'=>$vo['addon']])}">导入模型</a>
+                {/notempty}
+                &nbsp;&nbsp;&nbsp;<a href="{:U('model/del?ids='.$vo['id'])}" class="confirm ajax-get">删除</a>
+            </td>
+		</tr>
+		{/volist}
+		{else/}
+		<td colspan="7" class="text-center"> aOh! 暂时还没有内容! </td>
+		{/notempty}
+	</tbody>
+    </table>
+
+        </div>
+    </div>
+    <div class="page">
+        {$_page|raw}
+    </div>
+{/block}
+
+{block name="script"}
+    <script src="__STATIC__/thinkbox/jquery.thinkbox.js?v={:SITE_VERSION}"></script>
+    <script type="text/javascript">
+$(function(){
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+		 url = change_search_url(url);
+		window.location.href = url;
+	});
+
+    //回车自动提交
+    $('.search-form').find('input').keyup(function(event){
+        if(event.keyCode===13){
+            $("#search").click();
+        }
+    });
+
+})
+</script>
+{/block}

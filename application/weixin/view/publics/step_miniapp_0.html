@@ -1,0 +1,69 @@
+{extend name="common@base/common" /}
+{block name="body"}
+  <div class="wrap">
+	<section id="contents">
+  
+  <div class="setting_step app_setting">
+         <a class="step step_cur_1" href="{:U('weixin/Publics/step_miniapp_0',['id' => $id ])}">1.增加基本信息</a>
+         <a class="step " style="cursor:deault" >2.服务器域名</a>
+  </div>     
+  
+  <div class="tab-content"> 
+    <!-- 表单 -->
+    <form class="form-horizontal bind_step_miniapp_form" method="post" action="{:U('weixin/Publics/step_miniapp_0')}" id="form" style="overflow:hidden; zoom:1">
+      <!-- 基础文档模型 -->
+      <div class="tab-pane in tab1" id="tab1">
+        <div class="item_wrap">
+      	 <div class="form-item cf">
+          <label class="item-label"> <span class="need_flag">*</span> 小程序类型 <span class="check-tips"> （请正确选择，小程序类型对应的接口如果没有权限，相关的功能将不显示）</span></label>
+          <div class="controls">
+                <select name="type">
+                   <option value="1" {eq name="info.type" value="1"}selected{/eq} >认证小程序</option>
+                   <option value="0" {eq name="info.type" value="0"}selected{/eq} >未认证小程序</option>
+                </select>
+          </div>
+        </div>        
+      	 <div class="form-item cf toggle-public_name">
+          <label class="item-label"> <span class="need_flag">*</span> 小程序名称 </label>
+          <div class="controls">
+            <input type="text" value="{$info.public_name|default=''}" name="public_name" class="text input-large">
+          </div>
+        </div>
+        <div class="form-item cf toggle-public_id">
+          <label class="item-label"> <span class="need_flag">*</span> 原始ID <span class="check-tips"> （请正确填写，保存后不能再修改，且无法接收到微信的信息） </span></label>
+          <div class="controls">
+            <input type="text" value="{$info.public_id|default=''}" name="public_id" class="text input-large">
+          </div>
+        </div>  
+        <div class="form-item cf toggle-appid">
+          <label class="item-label"> AppID <span class="check-tips"> （小程序ID） </span></label>
+          <div class="controls">
+            <input type="text" value="{$info.appid|default=''}" name="appid" class="text input-large">
+          </div>
+        </div>
+        <div class="form-item cf toggle-secret">
+          <label class="item-label"> AppSecret <span class="check-tips"> （小程序密钥） </span></label>
+          <div class="controls">
+            <input type="text" value="{$info.secret|default=''}" name="secret" class="text input-large">
+          </div>
+        </div>                        
+        </div>     
+        <div class="form-item cf mt_10 bind_step_miniapp_form_next_item">
+          <input type="hidden" name="id" value="{$id|default=0}">
+          <button target-form="form-horizontal" type="submit" id="submit" class="btn submit-btn ajax-post">下一步</button>
+          <br/>
+          <!--<p style="padding:20px 0;">配置信息遇到问题？<a href="{:U('Home/index/lead')}" target="_blank">点击查看接入指引</a></p>-->
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+{/block}
+{block name="script"}
+
+  <script type="text/javascript">
+$('#submit').click(function(){
+    $('#form').submit();
+});
+</script> 
+{/block}

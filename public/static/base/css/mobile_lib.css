@@ -1,0 +1,50 @@
+html { font-family: "Helvetica Neue", Helvetica, STHeiTi, Arial, sans-serif; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; font-size: 62.5%; }
+body { margin: 0; font-size: 1.4rem; line-height: 1.5; color: #333333; background-color: white; height: 100%; overflow-x: hidden; -webkit-overflow-scrolling: touch; } 
+article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary { display: block; } 
+audio, canvas, progress, video { display: inline-block; vertical-align: baseline; } 
+audio:not([controls]) { display: none; height: 0; } 
+[hidden], template { display: none; } 
+svg:not(:root) { overflow: hidden; } 
+a { background: transparent; text-decoration: none; -webkit-tap-highlight-color: transparent; color: #0088cc; } 
+a:active { outline: 0; } a:active { color: #006699; } abbr[title] { border-bottom: 1px dotted; } 
+b, strong { font-weight: bold; } 
+img { border: 0; vertical-align: middle; }  
+button, input, optgroup, select, textarea { color: inherit; font: inherit; margin: 0; } 
+button { overflow: visible; } 
+button, select { text-transform: none; } 
+button, html input[type="button"], input[type="reset"], input[type="submit"] { -webkit-appearance: button; cursor: pointer; } 
+button[disabled], html input[disabled] { cursor: default; } 
+button::-moz-focus-inner, input::-moz-focus-inner { border: 0; padding: 0; } 
+input { line-height: normal; } 
+input[type="checkbox"], input[type="radio"] { box-sizing: border-box; padding: 0; } 
+input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button { height: auto; } 
+input[type="search"] { -webkit-appearance: textfield; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; } 
+input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration { -webkit-appearance: none; } 
+textarea { overflow: auto; resize: vertical; } 
+table { border-collapse: collapse; border-spacing: 0; } 
+td, th { padding: 0; } 
+html, button, input, select, textarea { font-family: "Helvetica Neue", Helvetica, STHeiTi, Arial, sans-serif; } 
+h1, h2, h3, h4, h5, h6, p, figure, form, blockquote { margin: 0; } 
+ul, ol, li, dl, dd { margin: 0; padding: 0; } 
+ul, ol { list-style: none outside none; } 
+h1, h2, h3 { line-height: 2; font-weight: normal; } 
+input::-moz-placeholder, textarea::-moz-placeholder { color: #cccccc; } input:-ms-input-placeholder, textarea:-ms-input-placeholder { color: #cccccc; } 
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder { color: #cccccc; } 
+* { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+.fl{float: left;}.fr{float:right;}
+.tl{text-align: left;}.tr{text-align: right;}.tc{text-align: center;}
+.db{display: block;}.dn{display: none;}.dib{ display:inline-block;}.di{display:inline;}
+.m0{margin:0;}.p0{padding: 0;}
+.ml1{margin-left:1px;}.ml2{margin-left:2px;}.ml5{margin-left:5px;}.ml10{margin-left:10px;}.ml20{margin-left:20px;}
+.mr1{margin-right:1;}.mr2{margin-right:2px;}.mr5{margin-right:5px;}.mr10{margin-right:10px;}.mr20{margin-right:20px;}
+.mt1{margin-top:1;}.mt2{margin-top:2px;}.mt5{margin-top:5px;}.mt10{margin-top:10px;}.mt20{margin-top:20px;}
+.mb1{margin-bottom:1px;}.mb2{margin-bottom:2px;}.mb5{margin-bottom:5px;}.mb10{margin-bottom:10px;}.mb20{margin-bottom:20px;}
+.p1{padding:1px;}.pl1{padding-left:1px;}.pt1{padding-top:1px;}.pr1{padding-right:1px;}.pb1{padding-bottom:1px;}
+.p2{padding:2px;}.pl2{padding-left:2px;}.pt2{padding-top:2px;}.pr2{padding-right:2px;}.pb2{padding-bottom:2px;}
+.pl5{padding-left:5px;}.p5{padding:5px;}.pt5{padding-top:5px;}.pr5{padding-right:5px;}.pb5{padding-bottom:5px;}
+.p10{padding:10px;}.pl10{padding-left:10px;}.pt10{padding-top:10px;}.pr10{padding-right:10px;}.pb10{padding-bottom:10px;}
+.p20{padding:20px;}.pl20{padding-left:20px;}.pt20{padding-top:20px;}.pr20{padding-right:20px;}.pb20{padding-bottom:20px;}
+.c0{color: #000;}.ca{color:#aaa;}.c6{color:#666;}.c9{color:#999;}
+.f20{font-size: 20px;}.f18{font-size: 18px}.f16{font-size: 16px}.f14{font-size: 14px;}.f12{font-size: 12px;}
+.fw{font-weight: 700;}.fn{font-weight: 400;}
+.oh{overflow: hidden;}

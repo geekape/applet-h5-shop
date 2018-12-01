@@ -1,0 +1,23 @@
+{extend name="shop@wap/common_file" /} {block name="common_body"}
+<!-- 头部导航 -->
+<div class="top-nav">
+    <div class="flex">
+        <i class="iconfont icon-back" id="go-back"></i>
+        <slot>
+            <span class="title">客户协议</span>
+        </slot>
+    </div>
+</div>
+<div class="wrap white-bg">
+    
+    
+
+	<div class="m-text-box f-m-base">
+		{$shop.tcp|raw}
+	</div>
+   
+
+
+    
+</div>
+{/block}

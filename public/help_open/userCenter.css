@@ -1,0 +1,32 @@
+@charset "utf-8";
+/* CSS Document by jacy use in 微信用户中心手机页面 */
+html{ height:100%;}
+body,.body{ background:#eee}
+.userHead{ position:relative; height:170px; background:url(head_bg.png) no-repeat center center; background-size:100% 100%;}
+.userHead .userInfo{ overflow:hidden; zoom:1;}
+.userHead .head{ width:60px; height:60px; border-radius:100%; border:2px solid #fff; margin:20px auto 10px; box-shadow:0 0 2px #ccc;}
+.userHead .head img{ width:60px; height:60px; border-radius:100%;}
+.userHead .info{ text-align:center;color:#fff; margin:10px; line-height:22px; text-shadow:0 1px #888; font-size:12px;}
+.userHead .name strong{ font-size:16px;}
+.user_box{ border:1px solid #bbb; background:#fff; border-radius:3px; margin:15px 10px;}
+.user_box .item{ padding:10px; display:block; border-bottom:1px solid #bbb; position:relative; color:#888;}
+.user_box .last_item{ border:none}
+.user_box .item .arrow{ position:absolute; top:10px; right:10px; height:20px; width:20px; background:url(arrow.png) no-repeat; background-size:20px 20px;}
+.user_box .item .num{ font-size:20px; color:#F00}
+.section_title{ font-size:16px; padding:15px 15px 0;}
+
+.empty_default{ margin:50px 0; color:#999}
+
+.page_title{ font-size:24px; color:#fff; line-height:40px; height:40px; text-align:center}
+
+.search-form{ margin:10px; position:relative;}
+.search-form .sch-btn{ text-indent:-9999px; height:40px; width:40px; position:absolute; top:0; right:0; background:url(icon_search_gray.png) no-repeat center center; background-size:26px 26px;}
+
+/*绑定*/
+.bind_form{ margin:0;}
+.bind_form .tips{ font-size:12px; color:#888; display:block; margin:0 10px; padding:5px; background:#eee; border-radius:5px;}
+.head_wrap{ margin:30px 0 10px; padding-bottom:10px; text-align:center; border-bottom:1px dashed #ddd; }
+.bind_form img.headface{ width:80px; height:80px; border:3px solid #ccc; border-radius:43px; margin:5px auto; display:block;}
+.bind_form .form-item{ padding:10px 10px 0;margin:0;}
+.bind_form .form-item input[type="text"]{ margin:0; width:100%}
+.bind_form .bind_tips{ color:#888; padding:10px; font-size:12px; line-height:16px;}

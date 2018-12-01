@@ -1,0 +1,19 @@
+{include file="common@base/mobile_head"/}
+<link href="{:SITE_URL}/public/userCenter.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+{block name="body"}
+<style type="text/css">
+body{ background:#fff}
+</style>
+<section class="check_box">
+        	<img src="__ROOT__/home/images/checking1.png"/>
+        	<p>正在检测中<br/>请勿退出该页面</p>
+</section>
+<script>
+setTimeout(function(){
+	window.location.href = "{$nextUrl}";
+},3000);
+</script>
+{/block}
+{include file="common@base/mobile_foot"/}
+</body>
+</html>

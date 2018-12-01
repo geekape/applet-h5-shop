@@ -1,0 +1,97 @@
+{extend name="publics/base"/}
+
+{block name="body"}
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>[<a href="{:U('Admin/model/edit','id='.$model_id)}#2">{$model_title}</a>] 属性列表</h2>
+
+	</div>
+    <div class="tools">
+        <a class="btn" href="{:U('Attribute/add?model_id='.$model_id)}">新 增</a>(支持拖动排序)
+    </div>
+
+	<!-- 数据列表 -->
+	<div class="data-table">
+        <div class="data-table table-striped">
+        <form id="form" method="post">
+        <input name="model_id" type="hidden" value="{$model_id}"  />
+	<table>
+    <thead>
+        <tr>
+		<th>字段</th>
+		<th>名称</th>
+		<th>数据类型</th>
+        <th>字段定义</th>
+        <th>是否显示</th>
+        <th>是否必填</th>
+		<th>操作</th>
+		</tr>
+    </thead>
+    <tbody class="needdragsort">
+		{notempty name="_list"}
+        {php}$is_show_arr = array(0=>'不显示',1=>'始终显示',2=>'新增显示',3=>'编辑显示',5=>'条件控件',4=>'隐藏值');
+        $is_must_arr = array(0=>'否',1=>'是');
+        {/php}
+		{volist name="_list" id="vo"}
+        {php}$vo['is_show'] = intval($vo['is_show']);$vo['is_must'] = intval($vo['is_must']);
+        {/php}
+		<tr>
+			<td><input name="sort[]" type="hidden" value="{$key}">{$key}</td>
+			<td><a href="{:U('Attribute/edit',['name'=>$key,'model_id'=>$model_id])}">{$vo.title}</a></td>
+			<td><span>{:get_attribute_type($vo['type'])}</span></td>
+            <td><span>{$vo['field']}</span></td>
+            <td><span>{$is_show_arr[$vo['is_show']]}</span></td>
+            <td><span>{$is_must_arr[$vo['is_must']]}</span></td>
+			<td><a href="{:U('Attribute/edit',['name'=>$key,'model_id'=>$model_id])}">编辑</a>
+				<a class="confirm ajax-get" href="{:U('Attribute/remove',['name'=>$key,'model_id'=>$model_id])}">删除</a>
+                </td>
+		</tr>
+		{/volist}
+		{else/}
+		<td colspan="7" class="text-center"> aOh! 暂时还没有内容! </td>
+		{/notempty}
+	</tbody>
+    </table></form>
+        </div>
+    </div>
+{/block}
+
+{block name="script"}
+<script src="__STATIC__/thinkbox/jquery.thinkbox.js?v={:SITE_VERSION}"></script>
+<script type="text/javascript" src="__STATIC__/jquery.dragsort-0.5.2.min.js"></script>    
+<script type="text/javascript">
+$(function(){
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+		var status = $('select[name=status]').val();
+		var search = $('input[name=search]').val();
+		if(status != ''){
+			url += '/status/' + status;
+		}
+		if(search != ''){
+			url += '/search/' + search;
+		}
+		url = url.replace(/[?&=]/g,'/');
+				window.location.href = url;
+	});
+	
+$(".needdragsort").dragsort({
+	 dragSelector:'tr',
+	 dragSelectorExclude:'a[href]',
+	 dragBetween:true,	//允许拖动到任意地方
+	 dragEnd: function(){ doSave(); }	 
+ });		
+})
+function doSave(){
+	var url = "{:U('save_sort')}"
+	var data = $('#form').serialize()
+	$.post(url, data, function(res){
+		  if (res.code==1) {
+			  updateAlert('保存排序成功','alert-success');
+		  }else{
+			  updateAlert(res.msg);
+		  }		
+	})
+}
+</script>
+{/block}

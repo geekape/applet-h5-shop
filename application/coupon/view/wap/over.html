@@ -1,0 +1,23 @@
+{include file="common@base/mobile_head"/}
+<link href="__CSS__/Coupon.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+<body id="scratch">
+	<div class="container body">
+    	<div style="text-align:center; padding:150px 0 50px;" >
+    		<img src="__STATIC__/default/img/blank_pic.png" width="100"/>
+            <br/>
+            抱歉，{$error}
+        </div> 
+        
+		<div class="btnWrap" style="text-align: center; padding:10px 0; width:80%; margin:0 auto;">
+		{if condition="isset($info['need_card'])"} 
+<a href="{:U ( 'card/wap/member_center')}" class="start_btn">去领取会员卡</a>
+{else /}
+<a href="{:U ( 'coupon/Wap/personal')}" class="start_btn">查看我的优惠券</a>
+{/if}
+</div>
+
+
+        <p class="copyright">{$system_copy_right|raw}{$tongji_code|raw}</p>
+    </div>
+</body>
+</html>

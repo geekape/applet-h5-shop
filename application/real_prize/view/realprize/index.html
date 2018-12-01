@@ -1,0 +1,33 @@
+{include file="common@base/mobile_head"/}
+<link href="{:ADDON_PUBLIC_PATH}/css.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+<body>
+<div id="container" class="container">
+	  <div class="head_div">
+      	<img src="{:ADDON_PUBLIC_PATH}/h.png" width="100%"/>
+         {notempty name="service_info['headface_url']"} 
+         <p class="title">{$data.prize_title}</p> 
+        <p class="info"> 
+         	<img class="user_head" src="{$service_info.headface_url|get_cover_url}"/> 
+             {$service_info.public_name} 
+         </p>
+         {/notempty}
+      </div>
+      <div class="content">
+            <img src="{$data.prize_image|get_cover_url}"/>
+            <p class="name">{$data.prize_name}</p>
+            <p class="remark"><strong>活动说明：</strong><br/>{$data.prize_conditions}</p>
+			<a class="get_btn" href="{$jumpurl}">领取</a>
+      </div>	
+      <p class="copyright">{$system_copy_right|raw}</p>
+</div> 
+{include file="common@base/mobile_foot"/} 
+<script>
+$.WeiPHP.initWxShare({
+	title:"{$data.prize_title}",
+	imgUrl:"{$data.prize_image|get_cover_url}",
+	desc:"{$data.prize_conditions}",
+	link:window.location.href
+})
+</script>
+</body>
+</html>

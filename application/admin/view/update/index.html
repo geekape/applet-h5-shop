@@ -1,0 +1,135 @@
+{extend name="publics/base"/}
+{block name="body"}
+  <!-- 标题栏 -->
+
+  <div class="main-title">
+    <h2>在线升级</h2>
+  </div>
+  <h4>1、升级操作教程</h4>
+  <p>第一步：备份服务器文件，为了安全和方便如果升级失败能恢复原样，请一定要把你的整个网站的文件进行备份</p>
+  <p>第二步：备份数据库，把数据库导出成SQL文件进行备份</p>
+  <p>第三步：下载升级包，如果有多个升级包，一定要注意按升级包的版本号从小到大顺序下载升级，否则会导致系统异常</p>
+  <p>第四步：解压升级包，查看里面的readem.txt升级说明，如果里面有升级操作说明，优先按里面的说明进行升级操作</p>
+  <p>第五步：把升级包里的文件上传到你的网站，并覆盖旧文件。覆盖前请确认已经做好备份，如果你的网站文件有修改过，请覆盖前用文件对比工具进行对比，确认是否可以覆盖。</p>
+  <p>第六步：如果升级包的根目录下有update_db_tool.php，说明需要升级数据库，请使用下面的数据库升级工具进行升级</p>
+  <p>第七步：清空缓存，把 Runtime 目录下的目录和文件全部删除即可，至此升级完毕</p>
+  <p>&nbsp;</p>
+  {php}if(!empty($noWritable)) { {/php}
+  建议设置目录：
+  {volist name='noWritable' id='vo'} {$vo}&nbsp; {/volist}
+  的可写权限来开启一键升级这个简单而高效的功能
+  {php} } {/php}
+  <p>&nbsp;</p>
+  <div> </div>
+  <div>
+    <h4>2、数据库升级工具</h4>
+    <p>此工具可用于执行升级包里的数据库升级文件：update_db_tool.php，请先确认此升级文件已经放到网站根目录，然后点击下面的升级按钮升级即可。升级完后要及时把update_db_tool.php文件删除，以防重复升级导致数据库数据错乱</p>
+    <a class="btn" href="{:U('admin/Update/deal_sql')}">升级数据库</a>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+  </div>
+
+  <div id="showInfomation"></div>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+function showMsg(msg){
+	$('#data-table').hide();
+    $('#showInfomation').html('<div id="listInfo"><div class="content"><h3 class="center"><img src="__PUBLIC__/Admin/images/loading_icon.gif" class="mr10"/>'+msg+'...</h3></div></div>');
+}
+function needUpateOther(title){
+	updateAlert('您需要先升级 ' + title + ' 这个升级包后才能更新此升级包');
+	setTimeout(function(){
+		$('#top-alert').find('button').click();
+	},3000);
+}
+function checkVersion(){
+    showMsg('更新版本查询中');
+    var postURL = "{:U('admin/Update/step01_checkVersionByAjax')}";
+	$.post(postURL, {id:1}, function(res){
+	    $('#showInfomation').html(res);
+	});
+}
+function downloadPackage(version){
+	showMsg('下载更新包中...请稍等');
+    var postURL = "{:U('admin/Update/step02_download')}";
+	$.post(postURL, {version:version}, function(res){
+	    if(res==0){
+		   $('#showInfomation').html('<div id="listInfo"><div class="content"><h3 class="center">更新包下载失败，请检查你的网络连接是否正常</h3></div></div>');
+		}else{
+		   window.location.href="{:U('admin/Update/index')}?step=unzipPackage&version=" + version;
+		}
+	});
+}
+function unzipPackage(){
+    showMsg('更新包解压中');
+    var version = "{:input('version')}";
+	var postURL = "{:U('admin/Update/step03_unzipPackage')}?version=" + version;
+	$.post(postURL, {id:1}, function(res){
+	    if(res!=1){
+		   $('#showInfomation').html(res);
+		}else{
+		   window.location.href="{:U('admin/Update/index')}?step=checkFileIsWritable&version=" + version;
+		}
+	});
+}
+function checkFileIsWritable(){
+    showMsg('判断系统文件的可写权限');
+	var packageName = "{:input('packageName')}";
+	var postURL = "{:U('admin/Update/step04_checkFileIsWritable')}?packageName=" + packageName;
+	$.post(postURL, {id:1}, function(res){
+         if(res!=1){
+		   $('#showInfomation').html(res);
+		}else{
+		   window.location.href="{:U('admin/Update/index')}?step=copyFileToProject";
+		}
+	});
+}
+function copyFileToProject(){
+    showMsg('更新系统文件中');
+	var postURL = "{:U('admin/Update/step06_overWritten')}";
+	$.post(postURL, {id:1}, function(res){
+         if(res!=1){
+		   $('#showInfomation').html(res);
+		}else{
+		   window.location.href="{:U('admin/Update/index')}?step=dealsql";
+		}
+	});
+}
+
+function dealsql(){
+    showMsg('更新数据库数据中');
+	var postURL = "{:U('admin/Update/step07_dealSQL')}";
+	$.post(postURL, {id:1}, function(res){
+	    window.location.href="{:U('admin/Update/index')}?step=finishUpate";
+	});
+}
+
+function finishUpate(){
+    showMsg('正在完成升级操作');
+	var postURL = "{:U('admin/Update/step08_finishUpate')}";
+	$.post(postURL, {id:1}, function(res){
+	    if(res==1){
+		   window.location.href="{:U('admin/Update/upateAll')}";
+		}else{
+		   window.location.href="{:U('admin/Update/index')}";
+		}
+	});
+}
+var step = "{:input('step')}";
+
+if(step=='unzipPackage'){
+    unzipPackage();
+}else if(step=='checkFileIsWritable'){
+    checkFileIsWritable();
+}else if(step=='copyFileToProject'){
+    copyFileToProject();
+}else if(step=='dealsql'){
+    dealsql();
+}else if(step=='finishUpate'){
+    finishUpate();
+}else{
+    checkVersion();
+}
+</script>
+{/block}

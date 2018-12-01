@@ -1,0 +1,174 @@
+@charset "utf-8";
+body {
+  background: #5a1521;
+}
+#wrap {
+  margin-top: -0.01333333rem;
+  background-image: url("../image/bg.png");
+}
+.rule {
+  position: absolute;
+  left: 0.56rem;
+  top: 0;
+  width: 0.65333333rem;
+  height: 0.82666667rem;
+  background-image: url("../image/rule.png");
+  text-align: center;
+  font-size: 0.24rem;
+  font-weight: bold;
+  color: #2078a9;
+}
+.my {
+  position: absolute;
+  right: 0;
+  top: 0.16rem;
+  width: 1.17333333rem;
+  min-width: 1.6rem;
+  background-color: #fdc434;
+  line-height: 0.48rem;
+  font-size: 0.24rem;
+  text-align: center;
+  color: #fff;
+  border-radius: 3px 0 0 3px;
+}
+/*砸蛋区域*/
+.box {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 10.93333333rem;
+}
+.tips {
+  width: 3.33333333rem;
+  margin: 0.4rem auto 0;
+  background-color: #ff6d69;
+  text-align: center;
+  font-size: 0.26666667rem;
+  line-height: 0.53333333rem;
+  color: #fff;
+  border-radius: 0.26666667rem;
+}
+#change {
+  margin: 0 0.06666667rem;
+}
+.egg {
+  width: 10rem;
+}
+.egg li {
+  position: relative;
+  float: left;
+  width: 1.68rem;
+  height: 2.61333333rem;
+  margin: 0.13333333rem 0.8rem;
+}
+.egg li img {
+  width: 1.68rem;
+  height: 0.54666667rem;
+}
+.egg li img.goldegg {
+  width: 1.46666667rem;
+  height: 2.01333333rem;
+}
+.egg .info {
+  display: none;
+  position: absolute;
+  left: -0.16rem;
+  top: 0.33333333rem;
+  width: 0.97333333rem;
+  height: 0.58666667rem;
+  background-image: url("../image/tips.png");
+}
+.egg li img.goldegg {
+  position: relative;
+  left: 0.13333333rem;
+  top: 0.26666667rem;
+  width: 1.46666667rem;
+  height: 2.01333333rem;
+  -o-transform-origin: center bottom;
+  -ms-transform-origin: center bottom;
+  -moz-transform-origin: center bottom;
+  -webkit-transform-origin: center bottom;
+  transform-origin: center bottom;
+  -o-transition: .5s;
+  -ms-transition: .5s;
+  -moz-transition: .5s;
+  -webkit-transition: .5s;
+  transition: .5s;
+}
+.egg li img.jump {
+  -o-animation: jump .5s infinite alternate;
+  -ms-animation: jump .5s infinite alternate;
+  -moz-animation: jump .5s infinite alternate;
+  -webkit-animation: jump .5s infinite alternate;
+  animation: jump .5s infinite alternate;
+}
+@keyframes jump {
+  100% {
+    top: 0.13333333rem;
+  }
+}
+#info {
+  position: absolute;
+  left: 0.53333333rem;
+  top: 1.53333333rem;
+  width: 1rem;
+  height: 0.53333333rem;
+}
+#hammer {
+  position: absolute;
+  left: 8.86666667rem;
+  top: 0.8rem;
+  width: 1.46666667rem;
+  height: 1.6rem;
+  background-image: url("../image/hammer.png");
+  -o-transform-origin: right bottom;
+  -ms-transform-origin: right bottom;
+  -moz-transform-origin: right bottom;
+  -webkit-transform-origin: right bottom;
+  transform-origin: right bottom;
+  -o-transition: 1s ease-in-out;
+  -ms-transition: 1s ease-in-out;
+  -moz-transition: 1s ease-in-out;
+  -webkit-transition: 1s ease-in-out;
+  transition: 1s ease-in-out;
+}
+.shak {
+  -o-animation: hammer-move 0.5s linear infinite alternate;
+  -ms-animation: hammer-move 0.5s linear infinite alternate;
+  -moz-animation: hammer-move 0.5s linear infinite alternate;
+  -webkit-animation: hammer-move 0.5s linear infinite alternate;
+  animation: hammer-move 0.5s linear infinite alternate;
+}
+@keyframes hammer-move {
+  100% {
+    -o-transform: rotate(-10deg);
+    -ms-transform: rotate(-10deg);
+    -moz-transform: rotate(-10deg);
+    -webkit-transform: rotate(-10deg);
+    transform: rotate(-10deg);
+  }
+}
+.hit {
+  -o-animation: hammer-hit 0.2s 3 alternate;
+  -ms-animation: hammer-hit 0.2s 3 alternate;
+  -moz-animation: hammer-hit 0.2s 3 alternate;
+  -webkit-animation: hammer-hit 0.2s 3 alternate;
+  animation: hammer-hit 0.2s 3 alternate;
+}
+@keyframes hammer-hit {
+  100% {
+    -o-transform: rotate(-20deg);
+    -ms-transform: rotate(-20deg);
+    -moz-transform: rotate(-20deg);
+    -webkit-transform: rotate(-20deg);
+    transform: rotate(-20deg);
+  }
+}
+/*规则背景色*/
+#mask-rule .box-rule {
+  background-color: #f7b50b;
+}
+#mask-rule .box-rule .star {
+  background-image: url("../../common/image/rule/star1.png");
+}

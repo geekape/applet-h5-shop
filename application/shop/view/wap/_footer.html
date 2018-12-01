@@ -1,0 +1,55 @@
+<!-- 底部导航 -->
+<div class="bottom-nav ui-border-t">
+  <a href="{:U('shop/wap/index')}" class="bottom-nav-item">
+    <!-- icon -->
+    <slot name="b-icon1">
+      <div class="bottom-nav-item-img icon_index_{$highlight.index}">
+      </div>
+      <small class="{$highlight.index}">首页</small>
+    </slot>
+  </a>
+
+  <a href="{:U('shop/wap/category')}" class="bottom-nav-item">
+    <!-- icon -->
+    <slot name="b-icon2">
+    <div class="bottom-nav-item-img icon_category_{$highlight.category}">
+      
+    </div>
+    <small class="{$highlight.category}">分类</small>
+  </slot>
+  </a>
+
+  <a href="{:U('shop/wap/service',['come_from'=>'nav'])}" class="bottom-nav-item">
+    <!-- icon -->
+    <slot name="b-icon3">
+    <div class="bottom-nav-item-img icon_service_{$highlight.service}">
+      
+      
+    </div>
+    <small class="{$highlight.service}">客服</small>
+
+    <span class="weui-badge {gt name="new_msg_count" value="0"}active{/gt}" style="position: absolute;top: 0em;right: .4rem;">{$new_msg_count|default='0'}</span>
+
+
+
+    </slot>
+  </a>
+
+  <a href="{:U('shop/wap/cart')}" class="bottom-nav-item">
+    <div class="bottom-nav-item-img icon_car_{$highlight.cart}">
+    </div>
+    <small class="{$highlight.cart}">购物车</small>
+    <span class="weui-badge {gt name="cart_count" value="0"}active{/gt}" style="position: absolute;top: 0em;right: .4rem;">{$cart_count|default='0'}</span>
+  </a>
+
+  <a href="{:U('shop/wap/center')}" class="bottom-nav-item">
+    <!-- icon -->
+    <slot name="b-icon5">
+    <div class="bottom-nav-item-img icon_center_{$highlight.center}">
+      
+    </div>
+    <small class="{$highlight.center}">个人中心</small>
+  </slot>
+  </a>
+</div>
+

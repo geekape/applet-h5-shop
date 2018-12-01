@@ -1,0 +1,16 @@
+<div class="default_div" ng-show="!module.params.banner_list.length">请幻灯片图片</div>
+<section class="mutipic_banner" data-col="{{module.params.col}}" id="mutipic_banner_{{module.index}}" ng-show="module.params.banner_list.length">
+    <ul>
+    	<li ng-repeat="b in module.params.banner_list track by $index" on-finish-render-filters>
+            <a href="{{b.url}}"><img src="{{b.pic}}"/></a>
+            <span ng-show="module.params.show_title" class="title">{{b.title}}</span>
+        </li>
+    </ul>
+    <span class="mutipic_banner_identify">
+        <span ng-show="module.params.show_cursor" class="pointer">
+        </span>       
+    </span>
+
+    
+
+</section>

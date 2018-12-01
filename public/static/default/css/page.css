@@ -1,0 +1,844 @@
+@charset "UTF-8";
+.white-bg {
+  background: #fff !important;
+}
+
+.yellow {
+  color: #ffb506;
+}
+
+.red {
+  color: #ff0036;
+}
+
+.gray {
+  color: #aaa !important;
+}
+
+.f12 {
+  font-size: 12px;
+}
+
+.t-right {
+  text-align: right;
+}
+
+.fr {
+  float: right;
+}
+
+.green {
+  color: #09bb07;
+}
+
+.mt-base {
+  margin-top: 0.266667rem;
+}
+
+.m0 {
+  margin: 0;
+}
+
+.f-border-b {
+  border-bottom: 1px solid #eee;
+}
+
+.flex {
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.flex .flex-item {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  position: relative;
+}
+
+.f-xy-center {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.f-small-border {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.f-mt-base {
+  margin-top: 20px;
+}
+
+.f-ml-base {
+  margin-left: 0.133333rem;
+}
+
+.f-mr-base {
+  margin-right: 0.133333rem;
+}
+
+.f-mr-md {
+  margin-right: .4rem;
+}
+
+.f-pt-base {
+  margin-top: 0.133333rem;
+}
+
+.f-pb-base {
+  margin-bottom: 0.266667rem;
+}
+
+.f-pb0 {
+  padding-bottom: 0 !important;
+}
+
+.f-ml-md {
+  margin-left: 0.266667rem;
+}
+
+.f-mb-base {
+  margin-bottom: 0.266667rem;
+}
+
+.f-m-base {
+  margin: 0.4rem;
+}
+
+.f-mx-base {
+  margin: 0.066667rem;
+}
+
+.f-pr-base {
+  padding-right: 0.266667rem;
+}
+
+.f-pl-base {
+  padding-left: 0.266667rem !important;
+}
+
+.f-pl0 {
+  padding-left: 0 !important;
+}
+
+.f-p0 {
+  padding: 0 !important;
+}
+
+.f-pb-lg {
+  padding-bottom: 100px !important;
+}
+
+.f-item-c {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.f-p-md {
+  padding: 0.266667rem;
+}
+
+.f-pl-lg {
+  padding-left: 0.533333rem;
+}
+
+.f-px-base {
+  padding: 0 0.266667rem;
+}
+
+.f-py0 {
+  padding-bottom: 0 !important;
+  padding-top: 0 !important;
+}
+
+.f-opcity {
+  opacity: .6;
+}
+
+.f-t-hidden {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.f-min-head {
+  width: 1.2rem;
+  height: 1.2rem;
+  background: #ccc;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.f-font-base {
+  font-size: 14px;
+}
+
+.f-font-md {
+  font-size: 16px;
+}
+
+.f-font-lg {
+  font-size: 20px;
+}
+
+.f-lh-xs {
+  line-height: 1 !important;
+}
+
+.f-lh-md {
+  line-height: 2 !important;
+}
+
+.f-lh-lg {
+  line-height: 3 !important;
+}
+
+.f-text-r {
+  text-align: right;
+}
+
+.f-text-l {
+  text-align: left;
+}
+
+.f-text-c {
+  text-align: center;
+}
+
+.s-blue {
+  color: #0264af;
+}
+
+.s-black {
+  color: #000 !important;
+}
+
+.s-white {
+  color: #fff;
+}
+
+.s-light-gray {
+  color: #f0f0f0;
+}
+
+.s-drak-gray {
+  color: #b2b2b2;
+}
+
+.s-black-bg {
+  background: #000 !important;
+}
+
+.s-yellow-bg {
+  background: #ffb506 !important;
+}
+
+/*
+* 页面样式
+* ---------------------------
+ */
+.signin-info {
+  margin: 0 1.133333rem;
+  margin-top: 0.933333rem;
+}
+.signin-info strong {
+  font-size: 0.64rem;
+}
+
+.signin .weui-tabbar__label {
+  color: #000;
+}
+
+.signin-btn {
+  margin-top: 1.333333rem;
+}
+.signin-btn a {
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  background: #ffb506;
+  text-align: center;
+  line-height: 2rem;
+  display: block;
+  margin: 0 auto;
+  color: #fff;
+  font-size: 20px;
+  -webkit-transition: -webkit-box-shadow .5s ease;
+  transition: -webkit-box-shadow .5s ease;
+  transition: box-shadow .5s ease;
+  transition: box-shadow .5s ease, -webkit-box-shadow .5s ease;
+  -webkit-animation: shadow-anime 1s infinite;
+          animation: shadow-anime 1s infinite;
+}
+.signin-btn a:active, .signin-btn a:hover {
+  background: #ffb301;
+  color: #fff;
+  -webkit-box-shadow: 0 0 10px 10px rgba(255, 181, 6, 0.3), 0 0 14px 20px rgba(255, 181, 6, 0.23);
+          box-shadow: 0 0 10px 10px rgba(255, 181, 6, 0.3), 0 0 14px 20px rgba(255, 181, 6, 0.23);
+}
+.signin-btn:before {
+  content: '';
+}
+
+.score-exchange .card > .flex {
+  margin-right: .4rem;
+  margin-top: 0.266667rem;
+}
+.score-exchange .card > .flex strong {
+  font-size: 20px;
+}
+.score-exchange .card > .flex > a {
+  width: 1.866667rem;
+  height: 0.8rem;
+  line-height: 0.8rem;
+  background: #ffb506;
+  text-align: center;
+  border-radius: 0;
+  font-size: 16px;
+}
+
+body .vip {
+  background: #fff;
+}
+
+.vip {
+  height: 100%;
+}
+.vip .top-nav {
+  margin-bottom: 0.533333rem;
+}
+
+.vip-card {
+  position: relative;
+  margin: 0.4rem;
+  width: auto;
+  height: 5.6rem;
+  background: url("../img/vip/vip_card_bg.jpg") no-repeat;
+  background-size: cover;
+}
+.vip-card p, .vip-card small {
+  color: #fff;
+}
+.vip-card-user {
+  padding-top: 0.533333rem;
+  padding-left: 0.533333rem;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.vip-card-info {
+  position: absolute;
+  bottom: 0.266667rem;
+  right: 0.266667rem;
+  text-align: right;
+}
+
+.vip-center .m-user-head {
+  width: 1.333333rem;
+  height: 1.333333rem;
+}
+.vip-center .weui-grids .weui-grid__icon {
+  width: 0.906667rem;
+  height: 0.906667rem;
+}
+
+.use-chit {
+  padding-top: 0.266667rem;
+  margin-top: 0.266667rem;
+}
+.use-chit .m-chit {
+  background-color: #fff;
+  margin-top: 0.133333rem;
+}
+
+.comment .m-item {
+  padding-bottom: .4rem;
+}
+.comment-text {
+  padding: 0.533333rem 0;
+  border-bottom: 1px solid #eee;
+}
+.comment .m-goods2 {
+  margin-top: 0.4rem;
+}
+.comment .m-goods2 p {
+  margin-left: .4rem;
+}
+
+.lists .goods-item {
+  padding: 0.4rem;
+}
+
+.order_deails .card1 {
+  background: #637f8a;
+  color: #fff;
+}
+
+.pt-banner {
+  background: url("../img/pt-banner.png") no-repeat;
+  width: 100%;
+  height: 6.666667rem;
+  background-size: 100% 6.8rem;
+}
+
+.collage .top-nav {
+  position: absolute;
+  z-index: 999;
+  color: #fff;
+}
+
+.m-text-box h3, .m-text-box h2, .m-text-box p {
+  margin-bottom: 0.4rem;
+}
+.m-text-box strong {
+  font-size: 16px;
+}
+
+.seckill-banner {
+  background: url("../img/seckill-banner.png") no-repeat;
+  width: 100%;
+  height: 6.666667rem;
+  background-size: 100% 6.8rem;
+}
+
+.haggle-banner {
+  background: url("../img/haggle-banner.png") no-repeat;
+  width: 100%;
+  height: 6.666667rem;
+  background-size: 100% 6.8rem;
+}
+
+.haggle-dialog {
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0;
+  display: none;
+  max-width: 540px;
+}
+.haggle-dialog .box {
+  background: url("../img/bargain-dailog.png") no-repeat;
+  width: 100%;
+  height: 6.666667rem;
+  background-size: 100% 6.8rem;
+  height: 13.333333rem;
+  background-size: cover;
+  width: 9.213333rem;
+  margin: 0 auto;
+  margin-top: 0.666667rem;
+  position: relative;
+  color: #fff;
+}
+.haggle-dialog .btn,
+.haggle-dialog .money,
+.haggle-dialog .text {
+  position: absolute;
+}
+.haggle-dialog .btn {
+  bottom: -1px;
+  width: 100%;
+  height: 1.2rem;
+  line-height: 1.2rem;
+  text-align: center;
+  font-size: 18px;
+  background: #e9c27d;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.haggle-dialog .money {
+  top: 6.4rem;
+  color: #e9c27d;
+  left: 3rem;
+  font-size: 1.066667rem;
+}
+.haggle-dialog .money,
+.haggle-dialog strong {
+  font-family: "jiage";
+}
+.haggle-dialog .text {
+  left: 1.6rem;
+  top: 9.333333rem;
+  text-align: center;
+  color: #e9c27d;
+}
+.haggle-dialog .text p {
+  font-size: 0.533333rem;
+}
+
+.category .search {
+  background: #f0f0f0;
+}
+
+body .activity {
+  background: #341854;
+}
+
+.activity {
+  padding: 0 0.4rem;
+  overflow-x: hidden;
+  color: #fff;
+}
+.activity-btn-icon {
+  margin-top: 0.266667rem;
+  text-align: center;
+  position: relative;
+  height: 0.8rem;
+}
+.activity-btn-icon i {
+  top: -30px;
+  font-size: 30px;
+  position: absolute;
+  -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+  left: 45%;
+  -webkit-transition: all .5s;
+  transition: all .5s;
+}
+.activity .weui-btn {
+  height: 1.2rem;
+  line-height: 1.2rem;
+  background: #fff;
+  font-weight: bold;
+  color: #341854;
+  margin: .5rem 0;
+  font-size: 0.48rem;
+}
+.activity .weui-btn:hover, .activity .weui-btn:active {
+  opacity: .8;
+  background: #fff !important;
+  color: #000;
+}
+.activity-time, .activity-prize, .activity-intro,
+.activity .winning-log {
+  margin-bottom: 1.066667rem;
+}
+.activity-card {
+  width: 4.733333rem;
+  height: 4.733333rem;
+  background: #6a2792;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.activity-time .activity-card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.activity-time .activity-card-icon {
+  margin-bottom: 0.533333rem;
+  width: 0.84rem;
+  height: 0.84rem;
+}
+.activity-prize {
+  height: 380px;
+  overflow: hidden;
+}
+.activity-prize-rank {
+  width: 3rem;
+  height: 2.65rem;
+  background-color: #aaa;
+  background-size: 3rem 100%;
+  position: relative;
+  left: -0.133333rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.activity-prize-rank p {
+  font-size: 18px;
+}
+.activity-prize .rank1,
+.activity-prize .rank2,
+.activity-prize .rank3 {
+  background-color: transparent;
+}
+.activity-prize .rank1 {
+  background-image: url(../img/activity/prize_bg.png);
+}
+.activity-prize .rank2 {
+  background-image: url(../img/activity/prize_bg2.png);
+}
+.activity-prize .rank3 {
+  background-image: url(../img/activity/prize_bg3.png);
+}
+.activity-prize-item {
+  height: 2.533333rem;
+  margin-bottom: 0.4rem;
+  background: #fff;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+  -webkit-transition: all .3s;
+  transition: all .3s;
+}
+.activity-prize-img {
+  width: 2rem;
+  height: 2rem;
+  background: #fff;
+  overflow: hidden;
+  margin-right: 0.133333rem;
+  margin-left: 0.533333rem;
+}
+.activity-prize-name {
+  color: #000;
+  margin-left: 0.133333rem;
+  height: 1.5rem;
+  line-height: 1.5rem;
+  border-right: 2px solid #eee;
+}
+.activity-intro .activity-card {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding-left: 0.8rem;
+  border-radius: 0.266667rem;
+  height: 5.6rem;
+}
+.activity-intro .activity-card p {
+  font-size: 16px;
+}
+.activity-intro .activity-card .flex:first-child {
+  margin-top: 0.533333rem;
+}
+.activity-intro .activity-card .flex {
+  margin-bottom: 0.533333rem;
+}
+
+.activity-prize.active {
+  height: auto;
+}
+
+.activity-prize.active + .activity-btn-icon > i.iconfont {
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+}
+
+.winning-log p {
+  line-height: 3;
+  text-align: center;
+  font-size: 18px;
+}
+
+.activity-sub-title {
+  text-align: center;
+  margin-bottom: 0.533333rem;
+  background: url("../img/activity/adron.png") no-repeat;
+  background-size: 50%;
+  background-position: 50%;
+}
+.activity-sub-title p {
+  font-size: 0.56rem;
+}
+
+.draw-title {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 100%;
+  height: 3.72rem;
+  background: url("../img/activity/title.png") no-repeat;
+  background-position: 50%;
+  background-size: 6.88rem 2.493333rem;
+  margin-top: 0.666667rem;
+}
+
+.draw-area {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: rgba(0, 0, 0, 0.07);
+  position: relative;
+  overflow: hidden;
+}
+.draw-area span {
+  font-size: 20px;
+  color: #fff;
+  position: absolute;
+}
+.draw-area canvas {
+  z-index: 9;
+  height: 3.733333rem;
+  width: 100%;
+}
+
+.guagua {
+  border: 0;
+  width: 100%;
+  height: 5.333333rem;
+}
+
+.dial-area {
+  width: 100%;
+  height: 7.653333rem;
+  background: url("../img/activity/dial_bg.png") no-repeat;
+  background-size: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 0.266667rem;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.dial-area .flex > div {
+  width: 1.866667rem;
+  padding: 0 0.1rem;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  position: relative;
+}
+.dial-area .flex > div .mask {
+  width: 1.9rem;
+  height: 1.9rem;
+  background: #ffb30080;
+  position: absolute;
+  top: -5px;
+  left: -1px;
+  padding-right: 4px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  display: none;
+}
+.dial-area .flex > div.active .mask {
+  display: block;
+}
+.dial-area .flex-item.dial-btn {
+  width: 3.5rem;
+  margin: 0 5px;
+  width: 3.5rem;
+  height: 2rem;
+  background: url("../img/activity/draw_btn.jpg") no-repeat;
+  background-size: 100%;
+  background-position: 50%;
+  -webkit-transition: background .5s;
+  transition: background .5s;
+}
+.dial-area .flex-item.dial-btn:hover, .dial-area .flex-item.dial-btn:active {
+  width: 3.5rem;
+  height: 2rem;
+  background: url("../img/activity/draw_btn_a.jpg") no-repeat;
+  background-size: 100%;
+  background-position: 50%;
+}
+
+.dial {
+  margin-top: 0.8rem;
+}
+
+.circle-dial {
+  display: block;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+}
+
+.circle-dial .turnplate {
+  display: block;
+  width: 100%;
+  position: relative;
+}
+
+.circle-dial .turnplate canvas.item {
+  width: 100%;
+}
+
+.circle-dial .turnplate img.pointer {
+  position: absolute;
+  width: 42%;
+  height: 42%;
+  left: 29%;
+  top: 27%;
+}
+
+body .egg {
+  background: #05396b;
+}
+
+.egg .activity-card {
+  background: #1e4d7a;
+}
+.egg .weui-btn {
+  color: #05396b;
+}
+
+.egg-area {
+  width: auto;
+  height: 8.266667rem;
+  background: url("../img/activity/egg_bg.jpg") no-repeat;
+  background-size: cover;
+  margin-left: -0.4rem;
+  margin-right: -0.4rem;
+}
+
+/*
+* end 页面样式
+* ---------------------------
+ */

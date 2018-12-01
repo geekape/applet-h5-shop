@@ -1,0 +1,70 @@
+{extend name="shop@wap/common_file" /} {block name="common_body"}
+<!-- 首页 -->
+<div class="wrap">
+    <!-- 头部导航 -->
+    <div class="top-nav">
+        <div class="flex">
+            <i class="iconfont icon-back" id="go-back"></i>
+            <slot>
+                <span class="title">标题</span>
+            </slot>
+        </div>
+    </div>
+    <!-- tab切换 -->
+
+
+	<div class="weui-tab">
+      <div class="weui-navbar">
+
+        <a class="weui-navbar__item weui-bar__item--on" href="#tab1">
+          未使用
+        </a>
+        <a class="weui-navbar__item" href="#tab2">
+          已使用
+        </a>
+      </div>
+
+      <div class="weui-tab__bd">
+        <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
+      	   <!-- 代金劵 -->
+            <div class="chit-tp flex coupon-tp">
+                <div class="chit-tp-left">
+                    <div class="chit-tp-left-sum"><small class="f12">¥</small>100.00</div>
+                    <p class="f12 gray">满5000使用</p>
+                </div>
+                <div class="chit-tp-right">
+                    <div class="">
+                        <p class="chit-tp-right-sum">100元代金卷</p>
+                        <p class="f12">2017.07.01 - 2017.08.01</p>
+                        <p class="red f12">[即将过期]</p>
+                    </div>
+                    <a class="weui-btn weui-btn_mini weui-btn_plain-primary">立即使用</a>
+                </div>
+            </div>
+        </div>
+        <div id="tab2" class="weui-tab__bd-item">
+          <div class="chit-tp flex used coupon-tp">
+              <div class="chit-tp-left">
+                  <div class="chit-tp-left-sum"><small class="f12">¥</small>100.00</div>
+                  <p class="f12 gray">满5000使用</p>
+              </div>
+              <div class="chit-tp-right">
+                  <div class="">
+                      <p class="chit-tp-right-sum">100元代金卷</p>
+                      <p class="f12">2017.07.01 - 2017.08.01</p>
+                      <p class="red f12">[即将过期]</p>
+                  </div>
+                  <a class="weui-btn weui-btn_mini weui-btn_plain-primary">立即使用</a>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+   
+
+
+    
+</div>
+{/block}

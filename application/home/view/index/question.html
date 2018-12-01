@@ -1,0 +1,74 @@
+{extend name="Base/login_base" /}
+{block name="body"}
+<!-- 头部 -->
+<div class="login_header">
+    <div class="small_wrap">
+        <a href="/" title="乐摇"><img class="logo" src="__IMG__/logo.png"/></a>
+        <div class="nav_r">
+            <a href="{:U('home/index/about')}">关于乐摇</a>
+            &nbsp; &nbsp; &nbsp;
+            <a href="{:U('home/index/lead')}">接入指引</a>
+            &nbsp; &nbsp; &nbsp;
+            <a href="{:U('home/index/question')}">产品问答及说明</a>
+        </div>
+    </div>
+</div>
+
+<section class="reg_box small_wrap about_wrap">
+	
+    <div class="about_content">
+    	<h4>产品问答及说明</h4>
+        <p>
+        	<span class="green">Q：乐摇系统主要可以干什么的？</span>
+            <br/>
+            <span>
+            	A：乐摇系统是基于微信公众号开放接口和微信摇电视开放接口开发的一套摇电视互动管理系统。主要可以用于摇电视的节目互动功能配置和管理。
+            </span>
+        </p>
+        <p>
+        	<span class="green">Q：接入乐摇需要准备走什么流程？</span>
+            <br/>
+            <span>
+            	A：先要开通微信摇电视，然后再接入乐摇系统。具体请参考我们的<a href="{:U('home/index/lead')}">《接入指引》</a>
+            </span>
+        </p>
+        <p>
+        	<span class="green">Q：乐摇是以怎样的方式接入使用？</span>
+            <br/>
+            <span>
+            	A：目前是SAAS平台使用方式，通过注册绑定资料并提交申请来接入使用。
+            </span>
+        </p>
+        <p>
+        	<span class="green">Q：一个账号可以接入多个摇电视账号吗？</span>
+            <br/>
+            <span>
+            	A：不行，目前只支持一个乐摇账号管理一个摇电视账号。
+            </span>
+        </p>
+        <p>
+        	<span class="green">Q：提交审核了，多久时间会审核通过？</span>
+            <br/>
+            <span>
+            	A：一般三个工作日内，我们会有专门人员跟进。
+            </span>
+        </p>
+        <p>
+        	<span class="green">Q：互动功能可以定制吗？</span>
+            <br/>
+            <span>
+            	A：可以，请联系我们的商务人员。
+            </span>
+        </p>
+        <p>
+        	<span class="green">Q：互动功能的数据安全不？</span>
+            <br/>
+            <span>
+            	A：这个请放心，我们会有专门的服务器来承载，并且保密性可靠。
+            </span>
+        </p>
+    </div>
+</section>
+{/block}
+{block name="script"}
+{/block}

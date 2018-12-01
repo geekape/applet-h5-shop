@@ -1,0 +1,51 @@
+{include file="common@base/mobile_head"/}	
+<body style="background:#fff">
+<div class="container">
+	<div class="appmsg_container">
+    	<h6 class="appmsg_title">{$info.title}</h6>
+        <p class="appmsg_info"><span class="time">{$info.cTime|day_format}</span> <span class="author">{$info.author}</span></p>
+        <section class="appmsg_content">
+                {notempty name="info['cover_id']"}<!-- <p><img src="{$info.cover_id|get_cover_url}"/></p> -->{/notempty}
+                {$info.content|raw|htmlspecialchars_decode}
+        </section>
+        {notempty name="info['link']"}
+        	<p class="appmsg_foot"><a href="{$info.link}">阅读原文</a></p>
+        {/notempty}
+    </div>
+</div>
+</html>
+<script type="text/javascript">
+$(function(){
+	var imgArray = new Array();
+	var img_base = "{:SITE_URL}";
+	$(".detail img").each(function(){	
+	     var src = $(this).attr("src");
+	     var key1 = src.indexOf('http') ;
+		 var key2 = src.indexOf('Uploads/') ;
+		 
+		 if(key1=='-1' && key2>0){
+			 src = img_base + src;
+			 $(this).attr("src", src);
+		 }
+		 
+		 imgArray.push( src );//数组,网页里面所有要查看大图的图片地址列表
+	})
+	console.log(imgArray);
+	$(".detail img").bind("click",function(){
+		var currentImg = $(this).attr("src");//当前图片的地址
+
+		  if(typeof WeixinJSBridge !=="undefined"){
+			WeixinJSBridge.invoke("imagePreview", {
+			  current: currentImg,//查看的当前图片的地址
+			  urls:imgArray,//数组,网页里面所有要查看大图的图片地址列表
+			});
+		   } 
+	})	
+	$.WeiPHP.initWxShare({
+		title:"{$info.title}",
+		desc:'{$info.intro}',
+		imgUrl:'{$info.cover_id|get_cover_url}',
+		link:window.location.href
+	})
+});
+</script>

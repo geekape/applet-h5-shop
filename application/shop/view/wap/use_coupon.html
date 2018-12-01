@@ -1,0 +1,84 @@
+{extend name="shop@wap/common_file" /} {block name="common_body"}
+<!-- 首页 -->
+<div class="wrap">
+    <!-- 头部导航 -->
+    <div class="top-nav">
+        <div class="flex">
+            <i class="iconfont icon-back" id="go-back"></i>
+            <slot>
+                <span class="title">优惠卷</span>
+            </slot>
+        </div>
+    </div>
+    
+
+
+
+	<div class="white-bg use-chit">
+			<!-- 优惠卷 -->
+			<div class="m-chit">
+				<div class="m-chit-img">
+					<img src="__STATIC__/default/img/coupon.png">
+				</div>
+
+				<div class="m-chit-info">
+					<h4>满500减100元卷</h4>
+					<p class="m-chit-info-time">有效期：2018.07.01 - 2018.08.01</p>
+				</div>
+			</div>
+			<!-- /优惠卷 -->
+
+
+		   <!-- 扫码 -->
+		   <div class="m-qrcode">
+
+		   	<!-- 使用前 -->
+		   	<div class="m-qrcode-img">
+		   		<img src="https://dummyimage.com/200x200/eee/fff&text=qrcode">
+		   	</div>
+
+		   	<div class="m-qrcode-text">
+		   		<p>SN码：465498784513216</p>
+		   		<p>如果线下门店使用，将本页面展示给商家即可使用</p>
+		   	</div>
+
+		   	<!-- 使用后 -->
+<!-- 		   	<div class="hint">
+		   		<div class="hint-img">
+		   			<img src="__STATIC__/default/img/succeed-icon.png">
+		   		</div>
+		   		<h3>已使用该优惠卷</h3>
+		   	</div>
+		   </div> -->
+		   <!-- /扫码 -->
+
+			<!-- 优惠卷说明 -->
+			<div class="m-explain f-pb-lg">
+				<h3>优惠卷使用说明</h3>
+				<ul>
+					<li>优惠券有使用期限限制，过了有效期不能使用</li>
+					<li>订单中包含特价商品时不能使用优惠券，优惠券不能与其他优惠
+		（如促销活动）同时使用；</li>
+					<li>优惠券只能抵扣订单金额，优惠金额超出订单金额部分不能再次
+		  使用，不能兑换现金</li>
+					<li>每个订单只能使用一张优惠券；</li>
+					<li>使用优惠券支付的订单，如果退货，优惠券抵扣金额不能退还，
+		只能退还实际支付商品金额；如果部分退货，将按照订单实际成交
+		商品的金额进行结算；退货后订单金额不满足优惠券使用条件时，
+		优惠券失效。退款金额＝退货商品价格-优惠金额；</li>
+					<li>优惠券等抵扣金额不能开具发票。</li>
+				</ul>
+			</div>
+			<!-- /优惠卷说明 -->
+	</div>
+	
+    
+
+	
+
+
+</div>
+	<div class="bottom-nav bottom-nav-clear">
+    	<a class="weui-btn weui-btn_primary">查看更多优惠卷</a>
+ 	 </div>
+{/block}

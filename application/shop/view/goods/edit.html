@@ -1,0 +1,409 @@
+{extend name="common@base/common" /} {block name="body"} 
+<style type="text/css">
+  .card .col-sm-6 {
+    padding: 1em;
+  }
+  .param-tpl {
+    margin-right: 1em;
+    border-radius: 0;
+    border: 0;
+  }
+  .param-tpl .item {
+    margin-bottom: 1em;
+  }
+  .param-tpl .custom-radio {
+    background: #f0f1f2;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 2.5em;
+  }
+
+  .data-table thead {
+    background-color: #f0f1f2;
+    color: #404040;
+  }
+  .param-content {
+    border: 1px solid #f0f1f2;
+    padding: 1em;
+  }
+  .param-content p {
+    line-height: 2;
+  }
+
+</style>
+<!-- 标签页导航 -->
+<div class="span9 page_message">
+  <section id="contents">
+  {include file="common@base/_nav" /}
+  {php} !empty($post_url) || $post_url = U('edit?model='.$model['id'], $get_param);{/php}
+  <form id="form" action="{:$post_url}" method="post" class="form-horizontal form-center">
+    <div class="tab-content"> 
+      <!-- 表单 -->
+      <div class="card bg-light mb-3">
+        <div class="card-header">商品信息</div>
+        <div class="card-body">
+          <p class="card-text">
+          <div class="form-group row cf">
+            <label class="col-sm-2"> <span class="need_flag">*</span> 商品名称 </label>
+            <div class="col-sm-8">
+              <input type="text" class="text input-large" name="title" value="{$data['title']|default=''}">
+            </div>
+          </div>
+          <div class="form-group row cf toggle-imgs">
+            <label class="col-sm-2"> <span class="need_flag">*</span> 商品图片 </label>
+            <div class="mult_imgs col-sm-8">
+              <div class="upload-img-view" id='mutl_picture_imgs' style="margin-left:100px;"> {notempty name="data['imgs']"} {volist name="data['imgs']" id="vo"}
+                <div class="upload-pre-item22"> <img width="100" height="100" src="{$vo|get_cover_url}" />
+                  <input type="hidden" name="imgs[]" value="{$vo}" />
+                  <em>&nbsp;</em> </div>
+                {/volist} {/notempty} </div>
+              <div class=" uploadrow2 mult" data-max="9" title="点击上传图片" rel="imgs" style="float: none">
+                <input type="file" id="upload_picture_imgs">
+              </div>
+              <span class="form-text text-muted">（可以上传多个图片,拖曳改变顺序，第一张为商品封面图，建议上传500*500正方形图片）</span> </div>
+          </div>
+        </div>
+        </p>
+      </div>
+      <div class="card bg-light mb-3">
+        <div class="card-header">基本信息</div>
+        <div class="card-body">
+          <p class="card-text">
+          <div style="margin:15px 0;" class="data-table">
+            <table cellspacing="1" cellpadding="0">
+              <tbody id="list_data_tbody">
+              
+              {notempty name='cate_list'} {volist name="cate_list" id="cd"}
+              <tr class="list_tr" data-sort="{$cd.sort}">
+                <td align="center" style="width:14%;padding-left:9%;padding-right: 0"><span class="td_key">分类{$cd.sort|chinese_number}</span></td>
+                <td style="width:70%;padding-left:0;"> {notempty name="cate_data.first"}
+                  <select style="margin: 6px 30px" name="cate_first[{$cd.sort}]" class='class_first' data-sort='{$cd.sort}' onchange="select_cate(this)">
+                                                {volist name="cate_data.first" id="vo"}
+                    <option value="{$vo.id}" {if condition="$vo['id'] eq $cd['category_first']" }selected{/if}>{$vo.title}</option>
+                                                {/volist}
+                  </select>
+                  {notempty name='$cate_data["second"]'} {volist name="cate_data.first" id="vo"} {php} $fid=$vo['id']; {/php}
+                  <select class='class_second_{$cd.sort}' name="cate_second[{$cd.sort}]" id="cate_second_{$fid}_{$cd.sort}" data-count="{notempty name="$cate_data['second'][$fid]" }{:count($cate_data['second'][$fid])}{else /}0{/notempty}" style="display:none;">
+                  
+                  {php} $second =isset($cate_data['second'][$fid]) ? $cate_data['second'][$fid] :[]; if($second){ foreach($second as $dd){ if($dd['id'] == $cd['category_second']){ echo '
+                  <option value="'.$dd['id'].'" selected="selected">'.$dd['title'].'</option>
+                  '; }else{ echo '
+                  <option value="'.$dd['id'].'">'.$dd['title'].'</option>
+                  '; } } } {/php}
+                  </select>
+                  {/volist} {/notempty}
+                  <input type='hidden' name="select_cate_second[{$cd.sort}]" id="select_cate_second_{$cd.sort}" value='{$cd.category_second}' />
+                  {/notempty} </td>
+                <td style="width:10%"><input type="hidden" name="cate_ids[{$cd.sort}]" value="{$cd.id}" />
+                  <a href="javascript:void(0);" onclick="remove_tr(this)">删除</a></td>
+              </tr>
+              {/volist} {/notempty}
+              <tr class="more_tr">
+                <td colspan='3'><a href="javascript:add_tr()">+增加分类</a><span class="need_flag">*</span></td>
+              </tr>
+                </tbody>
+              
+            </table>
+          </div>
+          <div class="form-group row cf toggle-is_recommend">
+            <label class="col-sm-2">是否推荐</label>
+            <div class="col-sm-8">
+              <div class="check-item">
+                <input type="radio" class="regular-radio" value="0" id="is_recommend_0" name="is_recommend"  {notempty name='data' } {eq name="data['is_recommend']" value="0" }checked="checked" {/eq} {/notempty} />
+                <label for="is_recommend_0"></label>
+                否 </div>
+              <div class="check-item">
+                <input type="radio" class="regular-radio" value="1" id="is_recommend_1" name="is_recommend"  {notempty name='data' } {eq name="data['is_recommend']" value="1" }checked="checked" {/eq} {/notempty} />
+                <label for="is_recommend_1"></label>
+                是 </div>
+              <span class="form-text text-muted">（推荐后首页的推荐商品里显示）</span> </div>
+          </div>
+          <div class="form-group row cf toggle-stock">
+            <label class="col-sm-2">同款标签 <span class="form-text text-muted"> </span></label>
+            <div class="col-sm-8">
+              <input type="text" class="text input-large" name="tab" value="{$data['tab']|default=''}">
+              <span class="form-text text-muted">相同的标签的商品会出现在同款列表中</span> </div>
+          </div>
+        </div>
+      </div>
+      <div class="card bg-light mb-3">
+        <div class="card-header">库存/价格</div>
+        <div class="card-body">
+          <p class="card-text">
+          <div class="form-item-spec">
+            <div class="form-group row cf">
+              <label class="col-sm-2"> <span class="need_flag">*</span> 库存</label>
+              <div class="col-sm-8">
+                <input type="number" class="text input-large" name="stock" value="{$data['stock']|default=0}">
+              </div>
+            </div>
+            <div class="form-group row cf toggle-market_price">
+              <label class="col-sm-2"> <span class="need_flag">*</span>原价 </label>
+              <div class="col-sm-8">
+                <input type="number" class="text input-large" name="market_price" value="{$data['market_price']|default='0'}">
+              </div>
+            </div>
+            <div class="form-group row cf">
+              <label class="col-sm-2">促销价</label>
+              <div class="col-sm-8">
+                <input type="number" class="text input-large" name="sale_price" value="{$data['sale_price']|default='0'}">
+                <span class="form-text text-muted">（为空时等于原价）</span> </div>
+            </div>
+          </div>
+        </div>
+        </p>
+      </div>
+      <div class="card bg-light mb-3">
+        <div class="card-header">配送设置</div>
+        <div class="card-body"> {:W('common/Express/html', $data)} </div>
+      </div>
+      <div class="card bg-light mb-3">
+        <div class="card-header">产品参数</div>
+        <div class="row">
+          <div class="card-body col-sm-6">
+              <p class="card-text">
+              <div class="form-item cf toggle-parm">
+                <div class="data-table">
+                  <table cellspacing="1" style="width:auto;">
+                    <thead>
+                      <tr>
+                        <th>参数名<span style="font-size: 12px;color:#aaa;margin-left:10px;">(冒号系统自动生成)</span></th>
+                        <th>参数值</th>
+                        <th>操作</th>
+                      </tr>
+                    </thead>
+                    <tbody id="item-parm">
+                    
+                    {notempty name="param_lists" } {volist name="param_lists" id="pp"}
+                    <tr id="item-tr">
+                      <td><input type="text" class="text" name="goods_param_title[{$pp.id}]" value="{$pp.title}" style="width:120px;margin-bottom:0;"></td>
+                      <td><input type="text" class="text" name="goods_param_value[{$pp.id}]" value="{$pp.param_value}" style="width:120px;margin-bottom:0;"></td>
+                      <td><a class="border-btn" href="javascript:;" onClick="delParm(this);">删除</a></td>
+                    </tr>
+                    {/volist} {else/}
+                    <tr id="item-tr">
+                      <td><input type="text" class="text" name="goods_param_title[-1]" value="" style="width:120px;margin-bottom:0;"></td>
+                      <td><input type="text" class="text" name="goods_param_value[-1]" value="" style="width:120px;margin-bottom:0;"></td>
+                      <td><a class="border-btn" href="javascript:;" onClick="delParm(this);">删除</a></td>
+                    </tr>
+                    {/notempty}
+                      </tbody>
+                    
+                  </table>
+                </div>
+              </div>
+              <a id="addParmBtn" class="btn" href="javascript:;" style="margin:15px 0 0 30px;">添加参数</a>
+              </p>
+          </div>              
+            </div>
+        </div>
+      </div>
+      <div class="card bg-light mb-3">
+        <div class="card-header">商品详情</div>
+        <div class="card-body"> {php}$content = isset($data['content']) ? $data['content'] : '';{/php}
+          <label class="textarea">
+            <textarea name="content" style="height:150px;">{$content}</textarea>
+            {:W('common/editor/adminArticleEdit', array('name'=>'content','value'=>$content))} </label>
+          <span class="form-text text-muted">（当该商品设置了自定义商品详情页面时，在公众号中自定义的内容会覆盖上面编辑器的内容）</span> </div>
+      </div>
+    </div>
+    <div id="extra_fields"></div>
+    <!-- flied item end -->
+    
+    <div class="form-item form_bh" style="text-align:center"> {notempty name="data.id"}
+      <input type="hidden" name="id" value="{$data.id|default=0}">
+      {/notempty}
+      <input type="hidden" name="is_show" value="" />
+      <button style="margin-right: 30px"  class="btn submit-btn" type="button" target-form="form-horizontal" onclick="do_submit(1)">{$submit_name|default='直接上架'}</button>
+      <button class="btn submit-btn" style="width:220px" type="button" target-form="form-horizontal" onclick="do_submit(2)">{$submit_name|default='仅保存至待上架'}</button>
+    </div>
+  </form>
+  <table style="display:none">
+    <tr id="default_tr">
+      <td align="center" style="width:14%;padding-left:9%;padding-right: 0"><span class="td_key">分类sort_id_cn</span></td>
+      <td style="width:70%;padding-left:0;"> {notempty name="cate_data.first"}
+        <select style="margin: 6px 30px" name="cate_first[sort_id]" class='class_first' data-sort='sort_id' onchange="select_cate(this,sort_id)">
+          
+          
+                {volist name="cate_data.first" id="vo"}
+                
+          
+          <option value="{$vo.id}">{$vo.title}</option>
+          
+          
+                {/volist}
+            
+        
+        </select>
+        {volist name="cate_data.first" id="vo"}
+        <select class='class_second_sort_id' name="cate_second[sort_id]" id="cate_second_{$vo.id}_sort_id" data-count="{php}echo isset($cate_data['second'][$vo['id']]) && is_array($cate_data['second'][$vo['id']])?count($cate_data['second'][$vo['id']]):0;{/php}" style="display:none;">
+          
+          
+                {php} $fid=$vo['id']; if(isset($cate_data['second'][$fid]) && $cate_data['second'][$fid]){ foreach($cate_data['second'][$fid] as $dd){ echo '
+                
+          
+          <option value="'.$dd['id'].'">'.$dd['title'].'</option>
+          
+          '; } } {/php}
+            
+        
+        </select>
+        {/volist}
+        <input type='hidden' name="select_cate_second[sort_id]" id="select_cate_second_sort_id" value='' />
+        {else/}
+        <input type='hidden' name='no_cate' value='1' />
+        {/notempty} </td>
+      <td style="width:10%"><input type="hidden" name="cate_ids[sort_id]" value="" />
+        <a href="javascript:void(0);" onclick="remove_tr(this)">删除</a></td>
+    </tr>
+  </table>
+</div>
+</section>
+</div>
+{/block} {block name="script"}
+<script type="text/javascript">
+function  Chinese(num) {
+    var  N  =   [    "零",  "一",  "二",  "三",  "四",  "五",  "六",  "七",  "八",  "九",  "十"];    
+    var  str  =  num.toString();    
+    var  len  =  num.toString().length;    
+    var  C_Num  =   [];    
+    for (var  i  =  0;  i  <  len;  i++) {         C_Num.push(N[str.charAt(i)]);     }    
+    return  C_Num.join('');
+}
+
+function add_tr() {
+    var no_cate = $("input[name='no_cate']").val();
+    if (no_cate == 1) {
+        if (confirm('还没有商品分类，前往添加')) {
+            window.location.href = "{:U ( 'Shop/Category/lists')}";
+            return false;
+        } else {
+            return false;
+        }
+    }
+    var count = 1;
+
+    var aTr = $('#list_data_tbody tr').length;
+    if (aTr > 1) {
+        var last_count = $('#list_data_tbody').find('tr').eq(-2).attr('data-sort')
+        count = parseInt(last_count) + 1;
+        //console.log(count);
+    }
+    re = new RegExp("sort_id", "g");
+    str = $('#default_tr').html().replace(/sort_id_cn/g, Chinese(count)).replace(re, count);
+	$('.class_second_sort_id').eq(0).show()
+    //console.log(str);
+    var html = '<tr class="list_tr" data-sort="' + count + '">' + str + '</tr>';
+    if (count == 1)
+        $('#list_data_tbody tr').before(html);
+    else
+        $('.list_tr:last').after(html);
+}
+
+function do_submit(is_show) {
+	$("input[name='is_show']").val(is_show);
+    var url = $("#form").attr("action");
+    var data = $("#form").serialize();
+
+    $.post(url, data, function(res) {
+        if (res.code == 1) {
+            updateAlert(res.msg + ' 页面即将自动跳转~', 'alert-success');
+            setTimeout(function() {
+                if (res.url) {
+                    location.href = res.url;
+                } else {
+                    location.reload();
+                }
+            }, 500);
+        } else {
+            updateAlert(res.msg, 'alert-error');
+        }
+
+    })
+}
+function changeCate(fid, sort_id) {
+	if(sort_id=='sort_id') return false;
+	
+	var id = '#cate_second_' + fid + '_' + sort_id
+	console.log(id)
+	
+    $('.class_second_' + sort_id).hide();
+    $(id).show();
+    var sfcid = $(id + ' option:selected').val();
+    var dataCount = $(id).attr('data-count');
+    if (parseInt(dataCount) <= 0) {
+        $(id).hide();
+    }
+    $("#select_cate_second_" + sort_id).val(sfcid);
+    $(id).change(function() {
+        var sval = $(this).val();
+        $("#select_cate_second_" + sort_id).val(sval);
+    });
+}
+function remove_tr(_this) {
+    $(_this).parent().parent().remove();
+
+    var count = 0;
+    $('.td_key').each(function() {
+        if (count > 1) {
+            count = count + 1;
+            $(this).html('分类' + count);
+        }
+    });
+}
+
+function select_cate(_this, sort_id) {
+    var val = $(_this).val();
+    changeCate(val, sort_id);
+}
+
+function callbackimg(fieldName, picId, src) {
+    $('#input_' + fieldName).val(picId);
+    $('#cover_id_' + fieldName).attr('src', src);
+}
+
+function set_price(_this) {}
+
+function set_num(_this) {
+    var num = 0;
+    $('.numclass').each(function() {
+        var nn = parseInt($(this).val());
+        num = num + nn;
+    })
+    $("input[name='stock']").val(num);
+}
+
+$(function() {
+    initUploadImg();
+	$('.class_first').each(function() {
+		$(this).change(function() {
+			var sort_id = $(this).data('sort');
+			var catefid = $(this).val();
+			changeCate(catefid, sort_id);
+		});
+		var sort_id = $(this).data('sort');
+		var catefid = $(this).val();
+		changeCate(catefid, sort_id);
+	});	
+});
+//添加参数
+$(function addParm() {
+    /*  var i = 1;
+      $('#item-parm tr').each(function(){i++;});*/
+    var id = -1;
+    $('#addParmBtn').click(function() {
+        id--
+        console.log(id);
+        var strhtml = '<td><input type="text" class="text" name="goods_param_title[' + id + ']" value="" style="width:120px;margin-bottom:0;"></td><td><input type="text" class="text" name="goods_param_value[' + id + ']" value="" style="width:120px;margin-bottom:0;"></td>';
+        var $item = $('<tr>' + strhtml + '</tr>')
+        var $aDel = $('<td><a class="border-btn" href="javascript:;" onClick="delParm(this);">删除</a></td>')
+        $item.appendTo($('#item-parm'));
+        $aDel.appendTo($item)
+    })
+})
+
+function delParm(_this) {
+    $(_this).parents('tr').remove();
+}
+</script> 
+{/block}

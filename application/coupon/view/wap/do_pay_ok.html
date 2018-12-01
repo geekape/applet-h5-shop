@@ -1,0 +1,38 @@
+{extend name="shop@wap/common_file" /} {block name="common_body"}
+<!-- 头部导航 -->
+<div class="top-nav">
+    <div class="flex">
+        <i class="iconfont icon-back" id="go-back"></i>
+        <slot>
+            <span class="title">优惠劵</span>
+        </slot>
+    </div>
+</div>
+<div class="wrap" style="bottom: 45px;">
+   
+    
+
+	<div class="hint f-xy-center" style="height: 60%">
+		<!-- 领完与未领完 -->
+   		 <div class="hint-img">
+   			<img src="__STATIC__/default/img/succeed-icon.png">
+   		</div>
+   		<h3>{$msg}</h3> 
+   	</div>
+	
+    
+
+	
+
+</div>
+
+  <div class="bottom-nav bottom-nav-clear">
+      <a class="weui-btn weui-btn_primary" href="javascript:;" onClick="closepage();">返回微信</a>
+   </div>
+   
+<script type="text/javascript">
+function closepage(){
+	wx.closeWindow();
+}
+</script>
+{/block}

@@ -1,0 +1,74 @@
+{include file="common@base/mobile_head"/}
+<link href="{:ADDON_PUBLIC_PATH}/css.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+<body>
+	<div id="container" class="container">
+   
+    <form class="m_15" action="{$url}" method="post" id="addressform">
+    	 <h2>请填写领取信息<span>（用于寄送奖品）</span></h2>
+        <table width="100%" cellpadding="5">
+            <tr>
+                <td>姓名:<br/><input type="text" name="turename" /><span id='nameerror' style="color: red"></span></td>
+            </tr>
+            <tr>
+                <td>手机:<br/><input type="text" name="mobile" /><span id='mobileerror' style="color: red"></span></td>
+            </tr>
+            
+            <tr>
+                <td>详细地址:<br/><textarea name="address" ></textarea><span id='addresserror' style="color: red"></span></td>
+            </tr>
+            <tr>
+                <td>备注:<br/><input type="text" name="remark" /></td>
+            </tr>
+            <input type='hidden' name="prizeid" value="{$prizeid}">
+            <tr>
+                <td><a class="common_btn" type="button" id="sbtn" >提 交</a></td>
+            </tr>
+            
+        </table>
+    </form>
+    </div>
+    <p class="copyright">{$system_copy_right|raw}{$tongji_code|raw}</p>
+</body>
+    <script type="text/javascript">
+			$(document).ready(function(){
+
+				$("#sbtn").click(function(){
+					var name=$("input[name='turename']");
+					var mobile=$("input[name='mobile']");
+					var address=$("textarea[name='address']");
+					
+					var reg = /^\d{11}$/;
+					if(!reg.test(mobile.val())){
+						$("#mobileerror").text('请正确填写你的手机号码');
+						return false;
+					}
+					
+					if (mobile.val()=="") {
+						$("#mobileerror").text('请填写你的手机号码');
+						mobile.focus();
+					}else{
+						$("#mobileerror").text('');
+					}
+					if (address.val()=="") {
+						$("#addresserror").text('请填写你的收货地址');
+						address.focus();
+					}else{
+						$("#addresserror").text('');
+					}
+					if (name.val()=="") {
+						$("#nameerror").text('请填写你的姓名');
+						name.focus();
+					}else{
+						$("#nameerror").text('');
+					}
+					if(mobile.val()!=""&&address.val()!=""&&name.val()!=""){
+						$("#addressform").submit();
+					}
+				});
+				
+
+				//$('#errorname').text('123dkf');
+				//alert($('#errorname').text());
+			});
+		</script>
+</html>

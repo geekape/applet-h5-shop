@@ -1,0 +1,199 @@
+@charset "utf-8";
+@rem:75rem;
+
+body{
+    background: #5a1521;
+}
+
+#wrap{
+    margin-top: -1/@rem;
+    background-image: url("../image/bg.png");
+}
+
+.rule {
+    position: absolute;
+    left: 42/@rem;
+    top: 0;
+    width: 49/@rem;
+    height: 62/@rem;
+    background-image: url("../image/rule.png");
+    text-align: center;
+    font-size: 18/@rem;
+    font-weight: bold;
+    color: #2078a9;
+}
+
+.my {
+    position: absolute;
+    right: 0;
+    top: 12/@rem;
+    width: 88/@rem;
+    min-width: 88/55rem;
+    background-color: #fdc434;
+    line-height: 36/@rem;
+    font-size: 18/@rem;
+    text-align: center;
+    color: #fff;
+    border-radius: 3px 0 0 3px;
+}
+
+/*砸蛋区域*/
+.box {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 820/@rem;
+}
+
+
+.tips {
+    width: 250/@rem;
+    margin: 30/@rem auto 0;
+    background-color: #ff6d69;
+    text-align: center;
+    font-size: 20/@rem;
+    line-height: 40/@rem;
+    color: #fff;
+    border-radius: 20/@rem;
+}
+
+#change {
+    margin: 0 5/@rem;
+}
+
+.egg {
+    width: 750/@rem;
+}
+
+.egg li {
+    position: relative;
+    float: left;
+    width: 126/@rem;
+    height: 196/@rem;
+    margin: 10/@rem 60/@rem;
+}
+
+.egg li img{
+    width: 126/@rem;
+    height: 41/@rem;
+}
+
+.egg li img.goldegg{
+    width: 110/@rem;
+    height: 151/@rem;
+}
+
+.egg .info {
+    display: none;
+    position: absolute;
+    left: -12/@rem;
+    top: 25/@rem;
+    width: 73/@rem;
+    height: 44/@rem;
+    background-image: url("../image/tips.png");
+}
+
+.egg li img.goldegg {
+    position: relative;
+    left: 10/@rem;
+    top: 20/@rem;
+    width: 110/@rem;
+    height: 151/@rem;
+    -o-transform-origin: center bottom;
+    -ms-transform-origin: center bottom;
+    -moz-transform-origin: center bottom;
+    -webkit-transform-origin: center bottom;
+    transform-origin: center bottom;
+    -o-transition: .5s;
+    -ms-transition: .5s;
+    -moz-transition: .5s;
+    -webkit-transition: .5s;
+    transition: .5s;
+}
+
+.egg li img.jump {
+    -o-animation: jump .5s infinite alternate;
+    -ms-animation: jump .5s infinite alternate;
+    -moz-animation: jump .5s infinite alternate;
+    -webkit-animation: jump .5s infinite alternate;
+    animation: jump .5s infinite alternate;
+}
+
+@keyframes jump {
+    100% {
+        top: 10/@rem;
+    }
+}
+
+#info {
+    position: absolute;
+    left: 40/@rem;;
+    top: 115/@rem;;
+    width: 75/@rem;;
+    height: 40/@rem;;
+}
+
+#hammer {
+    position: absolute;
+    left: 665/@rem;
+    top: 60/@rem;
+    width: 110/@rem;
+    height: 120/@rem;
+    background-image: url("../image/hammer.png");
+    -o-transform-origin: right bottom;
+    -ms-transform-origin: right bottom;
+    -moz-transform-origin: right bottom;
+    -webkit-transform-origin: right bottom;
+    transform-origin: right bottom;
+    -o-transition: 1s ease-in-out;
+    -ms-transition: 1s ease-in-out;
+    -moz-transition: 1s ease-in-out;
+    -webkit-transition: 1s ease-in-out;
+    transition: 1s ease-in-out;
+}
+
+.shak{
+    -o-animation: hammer-move .5s linear infinite alternate;
+    -ms-animation: hammer-move .5s linear infinite alternate;
+    -moz-animation: hammer-move .5s linear infinite alternate;
+    -webkit-animation: hammer-move .5s linear infinite alternate;
+    animation: hammer-move .5s linear infinite alternate;
+}
+
+@keyframes hammer-move {
+    100% {
+        -o-transform: rotate(-10deg);
+        -ms-transform: rotate(-10deg);
+        -moz-transform: rotate(-10deg);
+        -webkit-transform: rotate(-10deg);
+        transform: rotate(-10deg);
+    }
+}
+
+.hit{
+    -o-animation: hammer-hit .2s 3 alternate;
+    -ms-animation: hammer-hit .2s 3 alternate;
+    -moz-animation: hammer-hit .2s 3 alternate;
+    -webkit-animation: hammer-hit .2s 3 alternate;
+    animation: hammer-hit .2s 3 alternate;
+}
+
+@keyframes hammer-hit {
+    100% {
+        -o-transform: rotate(-20deg);
+        -ms-transform: rotate(-20deg);
+        -moz-transform: rotate(-20deg);
+        -webkit-transform: rotate(-20deg);
+        transform: rotate(-20deg);
+    }
+}
+
+/*规则背景色*/
+#mask-rule .box-rule{
+    background-color: #f7b50b;
+}
+
+#mask-rule .box-rule .star{
+    background-image: url("../../common/image/rule/star1.png");
+}

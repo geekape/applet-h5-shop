@@ -1,0 +1,96 @@
+{extend name="common@base/common" /} {block name="body"}
+<section id="contents">
+<p class="normal_tips"><b class="fa fa-info-circle"></b> {$normal_tips|raw}</p>
+  <div class="tab-content" style="margin-top:50px"> 
+    <!-- 表单 -->
+    <form class="form-horizontal bind_step_form" method="post" action="{:U('weixin/Publics/payment_set')}" id="form" style="overflow:hidden; zoom:1">
+      <!-- 基础文档模型 -->
+      <div class="tab-pane in tab1" id="tab1">
+        <div class="item_wrap">
+          <div class="form-item row cf toggle-public_name">
+            <label class="col-sm-2"> <span class="need_flag">*</span> 微信支付商户号 </label>
+            <div class="col-sm-8">
+              <input type="text" value="{$info.mch_id}" name="mch_id" class="text input-large">
+            </div>
+          </div>
+          <div class="form-item row cf toggle-public_id">
+            <label class="col-sm-2"> <span class="need_flag">*</span> APPID </label>
+            <div class="col-sm-8">
+              <input type="text" value="{$info.appid}" name="appid" class="text input-large">
+            </div>
+          </div>
+          <div class="form-item row cf toggle-appid">
+            <label class="col-sm-2"> <span class="need_flag">*</span> API密钥 </label>
+            <div class="col-sm-8">
+              <input type="text" value="{$info.partner_key}" name="partner_key" class="text input-large">
+            </div>
+          </div>
+          
+           <div class="form-item row cf toggle-order_payok_messageid">
+            <label class="col-sm-2"> <span class="need_flag"></span>交易完成通知的模板ID </label>
+            <div class="col-sm-8">
+              <input type="text" value="{$info.order_payok_messageid|default=''}" name="order_payok_messageid" class="text input-large">
+              <span class="form-text text-muted">为空时不发模板消息; 请先在公众号先添加模板再把模板id配置到这边（搜索模板标题：交易完成通知，模板编号：OPENTM207287582，行业：IT科技 - 互联网|电子商务） </span>
+            </div>
+          </div>
+          
+          <div class="form-item row cf toggle-secret">
+            <label class="col-sm-2"> cert_pem证书 </label>
+            <div class="col-sm-8">
+            <div class="controls upload_file">
+                <div id="upload_file_cert_pem" class="uploadrow_file"></div>
+                <input type="hidden" name="cert_pem" id="cert_pem" value="{$info.cert_pem}" data-fileexts='' data-maxsize=''/>
+                <div class="upload-img-box">
+                  <present name="info['cert_pem']">
+                    <div class="upload-pre-file"><span class="upload_icon_all"></span>{:get_table_field ( $info['cert_pem'], 'id', 'name', 'File' )}</div>
+                  </present>
+                </div>
+                
+              </div>
+              <span class="form-text text-muted"> （apiclient_cert.pem 现金红包，订单退款和企业付款必须） </span>
+              </div>
+          </div>
+          <div class="form-item row cf toggle-secret">
+            <label class="col-sm-2"> key_pem证书</label>
+            <div class="col-sm-8">
+              <div class="controls upload_file">
+                 <div  id="upload_file_key_pem" class="uploadrow_file"></div>
+                 <input type="hidden" name="key_pem" id="key_pem" value="{$info.key_pem}" data-fileexts='' data-maxsize=''/>
+                 <div class="upload-img-box">
+                   <present name="info['key_pem']">
+                     <div class="upload-pre-file"><span class="upload_icon_all"></span>{:get_table_field ( $info['key_pem'], 'id', 'name', 'File' )}</div>
+                   </present>
+                 </div>
+                 
+               </div>
+
+              <span class="form-text text-muted"> （apiclient_key.pem 现金红包，订单退款和企业付款必须） </span>
+            </div>
+             
+              
+          </div>
+          
+         
+          
+        </div>
+        <div class="offset-sm-2 cf mt_10 bind_step_miniapp_form_next_item" style="padding-left: 5px">
+          <input type="hidden" name="id" value="{$id|intval}">
+          <button target-form="form-horizontal" type="submit" id="submit" class="btn submit-btn ajax-post">保 存</button>
+          <br/>
+                  </div>
+      </div>
+    </form>
+    
+
+  </div>
+</section>
+{/block}
+{block name="script"}
+
+  <script type="text/javascript">
+  initUploadFile();
+  $('#submit').click(function(){
+      $('#form').submit();
+  });
+</script> 
+{/block}

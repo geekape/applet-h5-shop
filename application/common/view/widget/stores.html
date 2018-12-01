@@ -1,0 +1,102 @@
+<div class="form-item row cf toggle-is_all_store" style="display:none" id="is_all_store_box">
+          <label class="col-sm-2"> {$data.title} </label>
+          <div class="col-sm-8">
+            <div class="check-item">
+              <input type="radio" name="is_all_store" id="is_all_store_0" value="0" class="regular-radio is_all_store" 
+              {if condition="intval($data['is_all_store'])==0"} checked="checked"{/if} >
+              <label for="is_all_store_0"></label>
+              全部门店 </div>
+            <div class="check-item">
+              <input type="radio" name="is_all_store" id="is_all_store_1" value="1" class="regular-radio is_all_store" 
+              {if condition="$data['is_all_store']==1"}checked="checked"{/if} >
+              <label for="is_all_store_1"></label>
+              指定门店 </div>
+          </div>
+</div>
+<div class="form-item row cf" id="shops_item">
+<label class="col-sm-2">  </label>
+  <div style="margin:15px 0;" class="data-table col-sm-8">
+    <table cellspacing="1" cellpadding="0">
+      <thead>
+        <tr>
+          <th>门店名</th>
+          <th>详细地址</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody id="shops_list">
+      {volist name="data.stores_list" id="gl"}
+        <tr rel="{$gl.id}" class="shops_data">
+        <td>{$gl.name}</td>
+        <td>{$gl.address}</td>
+        <td>
+        <input type="hidden" name="stores_ids[]" value="{$gl.id}" />
+        <a href="javascript:void(0);" onclick="remove_tr(this)">删除</a></td>                 
+        </tr>
+         {/volist}
+        <tr class="add_shops_tr">
+          <td colspan="3"><a href="javascript:choose_shops()">+增加门店</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>        
+<script type="text/javascript">
+
+$(function() {	
+    $('.is_all_store').bind('click',function(){ is_all_store();	});
+	is_all_store();
+})
+function remove_tr(_this){	
+	$(_this).parent().parent().remove();
+	
+	var count = 0;
+	$('.td_key').each(function() {
+		count = count + 1;
+        if(count>1) $(this).html(count);
+    });	
+}
+function is_all_store(){
+	var val = $('input[name="is_all_store"]:checked').val();
+	if(val==0){
+		$('#shops_item').hide();
+		$('.shops_data').each(function(index, element) {
+            $(this).remove();
+        });
+	}else{
+		$('#shops_item').show();
+	}
+}
+function choose_shops(){
+	var dataUrl = "{:U ( 'shop/stores/lists', array('isAjax'=>1))}";
+
+	$.WeiPHP.openSelectShops(dataUrl,function(shopsList){
+				if(shopsList.length>0){
+					//获取已经存在的门店
+					var arr = [];
+					var shops_count = 0;
+					$('.shops_data').each(function(){
+						var gid = $(this).attr('rel');
+						arr.push(gid);
+						shops_count = shops_count + 1;
+					});
+					
+					for(var i=0;i<shopsList.length;i++){
+						var val = shopsList[i];
+						
+						if($.inArray(val.id, arr)!=-1) continue;
+												
+						var html =  '<tr rel="'+val.id+'" class="shops_data">'
+								  + '<td>'+val.name+'</td>'
+								  + '<td>'+val.address+'</td>'
+								  + '<td>'
+								  + '<input type="hidden" name="stores_ids[]" value="'+val.id+'" />'
+								  + '<a href="javascript:void(0);" onclick="remove_tr(this)">删除</a></td> '                 
+								  + '</tr>';
+								  
+				        $('.add_shops_tr').before(html);
+					}
+				}
+			});
+}
+</script>

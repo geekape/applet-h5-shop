@@ -1,0 +1,144 @@
+{include file="common@base/mobile_head"/}	
+<link href="__STATIC__/football/css.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__STATIC__/football/football.js?v={:SITE_VERSION}"></script>
+<body style="font-size:20px">
+	<div id="container" class="container court_bg">
+		<div class="top_logo">
+            <span class="t_l top_t">我的积分:<span class="yellow">{$followInfo.score}</span></span>
+            <a class="t_r" href="#"><img src="__STATIC__/football/t_r_logo.png"/></a>
+        </div>	
+         <div class="get_prize">
+            <div class="prize_list">
+            	
+            	{notempty name='prizelist'}
+            		{volist name='prizelist' id='vo' key="i"}
+                        	<div class="item item_{$i} {gt name='i' value='10'}hide{/gt}" data-prizeid = "{$vo['award_id']}" data-name="{$vo['award_name']}">
+                                <img src="{$vo['award_pic']}"/>
+                            </div>
+                       
+            		{/volist}
+            	{/notempty}
+                 <a class="get_prize_btn" href="javascript:;" onClick="$.sport.drawPrize('{:U('getChouZPrizeId')}',{$sports_id});">参与抽奖<img src="__STATIC__/football/arrow_icon.png"/></a> 
+                <div class="col" id="getedCol" style="display:none">
+                	
+                    
+                </div>
+            </div>
+            <div style="margin:30px">
+            	<a class="main_btn" href="{:U ( 'Sports/Wap/user_score',array('sport_id'=>$sports_id))}">查看中奖纪录</a>
+            </div>
+           
+		</div>
+        <div class="ball_bg"></div>
+        <!--
+        <p class="copyright">{$system_copy_right|raw}</p>
+        -->
+<!--         {$tongji_code|raw} -->
+    </div>
+    {include file="common@base/mobile_foot"/}
+    
+    <!-- 中奖弹框 -->
+    <div class="prize_dialog_layer" style="display:none"></div>
+    <div class="prize_dialog" id="getPrize" style="display:none">
+    	<img src="__STATIC__/football/geted_dialog_head.png" width="100%;"/>
+    	<div class="content">
+        	<div class="geted"><img class="get_pic" src="__STATIC__/football/test_ball.jpg"/></div>
+            <h6>成功获得<span id="thePrizeName" style="color:#ffea00"></span>一份</h6>
+        </div>
+        <form class="get_prize_form" action="{$savefollow}">
+        	<h6>请填写以下联系信息领奖</h6>
+            <div class="label">
+            	姓名：
+        		<input type="text" id="name" name="name" placeholder="请输入姓名"/>
+            </div>
+            <div class="label">
+            	手机：
+        		<input type="text" id="phone" name="phone" placeholder="请输入手机号"/>
+            </div>
+            <a class="main_btn" href="javascript:;" onClick="$.sport.submitGetPrizeInfo();">提交信息</a> 
+        </form>
+    </div>
+    <div class="prize_dialog" id="getPrizeHasAddress" style="display:none">
+    	<img src="__STATIC__/football/geted_dialog_head.png" width="100%;"/>
+    	<div class="content">
+        	<div class="geted"><img class="get_pic" src="__STATIC__/football/test_ball.jpg"/></div>
+            <h6>成功获得<span id="thePrizeName" style="color:#ffea00"></span>一份</h6>
+        </div>
+        <p class="desc" style="margin-top:10px; padding:0">您可以关注公众号,以便查看<a href="{:U ( 'Sports/Wap/user_center')}" style="color:#ffd632">中奖信息</a>和<a href="{:U ( 'Sports/Wap/user_center')}" style="color:#ffd632">个人积分</a></p>
+        <center>
+        <img width="93%" src="__STATIC__/football/geted_qrcode.jpg"/><br/>
+        <span style="color:#ffd632; font-size:13px;">长按二维码，进行关注</span>
+        </center>
+    </div>
+    <div class="prize_dialog" id="getPrizeDone" style="display:none">
+    	<div class="content">
+        	<br/>
+        	<div id="successResult" style="display:block">
+            	<center><img width="60%" src="__STATIC__/football/geted_icon.png"/></center>
+            </div>
+            <div id="failResult" style="display:none">
+            	<center><img width="60%" src="__STATIC__/football/ungeted_icon.png"/></center>
+            </div>
+            <p class="desc" style="margin-top:10px">您可以关注公众号,以便查看<a href="{:U ( 'Sports/Wap/user_center')}" style="color:#ffd632">中奖信息</a>和<a href="{:U ( 'Sports/Wap/user_center')}" style="color:#ffd632">个人积分</a></p>
+            <center>
+            <img width="93%" src="__STATIC__/football/geted_qrcode.jpg"/><br/>
+            <span style="color:#ffd632; font-size:13px;">长按二维码，进行关注</span>
+            </center>
+        </div>
+        
+    </div>
+    <div class="prize_dialog" id="getJifenPrize" style="display:none">
+    	<img src="__STATIC__/football/geted_dialog_head.png" width="100%;"/>
+    	<div class="content">
+        	<div class="geted"><img class="get_pic" src="__STATIC__/football/test_ball.jpg"/></div>
+            <h6>成功获得<span id="thePrizeName" style="color:#ffea00"></span>一份</h6>
+            <p class="desc" style="margin-top:10px">积分已经加到您的个人积分中,您可以关注公众号,以便查看<a href="{:U ( 'Sports/Wap/user_center')}" style="color:#ffd632">中奖信息</a>和<a href="{:U ( 'Sports/Wap/user_center')}" style="color:#ffd632">个人积分</a></p>
+            <center>
+            <img width="93%" src="__STATIC__/football/geted_qrcode.jpg"/><br/>
+            <span style="color:#ffd632; font-size:13px;">长按二维码，进行关注</span>
+            </center>
+        </div>
+        
+    </div>
+    <div  id="div_subscribe_area" style=" position:fixed; height:50px; z-index:10000; bottom:0;right:0;left:0"></div>
+</body>
+</html>
+<script type="text/javascript" src="http://yaotv.qq.com/shake_tv/include/js/jsapi.js"></script>
+<script>
+$('#container').css({'min-height':$(window).height()});
+var prizeAreaWidth = $('.prize_list').width();
+var dw = 10;
+var prizeItemWidth = (prizeAreaWidth-3*dw)/4;
+$('.prize_list').height(prizeAreaWidth*3/4);
+$('.prize_list .item').width(prizeItemWidth).height(prizeItemWidth);
+$('.prize_list .item_2').css({'left':prizeItemWidth+dw});
+$('.prize_list .item_3').css({'left':prizeItemWidth*2+2*dw});
+$('.prize_list .item_4').css({'left':prizeItemWidth*3+3*dw});
+$('.prize_list .item_10').css({'top':prizeItemWidth+dw});
+$('.prize_list .item_5').css({'top':prizeItemWidth+dw,'left':prizeItemWidth*3+3*dw});
+$('.prize_list .item_9').css({'top':prizeItemWidth*2+2*dw,'left':0});
+$('.prize_list .item_8').css({'top':prizeItemWidth*2+2*dw,'left':prizeItemWidth+dw});
+$('.prize_list .item_7').css({'top':prizeItemWidth*2+2*dw,'left':prizeItemWidth*2+2*dw});
+$('.prize_list .item_6').css({'top':prizeItemWidth*2+2*dw,'left':prizeItemWidth*3+3*dw});
+$('.prize_list .get_prize_btn').width(prizeItemWidth*2+dw).height(prizeItemWidth).css({'top':prizeItemWidth+dw,'left':prizeItemWidth+dw,'line-height':prizeItemWidth+'px'});
+var sportsId={$sports_id};
+/*一键关注公众号*/
+var WX_APP_ID = "{$jsapiParams.appId}";//公众号的唯一标识
+//调用关注
+/*
+shaketv.subscribe({
+		appid: WX_APP_ID,
+		selector: "#div_subscribe_area",
+		type: 1
+	}, function (returnData) {
+       //一键关注bar消失后会调用回调函数，在此处理bar消失后带来的样式问题
+   	   //console.log(JSON.stringify(returnData));
+});
+*/
+$.WeiPHP.initSimpleShareData({
+	title:'{$shareData.title}',
+	desc:'{$shareData.desc}',
+	link:'{$shareData.link}',
+	imgUrl:'{$shareData.imgUrl}?v={:SITE_VERSION}'
+});
+</script>

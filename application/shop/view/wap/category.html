@@ -1,0 +1,104 @@
+{extend name="shop@wap/common_file" /}
+
+{block name="common_body"}
+
+    <body class="category">
+          <!-- 搜索 -->
+          {include file="wap/_search"}
+            <div id="classfiy">
+                <div class="classfiy-menu-box">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <ul>
+                                <li class="ui-border-b active" title="0" onclick="toggleClassify(0)">全 部</li>
+
+                                {volist name="top_list" id="vo"}
+                                <li class="ui-border-b" title="{$vo.id}" onclick="toggleClassify({$vo.id})">{$vo.title}</li>
+                                {/volist}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="classfiy-content">
+                    <div class="swiper-wrapper">
+            {volist name="sub_list" id="sub"}
+                        <div class="swiper-slide" id="sub_box_0">
+                            
+                        </div>
+                        <div class="swiper-slide" id="sub_box_{$key}">
+                    {volist name="sub" id="vo"}
+
+                            <a href="{:U('lists',['cate_id'=>$vo['id'], 'pid'=>$vo['pid']])}">
+                                <div class="goods-img"><img class="lazyload" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="{$vo.icon}" alt="{$vo.title}"></div>
+                                <p>{$vo.title}</p>
+                            </a>
+                    {/volist}
+                
+                        
+                        </div>
+
+                       {/volist} 
+                    </div>
+
+                </div>
+            </div>
+    	    
+
+
+    	    <!-- 底部导航 -->
+    	    {include file="wap/_footer"}
+    </body>
+    
+    
+<script>
+    var swiper_config = {
+        direction: 'vertical',
+        slidesPerView: 'auto',
+        freeMode: true,
+  
+        mousewheel: true,
+    }
+
+    var swiper = new Swiper('.classfiy-menu-box', swiper_config);
+
+    var swiper2 = new Swiper('.classfiy-content',swiper_config);
+
+    $(function() {
+        // 克隆dom到全部
+        cloneDom();
+        toggleClassify(0);
+
+    })
+
+
+
+    $('.classfiy-menu-box li').click(function () {
+        $('.classfiy-menu-box li').removeClass('active');
+        $(this).addClass('active');
+    })
+</script>
+
+<script type="text/javascript">
+
+
+// 切换分类
+function toggleClassify(id) {
+    $('.classfiy-content .swiper-slide').hide();
+    if(id == 0) {
+        $('#sub_box_0').show();
+    }
+    else {
+        $('#sub_box_' + id).show();
+    }
+}
+
+// 复制dom
+function cloneDom() {
+    var all_dom = $('.swiper-slide a').clone();
+    $('#sub_box_0').append(all_dom);
+}
+
+</script>    
+{/block}

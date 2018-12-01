@@ -1,0 +1,17 @@
+<import src="/components/shop/search.vue.wxml" />
+<import src="/components/slide.vue.wxml" />
+<import src="/components/shop/goodsList.vue.wxml" /><template name="01e357c0">
+  <view class="_div data-v-acdfce46 index"><template data="{{...$root[$kk+'0'], $root}}" is="995aa064"></template> <template wx:if="{{slides}}" data="{{...$root[$kk+'1'], $root}}" is="98eac69e"></template>
+    <view class="_div data-v-acdfce46 categorys">
+      <swiper indicator-dots="true" indicator-color="#eee" indicator-active-color="#ff0204" class="_swiper data-v-acdfce46">
+        <swiper-item wx:key="index" key="{{index}}" class="_swiper-item data-v-acdfce46 category-block" wx:for="{{categoryList}}" wx:for-index="index" wx:for-item="item">
+          <view bindtap="handleProxy" class="_div data-v-acdfce46 category-block__item" wx:key="category.id" key="{{category.id}}" data-eventid="{{'0-'+index+'-'+idx}}" data-comkey="{{$k}}" wx:for="{{item}}" wx:for-index="idx" wx:for-item="category">
+            <image src="{{category.icon}}" class="_img data-v-acdfce46 category-block__img" mode="aspectFill"></image>
+            <view class="_p data-v-acdfce46 category-block__txt overflow-dot_row">{{category.title}}</view>
+          </view>
+        </swiper-item>
+      </swiper>
+    </view>
+    <view class="_p data-v-acdfce46 page-title">猜你喜欢</view> <template wx:if="{{goods}}" data="{{...$root[$kk+'3'], $root}}" is="03d7a944"></template>
+  </view>
+</template>

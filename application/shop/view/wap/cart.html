@@ -1,0 +1,194 @@
+{extend name="shop@wap/common_file" /} {block name="common_body"}
+
+<body class="cart">
+  <!-- 头部导航 -->
+  <div class="top-nav">
+      <div class="flex">
+          <slot>
+              <span class="title">购物车</span>
+          </slot>
+          <a href="javascript:;" onClick="deleteCartItem()"><i class="iconfont icon-delete"></i></a>
+      </div>
+  </div>
+
+
+  <div class="wrap">
+
+  
+      
+  {empty name="lists"}
+  {:W('common/EmptyTip/html', ['remark'=>'您的购物车空空是也~'])}
+  {else/}
+  <form action="{:U ( 'Shop/Wap/confirm_order')}" method="post" onSubmit="return checkCartSubmit()" id="form">
+    <div class="">
+        <!-- 购物车商品 -->
+        {volist name="lists" id="vo"}
+        <div class="m-goods flex card weui-cell_swiped">
+          <!-- 复选框 -->
+          <label class="m-checkbox" for="item_{$vo.id}">
+            <input type="checkbox" class="price-checkbox" id="item_{$vo.id}" rel="{$vo.id}" name="goods_ids[]" value="{$vo.goods_id}">
+            <i class="iconfont icon-selected"></i>
+          </label>
+          <!-- 商品 -->
+          <a href="{:U('goods_detail',array('id'=>$vo['goods_id']))}" class="m-goods-card flex">
+            <div class="m-goods-img">
+              <img src="{$vo.goods.cover}">
+            </div>
+
+            <div class="m-goods-info">
+              <h4>{$vo.goods.title}</h4>
+
+              <p class="flex">
+                <span class="red flex-item f-ml-base"><span class="prize-icon">¥</span><strong class="price-num">{$vo.goods.sale_price}</strong></span>
+               
+                <!-- 个数框 -->
+                <span class="m-goods-add buy_count" onClick="return false;">
+                  <!-- 默认是1,可点加号,可操作样式是active -->
+                  <i class="iconfont icon-jian1 reduce {if condition='$vo.num>=2'}active{/if}"></i>
+                  <input type="number" name="buyCount[{$vo.goods_id}]" value="{$vo.num|intval}" rel="buyCount" data-cid="{$vo.id}" id="setnum_{$vo.id}" class="sum" placeholder="1" max="{$vo.goods.stock_active}" onBlur="set_num(this)">
+                  <i class="iconfont icon-tianjia plus add active"></i>
+                </span>
+
+              </p>
+
+            </div>
+
+          </a>
+        </div>
+        {/volist}
+        
+    </div>
+                 <input name="cart_ids" type="hidden" value="" />
+              <input type='hidden' name='wpid' value="{$wpid}" />
+              <input type='hidden' name='is_cart_goods' value='1' />
+    </form>
+  {/empty}  
+
+
+     
+     
+    
+      <div>
+        {include file="shop@diy_template/allDisplay"/}
+      </div>
+
+
+     
+  </div>
+     <div class="flex m-bottom-nav2 f-text-c white-bg">
+        <!-- 复选框 -->
+        <label class="m-checkbox f-lh-xs" for="checkAll">
+          <input type="checkbox" id="checkAll" class="whole-check check_all" name="checkAll">
+          <i class="iconfont icon-selected"></i>
+          <span class="gray f-pt-base">全选</span>
+        </label>
+
+        <div class="flex-item">
+			<span class="gray">不含运费</span>
+          <span class="cart-price">
+          	<span>总计:</span>
+          	<p class="red">
+          		<span class="prize-icon">¥</span><span id="totalPrice">0</span>
+          	</p> </span>
+        </div>
+      
+      <a class="btn" onclick="doPost()">去结算(<span id="totalCount">12</span>)</a>
+     </div>
+      <!-- 底部导航 -->
+    {include file="wap/_footer"}
+</body>
+
+<script type="text/javascript">
+
+    
+
+    // 自动全选
+    function isAllSelect() {
+      var cart_checkboxs = $('.cart .price-checkbox');
+      var cart_checkboxs_len = $('.cart .price-checkbox').length;
+      var num = 0;
+      $(cart_checkboxs).each(function(index) {
+        if($(this).prop("checked")) {
+          num++;
+        }
+      })
+      // 如果购物车商品都选中，全选自动勾上
+      if(num === cart_checkboxs_len) {
+        $('#checkAll').prop("checked", true)
+      }
+
+      if(num != cart_checkboxs_len) {
+        $('#checkAll').prop("checked", false)
+      }
+    }
+
+    $('.price-checkbox').click(function() {
+      isAllSelect();
+    })
+
+
+
+
+
+  $(function(){
+     updatePriceAndCount();
+      isAllSelect();
+
+    
+  });
+
+  
+  function doPost(){
+  	$('#form').submit();
+  }
+  function set_num(_this){
+  	var cartId= $(_this).attr('data-cid');
+  	var num=parseInt($(_this).val());
+  	var snum=parseInt($("#stockNum_"+cartId).text());
+  	if(isNaN(num)){
+  		num=0;
+  	}
+  	if(num > snum){
+  		num = snum;
+  	}
+  	$(_this).val(num);
+
+  // 	alert(isNaN(num));
+  // 	alert(num+','+snum);
+  }
+
+
+  //删除购物车的商品
+  function deleteCartItem(){
+  	if($('input[name="goods_ids[]"]:checked').length==0){
+  		$.Dialog.fail("请选择要删除的购物车物品");
+  	}else if(confirm('确认删除？')){
+  		var cartIds = "";
+  		$('input[name="goods_ids[]"]:checked').each(function(index, element) {
+  			cartIds += $(this).attr('rel')+",";
+  		});
+  		$.Dialog.loading();
+  		$.ajax({
+  			url:"{:U('delCart')}",
+  			data:{ids:cartIds},
+  			dataType:"json",
+  			type:"post",
+  			success:function(data){
+  				window.location.reload();	
+  			}
+  		})
+  	}
+  }
+
+  // 给金额没有小数点的加上小数点
+  function isPoint(num) {
+    var reg = /\./;
+    if(!reg.test(num)) {
+      var number = num + '.00';
+      return number;
+    }
+    return num;
+  }
+
+</script>
+{/block}

@@ -1,0 +1,61 @@
+{extend name="common@base/common" /}
+{block name="body"}
+  <div class="span9 page_message">
+  
+    <section id="contents"> {include file="common@base/_nav" /}
+
+      <!-- 数据列表 -->
+      <div class="data-table" style="margin-top:20px;">
+      
+        <div class="table-striped">
+        
+            <div style="padding-bottom: 20px;padding-left: 15px;">
+            <a class="btn" href="{:U('video_add',array('mdm'=>I('mdm')))}">新 增</a>
+            {php}if(config('MATERIAL')) { {/php} 
+                <a class="btn" href="{:U('syc_video_to_wechat')}">一键上传素材到微信素材库</a>
+                <a class="btn" href="{:U('syc_file_from_wechat')}?type=2">一键下载微信素材库到本地</a>
+             {php} } {/php}
+            </div>
+                 
+                 
+        
+        	<ul class="picture_list">
+                {volist name="list_data" id="vo"}
+            	<li>
+                	<div class="picture_item">
+                        <div class="video_item">
+                        	<p class="title ellipsis">{$vo.title}</p>
+                            <p class="ctime colorless">{$vo.cTime|time_format}</p>
+                            <div class="video_area">
+                            	<video src="{$vo.file_id|get_file_url}" controls="controls">您的浏览器不支持 video 标签。</video>
+                            </div>
+                             <p class="spill2">{$vo.introduction}</p>
+                        </div>
+                        <div class="picture_action">
+                            <a href="{:U('video_edit',array('id'=>$vo['id']))}">编辑</a>
+                            <a href="javascript:;" onclick="del({$vo.id}, this)">删除</a>	
+                        </div>
+                    </div>
+                </li>
+                {/volist}
+            	
+            </ul>
+          
+        </div>
+      </div>
+      <div class="page"> {$_page|raw|default=''} </div>
+    </section>
+  </div>
+{/block}
+{block name="script"} 
+<script type="text/javascript">
+$(function(){
+})
+function del(id, _this){
+	if(!confirm('确认删除？')) return false;
+
+	$(_this).parent().parent().parent().remove();
+	$.post("{:U('del_file')}",{id:id});
+}
+</script> 
+{/block}

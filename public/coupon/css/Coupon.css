@@ -1,0 +1,40 @@
+@charset "utf-8";
+/* CSS Document by jacy use in vipcard */
+body{ padding:0; margin:0; background:#f0eef5}
+.body{background:#f0eef5 repeat;}
+.container{ max-width:640px; min-width:320px; margin:0 auto;}
+.head_box{ position:relative}
+.head_box img{ width:100%; display:block; position:relative; z-index:10;}
+.head_box .style{ height:8px; width:100%; background:url(head_style.png) repeat-x; position:absolute; bottom:0; z-index:100;}
+.head_box .title_layer{ position:absolute; bottom:0; z-index:99; width:100%; padding:10px 0; text-align: center; color:#fff; background:RGBA(0,0,0,.3); font-size:16px;}
+
+.box{ border:1px solid #e5e5e5; background:#fafafa; padding:15px; margin:15px; border-radius:5px;}
+.get_btn{ background:#db4444; border-radius:5px; padding:13px 0; display:block; margin:15px; text-align:center; color:#fff}
+a.get_btn{ color:#fff}
+.gray_btn{ background:#ccc; border-radius:5px; padding:13px 0; display:block; margin:15px; text-align:center; color:#888}
+.use_btn{ background:#db4444; border-radius:5px; padding:10px 0; display:block; margin:15px 0 5px; text-align:center; color:#fff}
+a.use_btn,a.gray_btn{ color:#fff}
+.b_title{ line-height:50px; padding:0 15px;}
+.head_hd{ min-height:220px; max-height:250px; overflow:hidden; background:#35a2dd; position:relative; text-shadow:0 2px RGBA(0,0,0,.3);}
+.head_pic{ display:none; width:100%;}
+.head_hd .line{ height:20px; background:url(line.png) repeat-x; background-size:auto 20px; position:absolute; bottom:0; width:100%;}
+.head_hd .title{ position:absolute; left:0; right:0; bottom:0; padding:10px 0 20px; text-align:center; font-size:24px; color:#fff; background:RGBA(0,0,0,.3);}
+.head_hd .seller{ position:absolute; left:20px; top:20px;}
+.head_hd .seller img{ width:50px; height:50px; border-radius:100%; vertical-align:-18px; margin-right:5px;}
+.head_hd .seller .name{ color:#fff; font-size:18px;}
+.head_hd .time{ font-size:12px; line-height:30px;}
+.start_btn{ border-radius:5px; background:#0dbd02; display:block; margin:20px 15px 20px; padding:13px 0; text-align:center; color:#fff; font-size:16px;}
+.start_btn:hover,.start_btn:link,.start_btn:active,.start_btn:visited{ color:#fff}
+.detail .title{ font-size:16px; color:#888; line-height:50px; padding:0 15px;}
+.detail .content{ padding:10px 15px; background:#fff;}
+
+.v_nav{ border-top:1px solid #ddd; background:#fff}
+.v_nav .item{ height:46px; line-height:46px; border-bottom:1px solid #ddd; display:block; color:#333; padding:0 50px 0 20px; position:relative}
+.v_nav .item em{ position:absolute; right:10px; top:14px; height:24px; width:24px; background:url(arw.png) no-repeat; background-size:18px 18px;}
+.v_nav a{ color:#888}
+.v_nav .single_address{ line-height:24px; padding:10px 70px 10px 20px; color:#888}
+.v_nav .single_address .title{ font-size:16px; color:#444;}
+.v_nav .single_address em{ width:60px; height:40px; background:url(phone.png) center center no-repeat; background-size:40px 40px; border-left:1px solid #ccc;}
+.v_nav .single_address a{   white-space: nowrap;overflow: hidden;display: block;text-overflow: ellipsis; font-size:13px;}
+.sn_box{ text-align:center; line-height:30px; padding:25px 0; color:#888; background:#f0eef5}
+.sn_box .qrCode{ width:150px; height:150px; margin:0 auto; background:#fff}

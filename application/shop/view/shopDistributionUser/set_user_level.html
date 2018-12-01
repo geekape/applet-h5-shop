@@ -1,0 +1,108 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+{include file="common@base/head"/}
+<body style="background:#fff">
+  <!-- 标签页导航 -->
+  <div class="span9 page_message">
+    <section id="contents">
+      
+      <div class="tab-content" style="padding:0 20px"> 
+        <!-- 表单 -->
+        <form id="form" action="{:U('set_user_level')}" method="post" class="form-horizontal">
+          <ul id="tab" class="tab-pane in">
+          	     <li class="form-item cf">
+                    <label class="item-label"><span class="need_flag"></span>审核</label>
+                    <div class="controls">
+                    	<input type="radio" name="is_audit" value="0" id="audit_0" {eq name="duser.is_audit" value="0" }checked="checked"{/eq} /><label for="audit_0">未审核</label>&nbsp;&nbsp;
+                    	<input type="radio" name="is_audit" value="2" id="audit_2" {eq name="duser.is_audit" value="2" }checked="checked"{/eq} /><label for="audit_2">不通过</label>&nbsp;&nbsp;
+                    	<input type="radio" name="is_audit" value="1" id="audit_1" {eq name="duser.is_audit" value="1" }checked="checked"{/eq} /><label for="audit_1">通过</label>
+                    </div>
+                  </li>            
+            	 <li class="form-item cf">
+                    <label class="item-label"><span class="need_flag"></span>分销商级别</label>
+                    <div class="controls">
+                    	{notempty name="type_name"}
+                    	<select name='level' >
+                    		{volist name="type_name" id='vv'}
+                    			<option value="{$key}" {if condition="$duser['level'] eq $key"}selected="selected"{/if}>{$vv}</option>
+                    		{/volist}
+                    	</select>
+                    	{/notempty}
+<!--                       <input type="text" class="text input-large samll_num" name="sn_id" value="" placeholder="优惠券 Sn码" > -->
+                    </div>
+                  </li>  
+                  {notempty name="user_data"}
+                  <li class="form-item cf" id='duser'>
+                    <label class="item-label"><span class="need_flag"></span>指定上级分销商用户</label>
+                    <div class="controls">
+                    		{volist name="user_data" id='ud'}
+                    			<select id='user_level_{$key}' class="user_level">
+                    				{volist name='ud' id='vo'}
+                    					<option value="{$vo.uid}">{$vo.username}</option>
+                    				{/volist}
+                    			</select>
+                    		{/volist}
+                      <input type="hidden"  name="upper_user" value="" >
+                    </div>
+                  </li>  
+                  {/notempty}
+               	</ul>
+          </div>
+          <div class="form-item form_bh">
+            <input type="hidden" name="uid" value="{$duser.uid}">
+            <input type='hidden' name='id' value='{$duser.id}' />
+            <button class="btn submit-btn ajax-post dialog_submit" id="submit1" type="button" target-form="form-horizontal">确定</button>
+          </div>
+        </form>
+       
+      </div>
+    </section>
+  </div>
+  </div>
+</body>
+<script type="text/javascript">
+$(function(){
+	change_user_level();
+	$('#submit1').click(function(){
+		$(".user_level").each(function(){
+			if($(this).is(":visible")==true){
+				$("input[name='upper_user']").val($(this).val());
+			}
+		});
+		var audit = $("input[name='is_audit']:checked").val();
+		if(audit=='0'){
+			return false;
+		}else{
+			var data=$('#form').serialize();
+			var url=$('#form').attr('action');
+			$.post(url,data,function(res){
+				if(res==1){
+					alert('设置成功！');
+					window.parent.location.reload();
+					window.parent.$.Dialog.close();
+				}
+			});
+		}
+	});
+	$("select[name='level']").change(function(){
+		change_user_level();
+	});
+});
+function change_user_level(){
+	var level=$("select[name='level'] option:selected").val();
+	if(level == 2){
+		$('#duser').show();
+		$('.user_level').hide();
+		$('#user_level_1').show();
+	}else if(level == 3){
+		$('#duser').show();
+		$('.user_level').hide();
+		$('#user_level_2').show();
+	}else{
+		$('#duser').hide();
+		$('.user_level').hide();
+	}
+}
+</script>
+</html>

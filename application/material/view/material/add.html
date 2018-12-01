@@ -1,0 +1,66 @@
+{extend name="common@base/common" /}
+{block name="body"}
+  <div class="span9 page_message">
+    <section id="contents"> {include file="common@base/_nav" /}
+      <div class="tab-content"> 
+        <!-- 表单 -->
+        {php} $post_url || $post_url = U('add?model='.$model['id'], $get_param);{/php}
+        <form class="form-horizontal form-center" method="post" action="{$post_url}" id="form">
+          <div class="form-group row cf toggle-file_id">
+            <label class="col-sm-2"> 上传文件 </label>
+            <div class="col-sm-8">
+              <div class="upload_file">
+                <div  id="upload_file_file_id" class="uploadrow_file"></div>
+                <input type="hidden" name="file_id" id="file_id" value="{php}if(isset($data['file_id'])) echo $data['file_id'];{/php}" data-fileexts='mp3,amr' data-maxsize='2097152'/>
+<!--                 <input type="file" id="upload_file_file_id" title="点击修改文件" style="height: auto"> -->
+<!--                 <input type="hidden" name="file_id" id="file_id" value="{php}if(isset($data['file_id'])) echo $data['file_id'];{/php}"/> -->
+                <div class="upload-img-box">
+                  {present name="data['file_id']"}
+                    <div class="upload-pre-file"><span class="upload_icon_all"></span>{$data['file_id']}</div>
+                  {/present}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row cf toggle-title">
+            <label class="col-sm-2"> 素材名称 </label>
+            <div class="col-sm-8">
+              <input type="text" value="" name="title" id="title" class="text input-large">
+            </div>
+          </div>          
+          <div class="form-group row form_bh">
+            <div class="offset-sm-2"><button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">{$submit_name|default='确 定'}</button></div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+{/block}
+{block name="script"}
+  <link href="__STATIC__/datetimepicker/css/datetimepicker.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+  {php}if(config('COLOR_STYLE')=='blue_color') echo '
+    <link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+    ';{/php}
+  <link href="__STATIC__/datetimepicker/css/dropdown.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.js"></script> 
+  <script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js?v={:SITE_VERSION}" charset="UTF-8"></script> 
+  <script type="text/javascript">
+$('#submit').click(function(){
+    $('#form').submit();
+});
+
+$(function(){
+
+	initUploadFile(function(data,name){
+		var old_title = $('#title').val();
+		if(old_title==''){
+// 			var data = $.parseJSON(data);
+			var title = data.name.replace('.'+data.ext, '');
+			$('#title').val(title);		
+		}
+	});
+    showTab();
+	
+});
+</script> 
+{/block}

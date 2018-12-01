@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "申请退款",
+  "usingComponents": {
+    "van-toast": "/static/vant/toast/index"
+  }
+}

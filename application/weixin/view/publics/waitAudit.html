@@ -1,0 +1,19 @@
+{extend name="common@base/no_menu_common" /}
+{block name="body"}
+  <div class="wrap">
+<section id="contents">
+  <style type="text/css">
+  		.audit_tips{ text-align:center; padding:200px 0;}
+		.audit_tips img{ border:7px solid #44b549; border-radius:50px; width:65px; height:65px;}
+  </style>
+  <div class="tab-content" style="margin-top:20px">
+      <p class="audit_tips">
+        <img src="__STATIC__/base/images/check_right.png"/><br/>
+         该账号的配置信息已提交!<br/>我们的工作人员将在3个工作日内对信息进行审核并电话告知审核结果，请耐心等待。
+         <br/>
+         <br/>
+         <a href="{:U('home/user/register_edit',array('id'=>I('id')))}">修改注册信息</a>
+      </p>
+  </div>
+</section>
+{/block}

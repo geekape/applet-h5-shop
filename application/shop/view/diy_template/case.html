@@ -1,0 +1,23 @@
+<div class="case_box">
+<p class="case_title">{{module.params.title}}</p>
+<div  ng-switch="module.params.style">
+<ul class="case_default_list" ng-switch-when="2">
+    <li ng-repeat="m in module.params.pic_list">
+    	<a href="{{m.url}}">
+        	<img ng-if="m.pic" src="{{m.pic}}"/>
+            <p class="title" ng-show="module.params.show_title">{{m.title}}</p>
+    	</a>
+    </li>
+</ul>
+<ul class="case_three_list" ng-switch-when="3">
+    <li ng-repeat="m in module.params.pic_list">
+    	<a href="{{m.url}}">
+        	<img ng-if="m.pic" src="{{m.pic}}"/>
+            <p class="title" ng-show="module.params.show_title">{{m.title}}</p>
+    	</a>
+    </li>
+</ul>
+</div>
+<p class="case_content_title">{{module.params.contentTitle}}</p>
+<div class="case_content">{{module.params.content}}</div>
+</div>

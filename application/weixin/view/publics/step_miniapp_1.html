@@ -1,0 +1,39 @@
+{extend name="common@base/common" /}
+{block name="body"}
+  <div class="wrap">
+    <section id="contents">
+      <div class="setting_step app_setting">
+             <a class="step step_cur" href="{:U('weixin/Publics/step_miniapp_0',['id' => $id ])}">1.增加基本信息</a>
+             <a class="step step_cur_1" href="{:U('weixin/Publics/step_miniapp_1',['id' => $id ])}">2.服务器域名</a>
+      </div>   
+      <div class="tab-content bind_step_miniapp_form"> 
+      		<div class="item_wrap" style="width:600px; padding:30px 0;">
+              <strong>请在小程序平台的 设置->开发设置 中的服务器域名录入以下参数</strong>
+              <p>request合法域名：https://<span style="color: #FF0000">{$host}</span></p>
+              <p>socket合法域名：wss://<span style="color: #F00">{$host}</span></p>
+              <p>uploadFile合法域名：https://<span style="color: #F00">{$host}</span></p>
+              <p>downloadFile合法域名：https://<span style="color: #F00">{$host}</span></p>
+              
+              
+              <p>&nbsp;</p>
+            </div>
+            <div class="item_wrap" style="width:600px; padding:30px 0;">
+              <strong>请在小程序源码app.js配置上以下参数</strong>
+              <p>url：<span style="color: #FF0000">{$baseUrl}</span></p>
+                <p>如果是本地开发，请在小程序开发工具左上角：详情->项目设置->不校验合法域名 前打勾</p>
+            </div>
+<div class="item_wrap" style="width:600px; padding:30px 0;">
+              <strong>商城小程序是使用mpvue开发,需要请在mpvue/weiapp/src/utils/index.js配置上以下参数</strong>
+              <p>const host = <span style="color: #FF0000">{$baseUrl}</span></p>
+                <p>如果是本地开发，请在小程序开发工具左上角：详情->项目设置->不校验合法域名 前打勾</p>
+            </div>            
+              <div class="bind_step_miniapp_form_next_item">
+              	<a class="btn submit-btn" href="{:U('weixin/Publics/lists')}">完成</a>
+             	<br/>
+          	  	<!--<p style="padding:20px 0;">配置信息遇到问题？<a href="{:U('Home/index/lead')}" target="_blank">点击查看接入指引</a></p>-->
+              </div>
+            
+      </div>
+    </section>
+   </div>
+{/block}

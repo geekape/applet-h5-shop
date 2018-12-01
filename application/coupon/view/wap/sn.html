@@ -1,0 +1,85 @@
+{include file="common@base/mobile_head"/}
+<link href="__CSS__/userCenter1.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+
+<body>
+<div id="container" class="container body">
+  <div class="common_header">
+        <a class="back" href="{:U('userCenter')}">&nbsp;</a>
+        <span>{empty name="is_use"}已领取<else />已使用{/empty}优惠券</span>
+        <a class="rightBtn" href="{:U ( 'weixin/Wap/sn', array('is_use'=>I('is_use'),'coupon_id'=>I('coupon_id')))}">清 空</a>
+  </div>
+  <div class="search-form">
+    <div class="sleft">
+      <p>
+        <input type="text" name="search" class="search-input" value="{:I('search')}" placeholder="请输入SN码">
+        <a class="sch-btn" href="javascript:;" id="search" url="{:U ( 'weixin/Wap/sn', $get_param)}">搜 索</a>
+      </p>
+    </div>
+  </div>
+  {if condition="!empty($list)" }
+  <div class="coupons_list m_10" style="margin-top:20px">
+  	 {volist name='list_data' id="vo"}
+        <div class="coupon_item">
+            
+            <p class="nickname">使用者:{$vo.uid|get_nickname}</p>
+            <p class="sn">sn:{$vo.sn}</p>  
+            <p class="time">使用时间:{$vo.use_time|time_format}</p>
+            
+            {empty name="is_use"}
+                <p class="mt_15">
+                    <a class="btn" href="{:U ( 'weixin/Wap/sn_set', array('id'=>$vo['id']))}">设为已使用</a>
+                </p>
+            <else />
+                
+            {/empty}
+            {empty name="is_use"}
+                <span title="未设置" class="status can_get"><em>未设置</em></span> 
+            <else />
+                <span title="已设置" class="status has_get"><em>已设置</em></span>
+            {/empty}
+        </div>
+    {/volist}
+
+    
+  </div>
+  {/if}
+  {if condition="empty($list)" }
+        <div class="empty_default">
+            <p><img src="{:ADDON_PUBLIC_PATH}/no_coupon.png"/><br/>不存在优惠券~</p>
+        </div>
+    {/if}
+  <p class="copyright">{$system_copy_right|raw}</p>
+</div>
+{include file="common@base/mobile_foot"/}
+</body>
+<script type="text/javascript">
+wx.hideMenuItems({
+   menuList: [] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+});
+
+$(function(){
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+		url = change_search_url(url);
+		window.location.href = url;
+	});
+
+    //回车自动提交
+    $('.search-form').find('input').keyup(function(event){
+        if(event.keyCode===13){
+            $("#search").click();
+        }
+    });
+
+})
+</script>
+</html>

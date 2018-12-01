@@ -1,0 +1,100 @@
+{extend name="common@base/common" /}
+{block name="body"}
+        <style>
+            .text.input-large{
+                width: 95%;
+                max-width: 300px;
+            }
+        </style>
+  <div class="span9 page_message">
+    <section id="contents"> {include file="common@base/_nav" /}
+      <div class="tab-content"> 
+        <!-- 表单 -->
+        {php} isset($post_url) || $post_url = U('edit?model='.$model['id'], $get_param);{/php}
+        <form class="form-horizontal form-center" method="post" action="{$post_url}" id="form">
+        <input type='hidden' name='id' value='{$data.id|default=0}'/>
+                <div class="form-group row cf toggle-img">
+                    <label class="col-sm-2"><span class="need_flag">*</span>
+                        店名封面图 </label>
+
+                    <div class="col-sm-8">
+                        <div class="uploadrow2" data-max="1" title="点击修改图片" rel="img">
+
+                            <input type="file" id="upload_picture_img">
+                            <input type="hidden" name="img" id="cover_id_img" value="{$data.img|default=''}" />
+                            <div class="upload-img-box" id="upload-img-box">
+                            {notempty name="data['img']"}
+                                <div class="upload-pre-item2"><img width="100" height="100" src="{$data['img']|get_cover_url}"/></div>
+                                <em class="edit_img_icon">&nbsp;</em>                            
+                            {/notempty}
+                            </div>
+
+                        </div>
+                        <span class="form-text text-muted">建议图片大小为：640*320</span>
+                        
+                    </div>
+                    <br />
+                </div>          
+          <div class="form-group row toggle-name">
+            <label class="col-sm-2"> <span class="need_flag">*</span> 店名 </label>
+            <div class="col-sm-8">
+              <input type="text"  name="name" value="{$data.name}"class="text input-large">
+            </div>
+          </div>
+          <div class="form-group row toggle-phone">
+            <label class="col-sm-2"> 联系电话 </label>
+            <div class="col-sm-8">
+              <input type="text"  name="phone" value="{$data.phone}" class="text input-large">
+            </div>
+          </div>    
+          <div class="form-group row">
+            <label class="col-sm-2"> 营业时间 </label>
+            <div class="col-sm-8">
+              <input type="text"  name="open_time" value="{$data.open_time}" class="text input-large">
+            </div>
+          </div>                   
+          <div class="form-group row toggle-address">
+            <label class="col-sm-2"> <span class="need_flag">*</span> 详细地址 </label>
+            <div class="col-sm-8">
+              <input type="text"  name="address" id="address" value="{$data.address}"class="text input-large">
+                <br>
+               <span class="check-tips text-muted">地址输入完按回车可以实时在地图上显示</span>
+            </div>
+          </div>
+          <div class="form-group row toggle-gps">
+            <label class="col-sm-2"> 地图位置 </label>
+            <div class="col-sm-8">
+              <input type="hidden"  name="gps" id="gps" value="{$data.gps}"class="text input-large">
+              <div id="map" style="margin-bottom:5px;height:400px;width:600px;border:1px solid #bcbcbc;"></div>
+                <span class="check-tips text-muted"> （请点击地图，然后拖动图标到你的位置上） </span>
+            </div>
+          </div>
+
+          <input type="hidden" value="0" name="coupon_id" class="text">
+          
+          <div class="form-item form_bh" style="padding-left: 5px">
+             <label class="col-sm-2"></label>
+            <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">{$submit_name|default='确 定'}</button>
+          </div>
+          
+        </form>
+      </div>
+    </section>
+  </div>
+{/block}
+{block name="script"} 
+  <script type="text/javascript" src="__STATIC__/bdMap.js?v={:SITE_VERSION}"></script> 
+  <script type="text/javascript" >
+function initMap(){
+	var _addr = '';
+	_addr = $('#address').val();
+	ShowMap("map",{city:'深圳',addr:_addr,title:'',lawfirm:'',tel:'',mapx:'',pic:'',ismove:'1',piobj:'gps'});
+}
+$(function(){
+    initUploadImg();
+    initUploadFile();
+	initMap();
+	$('#address').keyup(function(){ initMap(); });
+});
+</script> 
+{/block}

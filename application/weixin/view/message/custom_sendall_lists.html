@@ -1,0 +1,140 @@
+{extend name="common@base/common" /}
+{block name="body"}
+  <div class="span9 page_message">
+    <section id="contents">
+    	{include file="common@base/_nav" /}
+      <div class="tab-content">
+      {php}$send_time = input('send_time');{/php}
+      	<select name='send_time'>
+      		<option value='1' {php}if($send_time==1)echo 'selected=selected';{/php}>最近五天</option>
+      		<option value='2' {php}if($send_time==2)echo 'selected=selected';{/php}>今天</option>
+      		<option value='3' {php}if($send_time==3)echo 'selected=selected';{/php}>昨天</option>
+      		<option value='4' {php}if($send_time==4)echo 'selected=selected';{/php}>前天</option>
+      		<option value='5' {php}if($send_time==5)echo 'selected=selected';{/php}>更早</option>
+      	</select>
+      </div>
+      <!-- 数据列表 -->
+      <div class="data-table">
+
+        <div class="table-striped">
+          <table class="message_list" cellspacing="0">
+			<thead>
+	          <tr>
+	              <th>类型</th>
+	              <th>内容</th>
+	              <th>信息</th>
+	              <th>发送结果</th>
+	          </tr>
+	        </thead>
+            <!-- 列表 -->
+            <tbody>
+              {volist name="list_data" id="vo"}
+                <tr>
+                <td width="10%" class="user">{$vo.msgtype_title}</td>
+                  <td width="45%" valign="top">
+                	{if condition="isset($vo['image_url']) && $vo['image_url']"}
+                		<img width="50" src="{$vo.image_url}"/>
+                    {/if}
+                	<div class="u_info">
+                        <p class="msg">{$vo.Content|raw}</p>
+                    </div>
+                </td>
+                <td width="20%" valign="top">{$vo.cTime|time_format}<br/> {$vo.send_tip} </td>
+
+                <td valign="top">
+                		<p>成功发送人数：{$vo.chenggong}</p>
+                		<p>失败发送人数：{$vo.shibai} {eq name='vo.shibai' value='0'}{else/} <a href='javascript:;' onclick='do_again({$vo.diff})'>重新发送</a>{/eq}</p>
+
+
+                 </td>
+                </tr>
+              {/volist}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="page"> {$_page|raw|default=''} </div>
+    </section>
+  </div>
+{/block}
+{block name="script"}
+  <script type="text/javascript">
+function set_status(id, field, val){
+   $.post("{:U('set_status')}",{id:id,field:field,val:val},function(){
+	   location.reload();
+   })
+}
+$(function(){
+	//初始化上传图片插件
+	initUploadImg({width:308,height:200});
+	$('.uploadify-button').css('background-color','#ccc');
+	$("select[name='send_time']").change(function(){
+		location.href="{$searchUrl}&send_time="+$(this).val();
+	});
+
+})
+$('.msg_tab .txt').click(function(){
+	//纯文本
+	$(this).addClass('current').siblings().removeClass('current');
+	$('input[name="msg_type"]').val('text');
+	$('textarea[name="content"]').show().siblings().hide();
+	$('#getText').show();
+
+})
+$('.msg_tab .appmsg').click(function(){
+	//图文消息
+	$(this).addClass('current').siblings().removeClass('current');
+	$('input[name="msg_type"]').val('appmsg');
+	$('#appmsg_area').show().siblings().hide();
+	$('#getText').hide();
+})
+$('.msg_tab .image').click(function(){
+	//图片消息
+	$(this).addClass('current').siblings().removeClass('current');
+	$('input[name="msg_type"]').val('image');
+	$('.msg_image').show().siblings().hide();
+	$('#getText').hide();
+})
+$('.appmsg_area .delete').click(function(){
+	$('.appmsg_wrap').html('').hide();
+	$('.select_appmsg').show();
+	$('.appmsg_area .delete').hide();
+	$('input[name="appmsg_id"]').val(0);
+})
+function selectAppMsgCallback(_this){
+	$('.appmsg_wrap').html($(_this).html()).show();
+	$('.select_appmsg').hide();
+	$('.appmsg_area .delete').show();
+	$('input[name="appmsg_id"]').val($(_this).data('group_id'));
+	$.Dialog.close();
+}
+
+function set_material(id){
+	var url="{:U('set_meterial')}";
+	$.post(url,{'id':id},function(data){
+			location.reload();
+	});
+}
+function selectText(){
+	$.WeiPHP.openSelectUsers("{:U('material/Material/text_lists')}",1,function(data){
+		if(data && data.length>0){
+			for(var i=0;i<data.length;i++){
+				var id=data[i]['id'];
+				if(id){
+					$.post("{:U('material/Material/get_content_by_id')}",{'id':id},function(d){
+						$('#message_text').text(d);
+					})
+				}
+			}
+		}
+	})
+}
+function do_again(diff){
+	var url="{:U('sendOldMessage')}";
+	$.post(url,{'diff':diff},function(d){
+		alert('有'+d+ '条消息发送成功！');
+
+	});
+}
+</script>
+{/block}

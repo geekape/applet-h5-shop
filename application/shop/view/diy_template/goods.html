@@ -1,0 +1,46 @@
+<div class="goods_list"  ng-switch="module.params.list_style">
+<ul class="big_list" ng-switch-when="1">
+    <li ng-repeat="m in module.params.goods_list">
+    	<a href="{{m.url}}">
+        	<img ng-if="m.img" src="{{m.img}}"/>
+        	<p class="title">{{m.title}}</p>
+            <p class="price" ng-show="module.params.show_price">¥{{m.market_price}}</p>
+            <span class="btn" ng-show="module.params.show_btn">立即购买</span>
+        </a>
+    </li>
+</ul>
+<ul class="small_list" ng-switch-when="2">
+    <li ng-repeat="m in module.params.goods_list">
+    	<a href="{{m.url}}" class="goods_img">
+        	<img ng-if="m.img" src="{{m.img}}"/>
+        </a>
+        <a  href="{{m.url}}" class="info">
+            <p class="title">{{m.title}}</p>
+            <p class="price" ng-show="module.params.show_price">¥{{m.market_price}}</p>
+            <p class="btn_p" ng-show="module.params.show_btn"><span class="btn">立即购买</span></p>
+        </a>
+    </li>
+</ul>
+<ul class="list_1_2" ng-switch-when="3">
+    <li ng-repeat="m in module.params.goods_list">
+    	<a href="{{m.url}}">
+        	<img ng-if="m.img" src="{{m.img}}"/>
+            <div class="info">
+            <p class="title">{{m.title}}</p>
+            <p class="price" ng-show="module.params.show_price">¥{{m.market_price}}</p>
+            <p class="btn_p" ng-show="module.params.show_btn"><span class="btn">立即购买</span></p>
+            </div>
+    	</a>
+    </li>
+</ul>
+<ul class="common_list" ng-switch-when="4">
+    <li ng-repeat="m in module.params.goods_list">
+    	<a href="{{m.url}}">
+        	<img ng-if="m.img" src="{{m.img}}"/>
+            <p class="title">{{m.title}}</p>
+            <p class="price" ng-show="module.params.show_price">¥{{m.market_price}}</p>
+            <span class="btn" ng-show="module.params.show_btn">立即购买</span>
+    	</a>
+    </li>
+</ul>
+</div>

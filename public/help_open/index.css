@@ -1,0 +1,50 @@
+@charset "utf-8";
+/* CSS Document */
+html,body{ background:#F30;width: 100%; min-height:100%; color:#fff}
+.fixed_bg{ position:fixed; top:0; left:0; right:0; bottom:0; z-index:1;}
+.fixed_bg img{ height:100%; width:100%;}
+.main_wrap{ position:relative; z-index:10;}
+.link{ text-align:center; margin:15px 0; color:#333}
+.link a,.link a:visited{ color:#333;}
+.title{ background:url(title_con.png) no-repeat; background-size:100% 100%; margin:15px; padding:10px; text-align:center; font-size:16px; font-weight:bold; color:#fbcb0c}
+.info{ padding:10px; text-align:center;}
+.info .prize_title,.left_count,.invite_count{ font-size:15px; color:#FF0}
+.info .time{ font-size:12px; color:#eee;}
+.info p{ line-height:24px; margin:2px 0;}
+.info a{ background:RGBA(45,25,2,.5); padding:2px 0; color:#f6e35f}
+.info span.text_bg_w,.info a.text_bg_w{ background:RGBA(255,255,255,.6); color:#F30}
+.prize_box{ width:100%; display:block;}
+.start_btn,.start_btn:visited{ display:inline-block; width:80%; height:44px; line-height:44px; background:url(btn.png) no-repeat; border-radius:10px; text-align:center; color:#990002; text-shadow:1px 1px 1px #930; font-size:16px; font-weight:bold;}
+.btnWrap{ margin-top:10px;text-align:center;}
+.main_btn{text-align:center; color:#fff; line-height:12px; font-size:12px;}
+.main_btn img{ width:40%;}
+.sub_btn_div{ display:-webkit-box; width:80%; margin:0 auto 10px;}
+.sub_btn_div a{width:50%; display:block; -wenkit-box-flex:1; text-align:center; color:#fff; line-height:12px; font-size:12px;}
+.sub_btn_div a img{ width:90%;}
+.sub_btn_div a:first-child{ }
+.sub_btn_div a:last-child{ }
+.intro_content{ padding:15px; margin:15px; background:#fff; border-radius:10px; color:#444;}
+.join_list{ position:absolute; top:20px; left:10px; right:10px; background:#fff; padding:10px; overflow:auto; border-radius:10px; color:#555;}
+.join_list .close{ position:absolute; width:20px; height:20px; top:10px; right:10px; background:url(close.png) no-repeat; background-size:auto 100%; z-index:1000;}
+.join_list li{ padding:10px 10px 10px 70px; min-height:50px; position:relative; border-bottom:1px dashed #ddd;}
+.join_list li img{ position:absolute; top:10px; left:10px; width:50px; height:50px; background:#ccc; border-radius:100%;}
+.join_list li .time{ font-size:12px; color:#999}
+
+.progress{ border-radius:12px; height:20px; width:80%; margin:10px auto; border:2px solid #f7ba01; position:relative; z-index:100;}
+.progress .done{ position:absolute; top:0; left:0; height:20px;border-radius:10px; background:#f7ba01}
+
+.prize_log{ margin:15px; font-size:14px; background:#fff; border-radius:5px; color:#333}
+.my_prizes{ margin:15px; font-size:12px; background:#fff; border-radius:5px; padding:10px;color:#333}
+.my_prizes li{background:#eee; margin-bottom:15px; position:relative; min-height:90px; padding:10px 10px 10px 110px; border:1px dashed #ddd;}
+.my_prizes li img{ position:absolute; top:10px; left:10px; width:90px; height:90px;}
+.my_prizes li p{ line-height:15px; margin:0 0 5px; color:#666}
+.my_prizes li p.p_title{ font-size:14px;}
+.my_prizes li .btn_p{ margin-top:20px;}
+.my_prizes li .get_btn,.my_prizes li .get_btn:visited{ margin-top:5px; padding:7px 25px; color:#fff; font-size:12px;background:#F60; border-radius:5px; }
+.page{ text-align:center; padding:15px;}
+
+.btm_content{ text-align:center; padding:20px 0; color:#777; margin: 0 50px;}
+.btm_content p{ padding:5px 0;}
+.btm_content p img{ margin-right:3px; vertical-align:-2px;}
+.btm_content .link_p{ border-bottom:1px solid #ddd;}
+.btm_content .link_p a{ margin:0 5px;}

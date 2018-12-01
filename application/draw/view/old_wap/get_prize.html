@@ -1,0 +1,185 @@
+{include file="common@base/mobile_head"/}	
+<link href="{:ADDON_PUBLIC_PATH}/common.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__STATIC__/qrcode/qrcode.js"></script>
+<script type="text/javascript" src="__STATIC__/qrcode/jquery.qrcode.js"></script>
+<body>
+	<div id="container" class="container">
+		 {php}$public=get_pbid_appinfo();{/php}
+         <div class="common_header">
+        	<a class="back" href="javascript:;" onClick="history.back()"></a>
+            <span>领取奖品</span>
+        </div>
+        <ul class="my_prizes">
+        	
+        	{notempty name='user_award' }
+        		<li>
+        			{notempty name='user_award.img'}
+        			<img src="{$user_award.img|get_cover_url}"/>
+        			{else/}
+        			 <img src="__IMG__/default_goods_pic.jpg"/>
+        			{/notempty}
+	                
+	                <p class="title">[{$user_award.grade}] {$user_award.award_name}</p>
+	                <p class="status">状态：
+	                	{eq name='user_award.state' value='1'}
+	                	已领取
+	                	{else/}
+	                	未领取
+	                	{/eq}
+	                </p>
+	                <p class="colorless">时间：{$user_award.zjtime|time_format}</p>
+            	</li>
+        	{/notempty}
+        	
+        </ul>
+        <div class="get_info">
+        	<div class='goods_get' style='text-align:center'>
+        	<input type='hidden' name='id' value='{$user_award.id}' />
+        	
+        	
+        	 {php}
+        	 
+              	if($user_award['state']==0 && $is_check==0){
+              	{/php}
+              	<p class="addr_t" style='color:red'>请到实体店里出示以下二维码给工作人员核销</p>
+        		<div class="qr_wrap">
+                  <div id="qrCode"></div>
+                  <p class="qr_time_tips"></p>
+                  <script type="text/javascript">
+                  var textLink = "{:U('scan_success',array('scan_code'=>$user_award['scan_code'],'id'=>$user_award['id'],'publicid'=>$public['id']))}";
+                  $('#qrCode').qrcode({width:100,height:100,text:textLink,refresh:true,time:30000}); 
+                  </script>
+                  <p class="qr_tips">{notempty name="user_award['scan_code']"}<span class="colorless">{$user_award.scan_code}</span><br/>{/notempty}</p>
+              </div>
+              {php}
+              }else if($user_award['state']==1){
+              {/php}
+				<div class="success_wrap">
+              		<br/>
+              		<center><img src="__IMG__/yes.png" width="60"/></center>
+					<center>已发放奖品！</center>
+                    <br/>
+              	</div>
+              {php}
+              }else if($user_award['state']==2 || $is_check==1){
+              	{/php}
+              	
+              	 <div class="success_wrap">
+              		<br/>
+              		<center><img src="__IMG__/yes.png" width="60"/></center>
+					<center>可以领奖，已通过验证！</center>
+                    <br/>
+                    
+              </div>
+              {php}
+              }
+              {/php}
+             
+        	</div>
+        	<!-- 真实物品 -->
+        	
+<!--             <div class="goods_get"> -->
+            	
+            	
+<!--                 <p class="addr_t"><span class="fl">选择收货地址</span><a class="fr" href="{:U ( 'Shop/Wap/myAddress')}"><img src="__IMG__/setting.png" height="12"/>管理收货地址</a></p> -->
+<!--                 {notempty name='address'} -->
+<!--                 <ul class="address_list"> -->
+<!--                 	{volist name='address' id='vo'} -->
+<!--                 	 <li> -->
+<!--                     	<label for="address_{$vo.id}"> -->
+<!--                     		<input type="radio" name="address_id" id="address_{$vo.id}" value="{$vo.id}" {eq name='vo.is_use' value='1'}checked=checked{/eq} /> -->
+<!--                         	<span>{$vo.truename} {$vo.mobile}</span><br/> -->
+<!--                             <span class="colorless">{$vo.address}</span> -->
+<!--                         </label> -->
+<!--                     </li> -->
+<!--                 	{/volist} -->
+<!--                 </ul> -->
+<!--                 {else/} -->
+<!--                 <p style="text-align:center; line-height:50px;">还没收货地址，请<a href="{:U ( 'Shop/Wap/add_address')}">[添加]</a></p> -->
+<!--                 {/notempty} -->
+<!--             </div> -->
+<!--             <a class="btn yellow_btn" id='subbtn' href='javascript:;'>提交</a> -->
+<!--         </div> -->
+        
+        <p class="copyright">{$system_copy_right|raw}{$tongji_code|raw}</p>
+    </div>
+    {include file="common@base/mobile_foot"/}
+    <script>
+    $(function(){
+    	var awardType="{$awardInfo.award_type}";
+    	if(awardType == '5'){
+    		var cardId="{$awardInfo.card_id}";
+//     		alert(cardId);
+    		if(cardId){
+				var purl="{:U ( 'cardVouchers/Wap/ajaxdosign')}";
+				$.post(purl,{'card_id':cardId},function(dd){
+					var ext=dd.card_ext;
+					var card_id=dd.strcard;
+// 					alert(ext);
+// 					alert(card_id);
+					wx.addCard({
+					    cardList: [{
+					        cardId: card_id,
+					        cardExt: ext 
+					    }], // 需要添加的卡券列表
+					    success: function (res) {
+				 	        var cardList = res.cardList; // 添加的卡券列表信息
+//				 	        console.log(cardList);
+// 	 				    	 alert('已添加卡券：' + JSON.stringify(res.cardList));
+//	 				    	 var aimId="{$aim_id}";
+//	 				    	 var fromType="{$from_type}";
+//	 				    	 if(fromType && aimId){
+//	 				    		 $.post("{:U('doSaveAward')}",{'aim_id':aimId,'from_type':fromType},function(dd){
+						    		 
+//	 					    	 });
+//	 				    	 }
+				 	       return false;
+					    }
+					});
+				});
+			}
+    		
+    	}
+    	var award_state={$user_award.state};
+    	if(award_state==0 ){
+    		var checkUrl = "{:U('get_state')}?id={$user_award.id}";
+        	var interval = setInterval(function(){
+        		$.get(checkUrl,function(data){
+        			if(data==2 || data==1){
+//         				$('.success_wrap').show();
+//         				$('.qr_wrap').hide();
+//         				$('.addr_t').hide();
+// 						window.location.Reload();
+						var url="{:U('get_prize')}?id={$user_award.id}";
+						location.href=url;
+        			}
+        		})
+        	},2000)
+    	}
+    })
+    
+	
+	$('#container').css({'min-height':$(window).height()});
+	$('#subbtn').click(function(){
+		$.Dialog.confirmBox('提示','你现在确定要提交吗？',{leftBtnText:"取 消",rightBtnText:'确 定',rightCallback:function(){
+			var address_id=$("input[name='address_id']:checked").val();
+			var id=$("input[name='id']").val();
+			var url="{:U('save_prize_address')}";
+			$.post(url,{'id':id,'address_id':address_id},function(d){
+				if(d){
+					$.Dialog.close();
+					location.href="{:U('my_prize')}?games_id={$user_award.draw_id}";
+				}else{
+					$.Dialog.fail('修改失败');
+					$.Dialog.close();
+				}
+			});
+			
+		}});
+	});
+ 	
+	
+	</script>
+    
+</body>
+</html>

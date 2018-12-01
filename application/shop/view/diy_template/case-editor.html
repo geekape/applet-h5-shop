@@ -1,0 +1,51 @@
+<div>
+	<!--页面标题设置-->
+	<div class="app_editor" ng-controller="caseController">
+		<em class="arrow-left"></em>
+		
+        <div class="form_item">
+			<label>标题</label>
+			<div class="iput">
+				<input type="text" style="width:420px" name="diy_editor_title" ng-model="activeItem.params.title" value="{{activeItem.params.title}}" />
+			</div>
+			
+		</div>
+        <div class="form_item">
+			<label>内容区标题</label>
+			<div class="iput">
+				<input type="text" style="width:420px" name="diy_editor_title" ng-model="activeItem.params.contentTitle" value="{{activeItem.params.contentTitle}}" />
+			</div>
+			
+		</div>
+        <div class="form_item">
+			<label>内容区说明</label>
+			<div class="iput">
+				<textarea style="width:420px" name="diy_editor_case_desc" ng-model="activeItem.params.content" value="{{activeItem.params.content}}" ></textarea>
+			</div>
+			
+		</div>
+        <div class="form_item">
+			<label>样式设置</label>
+			<div class="iput pt_8">
+				<input type="radio" name="align" value="2" ng-model="activeItem.params.style"/>默认&nbsp;&nbsp;&nbsp;
+                 <input type="radio" name="align" value="3" ng-model="activeItem.params.style"/>三列&nbsp;&nbsp;&nbsp;
+			</div>
+		</div>
+		<div class="form_item">
+			<div class="iput wput">
+				<div class="sub_edit_item" ng-repeat="b in activeItem.params.pic_list">
+                    <a class="add_pic_btn" href="javascript:;" ng-click="addCasePic(b)"><img ng-show="b.pic" src="{{b.pic}}"/></a>
+                    <div class="s_i_p">
+                        <input type="text" placeholder="填写标题" ng-model="b.title"/><br/>
+                        <input type="text" placeholder="填写链接" ng-model="b.url"/>
+                    </div>
+                </div>
+			</div>
+		</div>
+            <p class="edit_tips">
+            	<b class="fa fa-info-circle"></b> 配置说明：<br/>
+            	选择默认样式时，第一张图片尺寸建议为500*500 第二,三张图片为200*200<br/>
+                选择三列样式时图片尺寸建议为300*300以上的正方形
+            </p>
+	</div>
+</div>

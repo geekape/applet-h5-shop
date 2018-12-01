@@ -1,0 +1,34 @@
+{extend name="shop@wap/common_file" /} {block name="common_body"}
+<!-- 头部导航 -->
+<div class="top-nav">
+    <div class="flex">
+        <slot>
+            <span class="title">支付完成</span>
+        </slot>
+    </div>
+</div>
+<div class="wrap pay-done">
+
+	<!-- 支付完成 -->
+    {php}$pay_type = input('pay_type/d');{/php}
+	<div class="card">
+		<div class="card-body f-text-c">
+			<i class="iconfont icon-success"></i>
+			<p>已支付</p>
+			<h2><span class="prize-icon">{eq name="pay_type" value="90"}积分 {else /}¥{/eq}</span>{:input('total_fee')}</h2>
+		</div>
+		<div class="card-footer flex">
+			<p>支付方式</p>
+			<p>{eq name="pay_type" value="90"}积分{else /}微信{/eq}支付</p>
+		</div>
+	</div>
+	<!-- /支付完成 -->
+
+	<a href="{:U('shop/wap/index')}" class="weui-btn weui-btn_primary">返回首页</a>
+
+   
+
+
+    
+</div>
+{/block}

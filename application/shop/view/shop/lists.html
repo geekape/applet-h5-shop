@@ -1,0 +1,50 @@
+{extend name="Base/no_side_common" /}
+{block name="body"}
+  <div class="admin_container">
+  <section id="contents"> 
+  	
+    {volist name="shop_nav" id="vo"}
+    	<a href="{$vo.url}">{$vo.title}</a>
+    {/volist}
+    <div class="tab-content"> 
+    	<h3 class="mb10">全部店铺</h3>
+      	<div class="shop_manage">
+        	<ul class="shop_list">
+        	{volist name="list_data" id="vo"}
+            <li><div class="s_i">
+            	<img src="{$vo.logo|get_cover_url}">
+                <p class="s_d">
+                	<span class="name">{$vo.title}</span>
+                    <span class="wechat">微信：{$vo.wechat}</span>
+                    <span class="phone">电话：{$vo.mobile}</span>
+                </p>
+                <p class="sACTION_NAME">
+                	<a class="btn" href="{:U('edit?model='.$model['id'], array('id'=>$vo['id']));}">管理店铺</a>
+                	<a class="btn delShopBtn" href="{:U('del?model='.$model['id'], array('id'=>$vo['id']));}">删除店铺</a>
+                </p>
+            </div>
+            </li>
+            {/volist}
+            {php} isset($add_url) || $add_url = U('add?model='.$model['id'], $get_param);{/php}
+            <li>
+            <a class="s_add" href="{$add_url}">+添加店铺</a>
+            </li>
+            </ul>
+        </div>
+    </div>
+  </section>
+  </div>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+	$('.delShopBtn').click(function(){
+		__this = $(this);
+		if(confirm("确认要删除此店铺吗")){
+			$.get($(this).attr('href'),function(){
+				$(__this).parents('li').remove();
+			});
+		}
+		return false;
+	})
+</script> 
+{/block}

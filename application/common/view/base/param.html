@@ -1,0 +1,113 @@
+<!--通用的参数配置页面基类模板-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+{include file="common@base/head"/}
+<link href="__STATIC__/base/css/module.css?v={:SITE_VERSION}" rel="stylesheet">
+<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+<!--CSS模块-->
+{block name="css"}{/block}
+</head>
+<body>
+<div class="param_wrap">
+<!--标签切换模块-->
+{block name="tab"}
+<div class="param_tab"><a class="cur setting" href="javascript:;">参数配置</a><a class="editwidget" href="javascript:;">高级配置</a></div>
+{/block}
+
+<div class="tab1">
+
+
+<!--参数配置模块 一般情况widget里的param.html继承此模板后只需要重写baseSetting代码块即可-->
+{block name="baseSetting"}
+<form id="baseSettingForm">
+	<div class="form-item">
+    	<label class="item-label">显示模板:</label>
+        <div class="controls">
+			<select name="template" id="template">
+					<option value="$widget_id" id="custom_template" {eq name="template" value="widget_id"}selected{/eq} >自定义模板</option>
+			</select>
+		</div>
+        <a class="edithtml" href="javascript:;">编辑模板</a>
+	</div>
+    <div class="form-item cf">
+    	<label class="item-label"></label>
+        <div class="controls">
+           <button type="button" id="confirm" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button>
+           <button type="button" class="btn preview_btn">预 览</button>
+        </div>
+    </div>
+</form>
+{/block}
+
+<!--高级配置模块-->
+{block name="editwidget"}
+<form id="editwidgetForm" style="display:none" class="edit_module_form form-horizontal">
+	<div class="form-item">
+    	<label class="item-label">模块高度:</label>
+        <div class="controls">
+			<input name="widget_height" value="{$widget_height}" type="text">
+            <span class="check-tips">为空时会根据内容自适应高度</span>
+		</div>
+	</div>
+    <div class="form-item">
+    	<label class="item-label">模块标题:</label>
+        <div class="controls">
+			<input name="widget_title" value="{$widget_title}" type="text">
+            <span class="check-tips">为空时不显示模块的标题栏</span>
+		</div>
+	</div>
+    
+    <div class="form-col-more">
+        <div class="form-item">
+            <label class="item-label">更多标题:</label>
+            <div class="controls">
+                <input type="text" name="widget_more_title[]" class="text input-large" value="">
+            </div>
+        </div>
+
+        <div class="form-item cf">
+                <label class="item-label">超链接:</label>
+                <div class="controls">
+                   <input type="text" name="widget_more_url[]" class="text input-large" value="">
+                </div>
+        </div>
+        <div class="form-item cf">
+            <label class="item-label"></label>
+            <div class="controls">
+               <a href="javascript:;" id="addWidgetMoreLink">添加</a>
+                <a href="javascript:;" class="deleteBtn" onclick="$(this).parents('.form-col-more').remove();">删除</a>
+            </div>
+        </div>
+    </div>
+        	
+    <div class="form-item cf">
+    	<label class="item-label"></label>
+        <div class="controls">
+           <button type="button" id="editwidgetConfirm" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button>
+           <button type="button" class="btn preview_btn">预 览</button>
+        </div>
+    </div>
+</form>
+{/block}
+
+<!--编辑模板模块-->
+{block name="savehtml"}
+    <form id="editHtmlForm" style="display:none" class="edit_module_form form-horizontal">
+    <div>以下模板代码仅供有HTML等前端技术基础的用户用于高级定制，如你不熟悉代码请尽量不要修改</div>
+        <textarea id="htmlTextarea" name="html"></textarea>
+        <div class="form-item cf">
+            
+               <button type="button" id="saveHtmlBtn" class="btn submit-btn ajax-post" target-form="form-horizontal">保存</button>
+        </div>
+    </form>
+{/block}
+</div>
+<!--预览模块
+{block name="preview"}
+{/block}
+-->
+<!--JS模块-->
+{block name="script"}{/block}
+</body>
+</html>

@@ -1,0 +1,22 @@
+{extend name="common@base/common" /} {block name="body"}
+
+<div class="span9 page_message">
+	<section id="contents">
+       {include file="common@base/_nav" /}
+      <div class="tab-content"> 
+	<form action="{:U('config')}" class="form-horizontal" method="post">
+		<div class="form-item cf">
+			<label class="item-label">模板ID<span class="check-tips">请先在公众号先添加模板再把模板id配置到这边（模板标题：待办事项提醒，模板编号：OPENTM405762260）</span></label>
+		
+			<div class="controls">
+				<input type="text" name="template_id" class="text input-large" value="{$template_id}">
+			</div>
+		</div>
+		<button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button>
+		
+	 </form>
+      </div>
+    </section>
+ </div>
+
+{/block}

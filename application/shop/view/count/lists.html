@@ -1,0 +1,456 @@
+{extend name="common@base/common" /}
+{block name="body"}
+<style type="text/css">
+input[type="datetime"] {
+	padding: .4em;
+	text-align: center;
+	vertical-align: top;
+	display: inline-block;
+	text-align: left;
+}
+
+.btn {
+	padding: 3px 16px;
+}
+
+.fz16 {
+	font-size: 16px;
+}
+
+.fz24 {
+	font-size: 24px;
+}
+
+.als_title {
+	font-weight: 400;
+	font-size: 20px;
+	border-bottom: 1px solid #969696;
+	padding-bottom: 6px;
+}
+
+.als_arrow_up, .als_arrow_down {
+	display: inline-block;
+	width: 14px;
+	height: 18px;
+	vertical-align: text-top;
+}
+
+.als_arrow_up {
+	background: url(__IMG__/als_arrow_up.png) no-repeat center;
+}
+
+.als_arrow_down {
+	background: url(__IMG__/als_arrow_down.png) no-repeat center;
+}
+
+.table-striped {
+	text-align: center;
+	margin-bottom: 30px;
+}
+
+.table-striped td {
+	padding: 6px;
+}
+
+.table-striped td p {
+	line-height: 1.5;
+}
+
+.table-striped thead td .setDay {
+	padding: .4em 1em;
+	border: 1px solid #12b36d;
+	cursor: pointer;
+}
+
+.table-striped thead td span.cur {
+	background: #12b36d;
+	color: #fff;
+	border-color: #12b36d;
+}
+table .btn {
+	color: black;
+	background: transparent;
+	border: 1px solid #12b36d;
+	margin-left: 1em;
+	padding: .65em 2em;
+	display: inline-block;
+}
+.btn:focus, .btn.focus {
+	box-shadow: none;
+}
+
+.pagination .btn {
+	display: inline-block;
+	overflow: visible;
+	padding: 0 22px;
+	height: 30px;
+	line-height: 30px;
+	vertical-align: middle;
+	text-align: center;
+	text-decoration: none;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	font-size: 14px;
+	border-width: 1px;
+	border-style: solid;
+	cursor: pointer;
+}
+.btn.page_prev .arrow, .btn.page_next .arrow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -6px;
+    margin-left: -3px;
+}
+.page_prev .arrow {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-width: 6px;
+    border-style: dashed;
+    border-color: transparent;
+    border-left-width: 0;
+    border-right-color: #919191;
+    border-right-style: solid;
+}
+i, cite, em, var, address, dfn {
+    font-style: italic;
+}
+.btn.page_prev, .btn.page_next {
+	position: relative;
+	font-size: 0;
+	letter-spacing: -5px;
+	background-color: #fff;
+	background-image: -moz-linear-gradient(top, #fff 0, #fff 100%);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fff),
+		to(#fff));
+	background-image: -webkit-linear-gradient(top, #fff 0, #fff 100%);
+	background-image: -o-linear-gradient(top, #fff 0, #fff 100%);
+	background-image: linear-gradient(to bottom, #fff 0, #fff 100%);
+	border-color: #e6e7ec;
+	color: #222;
+	height: 30px;
+	line-height: 30px;
+	width: auto;
+	padding-left: 14px;
+	padding-right: 14px;
+}
+
+.page_next .arrow {
+	display: inline-block;
+	width: 0;
+	height: 0;
+	border-width: 6px;
+	border-style: dashed;
+	border-color: transparent;
+	border-right-width: 0;
+	border-left-color: #919191;
+	border-left-style: solid;
+}
+
+.btn.page_last:hover button, .btn.page_go:hover button {
+	color: #222
+}
+
+.btn.page_last:hover, .btn.page_go:hover {
+	background-color: #e6e7ec;
+	background-image: -moz-linear-gradient(top, #e6e7ec 0, #e6e7ec 100%);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#e6e7ec),
+		to(#e6e7ec));
+	background-image: -webkit-linear-gradient(top, #e6e7ec 0, #e6e7ec 100%);
+	background-image: -o-linear-gradient(top, #e6e7ec 0, #e6e7ec 100%);
+	background-image: linear-gradient(to bottom, #e6e7ec 0, #e6e7ec 100%);
+	border-color: #dadbe0;
+	box-shadow: none;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	color: #000
+}
+
+.page_num {
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 14px;
+	*margin-right: 4px;
+	letter-spacing: normal
+}
+
+.goto_area {
+	margin-left: 8px
+}
+
+.goto_area input[type="text"] {
+	vertical-align: middle;
+	width: 75px;
+	height: 22px;
+	line-height: 22px;
+	padding: 4px 0;
+	border: 1px solid #e7e7eb;
+	box-shadow: none;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	text-align: center;
+	font-size: 14px;
+	margin-right: 4px
+}
+.als_feed span.cur, .als_feed span.curr {
+    background: #42B0E4;
+    color: #fff;
+    border-color: #42b0e4;
+}
+.als_feed span {
+    padding: 0 4px;
+    border: 1px solid #8C8C8C;
+    cursor: pointer;
+}
+.mr10 {
+    margin: 10px 0;
+    line-height: 30px;
+}
+.als_user_nav{border-bottom: 1px solid #969696;}
+.loading{display: none; position: absolute;left: 50%;top:50%;transform:translate(-50%,-50%);-webkit-transform:translate(-50%,-50%); width: 100%;height: 100%;background:rgba(0,0,0,0.7) url(__IMG__/icon32_loading_dark.gif) no-repeat center;border-radius: 8px;}
+.data-table {
+	margin: 20px;
+    padding: 20px 0;
+}
+.data-table table {background: #fff;}
+</style>
+  <div class="span9 page_message">
+    <section id="contents">
+      {include file="common@base/_nav" /} 
+      
+      <!-- 数据列表 -->
+      <div class="data-table">
+
+        <div class="table-striped">
+          <table cellspacing="1">
+            <!-- 表头 -->
+            <thead>
+              <tr>
+                 <td colspan="5" align="left"  style="padding-top:15px">
+                    <span class="cur als_tab sevenDay setDay" data-day="7">最近7天</span>
+                    <span class="als_tab fourteenDay setDay" data-day="14">最近14天</span>
+                    <span class="als_tab thirtyDay setDay" data-day="30">最近30天</span>
+                    &emsp;自定义：<input type="datetime"  class="time1" name="start_time"><span class="ml-2 mr-2">至</span><input type="datetime"  class="time2" name="end_time"><a href="javascript:;" class="btn" id="queryid">查询</a>
+                    <a href="javascript:;" class="fr" id="down_table" style="margin-top:1em">下载表格</a>
+                 </td>
+              </tr>
+
+              <tr>
+              <td colspan="5">
+               <div id="container" style="min-width:700px;height:400px"></div>
+               </td>
+              </tr>
+            </thead>
+
+            <!-- 列表 -->
+            <tbody id='tbody_data'>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="page"> {$_page|default=''} </div>
+      <!--div class="loading"></div-->
+    </section>
+  </div>
+{/block}
+{block name="script"} 
+  <link href="__STATIC__/datetimepicker/css/datetimepicker.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+  {php}if(config('COLOR_STYLE')=='blue_color') echo '
+  <link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+    ';{/php}
+  <link href="__STATIC__/datetimepicker/css/dropdown.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.js"></script>
+  <script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js?v={:SITE_VERSION}" charset="UTF-8"></script>
+  <script type="text/javascript" src="__STATIC__/highcharts-4.0.1/js/highcharts.js"></script>
+<script type="text/javascript" src="__STATIC__/highcharts-4.0.1/js/highcharts-3d.js"></script>
+
+  <script type="text/javascript">
+
+$(function(){
+	var now = new Date();
+	var nowY = now.getFullYear()
+	var nowM = now.getMonth()+1;
+	var nowD = now.getDate()
+	var week = new Date((new Date).getTime() - 6048e5);
+	var week2= new Date((new Date).getTime() - 12096e5);
+	var month =  new Date((new Date).getTime() - 2592e6);
+	var tabDay = "";
+
+
+
+  if(nowM<10) nowM="0" + nowM
+  if(nowD<10) nowD="0" + nowD
+
+    $('.time1').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language:"zh-CN",
+        minView: "month",
+        endDate: new Date,
+        autoclose: !0,
+        todayHighlight: !0,
+    });
+    $('.time2').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language:"zh-CN",
+        minView: "month",
+        startDate: week,
+        endDate: new Date,
+        autoclose: !0,
+        todayHighlight: !0,
+    });
+    $(".time1").datetimepicker("setDate", week);
+    //$(".time2").datetimepicker("setDate", now);
+    $(".time2").val(nowY+'-'+nowM+'-'+nowD);
+	$(".categoryall").on('click',function(){
+		$(this).addClass("cur").siblings().removeClass("cur");
+		$('.goods').empty();
+	});
+    $(".category").on("click", function() {
+        $(this).addClass("cur").siblings().removeClass("cur");
+        $(this).parent().removeClass("cur");
+        var category = $(this).data('category');
+		//alert(category);
+		$.post(
+			'{:U("category_goods")}',
+			{category:category},
+			function(data){
+				var str = '';
+
+				for(var i=0; i< data.length;i++){
+					var re = data[i];
+					str+= '<span class="als_tab good" data-goodid="'+re.id+'">'+re.title+'</span>';
+				}
+				if(str == '') str = '该类别无商品';
+				$('.goods').empty();
+				$('.goods').append(str);
+
+				$('.good').on('click',function(){
+			    	$(this).addClass("cur").siblings().removeClass("cur")
+			    })
+			}
+
+		);
+        //setData(num,'','');
+    });
+    $('.cancel_goods').on('click',function(){
+    	$('.goods').find('.cur').removeClass('cur');
+    });
+    $('.good').on('click',function(){
+    	$(this).addClass("cur").siblings().removeClass("cur")
+    });
+    $(".setDay").on("click", function() {
+        $(this).addClass("cur").siblings().removeClass("cur")
+        var num = $(this).data('day');
+        if(num==7){
+          tabDay = week;
+        }else if(num==14){
+          tabDay = week2;
+        }else if(num==30){
+          tabDay = month;
+        }
+        $(".time1").datetimepicker("setDate", tabDay)
+        $(".time2").datetimepicker("setStartDate", new Date($(".time1").val()))
+        $(".time2").val('{$now_day}');
+    });
+    //setData(7,'','');
+    $("input[type='datetime']").on("click", function() {
+
+        $(".time1").datetimepicker().off("changeDate").on("changeDate", function() {
+            //$(".time1").datetimepicker("setEndDate", new Date($(".time2").val()))
+            var month_2 = new Date($(".time1").val()).getTime()+2592e6*2 //60天秒数
+            var nowD = new Date((new Date).getTime())                    //当前时间秒数
+            if(month_2>nowD){
+              month_2=new Date
+            }else{
+              month_2 = new Date(new Date($(".time1").val()).getTime()+2592e6*2)
+            }
+            $(".time2").datetimepicker("setStartDate", new Date($(".time1").val()))
+            $(".time2").datetimepicker("setEndDate",month_2)
+            $(".time2").datetimepicker("setDate",month_2);
+        })
+    })
+
+    $("#queryid").click(function(){
+    	var st=$("input[name='start_time']").val();
+    	var et=$("input[name='end_time']").val();
+    	var category = $('.categorys').find('.cur').data('category');
+    	var goodid = $('.goods').find('.cur').data('goodid');
+    	setData(category,goodid,st,et);
+    });
+    $("#down_table").click(function(){
+    	var st=$("input[name='start_time']").val();
+    	var et=$("input[name='end_time']").val();
+    	var category = $('.categorys').find('.cur').data('category');
+    	var goodid = $('.goods').find('.cur').data('goodid');
+    	window.location.href="{:U('shop_export')}?stime="+st+"&etime="+et;
+    });
+
+    var st=$("input[name='start_time']").val();
+	var et=$("input[name='end_time']").val();
+	var category = $('.categorys').find('.cur').data('category');
+	var goodid = $('.goods').find('.cur').data('goodid');
+	setData(category,goodid,st,et);
+
+});
+
+function setData(category,goodid,stime,etime){
+  	$('.loading').show();
+
+	$.post(
+		'{:U("setCharts")}',
+		{category:category,goodid:goodid,stime:stime,etime:etime},
+		function(data){
+			$('#container').highcharts({
+		        title: {
+		            text: '商品流量统计',
+		            x: -20 //center
+		        },
+		        subtitle: {
+		            text: '',
+		            x: -20
+		        },
+		        xAxis: {
+		            categories:data.time //['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+		                        // 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+		        },
+		        yAxis: {
+		            title: {
+		                text: ''
+		            },
+		            plotLines: [{
+		                value: 0,
+		                width: 1,
+		                color: '#808080'
+		            }]
+		        },
+		        tooltip: {
+		            valueSuffix: 'pis'
+		        },
+		        legend: {
+		            layout: 'vertical',
+		            align: 'right',
+		            verticalAlign: 'middle',
+		            borderWidth: 0
+		        },
+		        series: [{
+		            name: '商品流量',
+		            data: data.data//[7.0, 6.9, 9.5, 14.5, -18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+		        }]
+		    });
+
+
+          $('.loading').hide();
+
+    	  $('.line').hide();
+    	  $('.line_1').show();
+		}
+	);
+}
+</script>
+{/block}

@@ -1,0 +1,186 @@
+<style type="text/css">
+td {
+	font-size: 14px;
+}
+#phone {
+	position: relative;
+	margin: 0 0;
+	width: 400px;
+	height: 698px;
+	background: url(__STATIC__/base/images/preview_phone_short.jpg) no-repeat center 0;
+}
+#frame {
+	position: absolute;
+	left: 0;
+	margin: 102px 0 0 43px;
+	width: 320px;
+	border: 1px solid #333;
+	background: #666;
+	height: 487px;
+	width: 320px;
+	overflow: hidden;
+}
+.wx_menu {
+	display:inline-flex;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 50px;
+	background: #fff;
+}
+.wx_menu .keyboard {
+	float: left;
+	width: 44px;
+	height: 50px;
+	background: url(__IMG__/wx_menu_keyboard_icon.png) no-repeat;
+	background-size: 100% 100%;
+	border-right: 1px solid #CCC;
+}
+.wx_menu .menu {
+	display: -webkit-box;
+	height: 50px;
+	float: left;
+	width: 275px;
+}
+.wx_menu .menu>div {
+	-webkit-box-flex: 1;
+	display: block;
+	line-height: 50px;
+	color: #434343;
+	text-align: center;
+	border-right: 1px solid #ccc;
+	position: relative;
+}
+.wx_menu .menu>div:last-child {
+	border: none;
+}
+.wx_menu .menu>div img {
+	width: 12px;
+	vertical-align: -1px;
+	margin-right: 2px;
+}
+.wx_menu .sub_menu {
+	position: absolute;
+	bottom: -358px;
+	margin-left: 0;
+	padding: 0 5px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	background: #fff;
+	text-align: center;
+	z-index: 10;
+}
+.m_a_i {
+	position: relative;
+	z-index: 100;
+	background: #fff;
+}
+.wx_menu .sub_menu a {
+	display: block;
+	color: #434343;
+	border-bottom: 1px solid #ddd;
+	height: 40px;
+	line-height: 40px;
+	padding: 0 5px;
+	white-space: nowrap
+}
+.wx_menu .sub_menu a:last-child {
+	border: none;
+}
+.wx_menu .sub_menu em {
+	position: absolute;
+	width: 10px;
+	height: 8px;
+	bottom: -7px;
+	left: 50%;
+	margin-left: -5px;
+	background: url(__IMG__/arrow_down.png) no-repeat center bottom;
+}
+</style>
+<div class="data-table" style="margin-top:40px; overflow:hidden">
+  <div class="row">
+  	<div class="col-sm-6 text-center">
+  	  <div id="phone">
+  	    <div id="frame">
+  	      <div class="wx_menu"> <span class="keyboard"></span>
+  	        <div class="menu">
+  	          {volist name="list_data" id="data"}
+  	            {eq name="data['pid']" value="0"}
+  	              <div class="m_a"  href="javascript:;">
+  	                <div class="m_a_i"> <img src="__IMG__/wx_menu_list_icon.png"/>{$data.title} </div>
+  	                <div class="sub_menu">
+  	                  <div class="sub_menu_inner">
+  	                    {volist name="list_data" id="data1"}
+  	                      {if condition="$data1['pid'] eq $data['id']"} <a href="#">{$data1.title}</a> {/if}
+  	                    {/volist}
+  	                  </div>
+  	                  <em></em> </div>
+  	              </div>
+  	            {/eq}
+  	          {/volist}
+  	        </div>
+  	      </div>
+  	    </div>
+  	  </div>
+  	  
+  	</div>
+  	
+  	<div class="col-sm-6 table-striped">
+  	  <table cellpadding="0" cellspacing="1">
+  	    <!-- 表头 -->
+  	    <thead>
+  	      <tr>
+  	        <th width="150"><a href="{:U('add',['rule_id'=>$rule_id])}">+添加菜单</a></th>
+  	        <th>内容</th>
+  	        <th width="100">操作</th>
+  	      </tr>
+  	    </thead>
+  	    
+  	    <!-- 列表 -->
+  	    <tbody>
+  	      {volist name="list_data" id="data"}
+  	        <tr> 
+  	          <td><input class="ids" type="hidden" value="{$data.id|default=0}" name="ids[]">
+  	            {eq name="data['pid']" value="0"} <strong>{$data.title}</strong>
+  	              {else/}
+  	              &nbsp;&nbsp;&nbsp;&nbsp; ◆ {$data.title} {/eq}</td>
+  	              <td>{$data.content|raw}</td>
+  	          <td><a href="{:U('add',['id'=>$data['id'],'rule_id'=>$rule_id])}">编辑</a> <a href="{:U('del',array('id'=>$data['id']))}">删除</a></td>
+  	        </tr>
+  	      {/volist}
+  	    </tbody>
+  	  </table>
+  	</div>
+  </div>
+
+</div>
+<div class="form-item form_bh" style="margin:20px;">
+	<div class="offset-sm-1">
+		<button class=" submit-btn btn btn-primary ajax-post confirm" type="button" target-form="ids" url="{:U('send_menu',['rule_id'=>$rule_id])}">{$submit_name|default='发布'}</button>
+	</div>
+  
+</div>
+<script type="text/javascript">
+$(function(){
+
+	//初始化菜单样式
+	$('.m_a').each(function(index, element) {
+       var submenu = $(element).find('.sub_menu');
+	   if(submenu.find('a').html()==undefined){
+		  $(element).find('img').hide();
+		  submenu.hide();
+	   }else{
+		   var mW = $(element).width();
+		   var sW = submenu.width()+10+2;
+		   submenu.css('margin-left',(mW-sW)/2);
+	   }
+    });
+	$('.m_a').hover(function(){
+		$(this).find('.sub_menu').animate({'bottom':58},300);
+	},function(){
+		$(this).find('.sub_menu').animate({'bottom':-458},300);
+	})
+
+})
+</script>

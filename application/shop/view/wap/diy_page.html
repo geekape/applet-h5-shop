@@ -1,0 +1,37 @@
+{include file="common@base/mobile_head"/}
+<link rel="stylesheet" href="__STATIC__/default/css/style.css"></link>
+<link href="__ROOT__/shop/mobile/common.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+<link href="__ROOT__/shop/mobile/diy_page.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+<script src="__STATIC__/angular.min.js"></script>
+<script src="__STATIC__/flipsnap.min.js"></script>
+<script src="__STATIC__/shop.js"></script>
+<link href="//cdn.bootcss.com/weui/1.1.2/style/weui.min.css" rel="stylesheet">
+
+<style type="text/css">
+    body {overflow: auto;}
+    .container{
+        margin-bottom: 55px;
+        padding-bottom: 10px;
+    }
+</style>
+
+
+<body ng-controller="commonCtrl">
+    <div class="container" ng-style="{'background-color':headItem.params.bgColor}">
+    	 <div ng-if="module['id'] && !module['disable']" id="module-{{module.index}}" name="{{module.id}}" index="{{module.index}}" ng-class="{'modules-actions': activeItem.index == module.index, 'js-sorttable' : !module.issystem,'edit_panel':true}" ng-repeat="module in activeModules track by $index" on-finish-render-filters>
+            <div ng-init="displayPanel = ('widget-'+(module['id'].toLowerCase())+'-display.html')" ng-include="displayPanel"></div>
+        </div>
+    </div>
+    {include file="shop@diy_template/allDisplay"/}
+    <script type="text/javascript">
+        
+    	var dataConfig = '{$data['config']}';
+    	if(dataConfig!=""){
+    		initDiy(dataConfig);
+    	}
+    </script>
+   {if condition="($data.is_show eq 1)"} 
+    {include file="wap/_footer"/}
+{/if}
+</body>
+</html>

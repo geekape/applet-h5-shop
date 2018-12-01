@@ -1,0 +1,182 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  {include file="common@base/head"/}
+    {block name="style"}{/block}
+</head>
+<body id="login-admin">
+
+  <!-- 主体 -->
+    <div id="main-container" class="container" style="position:relative">
+     
+
+        <div class="no_side_main_body">
+              <div class="top_content">
+                  <div class="log_wrap">
+                      <section class="login_box" >
+                  {php} if(config('IS_QRCODE_LOGIN')){ {/php}
+                        <div class=login_code style="text-align: center;">
+                            <p style="color: #0a8cd2">微信扫码登录</p>
+                            <img style='width:200px;height:200px;margin:20px 0;' alt="扫码登录" src="{$qrcode}"><br>
+                            <a href='javascript:;' onclick='one_login()'>帐号密码登录</a>
+                          </div>
+                  {php} } {/php}
+                          <form class="login-form" action="{:U('login',['wpid'=>0])}" method="post" style="display:{php}if(config('IS_QRCODE_LOGIN')) echo 'none';{/php} ">
+                                  <div class="form_body" id="input_login" >
+                                        <h6>欢迎使用WeiPHP系统</h6>
+                                        <div class="input_panel">
+                                          <div class="control-group">
+                                              <label class="control-label" for="inputEmail">用户名</label>
+                                            <div class="controls">
+                                                <i class="fa fa-user"></i>
+                                              <input type="text" id="inputEmail" class="span3" placeholder="请输入用户名"  ajaxurl="/user/checkUserNameUnique.html" errormsg="请填写1-16位用户名" nullmsg="请填写用户名" datatype="*1-16" value="" name="username">
+                                            </div>
+                                          </div>
+                                          <div class="control-group">
+                                              <label class="control-label" for="inputPassword">密码</label>
+
+                                            <div class="controls">
+                                                <i class="fa fa-key"></i>
+                                              <input type="password" id="inputPassword"  class="span3" placeholder="请输入密码"  errormsg="密码为6-20位" nullmsg="请填写密码" datatype="*6-20" name="password">
+                                            </div>
+                                          </div>
+                                          <div class="control-group">
+                                            <div class="controls pl-2" style="padding: 0 !important;">
+                                              <input class="align-middle" type="checkbox" id="remember" name="remember" value="1" style="height:14px;width:14px;margin-top:3px;margin-left:100px;"/><label class="ml-1 align-middle" for="remember" style="margin-bottom: 0;color:black;">下次自动登录</label>
+                                                {php} if(config('IS_QRCODE_LOGIN')){ {/php}
+                                                <a href='javascript:;' onclick='code_login()' style="position:absolute;top:2px;left:150px;">扫码登录</a>
+                                            </div>
+                                          </div>
+                                          {php}if(config('WEB_SITE_VERIFY')) { {/php}
+                                          <div class="control-group">
+                                            <label class="control-label" for="inputPassword">验证码</label>
+                                            <div class="controls">
+                                               <span class="fa fa-keyboard-o"></span>
+                                              <input type="text" id="verify" class="span3" placeholder="请输入验证码"  errormsg="请填写5位验证码" nullmsg="请填写验证码" datatype="*5-5" name="verify">
+                                              <a href="javascript:;" class="reloadverify_a">换一张?</a>
+                                            </div>
+                                          </div>
+
+                                          {php} } {/php}
+                                       </div>
+                                      {php}if(config('WEB_SITE_VERIFY')) { {/php}
+
+                                      <div class="control-group">
+                                        <label class="control-label"></label>
+                                        <div class="controls" style="margin-top:10px">
+                                            <img class="verifyimg reloadverify" alt="点击切换" src="{:U('verify')}" style="cursor:pointer;">
+                                        </div>
+                                      </div>
+                                      {php} } {/php}
+
+
+
+                                      <!--<a href='javascript:;' onclick='code_login()'>扫码登录</a>-->
+                        {php} } {/php}
+
+                                      <div class="control-group">
+                                        <div class="controls">
+                                          <button type="submit" class="btn btn-large">登 录</button>
+                                         </div>
+                                          <div class="controls Validform_checktip text-warning"></div>
+                                      </div>
+                                  </div>
+                               </form>
+
+                        </section>
+                    </div>
+                </div>
+        </div>
+    </div>
+
+  <!-- /主体 -->
+
+  <!-- 底部 -->
+  {include file="common@base/footer"/}
+
+    
+    {block name="script"}
+        <script type="text/javascript">
+          var check_even;
+          function check_login(){
+            check_even = setInterval(function(){
+              $.post(
+                '{:U("login")}',{},
+                function(res){
+                    if(res.status==1){
+                        window.location.href = res.url;
+                    }else if(res.status==2){
+                        clearTimeout(check_even);
+                        $('.login_bind').show();
+                        $('.login_ewm').hide();
+                        $('#login_uid').val(res.login_uid);
+                    }
+
+                }
+              );
+            },3000);
+          }
+          {php} if(config('IS_QRCODE_LOGIN')){ {/php}
+          check_login();
+          {php} } {/php}
+          function code_login(){
+            check_login();
+            $('.login-form').hide();
+            $('.login_code').show();
+          }
+          function one_login(){
+            clearInterval(check_even);
+            $('.login_code').hide();
+            $('.login-form').show();
+          }
+            $(document)
+              .ajaxStart(function(){
+                $("button:submit").addClass("log-in").attr("disabled", true);
+              })
+              .ajaxStop(function(){
+                $("button:submit").removeClass("log-in").attr("disabled", false);
+              });
+
+
+            $("form").submit(function(){
+              var self = $(this);
+              $.post(self.attr("action"), self.serialize(), success, "json");
+              return false;
+
+              function success(data){
+                if(data.code){
+                  window.location.href = data.url;
+                } else {
+                  self.find(".Validform_checktip").text(data.msg);
+                  //刷新验证码
+                  $(".reloadverify").click();
+                }
+              }
+            });
+
+          $(function(){
+            var verifyimg = $(".verifyimg").attr("src");
+                  $(".reloadverify,.reloadverify_a").click(function(){
+                      if( verifyimg.indexOf('?')>0){
+                          $(".verifyimg").attr("src", verifyimg+'&random='+Math.random());
+                      }else{
+                          $(".verifyimg").attr("src", verifyimg.replace(/\?.*$/,'')+'?'+Math.random());
+                      }
+                  });
+            $('input').focus(function(){
+              $(this).parent().find('.fa').css('color','#44b549');
+              })
+            $('input').blur(function(){
+              $(this).parent().find('.fa').css('color','#aaa');
+              })
+          });
+
+        </script>
+    {/block} <!-- 用于加载js代码 -->
+    <div class="hidden"><!-- 用于加载统计代码等隐藏元素 -->
+        {block name="hidden"}{/block}
+    </div>    
+  <!-- /底部 -->
+</body>
+</html>
+

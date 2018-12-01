@@ -1,0 +1,13 @@
+<nav class="bottom_nav">
+    <a class="icon_me_gray" href="{:U ( 'card/Wap/me')}">我的</a>
+    <a class="icon_card_gray" href="{:U ( 'card/Wap/index')}">会员卡</a>
+    <a class="icon_notice_gray" href="{:U ( 'card/notice/show')}">最新通知
+     {notempty name='notice_num'}
+             <span class="red_circle">{$notice_num}</span>
+             {/notempty}
+     <em></em>
+    </a>
+    <a class="icon_share_gray" href="{:U ( 'card/Wap/share')}">分享</a>
+    <a class="icon_signin_gray" href="{:U ( 'card/Wap/signin')}">签到</a>
+</nav>
+<div class="bottom_nav_blank"></div>

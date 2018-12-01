@@ -1,0 +1,21 @@
+{include file="common@base/mobile_head"/}
+<link href="__CSS__/Coupon.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+<body id="scratch">
+<div class="container body" style="position:relative; background:#fff;">
+   <div class="common_header">
+    <a class="back" href="{:U ( 'Coupon/Wap/personal')}">&nbsp;</a>
+    <span>我的优惠券</span>
+  </div>
+  <div class="head_box">
+        <img src="{:ADDON_PUBLIC_PATH}/head_bg.png" width="100%"/>
+        <div class="title_layer">使用二维码消费</div>
+        <div class="style"></div>
+   </div>
+   <div class="box">
+   		<center><img src="http://qr.liantu.com/api.php?text={:U('do_pay',array('sn_id'=>$info['id']))}"/></center>
+        <center>请商家扫描此二维码进行消费</center>
+    </div>
+    <p class="copyright">{$system_copy_right|raw}{$tongji_code|raw}</p>
+</div>
+</body>
+</html>

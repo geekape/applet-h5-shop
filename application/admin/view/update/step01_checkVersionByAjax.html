@@ -1,0 +1,41 @@
+  <!-- 数据列表 -->
+  <div class="data-table" id="data-table">
+    <h4>3、升级包下载</h4>
+    检测到有以下 {$_list|count} 个新的版本可以升级，请<span style="color: #F00">严格</span>按升级包版本号从小到大顺序下载升级包升级
+    <div class="data-table table-striped">
+      <table>
+        <thead>
+          <tr>
+            <th>版本号</th>
+            <th>升级包名</th>
+            <th>描述</th>
+            <th>发布时间</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+            {notempty name="_list"}
+          
+          {volist name="_list" id="vo"}
+            <tr>
+              <td>{$vo.version} </td>
+              <td>{$vo.title}</td>
+              <td>{$vo.description}</td>
+              <td>{$vo.create_date|time_format}</td>
+              <td>
+	   {php}if(0==$key) { $nowtitle=$vo['title']; {/php}
+         <a href="javascript:void(0)" onclick="downloadPackage('{$vo.version}')" class="btn_b">一键升级</a>&nbsp;&nbsp;&nbsp;<a href="http://app.weiphp.cn/index.php?s=/home/index/download_update_package.html&version={$vo.version}">手工下载</a>
+		{php}}else{{/php}
+         <a href="javascript:void(0)" onclick="needUpateOther('{$nowtitle}')" class="btn_b">一键升级</a>&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="needUpateOther('{$nowtitle}')" class="hand">手工下载</a>
+		{php} }　{/php}
+              </td>
+            </tr>
+          {/volist}
+          {else/}
+        <td colspan="5" class="text-center"> aOh! 你目前的版本已经是最新的! </td>
+            {/notempty}
+            </tbody>
+      </table>
+    </div>
+  </div>
+

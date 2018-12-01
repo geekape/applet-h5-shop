@@ -1,0 +1,51 @@
+{extend name="shop@wap/common_file" /} {block name="common_body"}
+<!-- 头部导航 -->
+<div class="top-nav">
+    <div class="flex">
+        <i class="iconfont icon-back" id="go-back"></i>
+        <slot>
+            <span class="title">优惠劵</span>
+        </slot>
+    </div>
+</div>
+
+<div class="wrap" style="bottom: 45px;">
+    
+
+	<!-- 优惠卷 -->
+	<div class="m-chit">
+		<div class="m-chit-img">
+			<img src="__STATIC__/default/img/coupon.png">
+		</div>
+
+		<div class="m-chit-info">
+			<p>{$coupon.title}</p>
+			<p class="m-chit-info-time">有效期：{$coupon.start_time|day_format} - {$coupon.end_time|day_format}</p>
+		</div>
+	</div>
+	<!-- /优惠卷 -->
+
+
+   
+
+	<!-- 优惠卷说明 -->
+	<div class="m-explain f-pb-lg">
+		<p class="f-font-md" style="margin-bottom: 20px;">会员名称：<span>{$info.uid|get_nickname}</span></p>
+
+		<h3>优惠券使用说明</h3>
+    {$coupon.use_tips|raw}
+
+	</div>
+	<!-- /优惠卷说明 -->
+	
+    
+
+	
+
+
+</div>
+
+	<div class="bottom-nav bottom-nav-clear">
+    	<a class="weui-btn weui-btn_primary" href="{:U('do_pay_ok',['sn_id'=>$info['id']])}">立即核销</a>
+ 	 </div>
+{/block}

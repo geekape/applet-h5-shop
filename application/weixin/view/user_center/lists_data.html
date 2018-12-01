@@ -1,0 +1,107 @@
+{include file="common@base/head"/}
+<body style="background:#fff">
+<div class="lists_data">
+  <div class="span9 page_message">
+    <section id="contents">
+      <div class="table-bar">
+        <div class="search-form fl">
+          <div class="sleft" style="margin-right:10px;">
+              <select name="group" style="border:none; padding:4px; margin:0;">
+              <option value="{:U ( 'weixin/UserCenter/lists',array('group_id'=>0,'isAjax'=>1,'isRadio'=>$isRadio))}" {eq name="$group_id" value="0"}selected{/eq} >全部用户</option>
+                  {volist name="auth_group" id="vo"}
+                      <option value="{:U ( 'weixin/UserCenter/lists',array('group_id'=>$vo['id'],'isAjax'=>1,'isRadio'=>$isRadio))}" {eq name="vo['id']" value="$group_id"}selected{/eq} >{$vo.title}</option>
+                  {/volist}
+              </select>
+          </div>
+        </div>
+        <!-- 高级搜索 -->
+        <div class="search-form fr cf">
+          <div class="sleft">
+            <input type="text" placeholder="请输入关键字" value="{:input('key')}" class="search-input" name="key">
+            <a url="{:U ( 'weixin/UserCenter/lists',array('isAjax'=>1,'isRadio'=>$isRadio))}" id="search" href="javascript:;" class="sch-btn"><i class="btn-search"></i></a> </div>
+        </div>
+        <!-- 多维过滤 -->
+      </div>
+      <!-- 数据列表 -->
+      <div class="data-table">
+        <div class="table-striped">
+          <table cellspacing="1">
+            <!-- 表头 -->
+            <thead>
+              <tr>
+                <th class="row-selected row-selected">
+                  {if condition="! ($isRadio)"}
+                  <input type="checkbox" class="check-all regular-checkbox" id="checkAll">
+                  <label for="checkAll"></label></th>
+                  {/if}
+                <th>头像</th>
+                <th>用户昵称</th>
+                <th>性别</th>
+                <th>分组</th>
+              </tr>
+            </thead>
+
+            <!-- 列表 -->
+            <tbody>
+              {volist name="list_data" id="vo"}
+                <tr>
+                  <td>
+                   {empty name="isRadio"}
+                  		<input type="checkbox" id="check_{$vo.uid}" name="ids[]" value="{$vo.uid}" class="ids regular-checkbox">
+                    	<label for="check_{$vo.uid}"></label>
+                    {else/}
+                    	<input type="radio" id="check_{$vo.uid}" name="ids[]" value="{$vo.uid}" class="ids regular-radio">
+                    	<label for="check_{$vo.uid}"></label>
+                    {/empty}
+                    <input type="hidden" name="openid" value="{$vo.openid}"/>
+                  </td>
+                  <td type="headimgurl">{$vo.headimgurl|url_img_html|raw}</td>
+                  <td type="nickname">{$vo.nickname}</td>
+                  <td type="sex_name">{$vo.sex_name}</td>
+                  <td type="group">{$vo.group}</td>
+
+
+                </tr>
+              {/volist}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="page"> {$_page|raw|default=''} </div>
+    </section>
+  </div>
+
+<script type="text/javascript">
+$(function(){
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+        if(query == '' ){
+        	url="{:U(MODULE_NAME.'/'.CONTROLLER_NAME.'/lists',array('isAjax'=>1,'isRadio'=>$isRadio))}";
+        }
+		url = url.replace(/[?&=]/g,'/');
+				window.location.href = url;
+	});
+
+    //回车自动提交
+    $('.search-form').find('input').keyup(function(event){
+        if(event.keyCode===13){
+            $("#search").click();
+        }
+    });
+	$('select[name=group]').change(function(){
+		location.href = this.value;
+	});
+
+})
+</script>
+</body>
+</html>

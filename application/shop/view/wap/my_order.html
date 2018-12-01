@@ -1,0 +1,209 @@
+{extend name="shop@wap/common_file" /} {block name="common_body"}
+<!-- 头部导航 -->
+<div class="top-nav">
+    <div class="flex">
+        <i class="iconfont icon-back" onclick="window.location.href='{:U('center')}'" data-url="{:U('center')}"></i>
+        <slot>
+            <span class="title">我的订单</span>
+        </slot>
+    </div>
+</div>
+<div class="wrap">
+    
+    <!-- tab切换 -->
+    <div class="weui-tab">
+      <div class="weui-navbar">
+        <a class="weui-navbar__item weui-bar__item--on" href="#tab1" id="order_btn_1">
+          全部
+        </a>
+        <a class="weui-navbar__item" href="#tab2" id="order_btn_2">
+          待支付
+        </a>
+        <a class="weui-navbar__item" href="#tab3" id="order_btn_3">
+          待收货
+        </a>
+        <a class="weui-navbar__item" href="#tab4" id="order_btn_4">
+          待评价
+        </a>
+      </div>
+      <div class="weui-tab__bd">
+        <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
+           {volist name="orderList" id="order"}
+          <div class="bought-goods">
+           {volist name="order.goods_datas" id="goods"}
+
+
+              <a href="{:U('order_detail?id='.$order['id'])}" class="m-goods2">
+              <div class="m-goods2-img">
+                <img class="lazyload" data-src="{$goods.cover}">
+              </div>
+              <div class="m-goods2-text">
+                <p>
+                  <span class="red">{notempty name="order.event_type"}[{$order.event_type}]{/notempty}</span>
+                  <span>{$goods.title}</span>
+                </p>
+                <div class="flex">
+                  <p class="flex-item"><span class="prize-icon">{eq name="order.pay_type" value="90"}积分 {$goods.sale_price}{else /}<span class="prize-icon">¥</span>{$goods.sale_price}{/eq}</p>
+                  <small class="gray">x{$goods.num}</small>
+                </div>
+              </div>
+            </a>
+
+                
+              {/volist}
+              <!-- 按钮 -->
+              {if condition="$order['refund']>0"}
+              <div class="btn-group"><a class="border-btn2" href="{:U('logistics',['order_id'=>$order['id']])}">{$order['refund_title']}</a></div>
+              {elseif condition="($order['pay_status'] eq 0) or ($order['status_code'] gt 0 && $order['status_code'] lt 4) or ($order['status_code'] eq 3) or ($order['status_code'] gt 3 && $order['status_code'] neq 7)"}
+              <div class="btn-group">
+                   {eq name="order.pay_status" value="0"}
+                   <a class="btn" href="{:U('do_pay?out_trade_no='.$order['id'])}">去支付</a>
+                   {/eq}
+                   {if condition="$order['status_code'] > 0 && $order['status_code'] < 4"}
+                   <a class="border-btn" href="{:U('logistics',['order_id'=>$order['id']])}">查看物流</a>
+                   {/if}
+                   {if condition="$order['refund']==0 && $order['status_code'] == 3"}
+                   <a class="btn" href="javascript:;" onClick="confirmGetGoods('{:U('confirm_get',array('id'=>$order['id']))}');">确定收货</a>
+                   {/if}
+                   {if condition="$order['refund']==0 && $order['pay_status']==1 && $order['status_code'] >3 && $order['status_code'] != 7"}
+                   <a class="btn" href="{:U('comment',['order_id'=>$order['id']])}">去评价</a>
+                   {/if}
+              </div>
+              {else /}
+              <div class="btn-group"><a class="border-btn2" href="###">已完成</a></div>
+              {/if}
+          </div>
+          {/volist}
+        </div>
+        
+
+         <div id="tab2" class="weui-tab__bd-item">
+           {volist name="orderList" id="order"}
+           {if condition="$order['status_code'] == 0"}
+          <div class="bought-goods">
+           {volist name="order.goods_datas" id="goods"}
+                <a href="{:U('order_detail?id='.$order['id'])}" class="m-goods2">
+                <div class="m-goods2-img">
+                  <img class="lazyload" data-src="{$goods.cover}">
+                </div>
+                <div class="m-goods2-text">
+                  <p>
+                    <span class="red">{notempty name="order.event_type"}[{$order.event_type}]{/notempty}</span>
+                    <span>{$goods.title}</span>
+                  </p>
+                  <div class="flex">
+                    <p class="flex-item"><span class="prize-icon">{eq name="order.pay_type" value="90"}积分 {$goods.sale_price}{else /}<span class="prize-icon">¥</span>{$goods.sale_price}{/eq}</p>
+                    <small class="gray">x{$goods.num}</small>
+                  </div>
+                </div>
+              </a>
+
+               
+              
+              {/volist}
+              <!-- 按钮 -->
+              {if condition="$order['refund']>0"}
+              <div class="btn-group"><a class="border-btn2" href="{:U('logistics',['order_id'=>$order['id']])}">{$order['refund_title']}</a></div>
+              {else /}
+              <div class="btn-group">
+                   {eq name="order.pay_status" value="0"}
+                   <a class="btn" href="{:U('do_pay?out_trade_no='.$order['id'])}">去支付</a>
+                   {/eq}
+              </div>
+              {/if}
+          </div>
+          {/if}
+          {/volist}
+        </div>
+
+        <div id="tab3" class="weui-tab__bd-item">
+            {volist name="orderList" id="order"}
+           {if condition="$order['status_code'] > 0 && $order['status_code'] < 4"}
+          <div class="bought-goods">
+           {volist name="order.goods_datas" id="goods"}
+               <a href="{:U('order_detail?id='.$order['id'])}" class="m-goods2">
+               <div class="m-goods2-img">
+                 <img class="lazyload" data-src="{$goods.cover}">
+               </div>
+               <div class="m-goods2-text">
+                 <p>
+                   <span class="red">{notempty name="order.event_type"}[{$order.event_type}]{/notempty}</span>
+                   <span>{$goods.title}</span>
+                 </p>
+                 <div class="flex">
+                   <p class="flex-item"><span class="prize-icon">{eq name="order.pay_type" value="90"}积分 {$goods.sale_price}{else /}<span class="prize-icon">¥</span>{$goods.sale_price}{/eq}</p>
+                   <small class="gray">x{$goods.num}</small>
+                 </div>
+               </div>
+             </a>
+              {/volist}
+              <!-- 按钮 -->
+              {if condition="$order['refund']>0"}
+              <div class="btn-group"><a class="border-btn2" href="{:U('logistics',['order_id'=>$order['id']])}">{$order['refund_title']}</a></div>
+              {else /}              
+              <div class="btn-group">
+                   {if condition="$order['status_code'] > 0 && $order['status_code'] < 4"}
+                   <a class="border-btn" href="{:U('logistics',['order_id'=>$order['id']])}">查看物流</a>
+                   {/if}
+                   {if condition="$order['refund']==0 && $order['status_code'] == 3"}
+                   <a class="btn" href="javascript:;" onClick="confirmGetGoods('{:U('confirm_get',array('id'=>$order['id']))}');">确定收货</a>
+                   {/if}
+              </div>
+              {/if}
+          </div>
+          {/if}
+          {/volist}
+        </div>
+
+         <div id="tab4" class="weui-tab__bd-item">
+           {volist name="orderList" id="order"}
+           {if condition="$order['status_code'] > 3 && $order['status_code'] != 7"}
+          <div class="bought-goods">
+           {volist name="order.goods_datas" id="goods"}
+              <a href="{:U('order_detail?id='.$order['id'])}" class="m-goods2">
+                   <div class="m-goods2-img">
+                     <img class="lazyload" data-src="{$goods.cover}">
+                   </div>
+                   <div class="m-goods2-text">
+                     <p>
+                       <span class="red">{notempty name="order.event_type"}[{$order.event_type}]{/notempty}</span>
+                       <span>{$goods.title}</span>
+                     </p>
+                     <div class="flex">
+                       <p class="flex-item"><span class="prize-icon">{eq name="order.pay_type" value="90"}积分 {$goods.sale_price}{else /}<span class="prize-icon">¥</span>{$goods.sale_price}{/eq}</p>
+                       <small class="gray">x{$goods.num}</small>
+                     </div>
+                   </div>
+                 </a>
+              {/volist}
+              <!-- 按钮 -->
+              {if condition="$order['refund']>0"}
+              <div class="btn-group"><a class="border-btn2" href="{:U('logistics',['order_id'=>$order['id']])}">{$order['refund_title']}</a></div>
+              {else /}              
+              <div class="btn-group">
+                   {if condition="$order['refund']==0 && $order['pay_status']==1 && $order['status_code']  >3 && $order['status_code'] != 7"}
+                   <a class="btn" href="{:U('comment',['order_id'=>$order['id']])}">去评价</a>
+                   {/if}
+              </div>
+              {/if}
+          </div>
+          {/if}
+          {/volist}
+        </div>
+      </div>
+
+
+    </div>
+    {include file="shop@diy_template/allDisplay"/}
+   
+</div>
+
+<script type="text/javascript">
+$(function(){
+   var type = "{:input('type/d',0)}";
+   if(type!="1"){
+	   $('#order_btn_'+type).click();
+   }	
+})
+</script>
+{/block}

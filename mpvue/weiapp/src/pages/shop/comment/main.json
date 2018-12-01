@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "评价",
+  "usingComponents": {
+    "van-toast": "/static/vant/toast/index"
+  }
+}

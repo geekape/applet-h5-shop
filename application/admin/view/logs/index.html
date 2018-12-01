@@ -1,0 +1,67 @@
+{extend name="publics/base" /}
+
+{block name="body"}
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>{$meta_title}</h2>
+	</div>
+	<form action="{:U('setOnOff')}" method="post" class="form-horizontal">
+		<div class="form-item">
+			<label class="item-label">是否开启接口日志</label>
+			<div class="controls">
+			<input type="radio" class="radio input-small" {eq name="onoff" value="1" }checked="checked"{/eq} name="logcof" value="1">开
+			<input type="radio" class="radio input-small" {eq name="onoff" value="0" }checked="checked"{/eq} name="logcof" value="0">关
+		</div>
+		<input type="hidden" name='type' value='{$type}'>
+		<div class="form-item">
+			<label class="item-label"></label>
+			<div class="controls">
+				<button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button>
+
+				<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+			</div>
+		</div>
+	</form>
+
+	<!-- 数据列表 -->
+	<div class="data-table table-striped">
+		<table>
+			<thead>
+				<tr>
+					<th width="20%">接口名称</th>
+					<th width="30%">url</th>
+                    <th width="30%">请求参数</th>
+					<th width="10%">服务器IP</th>
+					<th width="10%">时间</th>
+				</tr>
+			</thead>
+			<tbody>
+				{notempty name="_list"}
+				{volist name="_list" id="vo"}
+				<tr>
+					<td>{$vo.title}</td>
+					<td>{$vo.url}</td>
+                    <td>{$vo.param}</td>
+					<td>{$vo.server_ip|intval|long2ip}</td>
+					<td>{$vo.cTime|time_format}</td>
+				</tr>
+				{/volist}
+				{else/}
+				<td colspan="8" class="text-center"> aOh! 暂时还没有内容! </td>
+				{/notempty}
+			</tbody>
+		</table>
+	</div>
+	<!-- 分页 -->
+    <div class="page">
+        {$_page|raw}
+    </div>
+{/block}
+{block name="script"}
+	<script src="__STATIC__/thinkbox/jquery.thinkbox.js?v={:SITE_VERSION}"></script>
+
+	<script type="text/javascript">
+
+
+	</script>
+{/block}

@@ -1,0 +1,56 @@
+{extend name="publics/base" /}
+{block name="body"}
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>{$tagInfo.title} 权限节点管理</h2>
+	</div>
+
+	<div>
+		{notempty name="data"}
+		{foreach name='data' item='vo'}
+		<div>
+			<div><input type='checkbox' class='rapps' data-id='{$vo.id}' data-mod='{$vo.name}' name='' value=''>{$vo.title}</div>
+			<div>
+				{notempty name='vo["auth"]'}
+				{foreach name='vo["auth"]' item='vi'}
+					&nbsp;&nbsp;<span><input type='checkbox' class='rapps_son' data-id='{$vi.id}' {php}echo in_array($vi["id"],$rule_arr)?"checked='checked'":""{/php} name='' value='{$vi.id}'>{$vi.title}</span>
+				{/foreach}
+				{/notempty}
+			</div>
+		</div>
+		{/foreach}
+		{/notempty}
+	</div>
+	<br/>
+	<div class="form-item">
+      <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+    </div>
+{/block}
+
+{block name="script"}
+<script type="text/javascript" charset="utf-8">
+    $(function (){
+		var rid = '{$tagInfo.id}';
+    	$('.rapps').click(function(){
+			var flag = $(this).is(':checked')?1:0;
+			var mod = $(this).data('mod');
+			$(this).parent().next().find('input:checkbox').prop('checked',flag);
+			$.post(
+				'{:U("updateRule")}',
+				{rid:rid,flag:flag,mod:mod}
+			)
+    	})
+
+    	$('.rapps_son').click(function(){
+    		var flag = $(this).is(':checked')?1:0;
+    		var id = $(this).data('id');
+    		$.post(
+   				'{:U("updateRule")}',
+   				{rid:rid,flag:flag,id:id}
+   			)
+    	});
+
+
+    })
+</script>
+{/block}

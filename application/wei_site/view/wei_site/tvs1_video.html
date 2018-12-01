@@ -1,0 +1,36 @@
+{include file="common@base/mobile_head"/}	
+<style type="text/css">
+	h6{ line-height:40px;}
+	h1{ font-size:18px; padding:15px 0;}
+</style>
+<body id="weisite" style="background:#fff; background-size:100% 100%">
+<div class="container">
+	<h1><center>广东经济科教频道宣传片</center></h1>
+	<h6>​2014《这里是广东》潮州篇</h6>
+    <div class="v">
+    	<iframe height=260 width=100% src="http://player.youku.com/embed/XNjk4ODA2Mjk2" frameborder=0 allowfullscreen></iframe>
+    </div>
+
+
+    <h6>2014《这里是广东》梅州篇</h6>
+    <div class="v">
+        <iframe height=260 width=100% src="http://player.youku.com/embed/XNjk4NzgxODQ0" frameborder=0 allowfullscreen></iframe>
+    </div>
+    <h6>2014《这里是广东》湛江篇</h6>
+    <div class="v">
+        <iframe height=260 width=100% src="http://player.youku.com/embed/XNjk4Nzk5Mjg0" frameborder=0 allowfullscreen></iframe>
+    </div>
+    <p class="copyright">{$system_copy_right|raw}</p>
+</div>
+<!-- 统计代码 -->
+{notempty name="config.code"}
+<p class="hide bdtongji">
+{$config.code}
+</p>
+{else/}
+<p class="hide bdtongji">
+{$tongji_code|raw}
+</p>
+{/notempty}
+</body>
+</html>

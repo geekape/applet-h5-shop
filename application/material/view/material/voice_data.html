@@ -1,0 +1,47 @@
+
+{empty name="list_data"}
+<div class="empty_container"><p>您的语音素材库为空，<a href="{:U('material/Material/material_lists')}">请先增加素材</a></p></div>
+{else/}<div class="data_container"><ul class="material_list">
+      {volist name="list_data" id="vo"}
+      <li class="appmsg_li" data-id="{$vo.id}"  style="overflow:hidden">
+      	<div class="picture_item">
+             <div class="sound_item" onClick="playSound('sound_{$vo.id}',this);">
+                 <div class="m-img"><img class="icon_sound" src="__STATIC__/base/images/icon_sound.png"/></div>
+                <div class="content">
+                   <p class="audio_name ellipsis">{$vo.title|default=''}</p>
+                   <p class="colorless">{$vo.file_info.playtime|default=''}</p>
+                   <p class="ctime colorless">{$vo.cTime|time_format}</p>
+                   <audio id="sound_{$vo.id}" src="{$vo.file_id|get_file_url}"></audio>
+                </div>
+             </div>
+         </div>
+      </li>
+      {/volist}</ul>
+{/empty}
+<div class="page"> {$_page|raw|default=''} </div></div>
+<script type='text/javascript'>
+
+  // 素材分页切换
+  $('.page .pagination a').click(function (e) {
+        e.preventDefault();
+        var selfHref = $(this).attr('href');
+         $.WeiPHP.openSelectAppMsg(selfHref,selectAppMsgCallback);
+    })
+    
+function playSound(id,obj){
+	var audio = document.getElementById(id);
+	if(audio.paused){
+		audio.play();
+		$(obj).find('img').attr('src','__STATIC__/base/images/icon_sound_play.gif');
+		audio.addEventListener('ended', function () {
+// 			alert('over');
+			$(obj).find('img').attr('src','__STATIC__/base/images/icon_sound.png');
+		}, false);
+		return;
+	}
+	audio.pause();
+	$(obj).find('img').attr('src','__STATIC__/base/images/icon_sound.png');
+
+}
+</script>
+</body>

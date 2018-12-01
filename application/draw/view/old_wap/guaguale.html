@@ -1,0 +1,97 @@
+{include file="common@base/mobile_head"/}	
+<link href="{:ADDON_PUBLIC_PATH}/common.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+<body>
+	<div id="container" class="container">
+		
+        <div class="guaguale_container">
+        	<div id="guaArea" class="guagua_area" style="width: 300px; height: 177px; background: url({:ADDON_PUBLIC_PATH}/loading_prize.png?v={:SITE_VERSION}) no-repeat center center; background-size: auto 70%;">
+            <span></span>
+            </div>
+        </div>
+        <div class="prize_content">
+        	<div class="tips_div">
+             {eq name='has_prize' value='1'}
+            	<a class="unget_btn" href="{:U('my_prize')}?games_id={$info.id}"><img src="__IMG__/notice.png" height="16" style="vertical-align:-2px"/>&nbsp;查看中奖奖品</a>
+            {/eq}
+            </div>
+            <div class="content_item">
+            	<h6 class="title"><span>活动状态：{$info.status}</span></h6>
+                <div class="content">
+                	开始时间：{$info.start_time|time_format}<br/>
+                    结束时间：{$info.end_time|time_format}
+                </div>
+            </div>
+            <div class="content_item">
+            	<h6 class="title"><span>奖品介绍</span></h6>
+                <ul class="prizes">
+                	 {notempty name='award_lists'}
+	                {volist name='award_lists' id='vo'}
+	                <li>
+	                    	<p class="p_title">{$vo.grade}</p>
+	                        <p class="count">{$vo.num}名</p>
+	                        <img src="{$vo.img_url}"/>
+	                        <p>{$vo.name}</p>
+	                    </li>
+	                {/volist}
+                	
+                	{else/}
+                	
+                	<div class="content">
+                	还没有设置奖品！
+                	</div>
+                {/notempty}
+                </ul>
+            </div>
+            <div class="content_item">
+            	<h6 class="title"><span>活动介绍</span></h6>
+                <div class="content">
+                	{$info.remark}
+                </div>
+            </div>
+            <div class="content_item">
+            	<h6 class="title"><span>中奖记录</span></h6>
+                <div class="content">
+                	{notempty name='luck_lists'}
+                		{volist name='luck_lists' key='k' id='v'  offset="0" length='5'}
+                		{eq name='k' value='5'}
+                			<p>{$k}. {$v.nickname}  {$v.grade}  {$v.award_name}</p>
+                			<!-- 超过5个显示下面的按钮 -->
+                    		<a class="log_btn" href="{:U('prize_log')}?games_id={$v.draw_id}">查看全部中奖记录</a>
+                    		{else/}
+                    		<p>{$k}. {$v.nickname}  {$v.grade}  {$v.award_name}</p>
+                		{/eq}
+                		
+                		{/volist}
+                	 {else/}
+                    	<center>还没有人中奖</center>
+                    {/notempty}
+                </div>
+            </div>
+        </div>
+        
+        <p class="copyright">{$system_copy_right|raw}{$tongji_code|raw}</p>
+    </div>
+    
+    <script type="text/javascript" src="{:ADDON_PUBLIC_PATH}/initGuaguale.js?v=1"></script>
+    <script>
+    var title='{$public_info.public_name}';
+    var qrcode='{$qrcode}';
+    var has_subscribe = "{$has_subscribe}";
+	var container = document.getElementById('guaArea');
+ 	initGuaGuaKa(container, parseInt(container.style.width), parseInt(container.style.height), '#dddddd','{:ADDON_PUBLIC_PATH}/gua_pic.png','{$joinurl}');
+	$('#guaArea').click(function(){
+		if(!(check_subscribe())){
+    		return false;
+    	}
+	});
+ 	//分享
+	$.WeiPHP.initWxShare({
+		title:'{$shareData.title}',
+		desc:'{$shareData.desc}',
+		link:'{$shareData.link}',
+		imgUrl:'{$shareData.imgUrl}?v={:SITE_VERSION}'
+	});
+	</script>
+    {include file="common@base/mobile_foot"/}
+</body>
+</html>

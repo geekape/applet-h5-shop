@@ -1,0 +1,49 @@
+<div>
+	<!--页面标题设置-->
+	<div class="app_editor">
+		<em class="arrow-left"></em>
+        <div class="form_item">
+			<label>标题</label>
+			<div class="iput">
+				<input type="text" style="width:420px" name="diy_editor_title" ng-model="activeItem.params.title" value="{{activeItem.params.title}}" />
+			</div>
+			
+		</div>
+        <div class="form_item">
+			<label>副标题</label>
+			<div class="iput">
+				<input type="text" style="width:420px" name="diy_editor_subtitle" ng-model="activeItem.params.subtitle" value="{{activeItem.params.subtitle}}"/>
+			</div>
+		</div>
+		<div class="form_item">
+			<label>背景颜色</label>
+			<div class="iput">
+				<div data-color="bgColor" class="color_picker" ng-click="colorPicker($event)"  ng-style="{'background-color':activeItem.params.bgColor}"  ng-model="activeItem.params.bgColor"></div>
+				<span class="tips">背景颜色只在手机端显示</span>
+			</div>
+		</div>
+        <div class="form_item">
+			<label>主标题颜色</label>
+			<div class="iput">
+				<div data-color="maincolor" class="color_picker" ng-click="colorPicker($event)"  ng-style="{'background-color':activeItem.params.maincolor}"  ng-model="activeItem.params.maincolor"></div>
+				<span class="tips"></span>
+			</div>
+		</div>
+        <div class="form_item">
+			<label>副标题颜色</label>
+			<div class="iput">
+				<div data-color="subcolor" class="color_picker" ng-click="colorPicker($event)"  ng-style="{'background-color':activeItem.params.subcolor}"  ng-model="activeItem.params.subcolor"></div>
+				<span class="tips"></span>
+			</div>
+		</div>
+        <div class="form_item">
+			<label>对齐方式</label>
+			<div class="iput pt_8">
+				<input type="radio" name="align" value="left" ng-model="activeItem.params.align"/>左对齐&nbsp;&nbsp;&nbsp;
+                <input type="radio" name="align" value="center" ng-model="activeItem.params.align"/>居中对齐&nbsp;&nbsp;&nbsp;
+                <input type="radio" name="align" value="right" ng-model="activeItem.params.align"/>右对齐
+			</div>
+		</div>
+		
+	</div>
+</div>

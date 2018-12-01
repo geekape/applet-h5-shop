@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+{include file="common@base/head"/}
+<body style="background:#fff">
+  <!-- 标签页导航 -->
+  <div class="span9 page_message">
+    <section id="contents">
+      
+      <div class="tab-content" style="padding:0 20px"> 
+        <!-- 表单 -->
+        <form id="form" action="{:U('set_cashout_status')}" method="post" class="form-horizontal">
+          <ul id="tab" class="tab-pane in">
+          	     <li class="form-item cf">
+                    <label class="item-label"><span class="need_flag"></span>设置状态</label>
+                    <div class="controls">
+                    	<input type="radio" name="is_status" value="1" id="audit_1" /><label for="audit_1">处理成功</label>&nbsp;&nbsp;
+                    	<input type="radio" name="is_status" value="2" id="audit_2"  /><label for="audit_2">处理失败</label>
+                    </div>
+                  </li>            
+               	</ul>
+          </div>
+          <div class="form-item form_bh">
+            <input type='hidden' name='id' value='{$id}' />
+            <button class="btn submit-btn ajax-post dialog_submit" id="submit1" type="button" target-form="form-horizontal">确定</button>
+          </div>
+        </form>
+       
+      </div>
+    </section>
+  </div>
+  </div>
+</body>
+<script type="text/javascript">
+$(function(){
+	$("#submit1").click(function(){
+		var is_status=$("input[name='is_status']:checked").val();
+		if(is_status){
+			var tip='';
+			if(is_status==1){
+				tip='确定要设置为 成功 么？ 设置后不能修改！';
+			}else{
+				tip='确定要设置为 失败 么？ 设置后不能修改！';
+			}
+			if(confirm(tip)){
+				var data=$('#form').serialize();
+				var url=$('#form').attr('action');
+				$.post(url,data,function(res){
+					if(res==1){
+						alert('设置成功！');
+						window.parent.location.reload();
+						window.parent.$.Dialog.close();
+					}
+				});
+			}
+		}
+		
+	});
+});
+
+</script>
+</html>

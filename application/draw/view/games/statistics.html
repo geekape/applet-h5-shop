@@ -1,0 +1,311 @@
+{extend name="common@base/common" /}
+{block name="body"}
+<style type="text/css">
+input[type="datetime"] {
+	margin: 0 4px 0;
+	padding: 2px;
+	width: 100px;
+	text-align: center;
+	vertical-align: top;
+}
+
+.btn {
+	padding: 3px 16px;
+}
+
+.als_title {
+	font-weight: 400;
+	font-size: 20px;
+	border-bottom: 1px solid #969696;
+	padding-bottom: 6px;
+}
+
+.als_arrow_up, .als_arrow_down {
+	display: inline-block;
+	width: 14px;
+	height: 18px;
+	vertical-align: text-top;
+}
+
+.als_arrow_up {
+	background: url(__IMG__/als_arrow_up.png) no-repeat center;
+}
+
+.als_arrow_down {
+	background: url(__IMG__/als_arrow_down.png) no-repeat center;
+}
+
+.table-striped {
+	text-align: center;
+	margin-bottom: 30px;
+}
+
+.table-striped td {
+	text-align: left;
+}
+
+.table-striped td p {
+	line-height: 1.5;
+}
+
+.table-striped thead td span {
+	padding: 0 4px;
+	border: 1px solid #8C8C8C;
+	cursor: pointer;
+}
+
+.table-striped thead td span.cur {
+	background: #42B0E4;
+	color: #fff;
+	border-color: #42b0e4;
+}
+
+.loading {
+	display: none;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	-webkit-transform: translate(-50%, -50%);
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.7) url(__STATIC__/base/images/loading.gif)
+		no-repeat center;
+	border-radius: 8px;
+}
+</style>
+  <div class="span9 page_message">
+    <section id="contents">
+      {include file="common@base/_nav" /}
+      <div class="table-bar">
+            <h2 class="als_title">统计报表
+            </h2>
+      </div>
+      <!-- 数据列表 -->
+      <div class="data-table">
+        <div class="table-striped">
+          <table cellspacing="1">
+            <!-- 表头 -->
+            <thead>
+              <tr>
+                  <th width="25%">
+					活动名称
+                  </th>
+                  <th width="40%">
+					活动时间      
+                  </th>
+                  <th width="15%">
+					参与人数
+                  </th>
+                  <th width="15%">
+					总浏览量
+                  </th>
+                </tr>
+            </thead>
+
+            <!-- 列表 -->
+            <tbody>
+                <tr>
+                  <td >
+                      {$info.title}
+                  </td>
+                  <td >
+                    {$info.start_time|time_format}至{$info.end_time|time_format}
+                  </td>
+                  <td>
+                   <a href="{:U('follow_lists',array('games_id'=>$info['id']))}">  {$info.follow_count}</a>
+                  </td>
+                  <td>
+                      {$info.pv|intval}
+                  </td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-striped">
+          <table cellspacing="1">
+            <!-- 表头 -->
+            <thead>
+              <tr>
+                 <td colspan="5" align="left" >
+                    <span class="cur als_tab sevenDay" data-day="7">最近7天</span><span class="als_tab fourteenDay" data-day="14">最近14天</span><span class="als_tab thirtyDay" data-day="30">最近30天</span>
+                    &emsp;自定义：<input type="datetime"  class="time1" name="start_time">至<input type="datetime"  class="time2" name="end_time"><a href="javascript:;" class="btn" id="queryid">查询</a>
+                    <a href="javascript:;" class="fr" id="down_table">下载表格</a>
+                 </td>
+              </tr>
+
+              <tr>
+              <td colspan="5">
+               <div id="container" style="min-width:700px;height:400px"></div>
+               </td>
+              </tr>
+            </thead>
+
+          </table>
+        </div>
+      </div>
+      <div class="page"> {$_page|raw|default=''} </div>
+      <div class="loading"></div>
+    </section>
+  </div>
+{/block}
+{block name="script"}
+  <link href="__STATIC__/datetimepicker/css/datetimepicker.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+  {php}if(config('COLOR_STYLE')=='blue_color') echo '
+  <link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+    ';{/php}
+  <link href="__STATIC__/datetimepicker/css/dropdown.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.js"></script>
+  <script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js?v={:SITE_VERSION}" charset="UTF-8"></script>
+  <script type="text/javascript" src="__STATIC__/highcharts-4.0.1/js/highcharts.js"></script>
+<script type="text/javascript" src="__STATIC__/highcharts-4.0.1/js/highcharts-3d.js"></script>
+
+  <script type="text/javascript">
+
+$(function(){
+  var now = new Date();
+  var nowY = now.getFullYear()
+  var nowM = now.getMonth()+1;
+  var nowD = now.getDate()
+  var week = new Date((new Date).getTime() - 6048e5);
+  var week2= new Date((new Date).getTime() - 12096e5);
+  var month =  new Date((new Date).getTime() - 2592e6);
+  var tabDay = "";
+
+  if(nowM<10) nowM="0" + nowM 
+  if(nowD<10) nowD="0" + nowD 
+
+    $('.time1').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language:"zh-CN",
+        minView: "month",
+        endDate: new Date,
+        autoclose: !0,
+        todayHighlight: !0,
+    });
+    $('.time2').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language:"zh-CN",
+        minView: "month",
+        startDate: week,
+        endDate: new Date,
+        autoclose: !0,
+        todayHighlight: !0,
+    });
+    $(".time1").datetimepicker("setDate", week);
+    //$(".time2").datetimepicker("setDate", now);
+    $(".time2").val(nowY+'-'+nowM+'-'+nowD);
+
+    $(".als_tab").on("click", function() {
+
+        $(this).addClass("cur").siblings().removeClass("cur")
+        var num = $(this).data('day');
+        if(num==7){
+          tabDay = week;
+        }else if(num==14){
+          tabDay = week2;
+        }else if(num==30){
+          tabDay = month;
+        }
+        $(".time1").datetimepicker("setDate", tabDay)
+        $(".time2").datetimepicker("setStartDate", new Date($(".time1").val()))
+        $(".time2").val(nowY+'-'+nowM+'-'+nowD);
+        setData(num,'','');
+    });
+    setData(7,'','');
+    $("input[type='datetime']").on("click", function() {
+
+        $(".time1").datetimepicker().off("changeDate").on("changeDate", function() {
+            //$(".time1").datetimepicker("setEndDate", new Date($(".time2").val()))
+            var month_2 = new Date($(".time1").val()).getTime()+2592e6*2 //60天秒数
+            var nowD = new Date((new Date).getTime())                    //当前时间秒数
+            if(month_2>nowD){
+              month_2=new Date
+            }else{
+              month_2 = new Date(new Date($(".time1").val()).getTime()+2592e6*2)
+            }
+            $(".time2").datetimepicker("setStartDate", new Date($(".time1").val()))
+            $(".time2").datetimepicker("setEndDate",month_2)
+            $(".time2").datetimepicker("setDate",month_2);
+        })
+    })
+
+    $("#queryid").click(function(){
+    	var st=$("input[name='start_time']").val();
+    	var et=$("input[name='end_time']").val();
+    	setData(0,st,et);
+    });
+    $("#down_table").click(function(){
+    	var st=$("input[name='start_time']").val();
+    	var et=$("input[name='end_time']").val();
+    	var url ="{:U('ajax_detail_data',array('games_id'=>$info['id'],'is_down'=>1,'start_day'=>'startday','end_day'=>'endday'))}";
+   		url = url.replace('startday',st);
+   		url = url.replace('endday',et);
+    	window.location.href=url;
+    });
+       
+    
+});
+
+function setData(num,stime,etime){
+	if(stime == ''){
+		stime=$("input[name='start_time']").val();
+	}
+	if(etime==''){
+		etime=$("input[name='end_time']").val();
+	}
+  $('.loading').show();
+	var gameid = "{$info.id}";
+	$.post("{:U('ajax_detail_data')}",{'games_id':gameid,'start_day':stime,'end_day':etime},function(data){
+    	//拆线图
+    	    $('#container').highcharts({
+    	        chart: {
+    	            type: 'spline'
+    	        },
+    	        title: {
+    	            text: '统计图'
+    	        },
+    	        subtitle: {
+    	            text: ''
+    	        },
+    	        credits:{
+    	            enabled:false // 禁用版权信息
+    	       },
+    	        xAxis: {
+    	            type: 'category',
+    	            categories: data.xAxis,
+    	            labels: {
+    	            	 step: data.x_space,
+    	            	//maxStaggerLines: 10
+    	            }
+    	         /*    dateTimeLabelFormats: { // don't display the dummy year
+    	                month: '%e',
+    	                year: '%b'
+    	            } */
+    	        },
+    	        yAxis: {
+    	            title: {
+    	                text: ''
+    	            },
+    	            min: 0
+    	        },
+    	        tooltip: {
+    	           /*  formatter: function() {
+    	                    return '<b>'+ this.series.name +'</b><br/>'+
+    	                    Highcharts.dateFormat('%e. %b', this.x) +': '+ this.y +' m';
+    	            } */
+    	        },
+    	        
+    	        series: data.series
+    	    });
+    	    
+    	    
+    	
+        $('.loading').hide();
+    	 
+    });
+	
+}
+</script>
+{/block}

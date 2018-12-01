@@ -1,0 +1,28 @@
+<import src="/components/shop/search.vue.wxml" />
+<import src="/components/shop/goodsList.vue.wxml" /><template name="2abf3ac3">
+  <view class="_div data-v-5b280840 lists">
+    <view class="_div data-v-5b280840 g-flex"><template data="{{...$root[$kk+'0'], $root}}" is="995aa064"></template> <label class="_span data-v-5b280840 icon-filter" bindtap="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}"></label></view> <template wx:if="{{goods[0]}}" data="{{...$root[$kk+'1'], $root}}" is="03d7a944"></template>
+    <view class="_div data-v-5b280840 hint-page" wx:else>
+      <image src="/static/img/nothing.png" class="_img data-v-5b280840"></image>
+      <view class="_p data-v-5b280840 hint-page__text">还没有任何商品</view>
+    </view>
+    <van-popup show="{{isPopup}}" position="right" bindclose="handleProxy" class="_van-popup data-v-5b280840 popup" data-eventid="{{'6'}}" data-comkey="{{$k}}">
+      <form bindsubmit="handleProxy" data-eventid="{{'5'}}" data-comkey="{{$k}}" class="_form data-v-5b280840">
+        <view class="_div data-v-5b280840 popup-item">
+          <view class="_p data-v-5b280840 popup-item__tt">价格区间(元)</view>
+          <view class="_div data-v-5b280840 popup-item__price"><input type="number" class="_input data-v-5b280840 popup-item__search" bindblur="handleProxy" data-index="1" data-eventid="{{'1'}}" data-comkey="{{$k}}" />
+            <view class="_div data-v-5b280840 popup-item__line">—</view><input type="number" class="_input data-v-5b280840 popup-item__search" bindblur="handleProxy" data-index="2" data-eventid="{{'2'}}" data-comkey="{{$k}}" />
+          </view>
+        </view>
+        <view class="_div data-v-5b280840 popup-item" wx:if="{{sortList.sub_list[key]}}" wx:key="value.pid" key="{{value.pid}}" wx:for="{{sortList.top_list}}" wx:for-index="key" wx:for-item="value">
+          <view class="_p data-v-5b280840 popup-item__tt">{{value.title}}</view>
+          <view class="_div data-v-5b280840 popup-item__sort">
+            <checkbox-group bindtap="handleProxy" wx:key="item.id" key="{{item.id}}" data-eventid="{{'4-'+key+'-'+index}}" data-comkey="{{$k}}" wx:for="{{sortList.sub_list[key]}}" wx:for-index="index" wx:for-item="item" class="_checkbox-group data-v-5b280840">
+              <checkbox id="{{item.id}}" value="{{checkSort}}" bindchange="handleProxy" data-eventid="{{'3-'+key+'-'+index}}" data-comkey="{{$k}}" class="_input data-v-5b280840" /> <label for="{{item.id}}" class="_label data-v-5b280840">{{item.title}}</label></checkbox-group>
+          </view>
+        </view>
+        <view class="_div data-v-5b280840 popup-button"><button form-type="reset" class="_button data-v-5b280840 popup-button__reset">重置</button> <button form-type="submit" class="_button data-v-5b280840 popup-button__sure">确定</button></view>
+      </form>
+    </van-popup>
+  </view>
+</template>

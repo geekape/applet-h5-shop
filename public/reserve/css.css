@@ -1,0 +1,12 @@
+.body{}
+.check-tips{ line-height:14px; font-size:12px;}
+.item_intro{ background:#FFC; color:#f90; padding:5px; border-radius:5px; font-size:12px; margin-bottom:10px;}
+.joined{ background:RGBA(0,0,0,.6); color:#fff; padding:3px 5px; font-size:12px; position:absolute; top:10px; right:10px; z-index:1000; border-radius:5px;}
+.reserve_success h6{ font-size:16px; color:#09C; text-align:center; line-height:40px;}
+#qrCode{ text-align:center;}
+.qr_tips{ text-align:center; line-height:16px; padding:5px 0; color:#888; font-size:12px;}
+.user_info{ border:1px solid #eee; background:#fff; margin:15px; border-radius:5px; padding:10px;}
+.user_info .title{ font-weight:bold; border-bottom:1px solid #ddd; line-height:30px;}
+.user_info .info{ margin:5px 0; font-size:13px;}
+.back_btn{ display:inline; padding:5px 30px;}
+.pay_tips{  background:#FFC; padding:10px; margin:15px; border-radius:5px;}

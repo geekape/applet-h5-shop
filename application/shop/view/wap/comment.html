@@ -1,0 +1,35 @@
+{extend name="shop@wap/common_file" /} {block name="common_body"}
+<body class="comment">
+    <!-- 头部导航 -->
+    <div class="top-nav">
+        <div class="flex">
+            <i class="iconfont icon-back" id="go-back"></i>
+            <slot>
+                <span class="title">评价</span>
+            </slot>
+        </div>
+    </div>
+    <form id="form" class="f-pb-lg" action="{:U('comment',['order_id'=>$info['id']])}" method="post" >
+    <div class="wrap white-bg"> 
+        {volist name="info.goods" id="vo"}
+        <div class="u-comment">
+            <input type="hidden" name="order_id" value="{$info.id}" />
+            <input type="hidden" name="goodsids[]" value="{$vo.shop_goods_id}" />
+            <h3>{$vo.title}</h3>
+                <!-- 评价框 -->
+                <div class="u-comment-box">
+                    <textarea placeholder="快告诉小伙伴宝贝有多好吧" name="content[{$vo.shop_goods_id}]"></textarea>
+                    <span>至少5个字哦</span>
+                </div>
+                <!-- /评价框 -->
+        </div>
+        {/volist}
+            
+    </div>
+
+    <div class="bottom-nav bottom-nav-clear">
+     <button class="weui-btn weui-btn_primary ajax-post" type="submit">提交</button>   
+    </div>
+    </form>
+</body>
+{/block}

@@ -1,0 +1,23 @@
+<template name="0982c60e">
+  <view class="_div data-v-ba2943d4 track">
+    <view class="_div data-v-ba2943d4 card-list">
+      <view class="_div data-v-ba2943d4 card-list__item" wx:key="index" key="{{index}}" wx:for="{{datas}}" wx:for-index="index" wx:for-item="item">
+        <view class="_div data-v-ba2943d4 card-list__hd">
+          <view class="_p data-v-ba2943d4 card-list__tt">{{item[0]}}</view>
+        </view>
+        <view class="_div data-v-ba2943d4 card-list__bd">
+          <view url="{{'../goods_detail/main?id=' + goods.id}}" class="_div data-v-ba2943d4 goods-line" wx:key="idx" key="{{idx}}" wx:for="{{item[1]}}" wx:for-index="idx" wx:for-item="goods">
+            <image class="_img data-v-ba2943d4 u-goods__img" src="{{goods.cover}}"></image>
+            <view class="_div data-v-ba2943d4 goods-line__right">
+              <view class="_p data-v-ba2943d4 u-goods__tt overflow-dot">{{goods.title}}</view>
+              <view class="_div data-v-ba2943d4 goods-line__ft">
+                <view class="_div data-v-ba2943d4 goods-line__price u-goods__price"><label class="_span data-v-ba2943d4 icon_prize">¥</label>{{goods.sale_price}}</view>
+                <view class="_div data-v-ba2943d4 f-font-sm">浏览{{goods.view_count}}次</view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>

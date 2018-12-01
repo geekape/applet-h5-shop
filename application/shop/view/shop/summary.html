@@ -1,0 +1,101 @@
+{extend name="common@base/common" /} {block name="body"} {php}$menu_default = session('menu_default');{/php}
+<style>
+    .goods_dialog {
+        height: auto!important
+    }
+</style>
+<div class="main_body">
+    <!-- 头部 -->
+    <div class="span9 page_message m-home">
+
+        <section id="contents">
+            <div class="tab-content">
+                {empty name="info"}
+                <!-- 还没创建店铺 -->
+                <div style="margin:200px 200px">
+                    <h4>
+                        <center><img src="__STATIC__/base/images/error.png" /></center>
+                        <center><br/><br/>你还没有创建店铺，请先<a href="{:U('add')}">创建店铺</a>！</center>
+                    </h4>
+                </div>
+                {else/} {if condition="!empty($normal_tips)"}
+                <p class="normal_tips" style="border-bottom: 0"><b class="fa fa-info-circle"></b> {$normal_tips|raw}</p>
+                <br/> {/if}
+                <div class="m-home-head">
+                    <ul>
+                        <li>
+                            <a class="btn btn-primary" href="{:U ( 'Shop/Shop/preview',array('uid'=>get_mid()))}" target="_blank">预览店铺</a>
+                        </li>
+                        <li>
+                            <a class="btn btn-link" id="copyLink" href="javascript:;" data-clipboard-text="{:WAP_URL}?pbid={:get_pbid()}&uid={:get_mid()}">复制链接</a>
+                        </li>
+                    </ul>
+                    <script type="application/javascript">
+                        $.WeiPHP.initCopyBtn('copyLink');
+                        $.WeiPHP.initCopyBtn('copyLink2');
+                    </script>
+                    <a href="#">{$info.title}</a>
+                </div>
+
+                <!-- 图表 -->
+                <div class="chart-info">
+                    <div class="all-vip">
+                        <div class="info">
+                            <p class="count">{$follow_count.total}</p>
+                            <p>粉丝总数量</p>
+                        </div>
+                        <p class="total">Total</p>
+
+                        <!-- icon -->
+                        <div class="icon"></div>
+                    </div>
+                    <div class="today-vip">
+                        <div class="info">
+                            <p class="count">{$follow_count.un_count}</p>
+                            <p>取消关注粉丝总数量</p>
+                        </div>
+                        <p class="today">UnSubscribe</p>
+
+                        <!-- icon -->
+                        <div class="icon"></div>
+                    </div>
+                </div>
+
+                <!-- <h4>24小时流量趋势</h4> -->
+
+                <div class="shop_pv" style="height:400px;">
+
+                </div>
+                {/empty}
+            </div>
+        </section>
+        <!-- 底部 -->
+    </div>
+
+</div>
+{/block} {block name="script"}
+<script type="text/javascript" src="__STATIC__/highcharts-4.0.1/js/highcharts.js"></script>
+<script>
+    $(function() {
+        $('.shop_pv').highcharts({
+            chart: {
+                type: 'area'
+            },
+            title: {
+                text: ''
+            },
+            xAxis: {
+                categories: [{
+                    $highcharts.xAxis
+                }]
+            },
+            series: [{
+                name: '{$series}',
+                data: [{
+                    $highcharts.series
+                }]
+            }]
+        });
+    });
+</script>
+{/block}

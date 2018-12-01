@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>跳转提示</title>
+<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<meta content="telephone=no, address=no" name="format-detection">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style type="text/css">
+html,body{ background:#f3f3f3;}
+*{ padding:0; margin:0;}
+.jump_tips{ max-width:640px; margin:auto;}
+.jump_tips a{ color:#666; text-decoration:none}
+header{ background-color:#3eb94e; padding:60px 0 40px; text-align:center}
+header img{ width:80px; margin-bottom:40px;}
+.jump_tips .success{ color:#fff; font-size:16px; padding:0 20px;}
+.jump_tips .jump{ padding:15px; text-align:center}
+.jump_tips .time{ background:#3eb94e; display:inline-block; height:40px; width:40px; line-height:40px; border-radius:20px; color:#fff; margin:20px 0; font-size:22px; text-align:center;-webkit-animation: runtime 1s linear infinite alternate;;}
+@-webkit-keyframes runtime
+{
+0%   { -webkit-transform:translate3d(0px, 100px, 0px); }
+100% { -webkit-transform:translate3d(0px, 0, 0px); }
+}
+</style>
+</head>
+<body>
+<div class="jump_tips">
+    {present name="message"}
+    	<header>
+            <img src="__STATIC__/base/images/mobile_jump_success_face.png"/>
+            <p class="success"><?php echo($message); ?></p>
+        </header>
+    {else/}
+        <header>
+            <img src="__STATIC__/base/images/mobile_jump_err_face.png"/>
+            <p class="success"><?php echo($error); ?></p>
+        </header>
+    {/present}
+    <p style="height:160px; text-align:center">
+    	<span id="time" class="time"><?php echo($waitSecond); ?></span>
+    </p>
+    <p class="jump" >
+    	<a id="href" href="<?php echo($jumpUrl); ?>">页面即将跳转跳转</a>
+    </p>
+</div>
+<script type="text/javascript">
+(function(){
+	
+var wait = '<?php echo($waitSecond); ?>';
+var href = document.getElementById('href').href;
+var timeDom = document.getElementById("time");
+var interval = setInterval(function(){
+	var time = --wait;
+	timeDom.innerHTML=time;
+	if(time <= 0) {
+		location.href = href;
+		clearInterval(interval);
+	};
+}, 2000);
+
+})();
+</script>
+</body>
+</html>

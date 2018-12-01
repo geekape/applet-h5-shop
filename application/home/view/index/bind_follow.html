@@ -1,0 +1,35 @@
+{include file="common@base/head" /}	
+<style type="text/css">
+.qrcode{ padding:150px 0; text-align:center}
+.qrcode #canvas{ margin:10px auto;}
+</style>
+<script type="text/javascript" src="__STATIC__/qrcode/qrcode.js"></script>
+<script type="text/javascript" src="__STATIC__/qrcode/jquery.qrcode.js"></script>
+<body id="leaflets" style="background:#fff">
+	<div class="container body" style="background:#fff">
+		<h1>{$config.title}</h1>
+		<div class="qrcode">
+        	<div id="canvas" style="height:250px; width:250px;"></div>
+            请使用微信扫描二维码进入预览
+		</div>
+		<div class="desc">{$config.info}</div>
+		<p class="copyright">{$config.copyright}</p>
+	</div>
+
+</body>
+<script type="text/javascript">
+function checkBind(){
+	var url = "{:U('bind_follow',array('uid'=>$uid,'publicid'=>$publicid))}";
+	$.get(url,{is_ajax:1},function(res){
+		if(res=='-5'){
+			alert('绑定失败');
+		}else if(res>0){
+			window.location.href="{:U('bind_follow_after')}";
+		}
+	});
+}
+setInterval(checkBind,2000);
+var url = "{$url}";
+$('#canvas').qrcode({width:250,height:250,text:url}); 
+</script>
+</html>

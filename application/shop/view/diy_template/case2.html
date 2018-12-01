@@ -1,0 +1,47 @@
+<div class="case_box2">
+<p class="case_title">{{module.params.title}}</p>
+<div  ng-switch="module.params.style">
+    <div  ng-switch-when="2">
+        <div  ng-switch="module.params.position">
+            <ul class="case_default_list2" ng-switch-when="1">
+                <li ng-repeat="m in module.params.pic_list">
+                	<a href="{{m.url}}">
+                    	<img ng-if="m.pic" src="{{m.pic}}"/>
+                        <p class="title" ng-show="module.params.show_title">{{m.title}}</p>
+                	</a>
+                </li>
+            </ul>
+            <ul class="case_default_list2" ng-switch-when="2">
+                <li ng-repeat="m in module.params.pic_list" style="float: right">
+                    <a href="{{m.url}}">
+                        <img ng-if="m.pic" src="{{m.pic}}"/>
+                        <p class="title" ng-show="module.params.show_title">{{m.title}}</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div  ng-switch-when="3">
+        <div  ng-switch="module.params.position">
+            <ul class="case_three_list2" ng-switch-when="1">
+                <li ng-repeat="m in module.params.pic_list_3">
+                	<a href="{{m.url}}">
+                    	<img ng-if="m.pic" src="{{m.pic}}"/>
+                        <p class="title" ng-show="module.params.show_title">{{m.title}}</p>
+                	</a>
+                </li>
+            </ul>
+            <ul class="case_three_list2" ng-switch-when="2">
+                <li ng-repeat="m in module.params.pic_list_3" style="float:right">
+                    <a href="{{m.url}}">
+                        <img ng-if="m.pic" src="{{m.pic}}"/>
+                        <p class="title" ng-show="module.params.show_title">{{m.title}}</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<p class="case_content_title">{{module.params.contentTitle}}</p>
+<div class="case_content">{{module.params.content}}</div>
+</div>

@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+{include file="common@base/head"/}
+<body style="background:#fff; overflow:hidden">
+  <!-- 标签页导航 -->
+  <div class="span9 page_message">
+    <section id="contents">
+      <div class="tab-content" style="padding:0 20px"> 
+        <!-- 表单 -->
+        <form id="form" action="{:U('do_fafang')}" method="post" class="form-horizontal">
+          <ul id="tab" class="tab-pane in">
+                  
+            	 <li class="form-item cf">
+                    <label class="item-label"><span class="need_flag">*</span> 发放</label>
+                    <div class="controls">
+                       <input type='radio' name='state' id='state_0' value='0' {eq name='data.state' value='0'}checked=checked{/eq}><label for='state_0'>未发放</label>
+                        &nbsp;&nbsp;
+                       <input type='radio' name='state' id='state_2' value='2' {eq name='data.state' value='2'}checked=checked{/eq}><label for='state_2'>通过验证</label>
+                       
+                       &nbsp;&nbsp;
+                       <input type='radio' name='state' id='state_1' value='1' {eq name='data.state' value='1'}checked=checked{/eq}><label for='state_1'>已发放</label>
+                       
+                    </div>
+                  </li>  
+                  
+                  <li class="form-item cf" id="event_div" >
+                    <label class="item-label"><span class="need_flag"></span>备注</label>
+                    <textarea name='remark' style="width: 350px;height: 150px;"></textarea>
+                  </li> 
+                  
+               	</ul>
+          </div>
+          <div class="form-item form_bh">
+            <input type="hidden" name="id" value="{$data.id|default=0}">
+            <button class="btn submit-btn ajax-post dialog_submit" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+          </div>
+        </form>
+       
+      </div>
+    </section>
+  </div>
+  </div>
+</body>
+<script type="text/javascript">
+$(function(){
+	var address="{$data.address}";
+	var state_data="{$data.state}"
+// 	$('#submit').click(function(){
+// 		alert(address);
+// 		var state=$("input[name='state']:checked").val();
+// 		if(state_data==0 && state==1){
+// 			alert('该用户还没有通过核销验证！');
+// 		}
+// 	});
+});
+</script>
+</html>

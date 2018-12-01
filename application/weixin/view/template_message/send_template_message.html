@@ -1,0 +1,193 @@
+{extend name="common@base/common" /} {block name="body"}
+<style text='text/css'>
+.image_material{
+    border: 1px dashed #ddd;
+    width: 308px;
+    height: 196px;
+     background: #eee;
+    text-align: center;
+    color: #333;
+    display: block;
+    float: left;
+	margin-left:10px;
+   display:none;
+   position:relative;
+}
+.image_material .select_image{line-height: 196px; display:block; height:200px;}
+.image_material .delete{ position:absolute; bottom:3px; left:3px; display:none}
+.appmsg_area{ position:relative;}
+.appmsg_area .delete{ position:absolute; bottom:10px; left:10px; z-index:1000; margin:10px;}
+.voice_wrap{ width:308px;}
+.video_wrap{ width:222px;}
+#video_area{ height:250px}
+.appmsg_area .select_video{  height: 240px;line-height: 240px; cursor:pointer}
+.delete {
+position: absolute;
+bottom: 10px;
+left: 10px;
+z-index: 1000;
+margin: 10px;
+}
+</style>
+  <div class="span9 page_message">
+  
+    <section id="contents"> {include file="common@base/_nav" /}
+    
+      <div class="tab-content"> 
+      
+      <div class="message_list" style="padding:10px;  text-align: left;color: #333;padding: 10px;background-color: #eaeaea;">
+            {php} isset($post_url) || $post_url = U('send_template_message', $get_param);{/php}
+            <form id="form" action="{$post_url}" method="post" class="form-horizontal form-center">
+                  <div class="form-item cf toggle-send_type">
+                    <label class="item-label">标题 <span class="check-tips"> </span></label>
+                    <div class="controls">
+                      <input type="text" name="title" class="text input-large" value="通知提醒">
+                    </div>
+                  </div>
+                  
+                <label class="item-label"> 发送内容 <span class="check-tips"> </span></label>
+                <label class="textarea" style="position:relative; overflow:hidden; zoom:1;">
+                    <textarea name="content" placeholder="请输入要发送的文本"  id='message_content'></textarea>
+                 </label>
+                 
+                
+                  
+                  <div class="form-item cf toggle-send_type">
+                    <label class="item-label">发起人 <span class="check-tips"> </span></label>
+                    <div class="controls">
+                      <input type="text" name="sender" class="text input-large" {notempty name="page_title"}value="{$page_title}"{/notempty} >
+                    </div>
+                  </div>
+                  
+                  <div class="form-item cf toggle-send_type">
+                    <label class="item-label">跳转链接 <span class="check-tips"> （链接需要加http://或https://）</span></label>
+                    <div class="controls">
+                      <input type="text" name="jamp_url" class="text input-large" value="">
+                    </div>
+                  </div>
+                  
+                  
+                 <div class="form-item cf toggle-send_type">
+                    <label class="item-label"> 发送方式 <span class="check-tips"> </span></label>
+                    <div class="controls">
+                      <select name="send_type">
+                        <option selected="" toggle-data="group_id@show,send_openids@hide" class="toggle-data" value="0">按用户组发送 </option>
+                        <option toggle-data="group_id@hide,send_openids@show" class="toggle-data" value="1">指定OpenID发送 </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-item cf toggle-group_id">
+                        <label class="item-label"> 群发对象 <span class="check-tips"> （全部用户或者某分组用户） </span></label>
+                        <div class="controls">
+                          <div id="dynamic_select_group_id"></div>
+                          <select name="group_id">
+                            <option toggle-data="全部用户" class="toggle-data" value="0">全部用户</option>
+                            {volist name="group_list" id="vo"}
+                            <option toggle-data="" class="toggle-data" value="{$vo.id}">{$vo.title} </option>
+                            {/volist}
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-item cf toggle-send_openids" style="display: none;">
+                      	<a class="border-btn" href="javascript:;" onClick="selectUser()">选择指定的用户</a>
+                        <br/>
+                        <div class="mt10">指定的用户：<span id="send_openids" class="colorless"></span></div>
+                        <br/>
+                        <div style="display:none">
+                            <label class="item-label"> 要发送的OpenID <span class="check-tips"> （多个可用逗号或者换行分开，OpenID值可在微信用户的列表中找到） </span></label>
+                            <div class="controls">
+                              <label class="textarea input-large">
+                                <textarea name="send_openids"></textarea>
+                              </label>
+                            </div>
+                        </div>
+                      </div>
+                      <!-- <div class="form-item cf ">
+                        <label class="item-label"> 定时发送 </label>
+						<div class="controls">
+					         <input style="width:175px"  type="datetime" name="send_time" class="text time" value="" placeholder="请选择时间" />
+					    </div>
+                   	 </div> -->
+                      
+                 <button class="btn submit-btn ajax-post" id="submit1" type="button" target-form="form-horizontal">群 发</button>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+<!--                   <button onclick="preview()" class="border-btn submit-btn ajax-post">预览</button> -->
+           		       	
+            </form>
+        </div>
+       
+      </div>
+    </section>
+  </div>
+{/block}
+{block name="script"}
+  <link href="__STATIC__/datetimepicker/css/datetimepicker.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+   {php}if(config('COLOR_STYLE')=='blue_color') echo '
+   <link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+    ';{/php}
+  <link href="__STATIC__/datetimepicker/css/dropdown.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.js"></script>
+  <script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js?v={:SITE_VERSION}" charset="UTF-8"></script>
+   <script type="text/javascript">
+$('#submit1').click(function(){
+	var content=$('#message_content').val();
+	if(content==''){
+		alert('请输入要发送内容');
+		return false;
+	}
+	if(confirm("确定要群发消息？")){
+		$('#form').submit();
+	}
+});
+$(function(){
+	$('.time').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        language:"zh-CN",
+        minView:0,
+        autoclose:true
+    });
+    $('.date').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language:"zh-CN",
+        minView:2,
+        autoclose:true
+    });
+	showTab();
+	
+	$('.toggle-data').each(function(){
+		var data = $(this).attr('toggle-data');
+		if(data=='') return true;		
+		
+	     if($(this).is(":selected") || $(this).is(":checked")){
+			 change_event(this)
+		 }
+	});
+	
+	$('select').change(function(){
+		$('.toggle-data').each(function(){
+			var data = $(this).attr('toggle-data');
+			if(data=='') return true;		
+			
+			 if($(this).is(":selected") || $(this).is(":checked")){
+				 change_event(this)
+			 }
+		});
+	});
+});
+function selectUser(){
+	$.WeiPHP.openSelectUsers("{:U('weixin/UserCenter/lists',array('isAjax'=>1))}",0,function(data){
+		if(data && data.length>0){
+			var idsArr  = new Array();
+			var nameArr = new Array();
+			for(var i=0;i<data.length;i++){
+				idsArr.push(data[i].openid);
+				nameArr.push(data[i].nickname);
+			}
+			$('textarea[name="send_openids"]').val(idsArr.toString());
+			$('#send_openids').text(nameArr.toString());
+			
+		}
+	})
+}
+</script> 
+{/block}

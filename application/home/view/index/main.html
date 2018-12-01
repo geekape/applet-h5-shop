@@ -1,0 +1,29 @@
+{extend name="common@base/no_side_common" /}
+{block name="body"}
+  <div class="admin_container">
+    <section id="contents" class="tab-content">
+      <div class="table-bar">
+                
+        <h6 class="main_h6">我的应用</h6>
+     
+       
+      <div class="main_apps">
+      	<ul>
+            {volist name="list_data" id="data"}
+                <li>
+                	<div class="img">
+                		<a href="{$data.addons_url}"><img src="{$data.app_icon}"/></a>
+                    	
+                    </div>
+                	<div class="desc">
+                          <p class="name">{$data.title}</p>
+                          <p class="intro">{$data.description}</p>
+                    </div>
+                </li>
+            {/volist}
+        </ul>
+      </div>
+
+    </section>
+  </div>
+{/block}

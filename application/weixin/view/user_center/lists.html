@@ -1,0 +1,316 @@
+{extend name="common@base/common" /}
+{block name="body"}
+        <style>
+            .form-inline select{
+               margin: 0;
+               height:30px;
+            }
+            .form-group input{
+                margin-bottom: 0;
+            }
+            .normal_tips {
+              border: 0!important;
+              margin: 20px;
+            }
+        </style>
+
+  <div class="span9 page_message">
+    <section id="contents"> {include file="common@base/_nav" /}
+      <div class="table-bar">
+        <div class="fl">
+          <div class="tools"> <a href="javascript:void(0);" class="btn setting_group">设置用户组</a> &nbsp; <a href="{:U ( 'home/AuthGroup/export?type='.$type.'&id='.$group_id )}" class="btn">导出用户</a> &nbsp;
+          {if condition="$syc_wechat"}<a href="{:U('syc_auth_group')}" class="btn tongbu">一键同步微信公众号粉丝</a> &nbsp;
+             {/if}
+          </div>
+        </div>
+        <!-- 高级搜索 -->
+        <div class="search-form fr cf">
+          <div class="sleft" style="margin-right:10px;">
+              <select name="group" style="border:none; padding:4px; margin:0;">
+              <option value="{:U ( 'weixin/UserCenter/lists',array('group_id'=>0,'isAjax'=>0,'isRadio'=>$isRadio,'type'=>$type))}" {eq name="$group_id" value="0"}selected{/eq} >全部用户</option>
+                  {volist name="auth_group" id="vo"}
+                      <option value="{:U ( 'weixin/UserCenter/lists',array('group_id'=>$vo['id'],'isAjax'=>0,'isRadio'=>$isRadio,'type'=>$type))}" {eq name="vo['id']" value="$group_id"}selected{/eq} >{$vo.title}</option>
+                  {/volist}
+              </select>
+          </div>
+          <div class="sleft">
+            <input type="text" placeholder="请输入昵称搜索" value="{$search_key}" class="search-input" name="key">
+            <a id="search" href="javascript:;" class="sch-btn"><i class="btn-search"></i></a> </div>
+        </div>
+        <!-- 多维过滤 -->
+      </div>
+
+      
+
+      <div class="row justify-content-between" style="margin-left: 0">
+                <div class="form-inline form-group ml-4">
+                          <label class="mr-1 ml-1" style="align-items: start;">
+                                筛选时间：
+                          </label>
+                          <input style="width:175px" type="datetime" name="s_time" class="text time mr-1 ml-1" value="{:input('s_time')}" placeholder="请选择时间" />
+                          ：
+                          <input style="width:175px"  type="datetime" name="e_time" class="text time mr-1 ml-1" value="{:input('e_time')}" placeholder="请选择时间" />
+                    <pre>  </pre>
+                    
+                    <label class="mr-1 ml-1" style="align-items: start;">
+                        性别：
+                    </label>
+                    <select name="sex" style="max-width:150px;padding:0">
+                        <option value="" {eq name=":input('sex')" value=""}selected{/eq} >不限</option>
+                        <option value="1" {eq name=":input('sex')" value="1"}selected{/eq} >男</option>
+                        <option value="2" {eq name=":input('sex')" value="2"}selected{/eq} >女</option>
+
+                    </select>
+                    <pre>  </pre>
+
+                    <a href="javascript:void(0);" class="btn search_duo" style="margin-left:10px">搜索</a>
+                </div>
+
+      </div>
+
+
+      <!-- 数据列表 -->
+      <div class="data-table">
+        <div class="table-striped">
+          <table cellspacing="1">
+            <!-- 表头 -->
+            <thead>
+              <tr>
+                <th class="row-selected row-selected"> <input type="checkbox" class="check-all regular-checkbox" id="checkAll">
+                  <label for="checkAll"></label></th>
+                <th>头像</th>
+                <th>用户昵称</th>
+                <th>性别</th>
+                <th>地区</th>
+
+                <th>关注时间</th>
+
+                <th>分组</th>
+
+                <th>积分</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+
+            <!-- 列表 -->
+            <tbody>
+              {volist name="list_data" id="vo"}
+                <tr>
+                  <td><input type="checkbox" id="check_{$vo.uid}" name="ids[]" value="{$vo.uid}" class="ids regular-checkbox">
+                    <label for="check_{$vo.uid}"></label></td>
+                  <td>{$vo.headimgurl|url_img_html|raw}</td>
+                  <td>{$vo.nickname}</td>
+                  <td>{$vo.sex_name}</td>
+                  <td>{$vo.country}{$vo.province}{$vo.city}</td>
+			      <td>{$vo.reg_time|time_format}</td>
+                  <td>{$vo.group}</td>
+                  <td>{$vo.score}</td>
+                  <td>
+                  <a href="{:U ( 'weixin/UserCenter/detail',array('uid'=>$vo['uid']))}" target="_self">详细资料</a>
+                  <!--<a href="{:U ( 'weixin/UserCenter/edit',array('uid'=>$vo['uid']))}" target="_self">编辑</a>-->
+                  <!--a href="{:U('home/CreditData/lists',array('uid'=>$vo['uid']))}" target="_self">积分记录</a-->
+                  </td>
+                </tr>
+              {/volist}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="page"> {$_page|raw|default=''} </div>
+    </section>
+  </div>
+   <!-- 用户分组弹框 -->
+  <div class="group_html" style="display:none">
+    	<div class="manage_group normal_dialog">
+            <div class="content">
+<!--            <select name="type" id="select_type" style="width:25%">
+                    <option value="0">移入</option>
+                    <option value="1">移出</option>
+            </select>-->
+            <select name="group" id="select_group" style="width:100%">
+                {volist name="auth_group" id="vo"}
+                    <option value="{$vo.id}">{$vo.title}</option>
+                {/volist}
+            </select>
+            <div class="btn_wrap"><button class="btn setting_group" url="{:U('changeGroup')}" target-form="ids">确定</button></div>
+            </div>
+        </div>
+    </div>
+    <!-- 备注用户名 -->
+    <div class="remark_html" style="display:none">
+    	<div class="manage_group normal_dialog">
+            <div class="content">
+            <input name="remark" id="set_remark" value="" placeholder="请输入备注信息" class="text"  />
+            <div class="btn_wrap"><button class="btn setting_remark" url="{:U('set_remark')}">确定</button></div>
+            </div>
+        </div>
+    </div>
+{/block}
+{block name="script"}
+<link href="__STATIC__/datetimepicker/css/datetimepicker.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+   {php}if(config('COLOR_STYLE')=='blue_color') echo '
+   <link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+    ';{/php}
+  <link href="__STATIC__/datetimepicker/css/dropdown.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.js"></script>
+  <script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js?v={:SITE_VERSION}" charset="UTF-8"></script>
+  <script type="text/javascript">
+$(function(){
+
+	$('.time').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        language:"zh-CN",
+        minView:0,
+        autoclose:true
+    });
+    $('.date').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language:"zh-CN",
+        minView:2,
+        autoclose:true
+    });
+
+
+	//search_type搜索功能
+  $("#search").click(function(){
+    var url = "{:U ( 'weixin/UserCenter/lists',['key'=>'s_key','type'=>$type])}";
+    var key = $('[name="key"]').val();
+    url = url.replace('s_key',key);
+
+    url = url.replace(/[?&=]/g,'/');
+				window.location.href = url;
+  });
+
+  	$(".search_duo").click(function(){
+	    var url = "{:U ( 'weixin/UserCenter/lists',['s_time'=>'s_s_time','e_time'=>'s_e_time','type'=>'s_type','sex'=>'s_sex'])}";
+		var s_time  = $('[name="s_time"]').val();
+		var e_time = $('[name="e_time"]').val();
+		var type = "{:input('type/d', 0)}";
+		var sex = $('[name="sex"]').val();
+
+		if(s_time == ''){
+			url = url.replace('/s_time/s_s_time','');
+		}else{
+			url = url.replace('s_s_time',s_time);
+		}
+
+		if(e_time == ''){
+			url = url.replace('/e_time/s_e_time','');
+		}else{
+			url = url.replace('s_e_time',e_time);
+		}
+
+		if(type == ''){
+			url = url.replace('/tag_id/s_type','');
+		}else{
+			url = url.replace('s_type',type);
+		}
+
+		if(sex == ''){
+			url = url.replace('/sex/s_sex','');
+		}else{
+			url = url.replace('s_sex',sex);
+		}
+
+	    url = url.replace(/[?&=]/g,'/');
+				window.location.href = url;
+	});
+
+    //回车自动提交
+    $('.search-form').find('input').keyup(function(event){
+        if(event.keyCode===13){
+            $("#search").click();
+        }
+    });
+	$('select[name=group]').change(function(){
+		location.href = this.value;
+	});
+	//设置分组
+	$('.setting_group').click(function(){
+		var html = $($('.group_html').html());
+		query = $('.ids').serialize();
+		if(query==""){
+			alert('请选择用户');
+			return;
+		}
+		$.Dialog.open('设置用户分组',{width:300,height:160},html);
+		//$.thinkbox(html);
+		$('button',html).click(function(){
+			that = this;
+			target = $(that).attr('url');
+			var group = $('#select_group', html).val();
+			query = query + "&group_id="+group ;//+ "&type="+$('#select_type', html).val();
+			$(that).addClass('disabled').attr('autocomplete','off').prop('disabled',true);
+            $.post(target,query).success(function(data){
+				location.reload();
+				$('.thinkbox-modal-blackout-default,.thinkbox-default').hide();
+            });
+		})
+	})
+	//设置标签
+	$('.setting_tag').click(function(){
+    //用户标签弹框
+		var html = $('<div class="manage_group normal_dialog">'+
+                  '<div class="content">'+
+                          '{volist name="tags" id="vo"}'+
+                            '<div class="check-item"><input type="checkbox" class="regular-checkbox select_tag" value="{$vo.id}" id="tag_{$vo.id}" name="tags[]">'+
+                              '<label for="tag_{$vo.id}"></label>{$vo.title} </div>'+
+                          '{/volist}'+
+                  '<div class="btn_wrap"><button class="btn setting_tag" url="{:U('changeTag')}" target-form="ids">确定</button></div>'+
+                  '</div>'+
+              '</div>');
+    query = $('.ids').serialize();
+    if(query==""){
+      alert('请选择用户');
+      return;
+    }
+    $.Dialog.open('设置用户标签',{width:300,height:300},html);
+    //$.thinkbox(html);
+      var voList = $('.select_tag',html).html();
+      //console.log(voList);
+      if(voList==undefined){
+        $('.content',html).html("<center>请先增加标签</center>")
+      }
+    $('button',html).click(function(){
+      that = this;
+      target = $(that).attr('url');
+      var tags=''
+      $('.select_tag', html).each(function() {
+        if($(this).prop('checked'))  tags += $(this).val()+',';
+
+            });
+      if(tags==""){
+        alert('请选择标签');
+        return;
+        }
+			query = query + "&tags="+tags ;//+ "&type="+$('#select_type', html).val();
+			$(that).addClass('disabled').attr('autocomplete','off').prop('disabled',true);
+            $.post(target,query).success(function(data){
+				location.reload();
+				$('.thinkbox-modal-blackout-default,.thinkbox-default').hide();
+            });
+		})
+	})
+	$('.set_remark').click(function(){
+		var html = $($('.remark_html').html());
+		var uid = $(this).attr('rel');
+		$.post("{:U('getUserRemark')}",{'uid':uid},function(re){
+			$("input[name='remark']").val(re);
+		});
+		$.Dialog.open('设置用户备注',{width:300,height:160},html);
+		//$.thinkbox(html);
+		$('button',html).click(function(){
+			that = this;
+			target = $(that).attr('url');
+			query = "uid="+uid+"&remark="+$('#set_remark', html).val() ;//+ "&type="+$('#select_type', html).val();
+			$(that).addClass('disabled').attr('autocomplete','off').prop('disabled',true);
+            $.post(target,query).success(function(data){
+				location.reload();
+				$('.thinkbox-modal-blackout-default,.thinkbox-default').hide();
+            });
+		})
+	})
+
+})
+</script>
+{/block}

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="小程序开发，微信开发，小程序商城，weiphp，店付宝，公众号开发，微信商城" name="keywords"/>
+    <meta content="小程序开发，微信开发，商城小程序，小程序定制开发-深圳市圆梦云科技有限公司，店付宝小程序，微信小程序，微信商城，weiphp,新零售|O2O模式|餐饮|小程序开发|社区|门店|教育|教程|视频|解决方案" name="description"/>
+    <link rel="shortcut icon" href="{:SITE_URL}/favicon.ico">
+    <title>产品下载|weiphp|小程序开发|微信开发|微信小程序开发|小程序定制开发|小程序商城|weiphp店付宝|公众号|小程序|圆梦云</title>    
+
+    <link type="text/css" rel="stylesheet" href="__CSS__/oweb.css?v={:SITE_VERSION}" />
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css"></head>
+    <script type="text/javascript" src="__STATIC__/jquery-2.0.3.min.js"></script>
+</head>
+
+<body>
+{include file="index/_head" /}
+<div class="body">
+    <div class="product one ">
+        <div class="version">
+            <h1>WeiPHP5.0beta版本</h1>
+            <span>WeiPHP是一款方便快捷，扩展性强的开源微信公众号平台开发框架，<br>
+                利用它您可以轻松搭建一个属于自己的微信公众号平台。
+            </span>
+            <div>
+                <!--<button class="btn">免费下载5.0beta版本</button><br>-->
+                <button class="btn" disabled="disabled">敬请期待</button><br>
+                <a class="manual" href="#">二手开发手册</a> <a class="manual" href="#">配置视频教程</a>
+            </div>
+        </div>
+        <div class="more">
+            <span>更加人性化的后台操作</span><span>更多公众号接口的实现</span><span>更加简单而快捷的微信二次开发</span>
+        </div>
+    </div>
+
+    <div class="product two">
+        <div class="know_could_product">
+            <h1>认识我们的云产品</h1>
+        </div>
+        <div class="could_product">
+            <div class="card-group">
+                <div class="card">
+                    <a href="">
+                    <div class="card-body">
+                        <img src="__IMG__/oweb/could_product_icon1.jpg">
+
+                        <h4 class="card-title">ThinkPHP5.0全新开发</h4>
+                        <p class="card-text">同时支持微信公众号和小程序<br>
+                            详细的二次开发手册，方便您的扩展<br>
+                            轻松实现您的定制需求
+                        </p>
+                    </div>
+                    </a>
+                </div>
+                <div class="card">
+                    <a href="">
+                    <div class="card-body">
+                        <img src="__IMG__/oweb/could_product_icon2.jpg">
+                        <h4 class="card-title">丰富的功能模块</h4>
+                        <p class="card-text">为小程序和商城提供丰富的插件<br>
+                            下载耿兴华定制轻而易举
+                        </p>
+                    </div>
+                    </a>
+                </div>
+                <div class="card">
+                    <a href="">
+                    <div class="card-body">
+                        <img src="__IMG__/oweb/could_product_icon3.jpg">
+                        <h4 class="card-title">一体化运营</h4>
+                        <p class="card-text">只需建立一套环境<br>
+                            即可同时管理小程序和公众号，微商城完美支持<br>
+                            公众号和小程序一体化运营，从技术上解决您的运营难题
+                        </p>
+                    </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="product three">
+        <div class="know_about">
+            <h1>了解我们的BUG管理系统</h1>
+        </div>
+        <a class="btn use_now" href="https://bug.weiphp.cn/">立即使用</a>
+    </div>
+    <div class="product four">
+        <div class="old_version">
+            <h1>WeiPHP4.0</h1>
+        </div>
+        <div class="about_old_version">
+            <span>基于ThinkPHP3.2开发框架，WeiPHP是一款方便搭建，<br>
+                扩展性强的开源微信公众号平台开发框架，<br>
+                利用它您可以轻松搭建一个属于自己的微信公众号运营平台
+            </span>
+            <br>
+            <a class="btn free_download" href="https://coding.net/u/weiphpdev/p/weiphp4.0/git">免费下载</a><br>
+            <a class="manual" href="https://www.kancloud.cn/wephp/weiphp4">二次开发手册</a>
+            <a class="manual" href="http://v.qq.com/vplus/6ea5afa98685158967d5bd9617482a49/foldervideos/s0x000101o33b1c">配置视频教程</a>
+        </div>
+    </div>
+</div>
+{include file="index/_footer" /}
+<script>
+    $(document).ready(function(){
+        var width = $(window).width();
+        var docwidth = $(document).width();
+        var height = width;
+        $(".product").css({'width' : width, 'height': height * 0.4});
+        $(".product.four").css({ 'height': height * 0.3});
+        $(".head").css('width',width);
+        $(".foot").css('width',width);
+        $(window).resize(function () {
+            var width = $(window).width();
+            var height = width;
+            $(".product").css({'width' : width, 'height': height * 0.4});
+            $(".product.four").css({ 'height': height * 0.3});
+            $(".head").css('width',width);
+            $(".foot").css('width',width);
+        })
+    })
+</script>
+</body>
+</html>

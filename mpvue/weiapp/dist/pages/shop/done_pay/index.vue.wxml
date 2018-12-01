@@ -1,0 +1,16 @@
+<template name="6819a259">
+  <view class="_div data-v-36549b54 done-pay">
+    <view class="_div data-v-36549b54 m-card">
+      <view class="_div data-v-36549b54 m-card__bd">
+        <view class="_i data-v-36549b54 iconfont icon-success"></view>
+        <view class="_p data-v-36549b54 f-font-sm">已支付</view>
+        <view class="_p data-v-36549b54 u-price"><label class="_span data-v-36549b54 icon_prize">¥</label>{{meoney}}</view>
+      </view>
+      <view class="_div data-v-36549b54 m-card__ft g-flex">
+        <view class="_div data-v-36549b54 g-flex__item f-font-sm">支付方式</view>
+        <view class="_div data-v-36549b54 f-font-sm">微信支付</view>
+      </view>
+    </view>
+    <navigator url="../index/main" open-type="switchTab" class="_a data-v-36549b54 u-button u-button--primary u-button--big">返回首页</navigator>
+  </view>
+</template>

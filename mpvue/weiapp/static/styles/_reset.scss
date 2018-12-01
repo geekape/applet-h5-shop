@@ -1,0 +1,53 @@
+/**
+* 页面重置
+*/
+
+img {
+  max-width: 100%;
+  display: inline-block;
+}
+button,view
+scroll-view,
+.van-cell {
+  &:before,
+  &:after {border: 0}
+}
+
+input,button,textarea {
+  border: 0;
+  background: transparent;
+}
+a {color: #333}
+
+page {
+  background:#f9f9f9;
+}
+body {
+  font-size: 16px;
+  max-width: 750PX;
+  .bottom-bar,
+  .weui-tabbar {
+    max-width: 750PX
+  }
+  .weui-badge {z-index:88;}
+
+}
+
+/**
+* 清除Vant UI样式
+*/
+
+
+  
+
+
+/**
+* 清除微信小程序原生组件样式
+*/
+
+// 轮播
+swiper-item image {
+  width: 100%;
+  height: 160px;
+}
+

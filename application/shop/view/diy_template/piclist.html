@@ -1,0 +1,35 @@
+<div class="pic_list"  ng-switch="module.params.list_style">
+<div class="default_div" ng-show="!module.params.pic_list.length">请添加图片</div>
+<ul class="one_colum_list" ng-switch-when="1">
+    <li ng-repeat="m in module.params.pic_list">
+    	<a href="{{m.url}}">
+        	<img ng-if="m.pic" src="{{m.pic}}"/>
+        	<p class="title" ng-show="module.params.show_title">{{m.title}}</p>
+        </a>
+    </li>
+</ul>
+<ul class="two_colum_list" ng-switch-when="2">
+    <li ng-repeat="m in module.params.pic_list">
+    	<a href="{{m.url}}">
+        	<img ng-if="m.pic" src="{{m.pic}}"/>
+            <p class="title" ng-show="module.params.show_title">{{m.title}}</p>
+    	</a>
+    </li>
+</ul>
+<ul class="three_colum_list" ng-switch-when="3">
+    <li ng-repeat="m in module.params.pic_list">
+    	<a href="{{m.url}}">
+        	<img ng-if="m.pic" src="{{m.pic}}"/>
+            <p class="title" ng-show="module.params.show_title">{{m.title}}</p>
+    	</a>
+    </li>
+</ul>
+<ul class="four_colum_list" ng-switch-when="4">
+    <li ng-repeat="m in module.params.pic_list">
+    	<a href="{{m.url}}">
+        	<img ng-if="m.pic" src="{{m.pic}}"/>
+            <p class="title" ng-show="module.params.show_title">{{m.title}}</p>
+    	</a>
+    </li>
+</ul>
+</div>

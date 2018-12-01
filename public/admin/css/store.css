@@ -1,0 +1,155 @@
+/**
+ * 描    述: 后台商店样式
+ * 作用范围：后台独有
+ */
+.app-lists a:hover{ border:none}
+ .mt10{ margin-top:10px;}
+ .less{ color:#999;}
+ .less_tips{ color:#999; font-size:14px;}
+.app-lists{ overflow:hidden; width:100%; zoom:1}
+.app-list{ width:47%; float:left; margin:15px 10px; background-color:#fff;}
+.page_tit{ padding:6px 10px; background-color:#f3f3f3; border-left:3px solid #090; border-bottom:1px solid #eee}
+.app-list ul{ overflow:hidden;zoom:1; padding:20px 10px;}
+.app-list ul li{ width:50%; float:left; margin-bottom:20px; padding-bottom:20px;}
+.app-list ul li .icon{ float:left; margin-right:10px;}
+.app-list ul li .icon img{ display:block}
+.app-list ul li .info{ padding:0 10px 10px 74px;}
+.app-list ul li .info h4{ height:40px; overflow:hidden; color:#666}
+.app-list ul li .detail{ margin-left:74px; padding-right:20px; display:block; text-align:right; color:#999}
+.app-list ul li .detail:hover{ border:none}
+.line-d{ border:1px solid #eee; box-shadow:0 0 1px #ccc;}
+.app-lists .info .free{ color:#F30;}
+.app-lists .info .price{ color:#f30; font-size:16px;}
+.app-lists .desc{ color:#777;}
+.app-lists .install,.app-list ul li .install:hover{ margin-right:10px; background:#eee url(../images/install.png) no-repeat 5px center; background-size:12px 12px; border-radius:5px; padding:2px 5px 2px 22px; border:none; color:#999}
+.app-lists .download,.app-list ul li .download:hover{ margin-right:10px; background:#eee url(../images/download.png) no-repeat 5px center; background-size:12px 12px; border-radius:5px; padding:2px 5px 2px 22px; border:none;color:#999}
+.app-lists .download:hover,.app-lists .install:hover{ background-color:#ddd}
+.app-lists .buy{ background-color:#F30; padding:3px 10px; border-radius:5px; color:#fff}
+
+.rank li{ min-height:60px; padding:20px 20px 20px 10px;overflow:hidden; zoom:1; border-bottom:1px solid #dedede}
+.rank li .rank-num{ float:left; width:30px; line-height:60px; margin-right:40px; text-align:center; font-size:20px; color:#F30}
+.rank li .rank-num-1{ background:url(../images/num-1.png) no-repeat center 13px; color:#fff;}
+.rank li .app-info{ float:left;}
+.rank li .app-info .icon{ float:left; margin-right:10px;}
+.rank li .app-info .info{ float:left;}
+.rank li:hover{ background-color:#fff}
+.rank li:last-child{ border:none}
+.app_action{ float:right;}
+
+.app-detail{ padding:20px;}
+.app-detail .info{ float:left; margin-right:20px;}
+.app-detail h4{ font-size:20px; line-height:50px;}
+.app-detail h5{ font-size:18px; line-height:50px;}
+.app-detail .app-desc{ padding-left:140px; font-size:15px;}
+.app-detail .app-desc p{ padding:10px 0; text-indent:2em;}
+.app-detail .app-desc img{ padding:10px 0}
+.app-detail p.text{ width:auto; border:none; background:none}
+.app-comment{ margin-left:140px; margin-top:30px; background:#eee; padding:20px;}
+
+/* pay */
+.pay_container{ padding:30px;}
+.pay_container h3{ line-height:30px; margin-bottom:15px;}
+.pay_container h3 .icon{ padding:10px 20px; background:url(../images/type_1.png) no-repeat center 5px; color:#fff; font-size:18px; margin-right:10px;}
+.pay_content{ padding-left:60px; margin-bottom:30px;}
+.pay_content input[type='text']{ border:1px solid #ccc; padding:10px; width:200px; margin-right:10px;}
+.pay_content input[type='submit']{ background:#F30; color:#fff; font-size:16px; padding:10px 30px; border:none}
+.pay_content p{ padding:5px 0; font-size:16px;}
+.pay_content p .p_count{ font-size:18px; color:#F30;}
+.pay_content p .p_img{ border:5px solid #ccc;}
+
+/* web_info */
+.web_info{ width:600px; margin:50px auto; border:1px dashed #ccc; padding:20px; box-shadow:0 1px 2px #ccc; background:#fff url(../images/logo_circle.png) no-repeat right top}
+.web_info p{ padding:5px 0; font-size:16px; overflow:hidden; zoom:1;}
+.web_info .label{ display:inline; width:100px; color:#888; float:left;}
+.web_info .right{ float:left; width:500px; word-break:break-all; word-wrap:break-word}
+.web_info .logo{ vertical-align:middle}
+.web_info .btn{ padding:12px 0; text-align:center; font-size:16px; margin:20px auto; display:block; width:200px;}
+
+/* store */
+.form-horizontal .controls{ padding:0;}
+.uploadrow{ position:relative; z-index:100; width:120px; min-height:120px; padding:0}
+.uploadify-button {
+	position: relative;
+	text-align: center;
+	color: #fff;
+	cursor: pointer;
+	text-indent:-900px;
+	overflow:hidden;
+	background: #27ae60 url(../images/add.png) no-repeat center center;
+}
+.uploadify-queue-item {
+	position: absolute;
+	margin-top: 4px;
+	padding: 15px;
+	width: 470px;
+	border: 1px solid #ccc;
+	background-color: #fff;
+}
+.uploadify-queue-item .cancel {
+	float: right;
+}
+.uploadify-queue-item .cancel a,
+.uploadify-queue-item .cancel a:hover {
+	font-family: Consolas;
+	color: #404040;
+	text-decoration: none;
+	border-bottom: 0 none;
+}
+.uploadify-queue-item .fileName {
+	color: #2D7200;
+}
+.uploadify-error {
+	background-color: #FDE5DD !important;
+}
+.uploadify-queue-item.completed {
+	background-color: #E5E5E5;
+}
+.uploadify-progress {
+	background-color: #E5E5E5;
+	margin-top: 10px;
+	width: 100%;
+}
+.uploadify-progress-bar {
+	background-color: #0099FF;
+	height: 3px;
+	width: 1px;
+}
+.uploadrow:hover .add-layer{
+	display:block;
+	}
+.upload-img-box {
+	position:absolute;
+	top:0;
+	left:0;
+	margin:0
+}
+.upload-img-box .upload-pre-item {
+	width: 100px;
+	max-height: 100px;
+	overflow: hidden;
+	text-align: center;
+	cursor: pointer;
+	transition: all .3s linear;
+	background-color:#ccc;
+}
+.upload-img-box .upload-pre-item img {
+	vertical-align: top;
+}
+.upload-img-box .upload-pre-file {
+	padding: 0 10px;
+	width: 380px;
+	height: 35px;
+	line-height: 35px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	border: 1px dashed #ccc;
+	background-color: #fff;
+}
+.uploadrow2{
+	  position: relative;
+  z-index: 100;
+  width: 100px;
+  min-height: 100px;
+}
+.upload-img-box .upload-pre-item img{ width:100px; height:100px;}

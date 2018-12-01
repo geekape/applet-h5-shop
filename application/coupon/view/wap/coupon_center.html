@@ -1,0 +1,80 @@
+{extend name="shop@wap/common_file" /} {block name="common_body"}
+<!-- 头部导航 -->
+<div class="top-nav">
+    <div class="flex">
+        <i class="iconfont icon-back" id="go-back"></i>
+        <slot>
+            <span class="title">领劵中心</span>
+        </slot>
+    </div>
+</div>
+<div class="wrap">
+    {notempty name="data"}
+    {volist name="data" id="vo"}
+    <div class="chit-tp flex coupon-tp">
+	    <div class="chit-tp-left">
+	    	 {notempty name="vo.money"}
+	          <p class="money"><span class="prize-icon">¥</span>{$vo.money}</p>
+	         {/notempty}
+	          <div class="flex-item coupon-info">
+	            <p class="chit-tp-right-sum"> {notempty name="vo.title"}{$vo.title}{/notempty}</p>
+	            <p class="time">{notempty name="vo.end_time"}{$vo.start_time|day_format} 至 {$vo.end_time|day_format}{/notempty}</p>
+	              <p class="red f12"></p>
+	         </div>
+	    </div>
+	    <div class="chit-tp-right">
+	    	{if condition="isset($vo['has_get']) && $vo['has_get'] gt 0"}
+	    	<a class="weui-btn weui-btn_mini weui-btn_plain-primary btn-getback">已领取</a>
+	    	{else/}
+	        <a class="weui-btn weui-btn_mini weui-btn_plain-primary" onclick="get_coupon(this,{$vo.id});">立即领取</a>
+	        {/if}
+	    </div>
+  	</div>
+    {/volist}
+    {/notempty}
+    
+
+<!--   <div class="chit-tp flex coupon-tp">
+        <div class="chit-tp-left">
+
+          <p class="money"><span class="prize-icon">¥</span>234</p>
+          <div class="flex-item coupon-info">
+            <p class="chit-tp-right-sum">234</p>
+            <p class="time">2000 至 234234</p>
+              <p class="red f12"></p>
+         </div>
+    </div>
+    <div class="chit-tp-right">
+        <a class="weui-btn weui-btn_mini weui-btn_plain-primary btn-getback">已领取</a>
+    </div>
+      
+  </div> -->
+
+</div>
+
+<div class="bottom-nav bottom-nav-clear">
+    <a class="weui-btn weui-btn_primary" href="{:U('coupon/wap/personal')}">我的优惠劵</a>
+</div>
+
+
+<script>
+    function get_coupon(_this,cid){
+    	$.showLoading();
+    	$.post("{:U('do_get_coupon')}",{'cid':cid},function(res){
+    		$.hideLoading();
+	    	if(res.code==1){
+	    		 $.toast('领取成功');
+	    	     $(_this).removeAttr('onclick').text('已领取').addClass('btn-getback');
+	    	}else{
+	    		  $.toast(res.msg,'cancel');
+	    	}
+    	})
+    }
+</script>
+{/block}
+
+
+
+
+
+

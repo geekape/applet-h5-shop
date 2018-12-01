@@ -1,0 +1,88 @@
+{extend name="common@base/common" /}
+{block name="body"}
+  <script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+  <!-- 标签页导航 -->
+  
+  <div class="span9 page_message">
+    <section id="contents">
+      <ul class="tab-nav nav">
+        <li><a href="{:U('index')}">支付记录</a></li>
+        <li class="current"><a href="javascript:;">支付配置<b class="arrow fa fa-sort"></b></a></li>
+      </ul>
+      <div class="tab-content"> 
+        <!-- 表单 -->
+        <form id="form" action="{:U('config')}" method="post" class="form-horizontal">
+          <!-- 基础文档模型 -->
+          
+          <div class="form-item cf">
+            <label class="item-label">AppID<span class="check-tips"> （微信支付中的公众号应用ID） </span></label>
+            <div class="controls">
+              <input type="text" class="text input-large" name="appid" value="{notempty name="data['appid']"}{$data['appid']}{/notempty}">
+            </div>
+          </div>
+          <div class="form-item cf">
+            <label class="item-label">AppSecret<span class="check-tips"> （微信支付中的公众号应用密钥） </span></label>
+            <div class="controls">
+              <input type="text" class="text input-large" name="appsecret" value="{notempty name="data['appsecret']"}{$data['appsecret']}{/notempty}">
+            </div>
+          </div>
+          <div class="form-item cf">
+            <label class="item-label">支付密钥<span class="check-tips"> （PartnerKey） </span></label>
+            <div class="controls">
+              <input type="text" class="text input-large" name="partner_key" value="{notempty name="data['partner_key']"}{$data['partner_key']}{/notempty}">
+            </div>
+          </div>
+          <div class="form-item cf">
+            <label class="item-label">微信支付商户号</label>
+            <div class="controls">
+              <input type="text" class="text input-large" name="mch_id" value="{notempty name="data['mch_id']"}{$data['mch_id']}{/notempty}">
+            </div>
+          </div>
+          <div class="form-item cf">
+            <label class="item-label">上传证书<span class="check-tips"> （apiclient_cert.pem） </span></label>
+            <div class="controls">
+              <div class="controls upload_file" rel="cert_pem">
+                <input type="file" id="upload_file_cert_pem">
+                <input type="hidden" name="cert_pem" value="{notempty name="data['cert_pem']"}{$data['cert_pem']}{/notempty}"/>
+                <div class="upload-img-box">
+                  {notempty name="data['cert_pem']"}
+                    <div class="upload-pre-file"><span class="upload_icon_all"></span>{$data['cert_pem']|get_table_field=###,'id','name','File'}</div>
+                  {/notempty}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-item cf">
+            <label class="item-label">上传密匙<span class="check-tips"> （apiclient_key.pem） </span></label>
+            <div class="controls">
+              <div class="controls upload_file" rel="key_pem">
+                <input type="file" id="upload_file_key_pem">
+                <input type="hidden" name="key_pem" value="{notempty name="data['key_pem']"}{$data['key_pem']}{/notempty}"/>
+                <div class="upload-img-box">
+                  {notempty name="data['key_pem']"}
+                    <div class="upload-pre-file"><span class="upload_icon_all"></span>{$data['key_pem']|get_table_field=###,'id','name','File'}</div>
+                  {/notempty}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-item cf">
+            <input type="hidden" name="id" value="6">
+            <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">保 存</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+  </div>
+{/block}
+{block name="script"}
+  <script type="text/javascript">
+$(function(){
+	initUploadFile(); 
+});
+$('#submit').click(function(){
+    $('#form').submit();
+});
+</script>
+{/block}

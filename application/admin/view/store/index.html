@@ -1,0 +1,17 @@
+{extend name="publics/base" /}
+{block name="body"}
+    <!-- 主体 -->
+    <div style="margin-left: 0px;margin-top: 0px;margin-right: 0px;margin-bottom: 0px;overflow: hidden;">
+         <iframe id="mainIframe" name="main" src="{$remote_url}&callback={:urlencode(SITE_URL)}" width="100%" height="100%" frameborder="0" scrolling="auto"></iframe>
+    </div>
+ <script type="text/javascript">
+        +function(){
+            var $window = $(window);
+            $window.resize(function(){
+                $("#mainIframe").css("height",$window.height());
+            }).resize();
+        }();
+    </script>
+   
+    
+{/block}

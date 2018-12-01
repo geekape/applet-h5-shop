@@ -1,0 +1,10 @@
+{extend name="common@base/common" /}
+{block name="body"}
+<script type="text/javascript" src="__STATIC__/qrcode/qrcode.js"></script>
+<script type="text/javascript" src="__STATIC__/qrcode/jquery.qrcode.js"></script>
+<div id="qrCode"></div>
+<script type="text/javascript">
+         var textLink = "{$qrcode}";
+         $('#qrCode').qrcode({width:150,height:150,text:textLink}); 
+ </script>
+{/block}

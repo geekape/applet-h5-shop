@@ -1,0 +1,302 @@
+{extend name="common@base/common" /}
+{block name="body"}
+  <div class="span9 page_message">
+  <section id="contents"> {include file="common@base/_nav" /}
+    <div class="tab-content">
+      <!-- 表单 -->
+      {php} isset($post_url) || $post_url = U('add?model='.$model['id'], $get_param);{/php}
+      <form id="form" action="{$post_url}" method="post" class="form-horizontal form-center">
+        {volist name="fields" id="field"}
+          {if condition="$field['is_show'] == 4"}
+            <input type="hidden" class="text" name="{$field.name}" value="{:I($field['name'], $field['value'])}">
+          {/if}
+          {if condition="$field['is_show'] == 1 || $field['is_show'] == 2 || ($field['is_show'] == 5 && I($field['name']))"}
+            <div class="form-item cf toggle-{$field.name}">
+              <label class="item-label">
+                {notempty name="field.is_must"}<span class="need_flag">*</span>{/notempty}
+                {$field['title']} <span class="check-tips">
+                {notempty name="field['remark']"}（{$field['remark']|raw}）{/notempty}
+                </span></label><br />
+              <div class="controls">
+                {switch name="field.type"}
+                  {case value="num"}
+                    <input type="number" class="text" name="{$field.name}" value="{:I($field['name'], $field['value'])}">
+                  {/case}<br />
+                  {case value="string"}
+                    <input type="text" class="text input-large" name="{$field.name}" value="{:I($field['name'], $field['value'])}">
+                  {/case}
+                  {case value="textarea"}
+                    <label class="textarea input-large">
+                      <textarea name="{$field.name}">{:I($field['name'], $field['value'])}</textarea>
+                    </label>
+                  {/case}
+                  {case value="datetime"}
+                    <input type="datetime" name="{$field.name}" class="text time" value="{:I($field['name'], $field['value'])}" placeholder="请选择时间" />
+                  {/case}
+                  {case value="date"}
+                    <input type="datetime" name="{$field.name}" class="text date" value="{:I($field['name'], $field['value'])}" placeholder="请选择日期" />
+                  {/case}
+                  {case value="bool"}
+                    {volist name=":parse_field_attr($field['extra'])" id="vo"}
+                      <div class="check-item">
+                        <!--[if !IE]><!-->
+                        <input type="radio" class="regular-radio toggle-data" value="{$key}" name="{$field.name}" id="{$field.name}_{$key}"  toggle-data="{$vo|get_hide_attr}"
+
+                        {eq name="field.value" value="$key"}checked{/eq}
+
+                         />
+                        <label for="{$field.name}_{$key}"></label>
+
+
+                        {$vo|clean_hide_attr}
+                        <!--<![endif]-->
+                        <!--[if IE]>
+							       <input type="radio" value="{$key}"
+								   id="{$field.name}_{$key}" name="{$field.name}" class="toggle-data" toggle-data="{$vo|get_hide_attr}"
+								  {eq name="field.value" value="$key"}checked="checked"{/eq} />
+								  <label for="{$field.name}_{$key}"></label>{$vo|clean_hide_attr}
+							   <![endif]-->
+                      </div>
+                    {/volist}
+                  {/case}
+                  {case value="select"}
+                    <select name="{$field.name}">
+                      {volist name=":parse_field_attr($field['extra'])" id="vo"} <option value="{$key}" class="toggle-data" toggle-data="{$vo|get_hide_attr}"
+
+                        {eq name="field.value" value="$key"}selected{/eq}
+                        >{$vo|clean_hide_attr}
+
+                        </option>
+                      {/volist}
+                    </select>
+                  {/case}
+                  {case value="cascade"}
+                    
+                    {:W('common/cascade/cascade', array('name'=>$field['name'],'value'=>$field['value'],'extra'=>$field['extra']))} {/case}
+                  {case value="dynamic_select"}
+                  
+                  {:W('common/dynamic_select/dynamic_select', array('name'=>$field['name'],'value'=>$data[$field['name']],'extra'=>$field['extra']))}
+                  {/case}
+                  {case value="dynamic_checkbox"}
+                  
+                  {:W('common/dynamic_checkbox/dynamic_checkbox', array('name'=>$field['name'],'value'=>$data[$field['name']],'extra'=>$field['extra']))}
+                  {/case}
+                  {case value="material"}
+                  
+                  {:W('common/material/material', array('name'=>$field['name'],'value'=>$data[$field['name']],'extra'=>$field['extra']))}
+                  {/case}
+                  {case value="prize"}
+                  
+                  {:W('common/prize/prize', array('name'=>$field['name'],'value'=>$data[$field['name']],'extra'=>$field['extra']))}
+                  {/case}                                    
+                  {case value="news"}
+                  
+                  {:W('common/news/news', array('name'=>$field['name'],'value'=>$data[$field['name']],'extra'=>$field['extra']))}
+                  {/case}
+                  {case value="image"}
+                  <div id="image_{$field.name}"></div>
+                  {:hook('image', array('name'=>$field['name'],'value'=>$data[$field['name']],'extra'=>$field['extra']))}
+                  {/case}
+                  {case value="radio"}
+                    {volist name=":parse_field_attr($field['extra'])" id="vo"}
+                      <div class="check-item">
+                        <!--[if !IE]><!-->
+                        <input type="radio" class="regular-radio toggle-data" value="{$key}" id="{$field.name}_{$key}" name="{$field.name}" toggle-data="{$vo|get_hide_attr}"
+
+                        {eq name="field.value" value="$key"}checked{/eq}
+                        />
+                        <label for="{$field.name}_{$key}"></label>
+                        {$vo|clean_hide_attr}
+                        <!--<![endif]-->
+                        <!--[if IE]>
+							       <input type="radio" value="{$key}"
+								   id="{$field.name}_{$key}" name="{$field.name}" class="toggle-data" toggle-data="{$vo|get_hide_attr}"
+								  {eq name="field.value" value="$key"}checked="checked"{/eq} />
+								  <label for="{$field.name}_{$key}"></label>{$vo|clean_hide_attr}
+							   <![endif]-->
+                      </div>
+                    {/volist}
+                  {/case}
+                  {case value="checkbox"}
+                    {volist name=":parse_field_attr($field['extra'])" id="vo"}
+                      <div class="check-item"> <input type="checkbox" class="regular-checkbox toggle-data" value="{$key}" id="{$field.name}_{$key}" name="{$field.name}[]" toggle-data="{$vo|get_hide_attr}"
+
+                        {in name="key" value="$field['value']" }checked="checked"{/in}
+                        >
+                        <label for="{$field.name}_{$key}"></label>
+                        {$vo|clean_hide_attr} </div>
+                    {/volist}
+                  {/case}
+                  {case value="editor"}
+                    <label class="textarea">
+                      <textarea name="{$field.name}" style="width:405px; height:200px;"></textarea>
+                      {:W('common/editor/adminArticleEdit', array('name'=>$field['name'],'value'=>$field['value']))} </label>
+                  {/case}
+                  {case value="picture"}
+                    <div class="controls uploadrow2"  data-max="1" title="点击修改图片" rel="{$field.name}">
+                      <input type="file" id="upload_picture_{$field.name}">
+                      <input type="hidden" name="{$field.name}" id="cover_id_{$field.name}"/>
+                      <div class="upload-img-box">
+                        {notempty name="data[$field['name']]"}
+
+                          <div class="upload-pre-item2"><img width="100" height="100" src="{$data[$field['name']]|get_cover_url}"/></div>
+                          <em class="edit_img_icon">&nbsp;</em>
+                        {/notempty}
+
+                      </div>
+                    </div>
+                  {/case}
+                  {case value="mult_picture"}
+                  	<div class="mult_imgs">
+                    	<div class="upload-img-view" id='mutl_picture_{$field.name}'>
+                          {notempty name="data[$field['name']]"}
+                          {php}$data[$field['name']] = explode(',', $data[$field['name']]);{/php}
+                            {volist name="data[$field['name']]" id="vo"}
+                            <div class="upload-pre-item22">
+                            <img width="100" height="100" src="{$vo|get_cover_url}"/>
+                            <input type="hidden" name="{$field.name}[]" value="{$vo}"/>
+                            <em>&nbsp;</em>
+                            </div>
+                            {/volist}
+                          {/notempty}
+                        </div>
+                        <div class="controls uploadrow2" data-max="9" title="点击上传图片" rel="{$field.name}">
+                          <input type="file" id="upload_picture_{$field.name}">
+                        </div>
+                    </div>
+                  {/case}
+                  {case value="file"}
+                    <div class="controls upload_file">
+                      <input type="file" id="upload_file_{$field.name}" title="点击修改文件">
+                      <input type="hidden" name="{$field.name}" value="{$data[$field['name']]}"/>
+                      <div class="upload-img-box">
+                        {present name="data[$field['name']]"}
+                          <div class="upload-pre-file"><span class="upload_icon_all"></span>{$data[$field['name']]}</div>
+                        {/present}
+                      </div>
+                    </div>
+                  {/case}
+                  {case value="user"}
+                    <div class="controls">
+                    	<div id="userList" class="common_add_list fl">
+                            {notempty name="data[$field['name']]"}
+                                <div class="item" onClick="$.WeiPHP.selectSingleUser('{:U ( 'weixin/UserCenter/lists_choose')}','{$field.name}');">
+                                	{php}
+                                    	$userInfo = getUserInfo($data[$field['name']]);
+
+                                    {/php}
+                                    <img src="{$userInfo['headimgurl']}"/><br/><span>{$userInfo['nickname']}</span>
+                                    <input type="hidden" name="{$field.name}" value="{$data[$field['name']]}"/>
+                                    <span class="name">{$userInfo['nickname']}</span>
+                                </div>
+                            {else/}
+                            <a href="javascript:;" class="common_add_btn fl" onClick="$.WeiPHP.selectSingleUser('{:U ( 'weixin/UserCenter/lists_choose')}','{$field.name}');"></a>
+                            {/notempty}
+                       </div>
+                    </div>
+                  {/case}
+                  {case value="users"}
+                        <div class="controls">
+                            <div id="userList" class="common_add_list fl">
+                                {notempty name="data[$field['name']]"}
+                                	{php}
+                                            $userIds = explode(',',$data[$field['name']]);
+
+                                    {/php}
+                                	{volist name="userIds" id="uid"}
+                                    {php}
+                                            $userInfo = getUserInfo($uid);
+
+                                    {/php}
+                                    <div class="item" onClick="$.WeiPHP.selectSingleUser('{:U ( 'weixin/UserCenter/lists_choose')}','{$field.name}');">
+                                        {php}
+                                            $userInfo = getUserInfo($data[$field['name']]);
+
+                                        {/php}
+                                        <img src="{$userInfo['headimgurl']}"/><br/><span>{$userInfo['nickname']}</span>
+                                        <input type="hidden" name="{$field.name}'[]" value="{$data[$field['name']]}"/>
+                                        <span class="name">{$userInfo['nickname']}</span>
+                                    </div>
+                                    {/volist}
+                                {/notempty}
+                               <a href="javascript:;" class="common_add_btn fl" onClick="$.WeiPHP.selectMutiUser('{:U ( 'weixin/UserCenter/lists_choose')}',9,'{$field.name}');"></a>
+                           </div>
+                        </div>
+                      {/case}
+                  {default /}
+                  <input type="text" class="text input-large" name="{$field.name}" value="{:I($field['name'], $field['value'])}">
+                {/switch}
+              </div><br />
+            </div>
+          {/if}
+        {/volist}
+
+        </div>
+        <div class="form-item form_bh">
+          <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">{$submit_name|default='确 定'}</button>
+        </div>
+      </form>
+
+    </div>
+
+
+  </section>
+  </div>
+{/block}
+{block name="script"}
+  <link href="__STATIC__/datetimepicker/css/datetimepicker.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+  {php}if(config('COLOR_STYLE')=='blue_color') echo '
+  <link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+    ';{/php}
+  <link href="__STATIC__/datetimepicker/css/dropdown.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.js"></script>
+  <script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js?v={:SITE_VERSION}" charset="UTF-8"></script>
+  <script type="text/javascript">
+$('#submit').click(function(){
+    $('#form').submit();
+});
+$(function(){
+	var UploadFileExts = "{$UploadFileExts}";
+	//初始化上传图片插件
+	initUploadImg();
+	if(UploadFileExts!=""){
+		initUploadFile(function(){},UploadFileExts);
+	}else{
+		initUploadFile();
+	}
+    $('.time').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        language:"zh-CN",
+        minView:0,
+        autoclose:true
+    });
+    $('.date').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language:"zh-CN",
+        minView:2,
+        autoclose:true
+    });
+    showTab();
+
+	$('.toggle-data').each(function(){
+		var data = $(this).attr('toggle-data');
+		if(data=='') return true;
+
+	     if($(this).is(":selected") || $(this).is(":checked")){
+			 change_event(this)
+		 }
+	});
+	$('.toggle-data').bind("click",function(){ change_event(this) });
+	$('select').change(function(){
+		$('.toggle-data').each(function(){
+			var data = $(this).attr('toggle-data');
+			if(data=='') return true;
+
+			 if($(this).is(":selected") || $(this).is(":checked")){
+				 change_event(this)
+			 }
+		});
+	});
+});
+</script>
+{/block}

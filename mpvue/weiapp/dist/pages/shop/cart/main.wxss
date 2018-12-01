@@ -1,0 +1,447 @@
+@import "../../../common/vendor.wxss";
+
+@charset "UTF-8";
+._img.data-v-0529e4cb {
+  max-width: 100%;
+  display: inline-block;
+}
+._button.data-v-0529e4cb:before,
+._button.data-v-0529e4cb:after,
+view
+scroll-view.data-v-0529e4cb:before,
+view
+scroll-view.data-v-0529e4cb:after,
+.van-cell.data-v-0529e4cb:before,
+.van-cell.data-v-0529e4cb:after {
+  border: 0;
+}
+._input.data-v-0529e4cb,
+._button.data-v-0529e4cb,
+._textarea.data-v-0529e4cb {
+  border: 0;
+  background: transparent;
+}
+._a.data-v-0529e4cb {
+  color: #333;
+}
+page.data-v-0529e4cb {
+  background: #f9f9f9;
+}
+page.data-v-0529e4cb {
+  font-size: 32rpx;
+  max-width: 750PX;
+}
+page .bottom-bar.data-v-0529e4cb,
+page .weui-tabbar.data-v-0529e4cb {
+  max-width: 750PX;
+}
+page .weui-badge.data-v-0529e4cb {
+  z-index: 88;
+}
+swiper-item image.data-v-0529e4cb {
+  width: 100%;
+  height: 320rpx;
+}
+@font-face {
+  font-family: 'iconfont';
+  src: url("//at.alicdn.com/t/font_888563_d2f6jxnq7pq.eot");
+  src: url("//at.alicdn.com/t/font_888563_d2f6jxnq7pq.eot?#iefix") format("embedded-opentype"), url("//at.alicdn.com/t/font_888563_d2f6jxnq7pq.woff") format("woff"), url("//at.alicdn.com/t/font_888563_d2f6jxnq7pq.ttf") format("truetype"), url("//at.alicdn.com/t/font_888563_d2f6jxnq7pq.svg#iconfont") format("svg");
+}
+.iconfont.data-v-0529e4cb {
+  font-family: "iconfont" !important;
+  font-size: 32rpx;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-daohang.data-v-0529e4cb:before {
+  content: "\E600";
+}
+.icon-close.data-v-0529e4cb:before {
+  content: "\E69A";
+}
+.icon-refresh.data-v-0529e4cb:before {
+  content: "\E6AA";
+}
+.icon-success.data-v-0529e4cb:before {
+  content: "\E6B1";
+}
+.icon-wrong.data-v-0529e4cb:before {
+  content: "\E6B7";
+}
+.icon-phone.data-v-0529e4cb:before {
+  content: "\E617";
+}
+.icon-gou.data-v-0529e4cb:before {
+  content: "\E647";
+}
+.icon-notice.data-v-0529e4cb:before {
+  content: "\E615";
+}
+.icon-fanhui.data-v-0529e4cb:before {
+  content: "\E648";
+}
+.icon-dingwei.data-v-0529e4cb:before {
+  content: "\E604";
+}
+.icon-tubiaozhizuomoban.data-v-0529e4cb:before {
+  content: "\E607";
+}
+.icon-shanchu.data-v-0529e4cb:before {
+  content: "\E625";
+}
+.icon-fanhui.data-v-0529e4cb {
+  color: #aaa;
+  transition: all .3s;
+}
+.icon-fanhui.right.data-v-0529e4cb {
+  transform: rotate(180deg);
+}
+.icon-fanhui.top.data-v-0529e4cb {
+  transform: rotate(90deg);
+}
+.icon-fanhui.bottom.data-v-0529e4cb {
+  transform: rotate(-90deg);
+}
+.icon-fanhui.left.data-v-0529e4cb {
+  transform: rotate(-180deg);
+}
+.u-button.data-v-0529e4cb {
+  position: relative;
+  padding: 0;
+  display: inline-block;
+  height: 70rpx;
+  line-height: 70rpx;
+  border-radius: 60rpx;
+  padding: 0 30rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+  text-align: center;
+  vertical-align: middle;
+  -webkit-appearance: none;
+  -webkit-text-size-adjust: 100%;
+  min-width: 160rpx;
+}
+.u-button.data-v-0529e4cb:active {
+  opacity: .9;
+}
+.u-button--primary.data-v-0529e4cb {
+  color: #fff;
+  background: linear-gradient(90deg, #ff0204 60%, #ffb3b3);
+  border: 0;
+}
+.u-button--border.data-v-0529e4cb {
+  color: #ff0204;
+  border: 2rpx solid #ff0204;
+  background: transparent;
+}
+.u-button--disable.data-v-0529e4cb {
+  opacity: .5;
+  background: transparent;
+  color: #999;
+}
+.u-button--primary.u-button--big.data-v-0529e4cb {
+  height: 90rpx;
+  line-height: 90rpx;
+  width: 92%;
+  margin: 30rpx;
+}
+.m-list.data-v-0529e4cb {
+  display: flex;
+  background: #fff;
+  font-size: 32rpx;
+  height: 90rpx;
+  align-items: center;
+}
+.m-list.small.data-v-0529e4cb {
+  font-size: 28rpx;
+  height: 70rpx;
+}
+.m-list.link.data-v-0529e4cb {
+  padding: 0 30rpx;
+  margin-top: 30rpx;
+}
+.m-list.link .m-list__c.data-v-0529e4cb {
+  color: #aaa;
+  font-size: 24rpx;
+  text-align: right;
+}
+.m-list__l.data-v-0529e4cb {
+  padding-right: 80rpx;
+}
+.m-list__c.data-v-0529e4cb {
+  flex: 1;
+}
+.m-list__r.data-v-0529e4cb {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.m-list__group.data-v-0529e4cb {
+  background: #fff;
+  font-size: 28rpx;
+}
+.m-list__group .m-list.data-v-0529e4cb {
+  margin-left: 30rpx;
+  border-bottom: 2rpx solid #eee;
+}
+.m-list__group .m-list.data-v-0529e4cb:last-child {
+  border-bottom: 0;
+}
+.g-flex.data-v-0529e4cb {
+  display: flex;
+}
+.g-flex__column.data-v-0529e4cb {
+  flex-direction: column;
+}
+.g-flex__updown-center.data-v-0529e4cb {
+  align-items: center;
+}
+.g-flex__item.data-v-0529e4cb {
+  flex: 1;
+}
+.g-flex__space.data-v-0529e4cb {
+  justify-content: space-around;
+}
+.overflow-dot_row.data-v-0529e4cb {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.overflow-dot.data-v-0529e4cb {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+[v-cloak].data-v-0529e4cb {
+  display: none;
+}
+.pic-align-center.data-v-0529e4cb {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.s-gray.data-v-0529e4cb {
+  color: #aaa;
+}
+.s-red.data-v-0529e4cb {
+  color: #ff0204;
+}
+.s-link.data-v-0529e4cb {
+  color: #0264af;
+}
+.f-font-sm.data-v-0529e4cb {
+  font-size: 24rpx;
+}
+.u-head__img.data-v-0529e4cb {
+  width: 60rpx;
+  min-width: 60rpx;
+  height: 60rpx;
+  background-color: #f9f9f9;
+  border-radius: 50%;
+}
+.icon-price.data-v-0529e4cb {
+  font-size: 26rpx;
+  margin-right: 6rpx;
+}
+.goods__price-cost.data-v-0529e4cb {
+  font-size: 24rpx;
+  text-decoration: line-through;
+  color: #aaa;
+}
+.u-goods__img.data-v-0529e4cb {
+  width: 200rpx;
+  min-width: 200rpx;
+  height: 200rpx;
+  background: #f9f9f9;
+}
+.u-goods__tt.data-v-0529e4cb {
+  font-size: 32rpx;
+  line-height: 1.4;
+}
+.u-goods__price.data-v-0529e4cb {
+  font-size: 32rpx;
+}
+.hint-page.data-v-0529e4cb {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 80vh;
+}
+.hint-page image.data-v-0529e4cb,
+.hint-page ._img.data-v-0529e4cb {
+  width: 240rpx;
+  height: 240rpx;
+}
+.hint-page__text.data-v-0529e4cb {
+  font-size: 24rpx;
+  margin-top: 30rpx;
+}
+.white-bg.data-v-0529e4cb {
+  height: 100vh;
+  background: #fff;
+}
+.goods-line.data-v-0529e4cb {
+  display: flex;
+  padding: 0 30rpx;
+}
+.goods-line__right.data-v-0529e4cb {
+  flex: 1;
+  border-top: 2rpx solid #ececec;
+  margin-left: 30rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding-bottom: 10rpx;
+}
+.goods-line:first-child .goods-line__right.data-v-0529e4cb {
+  border: 0;
+}
+.goods-line .u-goods__img.data-v-0529e4cb {
+  margin-bottom: 10rpx;
+}
+.goods-line__ft.data-v-0529e4cb {
+  display: flex;
+  align-items: center;
+}
+.goods-line__price.data-v-0529e4cb {
+  flex: 1;
+}
+.goods-line__icon.data-v-0529e4cb {
+  width: 60rpx;
+  height: 60rpx;
+  background-color: rgba(255, 2, 4, 0.05);
+  border-radius: 50%;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQyIDc5LjE2MDkyNCwgMjAxNy8wNy8xMy0wMTowNjozOSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozNDFEQTMzOUQxQjgxMUU4QURDMUJCNzA4Mzg0MjI5MSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozNDFEQTMzQUQxQjgxMUU4QURDMUJCNzA4Mzg0MjI5MSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjM0MURBMzM3RDFCODExRThBREMxQkI3MDgzODQyMjkxIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjM0MURBMzM4RDFCODExRThBREMxQkI3MDgzODQyMjkxIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+/QgddwAABAlJREFUeNrsWttvDFEYn93ZKapRRUORVIqUeBAPiKSKuFRKPZSmNPEuEkE9SIR4E/4A4YWERFVdQrUuFZeouD3QlOhDQyUUdal2VWmnY/3O7jft182q3c7Mzmx3vuR35pzOZM7++n3nfJcznkAgICWTeKUkE5ewS9gl7BJOKPFF/KusXEe7FCiUNPV+VG+SFXuZaKohDS8HxgJ7ksWkq+m6FpobnwyEK+maAmxMBsLXAD/1y0Y+YU3tQXuxfz3LSlYyuKVK9kxJMhC+DXweaWbtHcKvaWiraLQYZp0zEgh7hsyHZWUJ2ocG53gLZMSJj5+W4n4orHc4hD1oW4DsBFPkMRDeHjvhEOnDaPfS6CTwJcbJW4GJcVqeYnOdA/wA4XHRx9KDpYIRbsOL9jk2lpaVXCJsIFvS1Ea0TTQqJTN3nsiKUF4BjeqNpocVdM0J7tjOlDwgnfq1RgmfZf0tDiW8nvWvGiOsqa/RPqVRCcxHdjDhRvzed2ZUPPRQM4vyZSfJLCCX+jXGNq0BOQcEHGrW3JxrzSGsqR/Q3qNRMcx6lAMJfwUem6VhbtYZzAXYLSLAyO/P4zX1j5mELwB9Dsug1gBKNOs3dsKa2o72Bo2KYNZpDjJnoYg6cwkPDkJSg6TtT28L+6MrTe20grBw6t0OMetFQOb/gg1jhDW1i728AGY9wUbC61i/xhrCg81abBZ2lnH1JdUMRTRbSfgm0GFzEDIdmB+LdodPOFTGvUQjUcad6tRkwSwNc7P2BPNk+9av2JkfxIOwCDM/Un8rEY+XjAFWUV/4XtV6wqEyrq7lBcBR5iKslpXA6FjXb9AcDX22JCuC4HNgmk0bl4ibJweTBoPnw9FqWVQwVwDPbCL8hDKkOGl4QNNi/S4DFkqhg/R4ySNykVF/AeAx7Uu8BPnkwWcC0QJyS+J0op12zVNAr8mUVgObgRnAd+AWcBr4FdNbhIaHBa8vBagCAhHwCsgGJBPgA878Y54mYGbwuSh/t5FN64g0cG7cJYWK3600ngtcNsWCJOkQy8q6aZ73NBanDNWsAGCRhr2+SUAf/ZcbgEymjRNMA8UGtZsO9NK7XgJT2DzH2TxlVmtYnD7otekD5J70qsMuVgbKNyHf1bV3EPjE5iln+0Se1ZEWr1h2hd37zQinGCTMTfVn2L0eRthnNeEG1t8ddhKxg4V9RgOSRtbfGUZsG5AW4TmL/LCsXEG7gU1YR5uVnsW0AbMlcVZrTM4Dm6j/QgoVEXPZ3N8kcfKgqR1WExZx9F1gXoS7nVSNqDdhlxYlpDss2ZfCllNRMHOLS6QVKtOWk3vSAw8R6omvBlpMDDpSaTMspcDDT/MIl/XGntAyQcT9QNwl7BJ2CbuEnSx/BRgA/uflQ+s7QD0AAAAASUVORK5CYII=);
+  background-repeat: no-repeat;
+  background-size: 40rpx 40rpx;
+  background-position: center center;
+}
+.goods-line__tt.data-v-0529e4cb {
+  font-size: 32rpx;
+}
+.switch-card.data-v-0529e4cb {
+  background: #fff;
+  margin-top: 30rpx;
+  padding: 0 30rpx;
+}
+.switch-card__hd.data-v-0529e4cb,
+.switch-card__item.data-v-0529e4cb {
+  display: flex;
+  height: 90rpx;
+  line-height: 90rpx;
+}
+.switch-card__tt.data-v-0529e4cb {
+  flex: 1;
+  font-size: 32rpx;
+}
+.switch-card__item.data-v-0529e4cb {
+  font-size: 24rpx;
+}
+.switch-card__param.data-v-0529e4cb {
+  min-width: 110rpx;
+  color: #aaa;
+}
+.cart.data-v-0529e4cb {
+  padding-bottom: 100rpx;
+}
+.cart.data-v-0529e4cb .hint-page__text {
+  margin-top: 20rpx;
+}
+.cart.data-v-0529e4cb .u-button--primary {
+  margin-top: 60rpx;
+  min-width: 280rpx;
+}
+.cart .icon-shanchu.data-v-0529e4cb {
+  font-size: 44rpx;
+  text-align: right;
+  padding: 4rpx 30rpx;
+}
+.cart .van-button--large.data-v-0529e4cb {
+  background: #ff0204;
+  color: #fff;
+  border-radius: 10rpx;
+}
+.cart.data-v-0529e4cb ._van-checkbox {
+  height: 200rpx;
+  padding-right: 20rpx;
+  display: flex;
+  align-items: center;
+}
+.cart.data-v-0529e4cb .van-checkbox__icon--checked {
+  border-color: #ff0204;
+  background-color: #ff0204;
+}
+.cart.data-v-0529e4cb .van-stepper__minus {
+  border-radius: 30rpx 0 0 30rpx;
+  border-right: 0;
+}
+.cart.data-v-0529e4cb .van-stepper__plus {
+  border-radius: 0 30rpx 30rpx 0;
+  border-left: 0;
+}
+.cart-goods__item.data-v-0529e4cb {
+  background: #fff;
+  margin-bottom: 20rpx;
+  padding: 30rpx;
+}
+.cart-goods.data-v-0529e4cb .van-checkbox {
+  height: 200rpx;
+  display: flex;
+  align-items: center;
+}
+.cart-goods__info.data-v-0529e4cb {
+  margin-left: 20rpx;
+  position: relative;
+  width: 100%;
+}
+.cart-goods__ft.data-v-0529e4cb {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+.cart-goods__price.data-v-0529e4cb {
+  color: #ff0204;
+  flex: 1;
+}
+.closing-bar.data-v-0529e4cb {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  font-size: 24rpx;
+  width: 100%;
+  padding: 10rpx 20rpx;
+  background: #fff;
+  height: 90rpx;
+  align-items: center;
+  z-index: 99;
+}
+.closing-bar.data-v-0529e4cb .van-checkbox__label {
+  margin-left: 10rpx;
+}
+.closing-bar__info.data-v-0529e4cb {
+  flex: 1;
+  text-align: right;
+  margin-right: 20rpx;
+}
+.closing-bar__btn.data-v-0529e4cb {
+  min-width: 240rpx;
+  border-radius: 60rpx;
+  background: linear-gradient(90deg, #ff0204 60%, #ff5b5c, #ffb3b3);
+  color: #fff;
+  margin-right: 40rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+  font-size: 32rpx;
+}
+.closing-bar__price.data-v-0529e4cb {
+  margin-bottom: 10rpx;
+  font-size: 28rpx;
+}
+.closing-bar.data-v-0529e4cb ._van-checkbox {
+  height: 90rpx;
+}

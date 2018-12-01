@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="__STATIC__/default/lib/jquery-weui/weui.min.css">
+    <link rel="stylesheet" href="__STATIC__/default/lib/jquery-weui/jquery-weui.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_727459_5a1dd1b1r8o.css"></link>
+    <script src="__STATIC__/default/lib/flexible/flexible.min.js"></script>
+    <link rel="stylesheet" href="__STATIC__/default/css/style.css"></link>
+
+
+<script type="text/javascript">
+    //静态变量
+    var SITE_URL = "{:SITE_URL}";
+    var IMG_PATH = "__IMG__";
+    var STATIC_PATH = "__STATIC__";
+    var WX_APPID = '{notempty name="jsapiParams.appId"}{$jsapiParams.appId}{/notempty}';
+    var	WXJS_TIMESTAMP='{notempty name="jsapiParams.timestamp"}{$jsapiParams.timestamp}{/notempty}'; 
+    var NONCESTR= '{notempty name="jsapiParams.nonceStr"}{$jsapiParams.nonceStr}{/notempty}'; 
+    var SIGNATURE= '{notempty name="jsapiParams.signature"}{$jsapiParams.signature}{/notempty}'; 
+</script>        
+    
+<script src="__STATIC__/default/lib/jquery-3.3.1.min.js"></script>
+<script src="__STATIC__/default/lib/jquery-weui/jquery-weui.min.js"></script>     
+<!-- <script src="__STATIC__/default/lib/swiper/swiper-4.3.3.min.js"></script>      -->
+
+<script type="text/javascript" src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>        
+
+<script src="__STATIC__/mobile_module.js"></script>
+</head>
+
+<body ng-controller="commonCtrl">
+
+{block name="common_body"}
+    
+{/block}
+
+<script src="__STATIC__/default/lib/jquery-weui/fastclick.js"></script>
+
+<!-- <script src="__STATIC__/default/js/function.js"></script> -->
+<script type="text/javascript">
+    FastClick.attach(document.body);
+</script>
+
+</body>
+
+</html>

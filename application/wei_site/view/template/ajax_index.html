@@ -1,0 +1,137 @@
+
+<body style="background:#fff">
+<div class="lists_data">
+  <div class="span9 page_message">
+    <section id="contents"> 
+    {empty name="tempList"}
+<div class="empty_container"><p>没有二级分类素材</p></div>
+{else/}
+        <!-- 多维过滤 --> 
+      </div>
+      <!-- 数据列表 -->
+      <div class="data-table">
+        <div class="table-striped">
+        
+        <div class="tab-content" id="hasSubNav"> 
+        	<div class="sub_tab_content">
+            <form>
+            	<ul class="template_select">
+                    {volist name="tempList" id="vo"}
+                    <li class="template_item {$vo.class}" data-temple="{$vo.dirName}" data-tempname="{$vo.title}">
+                    	{if condition = "!empty($vo['desc'])"}
+                    	<div class="use_tips">{$vo.desc}</div>
+                        {/if}
+                    	<div class="phone">
+                        	<img src="{$vo.icon}" />
+                        </div>
+                        <p ><input type="hidden" {$vo.checked} name="ids[]" id="check_{$vo.dirName}" value="{$vo.dirName}" class="ids regular-radio"/>
+                        <label for="check_{$vo.dirName}">{$vo.title}</label></p>
+                    </li>
+                    {/volist}
+                </ul>
+              </form>
+            </div>
+      </div>
+<!--           <table cellspacing="1"> -->
+<!--             表头 -->
+<!--             <thead> -->
+<!--               <tr> -->
+<!--                 <th class="row-selected row-selected">  -->
+<!--                   {if condition="!isRadio"} -->
+<!--                   <input type="checkbox" class="check-all regular-checkbox" id="checkAll"> -->
+<!--                   <label for="checkAll"></label></th> -->
+<!--                   {/if} -->
+<!--                 <th>编号</th> -->
+<!--                 <th width='85%'>素材文本内容</th> -->
+<!--               </tr> -->
+<!--             </thead> -->
+            
+<!--             列表 -->
+<!--             <tbody> -->
+<!--               {volist name="list_data" id="vo"} -->
+<!--                 <tr> -->
+<!--                   <td> -->
+<!--                    {empty name="isRadio"} -->
+<!--                   		<input type="checkbox" id="check_{$vo.id}" name="ids[]" value="{$vo.id}" class="ids regular-checkbox"> -->
+<!--                     	<label for="check_{$vo.id}"></label> -->
+<!--                     {else/} -->
+<!--                     	<input type="radio" id="check_{$vo.id}" name="ids[]" value="{$vo.id}" class="ids regular-radio"> -->
+<!--                     	<label for="check_{$vo.id}"></label> -->
+<!--                     {/empty} -->
+<!--                   </td> -->
+<!--                   <td type="headimgurl">{$vo.id}</td> -->
+<!--                   <td type="nickname">{$vo.content|raw}</td> -->
+<!--                 </tr> -->
+<!--               {/volist} -->
+<!--             </tbody> -->
+<!--           </table> -->
+        </div>
+      </div>
+      {/empty}
+      <div class="page"> {$_page|raw|default=''} </div>
+    </section>
+  </div>
+  
+<script type="text/javascript">
+$(function(){
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+        if(query == '' ){
+        	url="{:U('material/Material/text_lists',array('isAjax'=>1,'isRadio'=>$isRadio))}";
+        }
+		url = change_search_url(url);
+		window.location.href = url;
+	});
+
+    //回车自动提交
+    $('.search-form').find('input').keyup(function(event){
+        if(event.keyCode===13){
+            $("#search").click();
+        }
+    });
+	$('select[name=group]').change(function(){
+		location.href = this.value;
+	});	
+	$(function(){
+		//选择模板并且ajax提交
+		//选择Ajax提交		
+		$('.template_item').click(function(){
+			if(!$(this).hasClass('selected')){
+				$(this).addClass('selected');
+				$(this).siblings().removeClass("selected");
+				$(this).find('input').click();
+
+// 				//如果不是ajax提交 不要以下代码"{:ACTION_NAME}"
+// 				var value = $(this).find('input').val();				
+// 				var type = "{:ACTION_NAME}";
+// 				$.ajax({
+// 					url:"{:U('save')}",
+// 					data:{template:value,type:type},
+// 					type:"post",
+// 					dataType:"json",
+// 					success:function(data){ window.location.href = "{$next_url}?mdm={:I('mdm')}"; }
+// 					})
+				}
+			});
+	})
+	$('.template_item').hover(function(){
+			$(this).find('.use_tips').stop().fadeIn();
+			$(this).addClass('hover');
+		},function(){
+			$(this).find('.use_tips').stop().fadeOut();
+			$(this).removeClass('hover');
+			})
+	
+})
+</script> 
+</body>
+</html>

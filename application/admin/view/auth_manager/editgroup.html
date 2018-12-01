@@ -1,0 +1,65 @@
+{extend name="publics/base" /}
+<!-- 管理员用户组新增和编辑页面 -->
+
+{block name="body"}
+  <div class="main-title">
+    <h2>{$auth_group['id']?'编辑':'新增'}用户组</h2>
+  </div>
+  <form action="{:U('AuthManager/writeGroup')}" enctype="application/x-www-form-urlencoded" method="POST"
+            class="form-horizontal">
+    <div class="form-item">
+      <label for="auth-title" class="item-label">用户组</label>
+      <div class="controls">
+        <input id="auth-title" type="text" name="title" class="text input-large" value="{$auth_group.title}"/>
+      </div>
+    </div>
+    <div class="form-item">
+      <label for="auth-type" class="item-label">组类型</label>
+      <div class="controls">
+        <select name="type">
+          <option value="0" {eq name="auth_group.type" value="0"}selected{/eq} >普通用户组</option>
+          <option value="1" {eq name="auth_group.type" value="1"}selected{/eq} >微信用户组</option>
+          <option value="2" {eq name="auth_group.type" value="2"}selected{/eq} >等级用户组</option>
+          <option value="3" {eq name="auth_group.type" value="3"}selected{/eq} >认证用户组</option>
+        </select>
+      </div>
+      <div class="tip"><p>微信用户组：一个用户只能对应一个微信组，这是由于微信用户与微信组只能一对一的关系，无法做成一个用户对应多个用户组。对微信用户组的管理会自动同步到微信端</p>
+      <p>等级用户组：可配置用户满足多少积分或者金币时才能升级的用户组，多个等级用户组之间有上下顺序之分</p>
+      <p>认证用户组：可配置需要填写什么认证信息，用户申请认证后，管理员在后台审核通过即可有此认证组权限，用户名可加上认证图标</p></div>
+    </div>
+    <div class="form-item">
+      <label for="auth-description" class="item-label">图标</label>    
+          <div class="controls uploadrow2" data-max="1" title="点击上传图片" rel="icon">
+            <input type="file" id="upload_picture_icon">
+            <input type="hidden" name="icon" id="cover_id_icon" value="{$auth_group['icon']}"/>
+            <div class="upload-img-box">
+              {notempty name="auth_group['icon']"}
+                <div class="upload-pre-item2"><img width="100" height="100" src="{$auth_group['icon']|get_cover_url}"/></div>
+                <em class="edit_img_icon">&nbsp;</em>
+              {/notempty}
+            </div>
+          </div>  
+   </div>                            
+    <div class="form-item">
+      <label for="auth-description" class="item-label">描述</label>
+      <div class="controls">
+        <label class="textarea input-large">
+          <textarea id="auth-description" type="text" name="description">{$auth_group.description}</textarea>
+        </label>
+      </div>
+    </div>
+    <div class="form-item">
+      <input type="hidden" name="id" value="{$auth_group.id}" />
+      <button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button>
+      <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+    </div>
+  </form>
+{/block}
+{block name="script"} 
+<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+$(function(){
+	 initUploadImg();
+})
+</script> 
+{/block}

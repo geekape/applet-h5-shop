@@ -1,0 +1,347 @@
+<style type="text/css">
+.address input{
+	width:100px;	
+}
+.prizeDialog{
+	padding: 30px;
+    height: 500px;
+    overflow: auto;
+    position: relative;
+}
+.prizeDialog ul {
+    zoom: 1;
+    overflow: auto;
+    border-top: 1px solid #ddd;
+   height: 450px;
+}
+.prizeDialog li{
+	height:50px;
+	line-height: 50px;
+    border: 1px solid #ddd;
+    border-top: none;
+    padding: 10px;
+}
+.prizeDialog li span{		 
+	width:100px;
+	 height:50px;
+	 float:left;
+   text-align:center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;	   
+}
+.prizeDialog .m15 {
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 20px;
+    text-align: center;}
+.img img{
+	  width:50px;
+	  height:50px;
+}
+.shop_tr input{
+	width:100px;	
+}
+.wpid{float: right;margin-top: 20px;}
+</style>
+<div id="prize_{$name}"></div>
+<input type="hidden" value="{$default_value}" name="{$name}" id="prize_res_{$name}" data-type='{$default_type}' data-id='{$default_id}' />
+<div class="controls">
+<table id="awardList" class="form_table" cellpadding="0" cellspacing="1">
+	<thead>
+	<tr>
+		<td>奖品编号</td>
+        <td>奖品名称</td>
+        <td>奖品图片</td>
+        <td>奖品类型</td>
+        <td><span class="need_flag">*</span> 奖品库存</td>
+        <td><span class="need_flag">*</span> 奖品数量</td>
+        <td>操作</td>
+		 </tr>
+	</thead>
+	 <tbody>
+{volist name="prize_detail.title" id="vo"}
+    <tr class="shop_tr">
+    	<td><input type="hidden" data-name="repeat_id" value="{$prize_detail['type'][$key]}:{$prize_detail['id'][$key]}" />{$prize_detail['id'][$key]}</td>
+        <td>{$vo}</td>
+        <td><img src="{$prize_detail['img'][$key]}" width='50' height='50'/></td>
+        <td>{$prize_detail['typeName'][$key]}</td>
+        <td>
+        {if condition="$prize_detail['type'][$key]=='points'"}
+        	<span>奖励积分数：</span><input style="width:60px" class="pointsNum" type="number" name="{$prize_detail['id'][$key]}" data="points:{$prize_detail['id'][$key]}" value="{$prize_detail['total_count'][$key]}"/>
+        {else/}
+        	{$prize_detail['total_count'][$key]}
+        {/if}
+        </td>
+        <td>
+		{if condition="$prize_detail['type'][$key]=='points'"}
+        	<input type="number" class="prizePointsNum" name="{$prize_detail['type'][$key]}" value="{$prize_detail['num'][$key]}" data="{$prize_detail['type'][$key]}:{$prize_detail['id'][$key]}"/>
+		{else/}
+       		<input type="number" class="prizeNum" name="{$prize_detail['type'][$key]}" value="{$prize_detail['num'][$key]}" data="{$prize_detail['type'][$key]}:{$prize_detail['id'][$key]}"/>
+		{/if}
+        </td>
+        <td>
+        {if condition="$prize_detail['type'][$key]=='points'"}
+        	<a href="javascript:;" onclick="removePointsAddress(this)">删除</a>
+		{else/}
+        	<a href="javascript:;" onclick="removeSingleAddress(this)">删除</a>
+        </td>
+        {/if}
+    </tr>
+ {/volist}
+ 	<tr class="add_tr"><td colspan="7">
+    	<a class="realPrize"  href="javascript:;">+添加实物奖品</a>
+    	<a class="redBag" href="javascript:;" >+添加红包奖品</a>
+    	<a class="cardVouchers" href="javascript:;">+添加卡卷奖品</a>
+    	<a class="coupon" href="javascript:;">+添加优惠卷奖品</a>>
+    	<a class="points" href="javascript:;">+添加积分奖品</a>
+    </td></tr>
+	</tbody>
+</table>
+</div>
+<script>
+  function chooseAward(dataUrl,prizeType,enType){
+  	var $shopHtml = $('<div class="prizeDialog"><table class="form_table" cellpadding="0" cellspacing="1"><thead><tr><td style="width:90px">奖品编号</td><td style="width:90px">奖品名称</td><td style="width:90px">奖品图片</td><td style="width:90px">奖品类型</td><td style="width:90px">奖品库存</td><td style="width:30px">操作</td></tr></thead></table><ul><center><img src="__IMG__/loading.gif"/></center></ul><br/><div class="m15"><a href="javascript:;" class="btn" id="confirmBtn">确定</a></div></div>');
+  	$.Dialog.open("添加奖品",{width:640,height:600},$shopHtml);
+  	$('#addNewShopBtn',$shopHtml).click(function(){
+  		$.Dialog.close();
+  	})
+  	var ids = [];
+  	$('.shop_tr').each(function(index, element) {
+          var _id = $(this).find('input').val();
+  		ids[index] = _id;
+      });
+  	$.ajax({
+  		url:dataUrl,
+  		data:{},
+  		dataType:'JSON',
+  		success:function(data){
+  			/*console.log(data)*/
+  			var html = "";
+  			var list_data = data.list_data;
+  			if(list_data && list_data.length>0){
+  				for(var i=0;i<list_data.length;i++){
+  					//console.log(list_data[i].name)
+  					var id = list_data[i].id;
+  					var name = list_data[i].title;
+  					var award_type = prizeType;
+  					/*var award=list_data[i].award_title;*/
+  					var prize_stock = list_data[i].num;
+  					var img_url=list_data[i].background;
+  					if(img_url ==undefined)img_url='';
+  					if(prize_stock ==undefined)prize_stock='无库存';
+  					//console.log(ids)
+  					//console.log(id)
+  					if(ids.indexOf(enType+':'+id)!=-1){
+  						html += '<li><input type="checkbox"  checked="true" class="wpid" value="'+id+'"/><span class="award_id">'+id+'</span><span class="name">'+name+'</span><span class="img"><img src="'+img_url+'" ></span><span class="award_type" data="'+enType+'">'+award_type+'</span><span class="prize_stock">'+prize_stock+'</span></li>';
+  					}else{
+  						html += '<li><input type="checkbox" class="wpid" value="'+id+'"/><span class="award_id">'+id+'</span><span class="name">'+name+'</span><span class="img"><img src="'+img_url+'" width="50" height="50"></span><span class="award_type" data="'+enType+'">'+award_type+'</span><span class="prize_stock">'+prize_stock+'</span></li>';
+  					}
+  				}
+  				if(html!=""){
+  					$('ul',$shopHtml).html(html);
+  					$('#awardList').show();
+  				}
+  			}else{
+  				$('ul',$shopHtml).html("<center>奖品库还没有奖品</center>");
+  			}
+  		}
+  	})
+  	$('#confirmBtn',$shopHtml).click(function(){
+  		var selectHtml = "";
+  		var count = 0;
+  		var prevLiHtml = "";
+  		$('li',$shopHtml).each(function(index, element) {
+  			if($(this).find('.wpid').prop("checked")==true){
+  				count++;
+  				var id = $(this).find('.wpid').val();
+  				var name = $(this).find('.name').text();
+  				var img = $(this).find('.img img').attr('src');
+  				var award_type= $(this).find('.award_type').text();
+  				var prize_stock = $(this).find('.prize_stock').text();
+				var idArr = new Array();
+				$('#awardList tbody .shop_tr').each(function(index, element) {
+                    idArr.push($(element).find('input[data-name="repeat_id"]').val());
+                });
+				if($.inArray(enType+':'+id,idArr)==-1){
+  					selectHtml += '<tr class="shop_tr">'+
+  								'<td><input type="hidden" data-name="repeat_id" value="'+enType+':'+id+'" />'+id+'</td>'+
+  								'<td>'+name+'</td>'+
+  								'<td><img src="'+img+'" width="50" height="50" /></td>'+
+  								'<td>'+award_type+'</td>'+
+  								'<td>'+prize_stock+'</td>'+
+  								'<td><input type="number" class="prizeNum" name="'+enType+'"  data="'+enType+':'+id+'"/></td>'+
+  								'<td><a href="javascript:;" onclick="removeSingleAddress(this)">删除</a></td>'+
+  							'</tr>';
+				}
+  			}
+          });
+  		$(selectHtml).insertBefore($('#awardList tbody .add_tr'));
+  		//添加通用奖品
+	  	$('.prizeNum').on('focusout',prizeFn)
+
+  		if(count==1){
+  		}else if(count>1){
+  			var prevHtml = '<a class="item" href="#">添加奖品<em>&nbsp;</em></a>';
+  		}
+  		$.Dialog.close();
+  	})
+  	
+  }
+//移除通用奖品
+  function removeSingleAddress(_this){
+  	$(_this).parents('tr').remove();
+  	var id = $(_this).parents('tr').find('.prizeNum').attr('data');
+  	var prize_num = $(_this).parents('tr').find('.prizeNum').val();
+  	var id_num = id+':'+prize_num;
+  	var str = $('#prize_res_{$name}').val();
+
+  		//console.log(id_num)
+  		var strArr = str.split(',');
+  		for (var i = 0;i<strArr.length;i++) {
+  			if(strArr[i].indexOf(id_num)>-1){
+  				strArr[i]='';
+  			}
+  		}
+  		//console.log(strArr)
+  		$('#prize_res_{$name}').val(strArr.join(','))
+
+  	if($('.shop_tr').length==0){
+  	}
+  }
+  //移除积分
+    function removePointsAddress(_this){
+  	$(_this).parents('tr').remove();
+  	var id = $(_this).parents('tr').find('.prizePointsNum').attr('data');
+  	var points_num = $(_this).parents('tr').find('.pointsNum').val();//奖励积分数
+  	var prize_num = $(_this).parents('tr').find('.prizePointsNum').val();
+  	var id_num = id+':'+points_num+':'+prize_num;
+  	var str = $('#prize_res_{$name}').val();
+
+  		//console.log(id_num)
+  		var strArr = str.split(',');
+  		for (var i = 0;i<strArr.length;i++) {
+  			if(strArr[i].indexOf(id_num)>-1){
+  				strArr[i]='';
+  			}
+  		}
+  		//console.log(strArr)
+  		$('#prize_res_{$name}').val(strArr.join(','))
+
+  	if($('.shop_tr').length==0){
+  	}
+  }
+
+$('.realPrize').click(function(){
+	chooseAward('{:U('real_prize\/RealPrize\/list_data',array('p'=>1))}','实物','realPrize');
+});
+$('.redBag').click(function(){
+	chooseAward('{:U('redbag\/Redbag\/list_data',array('p'=>1))}','微信红包','redBag');
+});
+$('.cardVouchers').click(function(){
+	chooseAward('{:U('card_vouchers\/CardVouchers\/list_data',array('p'=>1))}','微信卡卷','cardVouchers');
+});
+$('.coupon').click(function(){
+	chooseAward('{:U('coupon\/Coupon\/list_data',array('p'=>1))}','优惠卷','coupon');
+});
+
+var pointsId = 0;
+//添加积分奖品
+$('.points').click(function(){
+var newNum = parseInt($('.pointsNum:last').attr('name'));
+	var selectHtml = "";
+	if(isNaN(newNum)){
+		newNum=pointsId;
+	}
+	newNum++
+	 //console.log(newNum)
+	selectHtml += '<tr class="shop_tr">'+
+						'<td><input type="hidden" data-name="repeat_id" value="points:'+newNum+'" />'+newNum+'</td>'+
+						'<td>积分</td>'+
+						'<td><img src="" width="50" height="50" /></td>'+
+						'<td>积分</td>'+
+						'<td><span>奖励积分数：</span><input style="width:60px" class="pointsNum" type="number" name="'+newNum+'" data="points:'+newNum+'"/></td>'+
+						'<td><input type="number" class="prizePointsNum" name="points"  data="points:'+newNum+'"/></td>'+
+						'<td><a href="javascript:;" onclick="removePointsAddress(this)">删除</a></td>'+
+  					'</tr>';
+
+  	$(selectHtml).insertBefore($('#awardList tbody .add_tr'));
+//添加积分奖品
+  	$('.prizePointsNum').on('focusout',poinstFn);
+	$('.pointsNum').on('focusout',poinstFn);
+
+
+});
+	//编辑页面执行
+  	$('.prizeNum').on('focusout',prizeFn);
+	$('.prizePointsNum').on('focusout',poinstFn);
+	$('.pointsNum').on('focusout',poinstFn);
+/**********************************************/
+//通用奖品
+function prizeFn(){
+	var id = $(this).attr('data'); //类型：ID
+	var prize_num = $(this).val(); //数量
+	var str = $('#prize_res_{$name}').val(); //input的值
+	str = str=='Array'?'':str;
+	//console.log(str)
+	if(str.indexOf(id)==-1){
+		//console.log(str)
+		if(str==''){
+			str += id+':'+prize_num;
+		}else{
+			str += ','+id+':'+prize_num;
+		}
+		$('#prize_res_{$name}').val(str);
+		return;
+	}
+
+	var strArr = str.split(',');
+	var newArr = new Array();
+	for(var i=0;i<strArr.length;i++){
+		//console.log(strArr)
+		if(strArr[i].indexOf(id)>-1){
+			newArr.push(id+':'+prize_num);
+		}else{
+			newArr.push(strArr[i]);
+		}
+	}
+									
+	$('#prize_res_{$name}').val(newArr.join(','))
+		//console.log(newArr);
+}
+//积分
+function poinstFn(){
+
+	var id = $(this).attr('data'); //类型：ID
+	var prize_num = $(this).parents('tr').find('.prizePointsNum').val(); //数量
+	var points_num = $(this).parents('tr').find('.pointsNum').val();//奖励积分数
+	var str = $('#prize_res_{$name}').val(); //input的值
+	var id_num = id+':'+points_num;
+	str = str=='Array'?'':str;
+	if(str.indexOf(id)==-1){
+		if(str==''){
+			str += id+':'+points_num+':'+prize_num;
+		}else{
+			str += ','+id+':'+points_num+':'+prize_num;
+		}
+		$('#prize_res_{$name}').val(str);
+		return;
+	}
+
+	var strArr = str.split(',');
+	var newArr = new Array();
+	for(var i=0;i<strArr.length;i++){
+		if(strArr[i].indexOf(id)>-1){
+			newArr.push(id+':'+points_num+':'+prize_num);
+		}else{
+			newArr.push(strArr[i]);
+		}
+	}
+									
+	$('#prize_res_{$name}').val(newArr.join(','))
+	//console.log(newArr);
+}
+
+
+</script>

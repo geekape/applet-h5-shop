@@ -1,0 +1,258 @@
+<!-- 用户绑定页面 -->
+{include file="common@base/mobile_head"/}
+<link href="{:ADDON_PUBLIC_PATH}/userCenter1.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+<body>
+<div id="container" class="container body user_bind_page"> 
+  
+  <!-- 表单 -->
+  <form id="form" action="{$post_url}" method="post" class="bind_form form-horizontal">
+    <div class="head_wrap"> <img class="headface" src="{$public_info.headface_url|get_cover_url}"/> <span>{$public_info.public_name}</span> <br/>
+    </div>
+    <div class="tips">绑定信息仅用于领取奖品，不做其他用途，请放心填写</div>
+    {volist name="fields" id="field"}
+      {if condition="$field['is_show'] == 4"}
+        <input type="hidden" class="text input-large" name="{$field.name}" value="{:I($field['name'], $field['value'])}">
+      {/if}
+      {if condition="$field['is_show'] == 1 || $field['is_show'] == 3 || ($field['is_show'] == 5 && I($field['name']) )"}
+        <div class="form-item cf">
+          <label class="item-label">{$field['title']}<span class="check-tips">
+            {notempty name="field['remark']"}（{$field['remark']|raw}）{/notempty}
+            </span></label>
+          <div class="controls">
+            {switch name="field.type"}
+              {case value="num"}
+                <input type="text" class="text input-medium" name="{$field.name}" value="{$data[$field['name']]}">
+              {/case}
+              {case value="string"}
+                <input type="text" class="text input-large" name="{$field.name}" value="{$data[$field['name']]}">
+              {/case}
+              {case value="textarea"}
+                <label class="textarea input-large">
+                  <textarea name="{$field.name}">{$data[$field['name']]}</textarea>
+                </label>
+              {/case}
+              {case value="datetime"}
+                <input type="text" name="{$field.name}" class="text input-large time" value="{$data[$field['name']]|time_format}" placeholder="请选择时间" />
+              {/case}
+              {case value="bool"}
+                <select name="{$field.name}">
+                  {volist name=":parse_field_attr($field['extra'])" id="vo"} <option value="{$key}" 
+                              
+                      
+                    {eq name="data[$field['name']]" value="$key"}selected{/eq}
+                    >{$vo}
+                              
+                      
+                    </option>
+                  {/volist}
+                </select>
+              {/case}
+              {case value="select"}
+                <select name="{$field.name}">
+                  {volist name=":parse_field_attr($field['extra'])" id="vo"} <option value="{$key}" 
+                              
+                      
+                    {eq name="data[$field['name']]" value="$key"}selected{/eq}
+                    >{$vo}
+                              
+                      
+                    </option>
+                  {/volist}
+                </select>
+              {/case}
+              {case value="cascade"}
+                
+                {:W('common/cascade/cascade', array('name'=>$field['name'],'value'=>$data[$field['name']],'extra'=>$field['extra']))} {/case}
+              {case value="dynamic_select"}
+                
+                {:W('common/dynamic_select/dynamic_select', array('name'=>$field['name'],'value'=>$data[$field['name']],'extra'=>$field['extra']))} {/case}
+                        {case value="dynamic_checkbox"}
+                        
+                        {:W('common/dynamic_checkbox/dynamic_checkbox', array('name'=>$field['name'],'value'=>$data[$field['name']],'extra'=>$field['extra']))}
+                        {/case}                 
+              {case value="radio"}
+                {volist name=":parse_field_attr($field['extra'])" id="vo"}
+                  <label class="radio"> <input type="radio" value="{$key}" name="{$field.name}" 
+                              
+                      
+                    {eq name="data[$field['name']]" value="$key"}checked="checked"{/eq}
+                    >{$vo} </label>
+                {/volist}
+              {/case}
+              {case value="checkbox"}
+                {volist name=":parse_field_attr($field['extra'])" id="vo"}
+                  <label class="checkbox"> <input type="checkbox" value="{$key}" name="{$field.name}[]" 
+                              
+                      
+                    {in name="key" value="$data[$field['name']]" }checked="checked"{/in}
+                    >{$vo} </label>
+                {/volist}
+              {/case}
+              {case value="editor"}
+                <label class="textarea">
+                  <textarea name="{$field.name}">{$data[$field['name']]}</textarea>
+                  {:W('common/editor/adminArticleEdit', array('name'=>$field['name'],'value'=>$data[$field['name']]))} </label>
+              {/case}
+              {case value="picture"}
+                <div class="controls">
+                  <input type="file" id="upload_picture_{$field.name}">
+                  <input type="hidden" name="{$field.name}" id="cover_id_{$field.name}" value="{$data[$field['name']]}"/>
+                  <div class="upload-img-box">
+                    {notempty name="data[$field['name']]"}
+                      <div class="upload-pre-item"><img src="{$data[$field['name']]|get_cover_url}"/></div>
+                    {/notempty}
+                  </div>
+                </div>
+                <script type="text/javascript">
+								//上传图片
+							    /* 初始化上传插件 */
+								$("#upload_picture_{$field.name}").uploadify({
+							        "height"          : "auto",
+							        "swf"             : "__STATIC__/uploadify/uploadify.swf",
+							        "fileObjName"     : "download",
+							        "buttonText"      : "上传图片",
+							        "uploader"        : "{:U('home/File/upload_picture',array('session_id'=>session_id()))}",
+							        "width"           : 120,
+							        'removeTimeout'	  : 1,
+							        'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
+							        "onUploadSuccess" : upload_picture{$field.name}
+							    });
+								function upload_picture{$field.name}(file, data){
+							    	var data = $.parseJSON(data);
+							    	var src = '';
+							        if(data.code){
+							        	$("#cover_id_{$field.name}").val(data.id);
+							        	src = data.url || '__ROOT__' + data.path;
+							        	$("#cover_id_{$field.name}").parent().find('.upload-img-box').html(
+							        		'<div class="upload-pre-item"><img src="' + src + '"/></div>'
+							        	);
+							        } else {
+							        	updateAlert(data.msg);
+							        	setTimeout(function(){
+							                $('#top-alert').find('button').click();
+							            },1500);
+							        }
+							    }
+								</script> 
+              {/case}
+              {case value="file"}
+                <div class="controls">
+                  <input type="file" id="upload_file_{$field.name}">
+                  <input type="hidden" name="{$field.name}" value="{$data[$field['name']]}"/>
+                  <div class="upload-img-box">
+                    {present name="data[$field['name']]"}
+                      <div class="upload-pre-file"><span class="upload_icon_all"></span>{$data[$field['name']]|get_table_field=###,'id','name','File'}</div>
+                    {/present}
+                  </div>
+                </div>
+                <script type="text/javascript">
+								//上传图片
+							    /* 初始化上传插件 */
+								$("#upload_file_{$field.name}").uploadify({
+							        "height"          : 30,
+							        "swf"             : "__STATIC__/uploadify/uploadify.swf",
+							        "fileObjName"     : "download",
+							        "buttonText"      : "上传附件",
+							        "uploader"        : "{:U('home/File/upload',array('session_id'=>session_id()))}",
+							        "width"           : 120,
+							        'removeTimeout'	  : 1,
+							        "onUploadSuccess" : uploadFile{$field.name}
+							    });
+								function uploadFile{$field.name}(file, data){
+									var data = $.parseJSON(data);
+							        if(data.code){
+							        	var name = "{$field.name}";
+							        	$("input[name="+name+"]").val(data.id);
+							        	$("input[name="+name+"]").parent().find('.upload-img-box').html(
+							        		"<div class=\"upload-pre-file\"><span class=\"upload_icon_all\"></span>" + data.name + "</div>"
+							        	);
+							        } else {
+							        	updateAlert(data.msg);
+							        	setTimeout(function(){
+							                $('#top-alert').find('button').click();
+							            },1500);
+							        }
+							    }
+								</script> 
+              {/case}
+              {default /}
+              <input type="text" class="text input-large" name="{$field.name}" value="{$data[$field['name']]}">
+            {/switch}
+          </div>
+        </div>
+      {/if}
+    {/volist}
+    <div id="top-alert" class="fixed alert alert-error" style="display: none;">
+      <button class="close fixed" style="margin-top: 4px;">&times;</button>
+      <div class="alert-content"></div>
+    </div>
+    <div class="form-item cf">
+      {if condition="$meta_title=='用户编辑'"}
+        <input type="hidden" name="uid" value="{$data.id|default=0}">
+      {/if}
+      <button class="home_btn submit-btn" id="submit" type="button" target-form="form-horizontal">提交</button>
+    </div>
+  </form>
+</div>
+{block name="script"}
+<script type="text/javascript">
+$('#submit').click(function(){
+   // $('#form').submit();
+   //判断
+   if($('input[name="nickname"]').length>0 && ( $('input[name="nickname"]').val().length<2 || !(/^[\u4e00-\u9fa5]+$/.test($('input[name="nickname"]').val())))){
+   		 $.Dialog.fail("名字限2个以上的中文字符!");
+		 return;
+   }
+//   if($('input[name="mobile"]').length>0 && $('input[name="mobile"]').val().length!=11){
+//   		 $.Dialog.fail("请填写正确的手机号码!");
+//		 return;
+//   }
+//   if($('input[name="identity"]').length>0 && $('input[name="identity"]').val().length<18){
+//   		 $.Dialog.fail("请填写正确的身份证!");
+//		 return;
+//   }
+   
+   $.Dialog.loading();
+   $.ajax({
+	   url:'{$post_url}',
+	   type:'post',
+	   data:$('#form').serializeArray(),
+	   dataType:'json',
+	   success:function(json){
+		   console.log(json);
+		    //$.Dialog.close();
+			if(json.status==1){
+			   		
+			   		$.Dialog.success(json.info);
+					//alert('2');
+			   }else{
+				   	$.Dialog.fail(json.info);
+					//alert('3');
+				   }
+		   if(json.url!=""){
+			   setTimeout(function(){
+				   window.location.href=json.url;
+				   },2000);
+			   }
+   		},
+		error:function(){
+				$.Dialog.close();
+			 //$.Dialog.fail();
+			}
+	   });
+});
+
+$(function(){
+       $('.time').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        language:"zh-CN",
+        minView:0,minuteStep:10,
+        autoclose:true
+    });
+
+});
+</script> 
+{include file="common@base/mobile_foot"/}
+</body>
+</html>

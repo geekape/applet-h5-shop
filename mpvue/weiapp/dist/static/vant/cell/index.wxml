@@ -1,0 +1,37 @@
+<view
+  class="{{ cellClass }}"  
+  style="{{ customStyle }}"
+  bind:tap="onClick"
+>
+  <van-icon
+    wx:if="{{ icon }}"
+    name="{{ icon }}"
+    custom-class="van-cell__left-icon"
+  />
+  <slot wx:else name="icon" />
+
+  <view
+    style="{{ titleStyle }}"
+    class="van-cell__title title-class"
+  >
+    <block wx:if="{{ title }}">
+      {{ title }}
+      <view wx:if="{{ label }}" class="van-cell__label label-class">{{ label }}</view>
+    </block>
+    <slot wx:else name="title" />
+  </view>
+
+  <view class="van-cell__value value-class">
+    <block wx:if="{{ value }}">{{ value }}</block>
+    <slot wx:else />
+  </view>
+
+  <van-icon
+    wx:if="{{ isLink }}"
+    name="arrow"
+    custom-class="van-cell__right-icon"
+  />
+  <slot wx:else name="right-icon" />
+
+  <slot name="extra" />
+</view>

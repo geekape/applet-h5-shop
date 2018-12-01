@@ -1,0 +1,30 @@
+@charset "utf-8";
+/* CSS Document */
+html{ height:100%;}
+body{ min-height:100%;}
+.container{ min-height:100%;}
+.head_hd img{ display:block}
+.head_hd{overflow:hidden; background:#f39626; position:relative; text-shadow:0 2px RGBA(0,0,0,.3)}
+.head_pic{ display:block; width:100%;}
+.start_btn,.start_btn:hover,.start_btn:link,.start_btn:active,.start_btn:visited{ border-radius:5px; background:#ff5100; display:block; margin:20px 15px; padding:13px 0; text-align:center; color:#fff; font-size:16px; border:none}
+.content{ padding:10px; margin:15px 0; background:#fff; border-top:1px solid #ddd; border-bottom:1px solid #ddd;}
+.detail_desc{ color:#777; font-size:14px;}
+.leftTime{ border:5px solid #fff; height:60px; width:60px; margin:20px auto 30px; line-height:60px; text-align:center; color:#fff; font-size:30px; border-radius:100%;}
+
+.font16{ font-size:16px;}
+.mt0{ margin-top:0;}
+
+.qhead{ background:#ff5100; padding:15px 20px; color:#fff}
+.q_tips{ font-size:13px; color:#ddd;}
+
+.voteItem{ padding:15px 15px 15px 50px;margin:20px 20px; background:#fff; color:#444; border-radius:5px; box-shadow:0 1px 3px #999; position:relative; font-size:16px;}
+.voteItem input{ display:none}
+.voteItem.selected{ background:#eee; color:#333}
+.voteItem .check{ position:absolute; height:40px; width:40px; top:50%; margin-top:-20px; left:5px; background:url(check.png) no-repeat center center; background-size:30px 30px;}
+.voteItem.selected .check{ background:url(checked.png) no-repeat center center; background-size:30px 30px;}
+
+.head_hd{overflow:hidden; background:#f39626; position:relative; text-shadow:0 2px RGBA(0,0,0,.3)}
+.head_pic{ display:block; width:100%;}
+.start_btn,.start_btn:hover,.start_btn:link,.start_btn:active,.start_btn:visited{ border-radius:5px; background:#ff5100; display:block; margin:20px 15px; padding:13px 0; text-align:center; color:#fff; font-size:16px;}
+.content{ padding:10px; margin:15px 0; background:#fff; border-top:1px solid #ddd; border-bottom:1px solid #ddd;}
+.detail_desc{ color:#777; font-size:14px;word-wrap:break-word;}

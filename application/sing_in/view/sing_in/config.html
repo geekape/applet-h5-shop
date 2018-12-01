@@ -1,0 +1,154 @@
+{extend name="common@base/common" /}
+{block name="body"}
+<style type="text/css">
+
+.specTable .param {
+	display: none;
+}
+.specTable p {
+	display: block;
+	line-height: 50px;
+}
+.text-center {
+	text-align: center;
+}
+.check-tips {
+	color: #aaa;
+	margin-left: 50px
+}
+.u-lh-input {
+  line-height: 40px;
+}
+input.text.money {
+  width: 100px;
+}
+</style>
+  <div class="span9 page_message">
+    <section id="contents"> {include file="common@base/_nav" /}
+      <div class="tab-content">
+        <form action="{:U('config')}" class="form-horizontal" method="post">
+          <div class="form-group row cf">
+            <label class="col-sm-2"> 签到积分模式: </label>
+            <div class="col-sm-8">
+              <label class="radio">
+                <input type="radio" class="random" value="1" name="random" {if condition="intval($data['random'])==1"}checked="checked"{/if} >
+                固定积分 </label>
+              <label class="radio">
+                <input type="radio" class="random" value="0" name="random" {if condition="intval($data['random'])==0"}checked="checked"{/if} >
+                随机积分 </label>
+            </div>
+          </div>
+          <div class="form-group row cf" id="score">
+            <label class="col-sm-2 u-lh-input"> 固定签到积分: </label>
+            <div class="col-sm-8">
+              <input type="number" value="{$data.score|default=10}" class="text money" name="score">
+            </div>
+          </div>
+          <div class="form-group row cf" id="score1">
+            <label class="col-sm-2 u-lh-input"> 随机积分范围: </label>
+            <div class="col-sm-8">
+              <input type="number" value="{$data.score1|default=2}" class="text money" name="score1"> - <input type="number" value="{$data.score2|default=10}" class="text money" name="score2">
+            </div>
+          </div>
+          <div class="form-group row cf">
+            <label class="col-sm-2 u-lh-input"> 签到开始时间（时：分）: </label>
+            <div class="col-sm-8">
+              <input type="text" value="{$data.hour|default='08'}" class="text money" name="hour" placeholder="小时">：<input type="text" value="{$data.minute|default='00'}" class="text money" name="minute" placeholder="分钟">
+            </div>
+          </div>
+          <div class="form-group row cf">
+            <label class="col-sm-2 u-lh-input"> 连续签到：  </label>
+            <div class="col-sm-8">
+             连续 <input type="text" value="{$data.continue_day}" class="text money" name="continue_day"> 天签到额外奖励 <input type="text" value="{$data.continue_score}" class="text money" name="continue_score"> 积分
+            </div>
+          </div>          
+         <div class="form-group row cf">
+            <label class="col-sm-2 u-lh-input"> 分享奖励：  </label>
+            <div class="col-sm-8">
+             分享一次奖励 <input type="text" value="{$data.share_score}" class="text money" name="share_score"> 积分，每天最多奖励 <input type="text" value="{$data.share_limit}" class="text money" name="share_limit"> 次 （不填代表不做限制，只有分享会员中心首页才赠送积分）
+            </div>
+          </div> 
+          
+          <div class="form-group row cf">
+            <label class="col-sm-2"> 未开始签到回复模板: </label>
+            <div class="col-sm-8">
+              <label class="textarea input-large">
+                  {empty name="data.notstart"}
+                  <textarea name="notstart">亲，你起得太早了,签到从[开始时间]开始,现在才[当前时间]！</textarea>
+                  {else/}
+                  <textarea name="notstart">{$data.notstart}</textarea>
+                  {/empty}
+              </label>
+            </div>
+          </div>
+          <div class="form-group row cf">
+            <label class="col-sm-2"> 已签到回复模板: </label>
+            <div class="col-sm-8">
+              <label class="textarea input-large">
+                  {empty name="data.done"}
+                  <textarea name="done">亲，今天已经签到过了，请明天再来哦，谢谢！</textarea>
+                  {else/}
+                  <textarea name="done">{$data.done}</textarea>
+                  {/empty}
+              </label>
+            </div>
+          </div>
+          <div class="form-group row cf">
+            <label class="col-sm-2"> 签到成功回复模板: </label>
+            <div class="col-sm-8">
+              <label class="textarea input-large">
+                  {empty name="data.reply"}
+                  <textarea name="reply">恭喜您,签到成功
+本次签到获得[本次积分]积分
+当前总积分[积分余额]
+[签到时间]
+您今天是第[排名]位签到
+签到排行榜：
+[排行榜]</textarea>
+                  {else/}
+                  <textarea name="reply">{$data.reply}</textarea>
+                  {/empty}
+              </label>
+            </div>
+          </div>
+          <div class="form-group row cf">
+            <label class="col-sm-2"> 积分攻略: </label>
+            <div class="col-sm-8">
+              <label class="textarea input-large">
+                  <textarea name="content">{$data.content|raw}</textarea>
+              </label>
+            </div>
+          </div>
+          <input type="hidden" readonly="" value="145" name="id">
+          
+        </form>
+		  <div class="row">
+			  <div class="offset-sm-2 col-sm-4">
+				  <button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button>
+			  </div>
+		  </div>
+      </div>
+    </section>
+  </div>
+{/block}
+{block name="script"} 
+  <script type="text/javascript" charset="utf-8">
+  function choose_type(){
+	var val = $('input[name="random"]:checked').val();
+	if(val==0){
+		$('#score1').show();
+		$('#score').hide();
+	}else{
+		$('#score1').hide();
+		$('#score').show();
+	}
+}
+	$(function(){
+		//支持tab
+		showTab();
+		
+		$('.random').bind('click',function(){ choose_type();	});
+	choose_type();
+	})
+</script> 
+{/block}

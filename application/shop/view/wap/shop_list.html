@@ -1,0 +1,62 @@
+{extend name="shop@wap/common_file" /} {block name="common_body"}
+<!-- 头部导航 -->
+<div class="top-nav">
+    <div class="flex">
+      <i class="iconfont icon-back" id="go-back"></i>
+        <slot>
+            <span class="title">门店列表</span>
+        </slot>
+    </div>
+</div>
+
+<div class="wrap">
+    
+{empty name="store_lists"}
+  {:W('common/EmptyTip/html', ['remark'=>'没有可选择的门店~'])}
+  {else/}
+    <!-- 门店 -->
+    {volist name="store_lists" id="store"}
+    {php} $is_choose = input('is_choose/d'); if($is_choose==1) { $url = U('confirm_order',['store_id'=>$store['id']]); }else{ $url ='###';} {/php}
+    <div class="card f-p0">
+      <a href="{$url}" class="card-body flex">
+        <div class="card-body-img">
+          {empty name='store.img_url'}
+          <img src="{empty name='store.img'}__STATIC__/default/img/deaulf-shop.jpg{else/}{$store.img|get_cover_url}{/empty}">
+          {else/}
+          <img src="{$store.img_url}">
+          {/empty}
+        </div>
+
+        <div class="card-body-text">
+          <strong class="f-mb-base">{$store.name}</strong>
+          <p><i class="iconfont icon-ditu"></i><small>{$store.address}</small></p>          
+        </div>
+      </a>
+
+
+      <div class="card-footer flex">
+      {notempty name="store.phone"}
+      <a href="tel:{$store.phone}" class="flex-item">
+          <i class="iconfont icon-phone"></i>电话
+        </a>
+        {/notempty}
+        {notempty name="store.gps"}
+            <!--<a href="//apis.map.qq.com/tools/poimarker?type=0&marker=coord:{$store.gps};title:{$store.name};addr:{$store.address}&referer=myapp&key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77"-->
+          <!--<a href="//api.map.baidu.com/geocoder?location={$store.gps}&output=html&src={$store.name}|{$store.address}"-->
+          <!--<a href="//api.map.baidu.com/geocoder?address={$store.address}&output=html&src={$store.name}|{$store.address}"-->
+          <a href="//map.baidu.com/mobile/webapp/search/search/qt=s&wd={$store.address}/&vt=map"
+          {else/}
+         <a href="//map.baidu.com/mobile/webapp/search/search/qt=s&wd={$store.address}/&vt=map"
+        {/notempty}
+        class="flex-item" >
+          <i class="iconfont icon-daohang"></i>导航
+        </a>
+      </div>
+
+    </div>
+    {/volist}
+    <!-- /门店 -->
+    {/empty}
+
+</div>
+{/block}

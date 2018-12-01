@@ -1,0 +1,62 @@
+{extend name="publics/base" /}
+{block name="body"}
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>用户组管理</h2>
+	</div>
+
+    <div class="tools auth-botton">
+        <a id="add-group" class="btn" href="{:U('createGroup')}">新 增</a>
+        <a url="{:U('changestatus?method=resumeGroup')}" class="btn ajax-post" target-form="ids" >启 用</a>
+        <a url="{:U('changestatus?method=forbidGroup')}" class="btn ajax-post" target-form="ids" >禁 用</a>
+        <a url="{:U('changestatus?method=deleteGroup')}" class="btn ajax-post confirm" target-form="ids" >删 除</a>
+    </div>
+	<!-- 数据列表 -->
+	<div class="data-table table-striped">
+	<table>
+    <thead>
+        <tr>
+		<th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
+		<th>用户组</th>
+        <th>类型</th>
+		<th>描述</th>
+		<th>状态</th>
+        <th>授权</th>
+		<th>操作</th>
+		</tr>
+    </thead>
+    <tbody>
+		{notempty name="_list"}
+		{volist name="_list" id="vo"}
+		<tr>
+            <td>{if condition="$vo['id'] gt 3"}<input class="ids" type="checkbox" name="id[]" value="{$vo.id}" />{/if}</td>
+			<td><a href="{:U('AuthManager/editgroup?id='.$vo['id'])}">{$vo.title}</a> </td>
+            <td>{$vo.type}</td>
+			<td><span>{:mb_strimwidth($vo['description'],0,60,"...","utf-8")}</span></td>
+			<td>{$vo.status_text}</td>
+            <td><a href="{:U('AuthManager/access?group_name='.$vo['title'].'&group_id='.$vo['id'])}" >权限配置</a>
+			<a href="{:U('AuthManager/user?group_name='.$vo['title'].'&group_id='.$vo['id'])}" >成员管理</a>
+			</td>            
+			<td>
+            {if condition="$vo['id'] gt 3"}
+            {eq name="vo.status" value="1"}
+				<a href="{:U('AuthManager/changeStatus?method=forbidGroup&id='.$vo['id'])}" class="ajax-get">禁用</a>
+				{else/}
+				<a href="{:U('AuthManager/changeStatus?method=resumeGroup&id='.$vo['id'])}" class="ajax-get">启用</a>
+				{/eq}
+				<a href="{:U('AuthManager/changeStatus?method=deleteGroup&id='.$vo['id'])}" class="confirm ajax-get">删除</a>
+             {/if}
+                </td>
+		</tr>
+		{/volist}
+		{else/}
+		<td colspan="7" class="text-center"> aOh! 暂时还没有内容! </td>
+		{/notempty}
+	</tbody>
+    </table>
+
+	</div>
+    <div class="page">
+        {$_page|raw}
+    </div>
+{/block}

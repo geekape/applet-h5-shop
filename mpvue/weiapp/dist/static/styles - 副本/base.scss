@@ -1,0 +1,10 @@
+/*
+* variable :全局css变量 - （全局的css变量）
+* mixin: 封装的css Mixin - （封装的css方法）
+* reset： 全局重置 - (页面重置，UI框架重置）
+* common：公共样式 - （全局公共组件/类样式）
+*/
+
+@import './variable';
+@import './reset';
+@import './common';

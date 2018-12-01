@@ -1,0 +1,92 @@
+.wrap{}
+/* 选择魔板 */
+.temp_list{ overflow:hidden; zoom:1;}
+.temp_list li{ width:50%; float:left; text-align:center; position:relative;}
+.temp_list li a{ width:90%; display:inline-block; border:1px solid #ddd; background:#fff; color:#333; font-size:12px; padding:10px 0;}
+.temp_list li img{ width:90%;}
+.temp_list li em.checked{ position:absolute; top:0; right:10px; height:40px; width:40px; background:url(checked.png) no-repeat; background-size:100% 100%;}
+/* 名片夹 */
+.top_tab{ margin:10px; display:-webkit-box; height:44px; border-radius:20px;}
+.top_tab a{ display:block;-webkit-box-flex:1; height:40px; line-height:40px; border:2px solid #44b549; background:#fff; color:#333; text-align:center; font-size:13px;}
+.top_tab a.current{ background:#44b549; color:#fff;}
+.top_tab a.l{ border-top-left-radius:22px;border-bottom-left-radius:22px;}
+.top_tab a.r{ border-top-right-radius:22px;border-bottom-right-radius:22px;}
+.card_list{ margin:15px 10px;}
+.card_list li{ height:50px; border-radius:35px; background:#fff; box-shadow:0 0 2px RGBA(0,0,0,.2); padding:10px; margin-bottom:15px;}
+.card_list li a{ display:block; position:relative; padding-left:60px; color:#333}
+.card_list li a img{ height:50px; width:50px; border-radius:30px; position:absolute; top:0px; left:0;}
+.card_list li .info{ line-height:25px;}
+.card_list li .info .name{ }
+.card_list li .info .position{ font-size:12px; color:#888;}
+.card_list li em{ position:absolute; top:0; right:0; height:50px; width:40px; background:url(item_arrow.png) no-repeat; background-size:100% 100%;}
+/* 底部 */
+.bottom_menu{ height:55px; padding:0 10px; position:fixed; right:0; left:0; bottom:0; background:#fff; box-shadow:0 -1px 1px RGBA(0,0,0,.6); border-top:1px solid #ddd; display:-webkit-box; z-index:11;}
+.bottom_menu a{ display:block; -webkit-box-flex:1; padding-top:30px;text-align:center; color:#888; font-size:12px; border-right:1px solid #ddd;}
+.bottom_menu a:last-child{ border:none}
+.bottom_menu .back{ background:url(back.png) no-repeat center 8px; background-size:22px 22px;}
+.bottom_menu .share{ background:url(share.png) no-repeat center 8px; background-size:22px 22px; position:relative}
+.bottom_menu .center{ background:url(center.png) no-repeat center 8px; background-size:22px 22px;}
+.bottom_menu .collected{ background:url(collected.png) no-repeat center 8px; background-size:22px 22px;}
+.exchange_btn{ margin:0 20px 15px 0;border-top-right-radius:10px; border-bottom-right-radius:10px; background:RGBA(11,129,203,.9); color:#fff; padding:12px 10px; text-align:center; display:block; font-size:18px;}
+
+/* 动画 */
+.animated{
+	-webkit-animation-duration:1.0s;
+	animation-duration:1.0s;
+	-webkit-animation-fill-mode:both;
+	animation-fill-mode:both
+}
+@-webkit-keyframes slideLeftIn{
+0%{
+	-webkit-transform:translate(-100%,0);
+	transform:translate(-100%,0)
+}
+100%{
+	-webkit-transform:translate(0,0);
+	transform:translate(0,0);
+}
+
+}
+@keyframes slideLeftIn{
+0%{
+	-webkit-transform:translate(-100%,0);
+	transform:translate(-100%,0)
+}
+100%{
+	-webkit-transform:translate(0,0);
+	transform:translate(0,0);
+}
+
+}
+
+.slideLeftIn {
+  -webkit-animation-name: slideLeftIn;
+  animation-name: slideLeftIn;
+}
+@-webkit-keyframes slideRightIn{
+0%{
+	-webkit-transform:translate(100%,0);
+	transform:translate(100%,0)
+}
+100%{
+	-webkit-transform:translate(0,0);
+	transform:translate(0,0);
+}
+
+}
+@keyframes slideRightIn{
+0%{
+	-webkit-transform:translate(100%,0);
+	transform:translate(100%,0)
+}
+100%{
+	-webkit-transform:translate(0,0);
+	transform:translate(0,0);
+}
+
+}
+
+.slideRightIn {
+  -webkit-animation-name: slideRightIn;
+  animation-name: slideRightIn;
+}

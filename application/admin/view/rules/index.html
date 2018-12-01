@@ -1,0 +1,50 @@
+{extend name="publics/base" /}
+{block name="body"}
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>角色管理</h2>
+	</div>
+
+    <div class="tools auth-botton">
+        <a id="add-group" class="btn" href="{:U('createTag')}">新 增</a>
+        <!-- a url="{:U('changestatus?method=resumerule')}" class="btn ajax-post" target-form="ids" >启 用</a>
+        <a url="{:U('changestatus?method=forbidrule')}" class="btn ajax-post" target-form="ids" >禁 用</a-->
+        <a url="{:U('deleteTag')}" class="btn ajax-post confirm" target-form="ids" >删 除</a>
+    </div>
+	<!-- 数据列表 -->
+	<div class="data-table table-striped">
+	<table>
+    <thead>
+        <tr>
+		<th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
+		<th>角色名称</th>
+        <th>更新时间</th>
+		<th>操作</th>
+		</tr>
+    </thead>
+    <tbody>
+		{notempty name="_list"}
+		{volist name="_list" id="vo"}
+		<tr>
+            <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
+			<td><a href="{:U('Rule/editRule?id='.$vo['id'])}">{$vo.title}</a> </td>
+            <td>{$vo.mTime|date="Y-m-d"}</td>
+			<td>
+				<a href="{:U('editTag',array('id'=>$vo['id']))}">编辑</a>
+				<a href="{:U('rules',array('id'=>$vo['id']))}">节点管理</a>
+				<a href="{:U('members',array('id'=>$vo['id']))}">成员管理</a>
+				<a href="{:U('deleteTag',array('ids'=>$vo['id']))}" class="confirm ajax-get">删除</a>
+             </td>
+		</tr>
+		{/volist}
+		{else/}
+		<td colspan="7" class="text-center"> aOh! 暂时还没有内容! </td>
+		{/notempty}
+	</tbody>
+    </table>
+
+	</div>
+    <div class="page">
+        {$_page|raw}
+    </div>
+{/block}

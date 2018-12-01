@@ -1,0 +1,13 @@
+{
+  "navigationBarTitleText": "提交订单",
+  "usingComponents": {
+    "van-checkbox": "/static/vant/checkbox/index",
+    "van-checkbox-group": "/static/vant/checkbox-group/index",
+    "van-radio": "/static/vant/radio/index",
+    "van-radio-group": "/static/vant/radio-group/index",
+    "i-toast": "/static/iview/toast/index",
+    "van-popup": "/static/vant/popup/index",
+    "van-cell": "/static/vant/cell/index",
+    "van-cell-group": "/static/vant/cell-group/index"
+  }
+}

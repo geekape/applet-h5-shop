@@ -1,0 +1,101 @@
+{extend name="publics/base"/}
+
+{block name="body"}
+   <div class="main-title">
+
+        <!-- <div id="update_remind" style="clear:both; margin-bottom:10px;border:1px solid #33ab07; padding:10px; background-color:#d8f9cc; color:#33ab07; position:relative; display:none">
+        	<a href="{:U('update/index')}">WeiPHP出升级包了，请及时升级！</a>
+            <a href="javascript:;" title="关闭" style="color:#999; font-size:12px; position:absolute; top:5px; right:10px; text-decoration:none" onclick="set_cookie_close_version();">X</a>
+        </div> -->
+        <h2>网站设置</h2>
+	</div>
+		<div class="tab-wrap">
+		<ul class="tab-nav nav">
+		{volist name="Think.config.CONFIG_GROUP_LIST" id="group"}
+
+			<li {eq name="id" value="$key"}class="current"{/eq}><a href="{:U('group?id='.$key)}">{$group}配置</a></li>
+
+		{/volist}
+		</ul>
+		<div class="tab-content">
+
+	<form action="{:U('save')}" method="post" class="form-horizontal">
+		{if condition='$id eq 10'}
+			<label class="item-label">当前状态：</label>
+			{if condition='config("IS_QRCODE_LOGIN") eq 1'}
+				已开启
+			{else/}
+				未开启
+			{/if}
+		{/if}
+		{volist name="list" id="config"}
+		<div class="form-item">
+			<label class="item-label">{$config.title|raw}{if condition="!empty($config['remark'])"}<span class="check-tips">（{$config.remark}）</span>{/if} </label>
+			<div class="controls">
+			{switch name="config.type"}
+			{case value="0"}
+			<input type="text" class="text input-small" name="{$config.name}" value="{$config.value}">
+			{/case}
+			{case value="1"}
+			<input type="text" class="text input-large" name="{$config.name}" value="{$config.value}">
+			{/case}
+			{case value="2"}
+			<label class="textarea input-large">
+				<textarea name="{$config.name}">{$config.value}</textarea>
+			</label>
+			{/case}
+			{case value="3"}
+			<label class="textarea input-large">
+				<textarea name="{$config.name}">{$config.value}</textarea>
+			</label>
+			{/case}
+			{case value="4"}
+			<select name="{$config.name}">
+				{volist name=":parse_config_attr($config['extra'])" id="vo"}
+					<option value="{$key}" {eq name="config.value" value="$key"}selected{/eq}>{$vo}</option>
+				{/volist}
+			</select>
+			{/case}
+			{/switch}
+
+			</div>
+		</div>
+		{/volist}
+
+		<div class="form-item">
+			<label class="item-label"></label>
+			<div class="controls">
+				{empty name="list"}<button type="submit" disabled class="btn submit-btn disabled" target-form="form-horizontal">确 定</button>{else/}<button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button>{/empty}
+
+				<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+                {notempty name="more_button"}
+                    {volist name="more_button" id="vo"}
+                        <a class="btn" href="{$vo.url}">{$vo.title}</a>
+                    {/volist}
+                {/notempty}
+			</div>
+		</div>
+	</form>
+			</div>
+	</div>
+{/block}
+
+{block name="script"}
+<script type="text/javascript">
+//官方升级地址
+var cookie_close_version = 0;
+$(function(){
+	$.get("{:U('update/getRemoteVersion')}",{},function(res){
+		if(res!=0){
+			$('#update_remind').slideDown();
+			cookie_close_version = res;
+		}
+	});
+});
+function set_cookie_close_version(){
+	$.get("{:U('update/set_cookie_close_version')}",{cookie_close_version:cookie_close_version},function(){
+		$('#update_remind').slideUp();
+	})
+}
+</script>
+{/block}

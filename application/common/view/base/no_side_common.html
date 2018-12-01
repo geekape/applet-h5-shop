@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	{include file="common@base/head"/}
+    {block name="style"}{/block}
+</head>
+<body>
+	<!-- 头部 -->
+	{include file="common@base/header"/}
+	<!-- /头部 -->
+	
+	<!-- 主体 -->
+    {block name="header"}{/block}
+    <div id="main-container" class="container" style="position:relative">
+        <div class="no_side_main_body">
+            {block name="body"}{/block}
+        </div>
+    </div>
+
+	<!-- /主体 -->
+
+	<!-- 底部 -->
+	{include file="common@base/footer"/}
+
+    
+    {block name="script"}{/block} <!-- 用于加载js代码 -->
+    <div class="hidden"><!-- 用于加载统计代码等隐藏元素 -->
+        {block name="hidden"}{/block}
+    </div>    
+	<!-- /底部 -->
+</body>
+</html>

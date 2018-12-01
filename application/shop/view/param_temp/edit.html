@@ -1,0 +1,96 @@
+{extend name="common@base/common" /}
+{block name="body"}
+<style>
+    .form-group select{
+        margin-left: 0;
+    }
+</style>
+<!-- 标签页导航 -->
+<div class="span9 page_message">
+  <section id="contents">
+  {include file="common@base/_nav" /}
+  <div class="tab-content">
+  <!-- 表单 --> 
+  {php} isset($post_url) || $post_url = U('edit?model='.$model['id'], $get_param);{/php}
+  <form id="form" action="{$post_url}" method="post" class="form-horizontal form-center">
+    <div class="form-group row cf toggle-title">
+      <label class="col-sm-2"> <span class="need_flag">*</span> 模板名称 </label>
+      <div class="col-sm-8">
+        <input type="text" class="text input-large" name="title" value="{$data.title|default=''}">
+        <span class="form-text text-muted"> </span> </div>
+      <br>
+    </div>
+      <div class="form-group row cf toggle-title">
+          <label class="col-sm-2"></label>
+          <div class="card bg-light mb-3 col-sm-8" style="margin-left: 15px">
+        <div class="card-body">
+          <p class="card-text">
+          <div class="form-item cf toggle-parm">
+          
+            <div class="data-table">
+            <div class="form-text text-muted">可对下面的表格进行上下拖动行排序 </div>
+              <table cellspacing="1" style="width:100%;">
+                <thead>
+                  <tr>
+                    <th width="30%">参数名</th>
+                    <th width="20%">是否显示</th>
+                    <th width="20%">操作</th>
+                  </tr>
+                </thead>
+                <tbody id="item-parm" class="needdragsort">
+                
+                {volist name="param_lists" id="pp"}
+                <tr id="item-tr">
+                  <td><input type="hidden" name="param[{$pp.name}][name]" value="{$pp.name}">
+                  <input type="hidden" class="is_show" name="param[{$pp.name}][is_show]" value="{$pp.is_show}">
+                  <input type="hidden" name="param[{$pp.name}][title]" value="{$pp.title}">{$pp.title}</td>
+                  <td class="status">{empty name="pp.is_show"}否{else /}是{/empty}</td>
+                  <td><a class="border-btn" href="javascript:;" onClick="hideParm(this);">{empty name="pp.is_show"}显示{else /}隐藏{/empty}</a></td>
+                </tr>
+                {/volist}
+                  </tbody>
+                
+              </table>
+            </div>
+          </div>
+          </p>
+        </div>
+      </div>
+      </div>
+    <div class="form-group row form_bh" style="padding-left:25px">
+      <div class="offset-sm-2">
+      {notempty name="data.id"}
+        <input type="hidden" name="id" value="{$data.id|default=0}">
+        {/notempty}
+        <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">{$submit_name|default='确 定'}</button>
+      </div>
+    </div>
+  </form>
+</div>
+</section>
+</div>
+{/block}
+{block name="script"} 
+<script type="text/javascript" src="__STATIC__/jquery.dragsort-0.5.2.min.js"></script>  
+<script type="text/javascript">
+function hideParm(_this){
+	var title = $(_this).text();
+	if(title == '隐藏'){
+		$(_this).closest('#item-tr').find('.status').html('否');
+		$(_this).text('显示');
+		$(_this).closest('#item-tr').find('.is_show').val(0);
+	}else{
+		$(_this).closest('#item-tr').find('.status').html('是');
+		$(_this).text('隐藏');
+		$(_this).closest('#item-tr').find('.is_show').val(1);
+	}
+}
+$(function(){
+	$(".needdragsort").dragsort({
+	   dragSelector:'tr',
+	   dragSelectorExclude:'a[href]',
+	   dragBetween:true,	//允许拖动到任意地方
+	});	
+})
+</script> 
+{/block} 

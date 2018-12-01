@@ -1,0 +1,45 @@
+<div>
+    <!--页面标题设置-->
+    <div class="app_editor">
+        <em class="arrow-left"></em>
+        <div class="form_item">
+            <label>页面名称</label>
+            <div class="iput">
+                <input class="form-control" type="text" ng-model="activeItem.params.title" placeholder="微页面标题"/>
+            </div>
+        </div>
+        <div class="form_item">
+            <label>页面描述</label>
+            <textarea class="form-control" type="text" ng-model="activeItem.params.description" placeholder="描述" style="font-size: 14px"></textarea>
+        </div>
+        <div class="form_item">
+            <label>页面颜色</label>
+            <div class="iput">
+                <div data-color="bgColor" class="color_picker" ng-click="colorPicker($event)"  ng-style="{'background-color':activeItem.params.bgColor}"  ng-model="activeItem.params.bgColor"></div>
+                <input type="hidden" ng-model="activeItem.params.bgColor"/>
+                <span class="tips">背景颜色只在手机端显示</span>
+            </div>
+        </div>
+        
+   
+        <div style="padding: 15px 0;">
+        <span ><lable>是否显示底部导航：</lable></span>
+        <span ><input checked type='radio' name='is_show' value="0"  ng-model="activeItem.params.is_show"/> <label  for="is_show_0">不显示</label></span>
+        <span><input type ='radio' name='is_show' value="1"  ng-model="activeItem.params.is_show"/><label  for="is_show_1"> 显示<lable></span>
+         </div>
+        <div style="padding: 15px 0;">
+        <span ><lable>设置为首页：</lable></span>
+        <span ><input type='radio' name='is_index' value="0" ng-model="activeItem.params.is_index" /> <label  for="is_index_0">否</label></span>
+        <span><input ng-model="activeItem.params.is_index" type ='radio' name='is_index' value='1' /><label  for="is_index_1">是</label></span>
+        </div>
+    </div>
+    	<!--页面标题设置-->
+<!-- 	<div class="app_editor">
+		<em class="arrow-left"></em>
+		
+        <div class="form_item">
+			固定模块，不可编辑<br/>
+            只允许在底部添加DIY模块
+		</div>
+	</div> -->
+</div>

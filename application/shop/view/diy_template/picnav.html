@@ -1,0 +1,27 @@
+<div class="pic_nav_list"  ng-switch="module.params.nav_style">
+<div class="default_div" ng-show="!module.params.pic_nav_list.length">请添加导航</div>
+<ul class="two_nav_list" ng-switch-when="2">
+    <li ng-repeat="m in module.params.pic_nav_list">
+    	<a href="{{m.url}}">
+        	<img ng-if="m.pic" src="{{m.pic}}"/>
+            <p class="title" ng-show="module.params.show_title">{{m.title}}</p>
+    	</a>
+    </li>
+</ul>
+<ul class="three_nav_list" ng-switch-when="3">
+    <li ng-repeat="m in module.params.pic_nav_list">
+    	<a href="{{m.url}}">
+        	<img ng-if="m.pic" src="{{m.pic}}"/>
+            <p class="title" ng-show="module.params.show_title">{{m.title}}</p>
+    	</a>
+    </li>
+</ul>
+<ul class="four_nav_list" ng-switch-when="4">
+    <li ng-repeat="m in module.params.pic_nav_list">
+    	<a href="{{m.url}}">
+        	<img ng-if="m.pic" src="{{m.pic}}"/>
+            <p class="title" ng-show="module.params.show_title">{{m.title}}</p>
+    	</a>
+    </li>
+</ul>
+</div>

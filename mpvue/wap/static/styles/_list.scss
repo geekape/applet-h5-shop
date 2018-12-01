@@ -1,0 +1,42 @@
+.m-list {
+    display: flex;
+    background: #fff;
+    font-size: 14px;
+    height: 45px;
+    align-items: center;
+    // 小字列表
+    &.small {
+        font-size: 14px;
+        height: 35px;
+    }
+    // 带箭头可跳转的列表
+    &.link {
+        padding: 0 15px;
+        margin-top: 15px;
+    }
+    &.link &__c {
+        color: $gray;
+        text-align: right;
+    }
+    &__l {
+        padding-right: 40px;
+    }
+    &__c {
+        flex: 1;
+    }
+    &__r {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+.m-list__group {
+    background: #fff;
+    font-size: 14px;
+    .m-list {
+        margin-left: 15px;
+        border-bottom: 1px solid #eee;
+        &:last-child {border-bottom:0;}
+    }
+}

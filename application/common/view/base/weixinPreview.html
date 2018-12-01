@@ -1,0 +1,53 @@
+<!--通用的微信预览模板-->
+<!--头部标题栏-->
+<!--鉴于样式title放进具体每块模块-->
+<!--CSS模块-->
+<div class="weixin-preview">
+	<p class="preview-tips">微信回复预览</p>
+	<div class="weixin-box">
+	<p class="weixin-title"></p>
+    <div class="weixin-cover"><img class="weixin-cover-pic" src=""/></div>
+    <p class="weixin-content">
+    	
+    </p>
+</div>
+<script type="text/javascript">
+$('.tab-content').addClass('has-weixinpreivew');
+if($('input[name="title"]').val()!=undefined){
+	$('.weixin-title').html($('input[name="title"]').val());
+}else{
+	$('.weixin-title').html($('input[name="title"]').val());
+}
+if($('textarea[name="content"]').val()!=undefined){
+	$('.weixin-content').html($('textarea[name="content"]').val());
+}else if($('textarea[name="intro"]').val()!=undefined){
+	$('.weixin-content').html($('textarea[name="intro"]').val());
+	}else{
+	$('.weixin-content').html($('textarea[name="info"]').val());	
+}
+var weixin_cover_picurl = $('#cover_id_picurl').next().find('img').attr('src');
+if(weixin_cover_picurl==undefined)weixin_cover_picurl=$('#cover_id_cover').next().find('img').attr('src');
+if($('#cover_id_cover').val()==undefined && $('#cover_id_picurl').val()==undefined){
+	$('.weixin-preview').hide();
+	}
+if(weixin_cover_picurl==undefined || weixin_cover_picurl==""){
+	$('.weixin-cover-pic').attr('src',"__STATIC__/base/images/no_cover.png");
+}else{
+	$('.weixin-cover-pic').attr('src',weixin_cover_picurl);
+}
+$('input[name="title"]').keyup(function(){
+	$('.weixin-title').html($(this).val());
+	});
+$('textarea[name="content"]').keyup(function(){
+	$('.weixin-content').html($(this).val());
+	});
+$('textarea[name="info"]').keyup(function(){
+	$('.weixin-content').html($(this).val());
+	});
+$('textarea[name="des_jj"]').keyup(function(){
+	$('.weixin-content').html($(this).val());
+	});
+$('textarea[name="intro"]').keyup(function(){
+	$('.weixin-content').html($(this).val());
+	});	
+</script>

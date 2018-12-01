@@ -1,0 +1,45 @@
+// 按钮组件
+.u-button {
+    position: relative;
+    padding: 0;
+    display: inline-block;
+    height: 35px;
+    line-height: 35px;
+    border-radius: 30px;
+    padding: 0 15px;
+    font-size: 14px;
+    box-sizing: border-box;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-appearance: none;
+    -webkit-text-size-adjust: 100%;
+    min-width: 80px;
+    &:active {
+        opacity: .9;
+    }
+    // 主色
+    &--primary {
+        color: #fff;
+        background: $gradient;
+        border: 0;
+    }
+    // 边框按钮
+    &--border {
+        color: $red;
+        border: 1px solid $red;
+        background: transparent;
+    }
+    // 禁用状态按钮
+    &--disable {
+        opacity: .5;
+        background: transparent;
+        color: #999;
+    }
+    // 大按钮
+    &--primary.u-button--big {
+        height: 45px;
+        line-height: 45px;
+        width: 92%;
+        margin: 15px;
+    }
+}

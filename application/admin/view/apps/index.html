@@ -1,0 +1,175 @@
+{extend name="publics/base" /}
+
+{block name="body"}
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>{$meta_title}</h2>
+	</div>
+    <div class="cf">
+		<div class="fl">
+		<a href="{:U('create')}" class="btn">快速创建</a>
+        <!--<a href="{:U('admin/AppCategory/lists')}" class="btn">分类管理</a>-->
+        </div>
+
+        <!-- 高级搜索 -->
+		<div class="search-form fr cf">
+<!--            <div class="sleft">
+                <select name="group">
+                        <option value="{:U('Admin/apps/index',array('cate_id'=>0))}" {eq name="$cate_id" value="0"}selected{/eq} >全部应用</option>
+                        <option value="{:U('Admin/apps/index',array('cate_id'=>'-1'))}" {eq name="$cate_id" value="-1"}selected{/eq} >无分类应用</option>
+                    {volist name="cates" id="vo"}
+                        <option value="{:U('Admin/apps/index',array('cate_id'=>$vo['id']))}" {eq name="vo['id']" value="$cate_id"}selected{/eq} >{$vo.title}</option>
+                    {/volist}
+                </select>
+            </div>-->
+            <div class="sleft">
+                    <input type="text" name="title" class="search-input" value="{:I('title')}" placeholder="请输入应用名">
+                    <a class="sch-btn" href="javascript:;" id="search" url="{:U('index')}"><i class="btn-search"></i></a>
+            </div>
+      </div>
+    </div>
+     <!-- 高级搜索 -->
+		
+	<!-- 数据列表 -->
+	<div class="data-table table-striped">
+		<table>
+			<thead>
+				<tr>
+					<th width="50px">名称</th>
+					<th width="50px">标识</th>
+                    <!--<th width="50px">分类</th>-->
+					<!--<th width="50">菜单显示</th>-->
+					<th width="25px">状态</th>
+					<th width="50px">作者</th>
+					<th width="25px">版本</th>
+					<th width="100px">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{notempty name="_list"}
+				{volist name="_list" id="vo"}
+				<tr>
+					<td>{$vo.title}</td>
+					<td>{$vo.name}</td>
+                    <!--<td>{$vo.cate_id}</td>-->
+					<!--<td>{$vo.is_show_text}</td>-->
+					<td>{$vo.status_text|default="未安装"}</td>
+					<td><a target="_blank" href="{$vo.url|default='http://app.weiphp.cn'}">{$vo.author}</a></td>
+					<td>{$vo.version}</td>
+					<td>            
+						{empty name="vo.uninstall"}
+                    <!--<a href="{:U('admin/AppCategory/category',array('id'=>$vo['id']))}">分类设置</a>-->
+                    
+
+								<a href="{:U('menu',array('id'=>$vo['id']))}">前台显示设置</a>
+                     
+							<?php
+								$class	= get_addon_class($vo['name']);
+								if(!class_exists($class)){
+									$has_config = 0;
+								}else{
+									$addon = new $class();
+									$has_config = count($addon->getConfig());
+								}
+							?>
+							<?php if ($has_config){ ?>
+								<a href="{:U('config',array('id'=>$vo['id']))}">设置</a>
+							<?php } ?>
+						<?php if ($vo['status'] >=0) { ?>
+                        <?php if ($vo['status'] ==0) { ?>
+								<a class="ajax-get" href="{:U('enable',array('id'=>$vo['id']))}">启用</a>
+							<?php }else{ ?>
+								<a class="ajax-get" href="{:U('disable',array('id'=>$vo['id']))}">禁用</a>
+							<?php } ?>
+						<?php } ?>
+							{// {eq name="vo.author" value="thinkphp"}}
+								<a class="ajax-uninstall" href="{:U('uninstall?id='.$vo['id'])}">卸载</a>
+							{// {/eq}}
+						{else/}
+							<a class="ajax-get" href="{:U('install?addon_name='.$vo['name'])}">安装</a>
+						{/empty}
+					</td>
+				</tr>
+				{/volist}
+				{else/}
+				<td colspan="8" class="text-center"> aOh! 暂时还没有内容! </td>
+				{/notempty}
+			</tbody>
+		</table>
+	</div>
+	<!-- 分页 -->
+    <div class="page">
+        {$_page|raw}
+    </div>
+{/block}
+{block name="script"}
+	<script src="__STATIC__/thinkbox/jquery.thinkbox.js?v={:SITE_VERSION}"></script>
+
+	<script type="text/javascript">
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+		 url = url.replace(/[?&=]/g,'/');
+		window.location.href = url;
+	});
+	//回车搜索
+	$(".search-input").keyup(function(e){
+		if(e.keyCode === 13){
+			$("#search").click();
+			return false;
+		}
+	});
+	$('select[name=group]').change(function(){
+		location.href = this.value;
+	});	
+    //ajax get请求
+    $('.ajax-uninstall').click(function () {
+        var target;
+        var that = this;
+
+		if (!confirm('卸载后插件的数据表会被删除，数据不可恢复，确认要卸载该插件吗?')) {
+			return false;
+		}
+
+        if ((target = $(this).attr('href')) || (target = $(this).attr('url'))) {
+            $.get(target).success(function (data) {
+                if (data.code == 1) {
+                    if (data.url) {
+                        updateAlert(data.msg + ' 页面即将自动跳转~', 'alert-success');
+                    } else {
+                        updateAlert(data.msg, 'alert-success');
+                    }
+                    setTimeout(function () {
+                        if (data.url) {
+                            location.href = data.url;
+                        } else if ($(that).hasClass('no-refresh')) {
+                            $('#top-alert').find('button').click();
+                        } else {
+                            location.reload();
+                        }
+                    }, 1500);
+                } else {
+                    updateAlert(data.msg);
+                    setTimeout(function () {
+                        if (data.url) {
+                            location.href = data.url;
+                        } else {
+                            $('#top-alert').find('button').click();
+                        }
+                    }, 1500);
+                }
+            });
+
+        }
+        return false;
+    });
+	</script>
+{/block}

@@ -1,0 +1,199 @@
+{switch name="addons_config.editor_type"}
+	{case value="1"}
+		{// 纯文本 }
+		<input type="hidden" name="parse" value="0">
+		<script type="text/javascript">
+			$('textarea[name="{$addons_data.name}"]').height('{$addons_config.editor_height}');
+		</script>
+	{/case}
+	{case value="2"}
+		{// 富文本 }
+		<input type="hidden" name="parse" value="0">
+		{eq name="addons_config.editor_wysiwyg" value="1"}
+			<link rel="stylesheet" href="__STATIC__/kindeditor/default/default.css?v={:SITE_VERSION}" />
+			<script charset="utf-8" src="__STATIC__/kindeditor/kindeditor-min.js"></script>
+			<script charset="utf-8" src="__STATIC__/kindeditor/zh_CN.js?v={:SITE_VERSION}"></script>
+			<script type="text/javascript">
+				
+				var editor_{$addons_data.name};
+				KindEditor.ready(function(K) {
+					editor_{$addons_data.name} = K.create('textarea[name="{$addons_data.name}"]', {
+						allowFileManager : false,
+						themesPath: K.basePath,
+						width: '100%',
+						height: '{$addons_config.editor_height}',
+						resizeType: {eq name="addons_config.editor_resize_type" value="1"}1{else/}0{/eq},
+						pasteType : 2,
+						urlType : 'absolute',
+						fileManagerJson : '{:U('fileManagerJson')}',
+						//uploadJson : '{:U('uploadJson')}' }
+						//uploadJson : '{:U ( "home/Uploads/ke_upimg")}',
+						uploadJson : '{:U ( "common/uploads/ke_upimg")}',
+						extraFileUploadParams: {
+							session_id : '{:session_id()}'
+	                    }
+					});
+
+				$(function(){
+					//传统表单提交同步
+					$('textarea[name="{$addons_data.name}"]').closest('form').submit(function(){
+						editor_{$addons_data.name}.sync();
+					});
+					//ajax提交之前同步
+					$('button[type="submit"],#submit,.ajax-post,#autoSave').click(function(){
+						editor_{$addons_data.name}.sync();
+					});
+				})
+			</script>
+
+		{else/}
+
+			{if condition='$editor_load_count eq 0'}
+			<script type="text/javascript" src="__STATIC__/{$driver_file}/ueditor.config.js?v={:SITE_VERSION}"></script>
+			<script type="text/javascript" src="__STATIC__/{$driver_file}/ueditor.all.js?v={:SITE_VERSION}"></script>
+			<script type="text/javascript" src="__STATIC__/{$driver_file}/lang/zh-cn/zh-cn.js?v={:SITE_VERSION}"></script>
+			{/if}
+
+			<script type="text/javascript">
+
+				$('textarea[name="{$addons_data.name}"]').attr('id', 'editor_id_{$addons_data.name}');
+				window.UEDITOR_HOME_URL = "__STATIC__/{$driver_file}";
+				window.UEDITOR_CONFIG.initialFrameHeight = parseInt('{$addons_config.editor_height}');
+				window.UEDITOR_CONFIG.scaleEnabled = {eq name="addons_config.editor_resize_type" value="1"}true{else/}false{/eq};
+				window.UEDITOR_CONFIG.imageUrl = '{:U ( "home/uploads/ue_upimg")}';
+				window.UEDITOR_CONFIG.imagePath = '';
+				window.UEDITOR_CONFIG.imageFieldName = 'imgFile';
+				//在这里扫描图片
+				window.UEDITOR_CONFIG.imageManagerUrl='{:U ( "home/uploads/ue_mgimg")}';//图片在线管理的处理地址
+        		window.UEDITOR_CONFIG.imageManagerPath='';
+				var imageEditor = UE.getEditor('editor_id_{$addons_data.name}',{
+						toolbars: [
+							['fullscreen','source', 'undo', 'redo',
+                'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall',
+                 'lineheight',
+                'customstyle', 'paragraph', 'fontfamily', 'fontsize', 'indent',
+                'justifyleft', 'justifycenter', 'justifyright',
+                'link', 'unlink',  'insertimage', 'wordimage', 'emotion', 'attachment', 'map']
+						],
+						autoHeightEnabled: false,
+						autoFloatEnabled: true,
+						initialFrameHeight:300,
+						catchRemoteImageEnable: false
+					});
+
+				imageEditor.styleUrl = "{$styleUrl}";
+		
+
+				//添加一下判断是否是单个按钮管理图片 需要执行一下代码
+				{if condition="isset($addons_data['btnClassName'])"}
+				imageEditor.ready(function () {
+					  //设置编辑器不可用
+					  imageEditor.setDisabled();
+					  //隐藏编辑器，因为不会用到这个编辑器实例，所以要隐藏
+					  imageEditor.hide();
+			
+
+					  imageEditor.addListener('beforeInsertImage', function (t, arg) {
+						 //将地址赋值给相应的input,只去第一张图片的路径
+//						 console.log(t);
+//						 console.log(arg);
+//						 alert('图片上传了');
+						 {if condition="empty($addons_data['is_mult'])"}
+
+						 	 //单张情况
+						 	 $(".{$addons_data.name}_preview").html("");
+						 	 var imghtml = $("<img src="+arg[0].src+" width='100' height='100'/>");
+
+							 $(".{$addons_data.name}_preview").append(imghtml);
+							 //储存路劲
+							 //单张图片存储图片id
+							  $("#editor_id_{$addons_data.name}").text(arg[0].id);
+							 //图片预览
+							 $(".{$addons_data.name}_preview").show();
+							 //微信预览
+							 $('.weixin-cover-pic').attr('src',arg[0].src);
+							 //console.log(arg);
+
+						 {else/}
+						 	// 多张情况
+						 	var srcs = "";
+							var srcIds = "";
+							 //$(".{$addons_data.name}_preview").html("");
+							 for(var i=0;i<arg.length;i++){
+								 if(i==arg.length-1){
+									srcs = srcs + arg[i].src;
+									srcIds = arg[i].id;
+								 }else{
+									 srcs = srcs + arg[i].src+"|";
+									 srcIds = srcIds + arg[i].id+",";
+									 }
+								var imghtml = $("<img src="+arg[i].src+" width='100' height='100'/>");
+								$(".{$addons_data.name}_preview").append(imghtml);
+								//console.log(arg[i].src);
+							 }
+							 $(".{$addons_data.name}_preview").append(imghtml);
+							  $(".{$addons_data.name}_preview").show();
+							  var oldIds = $("#editor_id_{$addons_data.name}").text();
+							  //多张图片存储一逗号分隔的id串
+							  $("#editor_id_{$addons_data.name}").text(oldIds+","+srcIds);
+						 {/if}
+					  })
+
+					  // 增加按钮className
+					  $('.{$addons_data.btnClassName}').bind('click',function(){
+						var uploadImage = imageEditor.getDialog("insertimage");
+							uploadImage.open();
+					  });
+
+				});
+				 // {/if}
+			</script>
+           
+		{/eq}
+	{/case}
+	{case value="3"}
+		{// UBB 官网http://xheditor.com/demos/demo07.html}
+		<script type="text/javascript" src="__STATIC__/jquery-migrate-1.2.1.min.js"></script>
+		<script charset="utf-8" src="__STATIC__/xheditor/xheditor-1.2.1.min.js"></script>
+		<script charset="utf-8" src="__STATIC__/xheditor/xheditor_lang/zh-cn.js?v={:SITE_VERSION}"></script>
+		<script type="text/javascript" src="__STATIC__/xheditor/xheditor_plugins/ubb.js?v={:SITE_VERSION}"></script>
+		<script type="text/javascript">
+		var submitForm = function (){
+			$('textarea[name="{$addons_data.name}"]').closest('form').submit();
+		}
+		$('textarea[name="{$addons_data.name}"]').attr('id', 'editor_id_{$addons_data.name}')
+		$('#editor_id_{$addons_data.name}').xheditor({
+			tools:'full',
+			showBlocktag:false,
+			forcePtag:false,
+			beforeSetSource:ubb2html,
+			beforeGetSource:html2ubb,
+			shortcuts:{'ctrl+enter':submitForm},
+			'height':'{$addons_config.editor_height}',
+			'width' :'100%'
+		});
+		</script>
+		<input type="hidden" name="parse" value="1">
+	{/case}
+	{case value="4"}
+		{// markdown }
+		<link rel="stylesheet" href="__STATIC__/thinkeditor/skin/default/style.css?v={:SITE_VERSION}" />
+		<script type="text/javascript" src="__STATIC__/jquery-migrate-1.2.1.min.js"></script>
+		<script type="text/javascript" src="__STATIC__/thinkeditor/jquery.thinkeditor.js?v={:SITE_VERSION}"></script>
+		<script type="text/javascript">
+			$(function(){
+				$('textarea[name="{$addons_data.name}"]').attr('id', 'editor_id_{$addons_data.name}');
+				var options = {
+					"items"  : "h1,h2,h3,h4,h5,h6,-,link,image,-,bold,italic,code,-,ul,ol,blockquote,hr,-,fullscreen",
+			        "width"  : "100%", //宽度
+			        "height" : "{$addons_config.editor_height}", //高度
+			        "lang"   : "zh-cn", //语言
+			        "tab"    : "    ", //Tab键插入的字符， 默认为四个空格
+					"uploader": "{:U ( 'Editor/Upload/upload')}"
+			    };
+			    $('#editor_id_{$addons_data.name}').thinkeditor(options);
+			})
+		</script>
+		<input type="hidden" name="parse" value="2">
+	{/case}
+{/switch}

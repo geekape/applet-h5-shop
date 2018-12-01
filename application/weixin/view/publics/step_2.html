@@ -1,0 +1,92 @@
+{extend name="common@base/common" /}
+{block name="body"}
+        <style>
+            .setting_step.app_setting a{
+                width:33%;
+            }
+        </style>
+  <div class="wrap">
+<section id="contents">
+   <div class="setting_step app_setting">
+         <a class="step " href="{:U('weixin/Publics/step_0',array('id'=>$id))}">1.增加基本信息</a>
+         <a class="step step_cur" href="{:U('weixin/Publics/step_1',array('id'=>$id))}">2.配置公众平台</a>
+         <a class="step step_cur_1" href="{:U('weixin/Publics/step_2',array('id'=>$id))}">3.保存接口配置</a>
+  </div>  
+  <div class="tab-content"> 
+    <!-- 表单 -->
+    <form class="form-horizontal bind_step_form" method="post" action="{:U('weixin/Publics/step_2',array('id'=>$id))}" id="form">
+      <!-- 基础文档模型 -->
+      <div class="tab-pane in tab1" id="tab1">
+      	<div class="item_wrap">
+        <div class="form-group row cf toggle-appid">
+          <label class="col-sm-2"> AppID </label>
+          <div class="col-sm-8">
+            <input type="text" value="{$info.appid}" name="appid" class="text input-large">
+            <span class="form-text text-muted"> （应用ID） </span>
+          </div>
+        </div>
+        <div class="form-group row cf toggle-secret">
+          <label class="col-sm-2"> AppSecret </label>
+          <div class="col-sm-8">
+            <input type="text" value="{$info.secret}" name="secret" class="text input-large">
+            <span class="form-text text-muted"> （应用密钥） </span>
+          </div>
+        </div>
+        <div class="form-group row cf toggle-encodingaeskey">
+          <label class="col-sm-2"> EncodingAESKey </label>
+          <div class="col-sm-8">
+            <input type="text" value="{$info.encodingaeskey}" name="encodingaeskey" class="text input-large">
+            <span class="form-text text-muted"> （安全模式下必填） </span>
+          </div>
+        </div>
+        
+        </div>
+        <div class="form-group row cf bind_step_form_next_item">
+          <div class="offset-sm-2"><button target-form="form-horizontal" type="submit" id="submit" class="btn submit-btn ajax-post">
+            {php} if($is_audit==0 && isset($reg_audit_switch) && !$reg_audit_switch) { echo '提交审核'; } else { echo '保存'; } {/php}
+            
+          </button>
+          <span class="ml-3" style="vertical-align: -webkit-baseline-middle;">配置信息遇到问题？<a href="{:U('home/index/lead')}" target="_blank">点击查看接入指引</a></span></div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <!--帮助消息
+  <div class="help_content">
+      <h3>帮助消息</h3>
+      <p>以上消息可以从公众平台里找到，如下图</p>
+      <p><img src="{:SITE_URL}/home/images/help04.png" ></p>
+  </div>  
+  -->
+</section>
+{/block}
+{block name="script"}
+  <link href="__STATIC__/datetimepicker/css/datetimepicker.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+  {php}if(config('COLOR_STYLE')=='blue_color') echo '
+    <link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+    ';{/php}
+  <link href="__STATIC__/datetimepicker/css/dropdown.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.js"></script> 
+  <script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js?v={:SITE_VERSION}" charset="UTF-8"></script> 
+  <script type="text/javascript">
+$('#submit').click(function(){
+    $('#form').submit();
+});
+
+$(function(){
+    $('.time').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        language:"zh-CN",
+        minView:0,
+        autoclose:true
+    });
+    $('.date').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language:"zh-CN",
+        minView:2,
+        autoclose:true
+    });	
+    showTab();
+});
+</script> 
+{/block}

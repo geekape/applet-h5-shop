@@ -1,0 +1,115 @@
+{extend name="shop@wap/common_file" /}
+
+{block name="common_body"}
+    <body class="index">
+    	    <!-- 首页 -->
+    	    <div class="wrap white-bg">
+    	        <!-- 搜索 -->
+    	        {include file="wap/_search"}
+    	                
+    	        {notempty name="slideshow"}
+    	        <!-- 轮播 -->
+      			<div class="swiper-container">
+      			    <ul class="swiper-wrapper">
+      			    {volist name="slideshow" id="vo"}
+      			      <li class="swiper-slide"><a href="{$vo.url}"><img class="lazyload" data-src="{$vo.img}"></a></li>
+      			    {/volist}
+      					</ul>
+      			    <div class="swiper-pagination"></div>
+      			</div>
+     
+    			{/notempty}
+    			
+                <div class="swiper-container2 ui-border-b">
+                    <ul class="swiper-wrapper">
+                        {notempty name="category"}
+                         {volist name="category" id="vo"}
+                        <li class="swiper-slide">
+                        <!-- 4商品 -->
+                            <div class="goods-four">
+                              <div class="goods-item">
+                              <a href="{:U('lists',['cate_id'=>$vo['id'],'pid'=>$vo['pid']])}">
+                                <div class="goods-img">
+                                  <img class="lazyload" data-src="{$vo.icon}" alt="{$vo.title}">
+                                </div>
+                                <p>{$vo.title}</p>
+                                </a>
+                              </div>
+
+
+                            </div>
+                        </li>
+                          {/volist}       
+
+                    {/notempty}
+              </ul>
+              <div class="swiper-pagination2"></div>
+
+
+        </div>
+    		    <div>
+              
+                    <h3 class="f-text-c">推荐商品</h3>
+                    {notempty name="goods"}
+                    <!-- 2个商品 -->
+                    <div class="goods-two">
+
+                    {volist name="goods" id="vo"}
+                      <div class="goods-item">
+                      <a href="{:U('goods_detail',['id'=>$vo['id']])}">
+                        <div class="goods-img">
+                          <img  class="lazyload" data-src="{$vo.cover}" alt="{$vo.title}">
+                        </div>
+
+                        <!-- 商品信息 -->
+                        <div class="goods-info">
+                          <p class="goods-title">{$vo.title}</p>
+                          <div class="goods-price">
+                            <strong class="goods-price-c"><span class="prize-icon">¥</span>{$vo.sale_price}</strong>
+                            {if condition="$vo['sale_price'] < $vo['market_price']"}<span><span class="prize-icon">¥</span>{$vo.market_price}</span>{/if}
+                          </div>
+                        </div>
+                        </a>
+                      </div>
+                     {/volist} 
+
+                    </div>
+                    {/notempty}      
+                </div>
+    	        
+    	        {include file="shop@diy_template/allDisplay"/}
+
+    			
+     
+    	    </div>
+    		<!-- 底部导航 -->
+    		{include file="wap/_footer"}
+    </body>
+	
+	<script type="text/javascript">
+
+
+	    // 轮播
+		var swiper = new Swiper('.swiper-container', {
+        autoplay:true,
+        spaceBetween: 0,
+        pagination: {
+          el: '.swiper-pagination',
+        },
+		});
+
+    var swiper2 = new Swiper('.swiper-container2', {
+         slidesPerView: 4,
+         spaceBetween: 30,
+         slidesPerGroup: 4,
+         loop: true,
+         loopFillGroupWithBlank: true,
+         pagination: {
+           el: '.swiper-pagination2',
+           clickable: true,
+         },
+
+       });
+		
+	</script>
+{/block}

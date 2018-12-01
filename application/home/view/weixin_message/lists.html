@@ -1,0 +1,150 @@
+{extend name="common@base/common" /}
+{block name="body"}
+  <div class="span9 page_message">
+    <section id="contents"> {include file="common@base/_nav" /}
+      <!-- 数据列表 -->
+      <div class="data-table">
+      
+        <div class="table-striped">
+        
+          <table cellspacing="0" class="message_list">
+            <thead>
+            	<tr>
+                	<th  width="60%">最近回复</th>
+                    <th  width="30%">回复时间</th>
+                    <th  width="10%">查看消息</th>
+                </tr>
+            </thead>
+            <!-- 列表 -->
+            <tbody>
+            {volist name="list_data" id="vo"}
+              <tr>
+                <td class="user">
+                	{notempty name="vo['user']['headimgurl']"}
+                		<img width="50" src="{$vo.user.headimgurl}"/>
+                    {else/}
+                    	<img width="50" src="__IMG__/default.png"/>
+                    {/notempty}
+                	<div class="u_info">
+                    	{notempty name="vo['user']['headimgurl']"}
+                            <p class="name">{$vo.user.nickname}</p>
+                        {else/}
+                            <p class="name">{$vo.openid}</p>
+                        {/notempty}
+                    	
+                        <p class="msg">
+							{if condition="$vo['Content']['msg_type'] eq 'image'"}
+                        		<a target="_blank" href="{$vo.Content.url}"><img width="100" height="100" src="{$vo.Content.url}"></a>
+                        	{elseif condition="$vo['Content']['msg_type'] eq 'voice'"  /}
+	                        	<div class="sound_item" onClick="playSound('sound_{$vo.Content.id}',this);">
+	                            <img class="icon_sound" src="__STATIC__/base/images/icon_sound.png"/>
+	                            <p class="audio_name">{$vo.Content.title}<span class="fr colorless"></span></p>
+	                            <p class="ctime colorless"></p>
+	                            <audio id="sound_{$vo.Content.id}" src="{$vo.Content.file_id|get_file_url}"></audio>
+	                        	</div>
+                        	{elseif condition="$vo['Content']['msg_type'] eq 'video'"  /}
+                        		<div class="video_item">
+	                        	<p class="title">{$vo.Content.title}</p>
+	                            <p class="ctime colorless"></p>
+	                            <div class="video_area">
+	                            	<video src="{$vo.Content.file_id|get_file_url}" controls="controls">您的浏览器不支持 video 标签。</video>
+	                            </div>
+	                             <p>{$vo.Content.introduction}</p>
+	                        	</div>
+                        	{elseif condition="$vo['Content']['msg_type'] eq 'news'"  /}
+                        		<div>
+	                        	<div class="appmsg_item" style="width: 270px;">
+		                        <p class="title"></p>
+		                        <div class="main_img">
+		                            <img src="{$vo.Content.first.picurl}" width='50'/>
+		                            <h6><a target="_blank" href="{$vo.Content.first.url}">{$vo.Content.first.title}</a></h6>
+		                        </div>
+		                        <p class="desc">{$vo.Content.first.description}</p>
+			                    </div>
+			                    {notempty name="vo.Content.child"}
+				                    {volist name="vo.Content.child" id="vv"}
+				                    <div class="appmsg_sub_item"  style="width: 270px;">
+				                        <a target='_blank' href='{$vv.url}'><p class="title">{$vv.title}</p></a>
+				                        <div class="main_img">
+				                            <img src="{$vv.picurl}"/>
+				                        </div>
+				                    </div>
+				                    {/volist}
+			                    {/notempty}
+			                    </div>
+			                {elseif condition="$vo['Content']['msg_type'] eq 'shortvideo'"  /}
+			                {elseif condition="$vo['Content']['msg_type'] eq 'location'"  /}
+			                {elseif condition="$vo['Content']['msg_type'] eq 'link'"  /}  
+			                	<a  target='_blank' href="{$vo.Content.url}"><h3>"{$vo.Content.title}"</h3><br>{$vo.Content.description}</a>  
+	                        {else/}
+                        	{$vo.Content.content|raw}
+                        	{/if}
+						</p>
+                    </div>
+                </td>
+                <td valign="top">{$vo.CreateTime|time_format}</td>
+                <td valign="top">
+                <a href="{:U('person',array('openid'=>$vo['openid'],'mdm'=>I('mdm')))}">会话详情</a>
+                </td>
+              </tr>
+              {/volist}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="page"> {$_page|raw|default=''} </div>
+    </section>
+  </div>
+{/block}
+{block name="script"} 
+  <script type="text/javascript">
+$(function(){
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+        if(query == '' ){
+        	url="{:U('lists')}";
+        }
+		url = change_search_url(url);
+		window.location.href = url;
+	});
+
+    //回车自动提交
+    $('.search-form').find('input').keyup(function(event){
+        if(event.keyCode===13){
+            $("#search").click();
+        }
+    });
+
+})
+function set_status(id, field, val){
+   $.post("{:U('set_status')}",{id:id,field:field,val:val},function(){
+	   location.reload();
+   })	
+}
+
+function playSound(id,obj){
+	var audio = document.getElementById(id);
+	if(audio.paused){
+		audio.play();
+		$(obj).find('img').attr('src',IMG_PATH+'/icon_sound_play.gif');
+		audio.addEventListener('ended', function () {  
+// 			alert('over');
+			$(obj).find('img').attr('src',STATIC_PATH + '/base/images/icon_sound.png');
+		}, false);
+		return;
+	}
+	audio.pause();
+	$(obj).find('img').attr('src',STATIC_PATH + '/base/images/icon_sound.png');
+	
+}
+</script> 
+{/block}
