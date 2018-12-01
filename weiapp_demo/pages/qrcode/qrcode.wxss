@@ -1,0 +1,5 @@
+/* pages/qrcode/qrcode.wxss */
+image {display: block;margin: 30px auto;}
+.container text{
+  font-size: 26rpx;
+}

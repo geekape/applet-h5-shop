@@ -1,0 +1,3 @@
+/* pages/contact/contact.wxss */
+
+contact-button text{margin-left: 20rpx; width:140rpx; font-size: 28rpx}

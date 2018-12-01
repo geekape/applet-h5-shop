@@ -1,0 +1,7 @@
+<!--pages/payment/payment.wxml-->
+<view class="container">
+  <view class="weishop_title">微信支付</view>
+  <button type="primary" size="default" bindtap="order" hover-class="other-button-hover"> 支付1元 </button>
+
+  <view class='help'>后端需要配置小程序商户参数才能使用支付功能，配置方法请见：</view>
+</view>

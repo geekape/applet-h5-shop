@@ -1,0 +1,34 @@
+.section {
+    background: #fff;
+    padding: 0 30rpx;
+    font-size: 28rpx;
+}
+.section .section_item{
+    display: flex;
+    align-items: center;
+}
+.section .section_item:first-child{
+    border-bottom: 1px solid #ddd;
+}
+.section_left{
+    margin-right: 30rpx;
+    width: 120rpx;
+}
+.section_right{
+    flex: 1;
+    padding: 30rpx 0;
+}
+.code { 
+    color: #03A9F4; 
+    border-left: 1px solid #ddd;
+    padding-left: 30rpx;
+}
+#btn{
+    margin: 60rpx 30rpx;
+    background: #2fb7f7;
+    border: none;
+}
+.error{
+    color:#EA4F48;
+    padding: 30rpx;
+}

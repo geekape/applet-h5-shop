@@ -1,0 +1,21 @@
+{
+    "name": "mumbaicat/makeapidoc",
+    "description": "注释自动生成API文档",
+    "keywords": ["PHP","注释自动生成api文档"],
+    "homepage": "https://github.com/mumbaicat/makeapidoc",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dust",
+            "email": "pxloli@qq.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "mumbaicat\\makeapidoc\\": "src"
+        }
+    },
+    "require": {
+        "php": ">=5.3.0"
+    }
+}

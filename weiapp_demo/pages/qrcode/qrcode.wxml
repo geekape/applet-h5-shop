@@ -1,0 +1,9 @@
+<!--pages/qrcode/qrcode.wxml-->
+<view class="container">
+  <text>方式A: 适用于需要的码数量较少的业务场景</text>
+  <image style="width: 200px; height: 200px; background-color: #eeeeee;" src="{{a_src}}"></image>
+  <text>方式B: 适用于需要的码数量极多，或仅临时使用的业务场景</text>
+  <image style="width: 200px; height: 200px; background-color: #eeeeee;" src="{{b_src}}"></image>
+  <text>方式C: 适用于需要的码数量较少的业务场景</text>
+  <image style="width: 200px; height: 200px; background-color: #eeeeee;" src="{{c_src}}"></image>
+</view>

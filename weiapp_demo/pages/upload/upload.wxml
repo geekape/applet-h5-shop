@@ -1,0 +1,12 @@
+<view class="container">
+  <view class="weishop_title">请上传图片 ( 最多{{upload_limit}}张 )</view>
+  <view class="uploader">
+    <view wx:for="{{img_srcs}}" class="item_img" wx:key="key">
+      <image src="{{item}}" data-index="{{index}}" bindtap="previewImage" mode="aspectFit"></image>
+      <view class="del" data-index="{{index}}" bindtap="delImg">x</view>
+    </view>
+    <view class="weui-uploader__input-box">
+      <view class="weui-uploader__input" bindtap="chooseImg"></view>
+    </view>
+  </view>
+</view>
