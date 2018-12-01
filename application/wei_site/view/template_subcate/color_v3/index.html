@@ -1,0 +1,67 @@
+{include file="common@base/mobile_head"/}	
+<link href="{:CUSTOM_TEMPLATE_PATH}_subcate/color_v3/index.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+<style>
+body{
+	background:#eee url({$config.background}) no-repeat; background-size:100% 100%
+}
+</style>
+<body id="weisite" >
+<div class="container  body">
+    {if condition="!empty($slideshow)"}
+    <section class="banner">
+    	<ul>
+        {volist name="slideshow" id="vo"}
+        	<li>
+            	<a href="{$vo.url}" title="{$vo.title}"><img src="{$vo.img}"/></a>
+            	<span class="title">{$vo.title}</span>
+            </li>
+         {/volist}
+        </ul>
+        <span class="identify">
+            {volist name="slideshow" id="vo"}
+                <em></em>
+             {/volist}       
+        </span>
+    </section>
+    {/if}
+    {if condition="!empty($category)"}
+    <section>
+    	<div class="icon_lists">
+            {volist name="category" id="vo"}
+                <a class="item" href="{$vo.url}">
+                    <span class="icon random_color">
+                    	<img src="{$vo.icon}"/><br/>
+                        {$vo.title}
+                    </span>
+                </a>
+            {/volist}            
+        </div>
+    </section>
+    {/if}
+</div>
+<!-- 底部导航 -->
+{$footer_html|raw}
+<!-- 统计代码 -->
+{notempty name="config.code"}
+<p class="hide bdtongji">
+{$config.code}
+</p>
+{else/}
+<p class="hide bdtongji">
+{$tongji_code|raw}
+</p>
+{/notempty}
+</body>
+<script type="text/javascript">
+$(function(){
+	var sli="{$slideshow}";
+	if(sli){
+		$.WeiPHP.initBanner(true,5000);
+	}
+	$.WeiPHP.setRandomColor('.random_color');
+	var h=$(window).height();
+	$('#weisite').css('min-height',h);
+})
+
+</script>
+</html>

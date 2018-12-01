@@ -1,0 +1,112 @@
+.container{ padding-bottom:50px;}
+.bg{ background:#333 url(bg.jpg) no-repeat; position:fixed; top:0; right:0; left:0; bottom:0; background-size:100% 100%; z-index:1;}
+.card_wrap{ position:relative; z-index:10;}
+.card_wrap .head{ padding:20px 0 10px; color:#fff; text-shadow:0 2px 2px #111; text-align:center; position:relative}
+.card_wrap .head .head_pic{ display:block; width:80px; height:80px; margin:15px auto; border-radius:100%; border:2px solid #fff;}
+.card_wrap .head .head_pic img{ width:100%; height:100%; border-radius:100px;}
+.card_wrap .head .position{ font-size:12px; color:#ccc;}
+.qrcode_btn{ position:absolute; top:15px; right:15px; background-color:#fff; background-size:95% 95%}
+.detail_info{ background:#fff; border-radius:10px; margin:15px;}
+.detail_info .item{ padding:10px; border-bottom:1px dashed #ddd; overflow:hidden; zoom:1;}
+.detail_info .item:last-child{ border:none}
+.detail_info .item .label{color:#888; padding-right:5px; float:left;}
+.bottom_menu{ height:55px; padding:0 10px; position:fixed; right:0; left:0; bottom:0; background:#fff; box-shadow:0 -1px 1px RGBA(0,0,0,.6); border-top:1px solid #ddd; display:-webkit-box; z-index:11;}
+.bottom_menu a{ display:block; -webkit-box-flex:1; padding-top:30px;text-align:center; color:#888; font-size:12px; border-right:1px solid #ddd;}
+.bottom_menu a:last-child{ border:none}
+.bottom_menu .back{ background:url(back.png) no-repeat center 8px; background-size:22px 22px;}
+.bottom_menu .share{ background:url(share.png) no-repeat center 8px; background-size:22px 22px; position:relative}
+.bottom_menu .center{ background:url(center.png) no-repeat center 8px; background-size:22px 22px;}
+.bottom_menu .collected{ background:url(collected.png) no-repeat center 8px; background-size:22px 22px;}
+.exchange_btn{ margin:15px; background:#44b549; color:#fff; border-radius:10px; padding:12px 10px; text-align:center; display:block; font-size:18px;}
+.del_btn{ background:#F36}
+.edit_tab{ display:-webkit-box; height:44px;border-radius:10px;background:#44b549; margin:15px;}
+.edit_tab a{display:block; -webkit-box-flex:1; text-align:center; line-height:44px; color:#fff; border-right:1px solid #36a93b}
+.edit_tab a:last-child{ border:none;}
+
+.commenttitle{
+    background-color: lightseagreen;
+    color: aliceblue;
+    text-align: center;
+ 	border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    margin:0 15px;
+    line-height: 40px;
+}
+.commentbottom{
+    background-color: #52BABD;
+    text-align: center;
+	border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    line-height: 40px;
+	margin:0 15px 15px;
+	
+}
+.commentbottom input[type="text"],.commentbottom textarea{ border:none; border-bottom:1px solid #ddd; border-radius:0;}
+.commentbtn{
+    background-color:#F60;
+	border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+	padding:6px 0;
+}
+.delbtn{
+    border: 1px solid #36a93b;
+    padding: 5px 10px 5px 10px;
+    background-color: #36a93b;
+    color: snow;
+	border-radius:5px;
+
+}
+.btn_container{ overflow:hidden; zoom:1; margin:0 15px 15px; text-align:center;}
+.btn_container a{ display:inline-block; -webkit-box-flex:1px; color:#fff; padding:10px 0; text-align:center; width:44%; margin:10px; border-radius:10px;}
+.msg_list td{ border-bottom:1px dashed #ccc; padding:5px;}
+.msg_list tr:last-child td{ border:none}
+.msg_list td img{ border-radius:100%;}
+/* 动画 */
+.animated{
+	-webkit-animation-duration:1.4s;
+	animation-duration:1.4s;
+	-webkit-animation-fill-mode:both;
+	animation-fill-mode:both
+}
+@-webkit-keyframes scaleAnim{
+0%{
+	-webkit-transform:scale(.3);
+	transform:scale(.3)
+}
+50%{
+	-webkit-transform:scale(1.05);
+	transform:scale(1.05)
+}
+70%{
+	-webkit-transform:scale(.9);
+	transform:scale(.9)
+}
+100%{
+	-webkit-transform:scale(1);
+	transform:scale(1)
+}
+
+}
+@keyframes scaleAnim{
+0%{
+	-webkit-transform:scale(.3);
+	transform:scale(.3)
+}
+50%{
+	-webkit-transform:scale(1.05);
+	transform:scale(1.05)
+}
+70%{
+	-webkit-transform:scale(.9);
+	transform:scale(.9)
+}
+100%{
+	-webkit-transform:scale(1);
+	transform:scale(1)
+}
+
+}
+.scaleAnim {
+  -webkit-animation-name: scaleAnim;
+  animation-name: scaleAnim;
+}

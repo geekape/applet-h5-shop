@@ -1,0 +1,168 @@
+{extend name="common@base/common" /} {block name="body"}
+
+<div class="span9 page_message">
+    <section id="contents">
+        {include file="common@base/_nav" /}
+        <div class="tab-content">
+            
+            <form action="{:U('config')}" class="form-horizontal" method="post">
+                {empty name="custom_config"} {foreach name="fields" item="form" key="o_key"}
+                <div class="form-group row">
+                    {if condition="$form['type']!='hidden'"}
+                    <label class="col-sm-2 col-form-label">
+                        {$form.title|default=''} {present name="form.tip"}
+                         {/present}
+                    </label>
+                    {/if} 
+                    
+                    {switch name="form.type"} {case value="text"}
+                    <div class="col-sm-8">
+                        <input type="text" name="{$o_key}" class="text input-large" value="{$form.value}">
+                        {notempty name="form['remark']"}<span class="form-text text-muted">（{$form['remark']}）</span>{/notempty}
+                    </div>
+                    {/case} {case value="password"}
+                    <div class="col-sm-8">
+                        <input type="password" name="{$o_key}" class="text input-large" value="{$form.value}">
+                        {notempty name="form['remark']"}<span class="form-text text-muted">（{$form['remark']}）</span>{/notempty}
+                    </div>
+                    {/case} {case value="hidden"}
+                    <input type="hidden" name="{$o_key}" value="{$form.value}"> {/case} {case value="radio"}
+                    <div class="col-sm-8">
+                        {foreach name="form.options" item="opt" key="opt_k"}
+                        <label class="radio">
+                            <input type="radio" name="{$o_key}" value="{$opt_k}" {eq name="form.value" value="$opt_k" } checked{/eq}>{$opt}
+                        </label>
+                        {/foreach}
+                        {notempty name="form['remark']"}<span class="form-text text-muted">（{$form['remark']}）</span>{/notempty}
+                    </div>
+                    {/case} {case value="checkbox"}
+                    <div class="col-sm-8">
+                        {foreach name="form.options" item="opt" key="opt_k"}
+                        <label class="checkbox">
+                            {php} is_null($form["value"]) && $form["value"] = []; {/php}
+                            <input type="checkbox" name="{$o_key}[]" value="{$opt_k}" {in name="opt_k" value="$form.value" } checked{/in}>{$opt}
+                        </label>
+                        {/foreach}
+                        {notempty name="form['remark']"}<span class="form-text text-muted">（{$form['remark']}）</span>{/notempty}
+                    </div>
+                    {/case} {case value="select"}
+                    <div class="col-sm-8">
+                        <select name="{$o_key}">
+                            {foreach name="form.options" item="opt" key="opt_k"}
+                            <option value="{$opt_k}" {eq name="form.value" value="$opt_k" } selected{/eq}>{$opt}</option>
+                            {/foreach}
+                        </select>
+                        {notempty name="form['remark']"}<span class="form-text text-muted">（{$form['remark']}）</span>{/notempty}
+                    </div>
+                    {/case} {case value="material"}
+                    <div id="material_{$o_key}"></div>
+                    <!-- W('common/material/material', array('name'=>$o_key,'value'=>$form['value'],'extra'=>$field['extra'])-->
+                    {:W('common/material/material', array('name'=>$o_key,'value'=>$form['value'],'extra'=>isset($field['extra'])?$field['extra']:''))} {/case} {case value="editor"}
+                    <label class="textarea">
+                        <textarea name="{$o_key}">{$form['value']}</textarea>
+                        {:W('common/editor/adminArticleEdit', array('name'=>$o_key,'value'=>$form['value'],'extra'=>isset($field['extra'])?$field['extra']:''))}
+                    </label>
+                    {/case} {case value="textarea"}
+                    <div class="col-sm-8">
+                        <label class="textarea input-large">
+                            <textarea name="{$o_key}">{$form.value}</textarea>
+                        </label>
+                        {notempty name="form['remark']"}<span class="form-text text-muted">（{$form['remark']}）</span>{/notempty}
+                    </div>
+                    {/case} {case value="picture"}
+                    <div class="col-sm-8">
+                        <div class="uploadrow2" data-max="1" title="点击修改图片" rel="{$o_key}">
+                            <input type="file" id="upload_picture_{$o_key}">
+                            <input type="hidden" name="{$o_key}" id="cover_id_{$o_key}" value="{$form['value']}" />
+                            <div class="upload-img-box">
+                                {notempty name="form['value']"}
+                                <div class="upload-pre-item2"><img width="100" height="100" src="{$form['value']|get_cover_url}" /></div>
+                                <em class="edit_img_icon">&nbsp;</em> {/notempty}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {/case} {case value="file"}
+                    <div class="col-sm-8 upload_file">
+                        <input type="file" id="upload_file_{$o_key}">
+                        <input type="hidden" name="{$o_key}" value="{$form['value']}" />
+                        <div class="upload-img-box">
+                            {present name="form.value"}
+                            <div class="upload-pre-file"><span class="upload_icon_all"></span> {$form['value']|get_table_field=###,'id','name','File'}
+                            </div>
+                            {/present}
+                        </div>
+                    </div>
+                    <script type="text/javascript">
+                    //上传图片
+                    /* 初始化上传插件 */
+                    $("#upload_file_{$o_key}").uploadify({
+                        "height": 30,
+                        "swf": "__STATIC__/uploadify/uploadify.swf",
+                        "fileObjName": "download",
+                        "buttonText": "上传附件",
+                        "uploader": "{:U('home/File/upload',array('session_id'=>session_id()))}",
+                        "width": 120,
+                        'removeTimeout': 1,
+                        "onUploadSuccess": uploadFile { $o_key }
+                    });
+
+                    function uploadFile { $o_key }(file, data) {
+                        var data = $.parseJSON(data);
+                        // 									console.log(data);
+                        if (data.code) {
+                            var name = "{$o_key}";
+                            $("input[name='" + name + "']").val(data.id);
+                            $("input[name='" + name + "']").parent().find('.upload-img-box').html(
+                                "<div class=\"upload-pre-file\"><span class=\"upload_icon_all\"></span>" + data.name + "</div>"
+                            );
+                        } else {
+                            updateAlert(data.msg);
+                            setTimeout(function() {
+                                $('#top-alert').find('button').click();
+                                $(this).removeClass('disabled').prop('disabled', false);
+                            }, 1500);
+                        }
+                    }
+                    </script>
+                    {/case} {/switch}
+                    
+                </div>
+                {/foreach} {else/} {present name="custom_config"} {$custom_config} {/present} {/empty}
+                <div class="row">
+                    <div class="offset-sm-2 col-sm-4" style="padding-left: 0">
+                        <button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal" >确 定</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
+{/block} {block name="script"}
+<script type="text/javascript" charset="utf-8">
+$(function() {
+    //初始化上传图片插件
+    initUploadImg();
+    initUploadFile();
+    //支持tab
+    showTab();
+})
+function playSound(id,obj){
+    var audio = document.getElementById(id);
+    if(audio.paused){
+        audio.play();
+        $(obj).find('img').attr('src','__STATIC__/base/images/icon_sound_play.gif');
+        audio.addEventListener('ended', function () {
+// 			alert('over');
+            $(obj).find('img').attr('src','__STATIC__/base/images/icon_sound.png');
+        }, false);
+        return;
+    }else{
+        audio.pause();
+        $(obj).find('img').attr('src','__STATIC__/base/images/icon_sound.png');
+    }
+
+
+}
+</script>
+{/block}

@@ -1,0 +1,101 @@
+{include file="common@base/head"/}
+<body style="background:#fff">
+<div class="lists_data">
+  <div class="span9 page_message">
+    <section id="contents"> 
+      <div class="table-bar">
+        <div class="search-form fl">
+        </div>
+        <!-- 高级搜索 -->
+        <div class="search-form fr cf">
+          <input type="text" placeholder="请输入优惠券标题搜索" value="{:I('title')}" class="search-input" name="title">
+            <a url="{:U('lists',$get_param)}" id="search" href="javascript:;" class="sch-btn"><i class="btn-search"></i></a> </div>
+        </div>
+        <!-- 多维过滤 --> 
+      </div>
+      <!-- 数据列表 -->
+      <div class="data-table">
+        <div class="table-striped">
+          <table cellspacing="1">
+            <!-- 表头 -->
+            <thead>
+              <tr>
+                <th class="row-selected row-selected"> 
+                  {if condition="!isRadio"}
+                  <input type="checkbox" class="check-all regular-checkbox" id="checkAll">
+                  <label for="checkAll"></label></th>
+                  {/if}
+                <th width='5%'>编号</th>
+                <th width='20%'>标题</th>
+                <th width='13%'>计划发送数</th>
+                <th width='13%'>已领取数</th>
+                <th width='13%'>已使用数</th>
+                <th width='15%'>开始时间</th>
+                <th width='15%'>结束时间</th>
+              </tr>
+            </thead>
+            
+            <!-- 列表 -->
+            <tbody>
+              {volist name="list_data" id="vo"}
+                <tr>
+                  <td>
+                   {empty name="isRadio"}
+                  		<input type="checkbox" id="check_{$vo.id}" name="ids[]" value="{$vo.id}" class="ids regular-checkbox">
+                    	<label for="check_{$vo.id}"></label>
+                    {else/}
+                    	<input type="radio" id="check_{$vo.id}" name="ids[]" value="{$vo.id}" class="ids regular-radio">
+                    	<label for="check_{$vo.id}"></label>
+                    {/empty}
+                  </td>
+                  <td type="headimgurl">{$vo.id}</td>
+                  <td type="nickname">{$vo.title}</td>
+                   <td type="">{$vo.num}</td>
+                   <td type="">{$vo.collect_count}</td>
+                   <td type="">{$vo.use_count}</td>
+                   <td type="">{$vo.start_time|time_format}</td>
+                   <td type="">{$vo.end_time|time_format}</td>
+                </tr>
+              {/volist}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="page"> {$_page|raw|default=''} </div>
+    </section>
+  </div>
+  
+<script type="text/javascript">
+$(function(){
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+        if(query == '' ){
+        	url="{:U('lists',array('isAjax'=>1,'isRadio'=>$isRadio))}";
+        }
+		url = change_search_url(url);
+		window.location.href = url;
+	});
+
+    //回车自动提交
+    $('.search-form').find('input').keyup(function(event){
+        if(event.keyCode===13){
+            $("#search").click();
+        }
+    });
+	$('select[name=group]').change(function(){
+		location.href = this.value;
+	});	
+	
+})
+</script> 
+</body>
+</html>

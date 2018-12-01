@@ -1,0 +1,136 @@
+{extend name="common@base/common" /}
+{block name="body"}
+  <div class="span9 page_message">
+    <section id="contents">
+      <ul class="tab-nav nav">
+        <li><a href="{:U('lists')}">实物奖励列表<b class="arrow fa fa-sort"></b></a></li>
+        <li class="current"><a href="javascript:;">编辑奖励<b class="arrow fa fa-sort"></b></a></li>
+      </ul>
+      <div class="tab-content"> 
+        <!-- 表单 -->
+        {php} isset($post_url) || $post_url = U('edit?model='.$model['id'], $get_param);{/php}
+        <form id="form" action="{$post_url}" method="post" class="form-horizontal form-center">
+        	<ul id="tab" class="tab-pane in">
+            	 <li class="form-item cf">
+                    <label class="item-label"><span class="need_flag">*</span> 活动名称</label>
+                    <div class="controls">
+                      <input type="text" class="text input-large" name="prize_title" value="{$data.prize_title}">
+                    </div>
+                  </li> 
+                  <li class="form-item cf">
+                    <label class="item-label"><span class="need_flag">*</span> 奖品名称</label>
+                    <div class="controls">
+                      <input type="text" class="text input-large" name="prize_name" value="{$data.prize_name}">
+                    </div>
+                  </li>  
+                  <li class="form-item cf">
+                    <label class="item-label"><span class="need_flag">*</span> 活动说明</label>
+                    <div class="controls">
+                      <label class="textarea input-large">
+                      <textarea class="text input-large" name="prize_conditions" >{$data.prize_conditions}</textarea>
+                      </label>
+                    </div>
+                  </li>   
+                  <li class="form-item cf">
+                    <label class="item-label"><span class="need_flag">*</span> 奖品个数</label>
+                    <div class="controls">
+                      <input type="number" class="text input-large" name="prize_count" value="{$data.prize_count}">
+                    </div>
+                  </li>  
+                  <li class="form-item cf">
+                  		<label class="item-label"><span class="need_flag">*</span> 奖品图片</label>
+                		<div class="controls uploadrow2" data-max="1" title="点击修改图片" rel="prize_image">
+                            <input type="file" id="upload_picture_prize_image">
+                            <input type="hidden" name="prize_image" id="cover_id_prize_image" value="{$data.prize_image}"/>
+                            <div class="upload-img-box">
+                              {notempty name="data['prize_image']"}
+                                <div class="upload-pre-item2"><img width="100" height="100" src="{$data.prize_image|get_cover_url}"/></div>
+                                <em class="edit_img_icon">&nbsp;</em>
+                              {/notempty}
+                            </div>
+                      </div>
+                  </li>
+                  <li class="form-item cf toggle-prize_type">
+              			<label class="item-label"><span class="need_flag">*</span> 奖品类型 <span class="check-tips">（选择奖品类型）</label>
+              			<div class="controls">
+                			{volist name=":parse_field_attr($fields['prize_type']['extra'])" id="vo"}
+                          	<div class="check-item">
+								  <input type="radio" class="regular-radio toggle-data" value="{$key}" id="prize_type_{$key}" name="prize_type" toggle-data="{$vo|get_hide_attr}"
+								  {eq name="data['prize_type']" value="$key"}checked="checked"{/eq} />
+								  <label for="prize_type_{$key}"></label>{$vo|clean_hide_attr} 
+							  </div>
+                          {/volist}        
+                      </div>
+            	  </li>
+                   <li class="form-item cf">
+                    <label class="item-label"><span class="need_flag">*</span> 使用说明 <span class="check-tips">（用户领取成功后才会看到）</span></label>
+                    <div class="controls">
+                      <label class="textarea input-large">
+                      <textarea class="text input-large" name="use_content" >{$data.use_content}</textarea>
+                      </label>
+                    </div>
+                  </li>  
+                   <li class="form-item cf">
+                    <label class="item-label"><span class="need_flag">*</span> 领取失败提示 <span class="check-tips">（用户领取失败，或者没有领取到时看到的提示）</span></label>
+                    <div class="controls">
+                      <label class="textarea input-large">
+                      <textarea class="text input-large" name="fail_content" >{$data.fail_content}</textarea>
+                      </label>
+                    </div>
+                  </li>  
+                
+                  
+            </ul>
+          	<div class="form-item form_bh">
+            	{notempty name="data.id"}<input type="hidden" name="id" value="{$data.id|default=0}">{/notempty}
+            	<button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+            </div>
+        </form>
+      </div>
+    </section>
+  </div>
+{/block}
+{block name="script"}
+  <link href="__STATIC__/datetimepicker/css/datetimepicker.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+  {php}if(config('COLOR_STYLE')=='blue_color') echo '
+    <link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+    ';{/php}
+  <link href="__STATIC__/datetimepicker/css/dropdown.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.js"></script> 
+  <script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js?v={:SITE_VERSION}" charset="UTF-8"></script> 
+<script type="text/javascript">
+$(function(){
+	 initUploadImg();
+	 })
+$('#submit').click(function(){
+    $('#form').submit();
+});
+
+$(function(){
+    $('.time').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        language:"zh-CN",
+        minView:0,
+        autoclose:true
+    });
+    $('.date').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language:"zh-CN",
+        minView:2,
+        autoclose:true
+    });	
+    showTab();
+	
+	$('.toggle-data').each(function(){
+		var data = $(this).attr('toggle-data');
+		if(data=='') return true;		
+		
+	     if($(this).is(":selected") || $(this).is(":checked")){
+			 change_event(this)
+		 }
+	});
+	
+	$('.toggle-data').bind("click",function(){ change_event(this) });
+});
+</script> 
+{/block}

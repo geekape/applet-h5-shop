@@ -1,0 +1,18 @@
+<!--aboutme.wxml-->
+<view class="about">
+  <view class="about-wei">
+    <view class="about-img">
+      <image src="{{img}}" class="in-img" background-size="cover" model="scaleToFill"></image>
+    </view>
+    <view class="about-title">{{title}}</view>
+  </view>
+  <view class="about-content">{{intro}}</view>
+
+  <view class="about-addr">
+    <view class="about-tab">所以，如果我们的服务正好你需要，一定要联系我们哦</view>
+    <view>微信号码: {{weixin}}</view>
+    <view bindtap='callme'>联系电话：{{mobile}}</view>
+    <view>商务合作：{{email}}</view>
+  </view>
+</view>
+<button id="btn" type="primary" bindtap="copy">复制联系方式</button>

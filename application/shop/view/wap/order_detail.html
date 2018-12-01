@@ -1,0 +1,222 @@
+{extend name="shop@wap/common_file" /} {block name="common_body"}
+<!-- 头部导航 -->
+<div class="top-nav">
+    <div class="flex">
+        <i class="iconfont icon-back" id="go-back"></i>
+        <slot>
+            <span class="title">订单详情</span>
+        </slot>
+    </div>
+</div>
+<body class="order_deails">
+    <div class="wrap">
+        {eq name="info.send_type" value="1"}
+        <!-- 物流信息 -->
+            {eq name="info['is_send']" value="0"}
+            <a class="weui-cell weui-cell_access" href="javascript:;">
+            {else/}
+            <a class="weui-cell weui-cell_access card1" href="{:U('logistics',['order_id'=>$info['id']])}">
+            {/eq}
+                <div class="weui-cell__bd order-user-name">
+                {if condition="$info['refund']>0"}
+                    <p><span>{$info.refund_title}</span></p>
+                {elseif condition="$info['pay_status']==0" /}
+                <p>等待付款中...</p>
+                {else}
+                    {eq name="info['is_send']" value="0"}
+                            <p>等待卖家发货</p>
+                     {else/}
+                   <p>已发货</p>
+                   <p class="f-mb-base">物流信息：{$log.remark}</p>
+                   <small class="s-light-gray">{$log.cTime|time_format}</small>
+                   {/eq}
+                   {/if}
+                </div>
+                {eq name="info['is_send']" value="1"}<div class="iconfont icon-more"></div>{/eq}
+                
+            </a>
+
+                <!-- 订单用户 -->
+                {notempty name="addressInfo"}
+                <div class="order-user">
+                    <div class="weui-cells">
+                        <div class="weui-cell weui-cell_access">
+                            <div class="weui-cell__bd order-user-name">
+                                <p class="f-font-md">{$addressInfo.truename}</p>
+                            </div>
+                            <div class="weui-cell__bd order-user-moblie">
+                                <strong>{$addressInfo.mobile}</strong>
+                                <p class="gray">{$addressInfo.address} {$addressInfo.address_detail}</p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                {/notempty}
+            {else /}   
+            {notempty name="store_info"}
+            <!--自提门店-->
+            <div class="card f-p0">
+                  <div class="card-body flex">
+                    <div class="card-body-img">
+                       {empty name='store_info.img_url'}
+                          <img src="{empty name='store_info.img'}__STATIC__/default/img/deaulf-shop.jpg{else/}{$store_info.img|get_cover_url}{/empty}">
+                          {else/}
+                          <img src="{$store_info.img_url}">
+                          {/empty}
+                          
+                    </div>
+
+                    <div class="card-body-text">
+                      <strong class="f-mb-base">{$store_info.name}</strong>
+                      <p><i class="iconfont icon-ditu"></i><small>{$store_info.address}</small></p>
+                    </div>
+                  </div>
+                  <div class="card-footer flex">
+                  {notempty name="store_info.phone"}
+                  <a href="tel:{$store_info.phone}" class="flex-item">
+                      <i class="iconfont icon-phone"></i>电话
+                    </a>
+                    {/notempty}
+                    {notempty name="store_info.gps"}
+                        <a href="//apis.map.qq.com/tools/poimarker?type=0&marker=coord:{$store_info.gps};title:{$store_info.name};addr:{$store_info.address}&referer=myapp&key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77"
+                    {else/}
+                        <a href="//api.map.baidu.com/geocoder?address={$store_info.address}&output=html&src={$store_info.name}|{$store_info.address}"
+                    {/notempty}
+                    class="flex-item" >
+                      <i class="iconfont icon-daohang"></i>导航
+                    </a>
+                  </div>
+                </div> 
+                {/notempty} 
+            {/eq}
+                <div class="card f-lh-lg send-info">
+                   <p class="ui-border-b">买家留言：<span>{empty name="info.remark"}无{else /}{$info.remark}{/empty}</span></p>
+                   <p class="">配送方式：<span>{eq name="info.send_type" value="2"}自提{else /}邮寄{/eq}</span></p>
+                </div>
+
+                <!-- 商品信息 -->
+                <div class="white-bg mt-base">
+                    <div class="weui-panel weui-panel_access">
+                        <div class="weui-panel__hd">共{:count($info['goods'])}件商品</div>
+                        
+                        {volist name="info.goods" id="goods"}
+                        <div class="weui-panel__bd">
+                            <a href="{:U('goods_detail',['id'=>$goods['shop_goods_id']])}" class="weui-media-box weui-media-box_appmsg">
+                                <div class="weui-media-box__hd">
+                                    <img class="weui-media-box__thumb" src="{$goods.cover}" alt="{$goods.title}">
+                                </div>
+                                <div class="weui-media-box__bd">
+                                    <h4 class="weui-media-box__title">{$goods.title}</h4>
+                                    <p class="weui-media-box__desc">
+                                    {eq name="info.pay_type" value="90"}
+                                        <span>
+                                            <strong style="color:#000">{$goods.sale_price}<span class="prize-icon">积分</span></strong>
+                                            {if condition="$goods['sale_price'] < $goods['market_price']"}<del>{$goods.market_price}积分</del>{/if}
+                                        </span>
+                                        {else /}
+                                        <span>
+                                            <strong style="color:#000"><span class="prize-icon">¥</span>{$goods.sale_price}</strong>
+                                            {if condition="$goods['sale_price'] < $goods['market_price']"}<del>¥{$goods.market_price}</del>{/if}
+                                        </span>                                        
+                                        {/eq}
+                                        <span class="fr s-black"><small>x</small>{$goods.num}</span>
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
+                        {/volist}
+                        
+                    </div>
+                    <div class="weui-cells f-lh-xs">
+                        <div class="weui-cell">
+                            <div class="weui-cell__bd">
+                                <p class="gray">商品金额：</p>
+                            </div>
+                            <div class="weui-cell__ft">
+                            {eq name="info.pay_type" value="90"}
+                            {$info.total_price}<small class="prize-icon">积分</small>
+                            {else /}                            
+                            <span class="prize-icon">¥</span>{$info.total_price}
+                            {/eq}
+                            </div>
+                        </div>
+                        {gt name="info.dec_money" value="0"}
+                        <div class="weui-cell">
+                            <div class="weui-cell__bd">
+                                <p class="gray">优惠金额：</p>
+                            </div>
+                            <div class="weui-cell__ft">
+                            <span class="prize-icon">- ¥</span>{$info.dec_money}
+                            </div>
+                        </div>
+                        {/gt}
+                        
+                        <div class="weui-cell">
+                            <div class="weui-cell__bd">
+                                <p class="gray">邮费：</p>
+                            </div>
+                            <div class="weui-cell__ft">
+                            {eq name="info.pay_type" value="90"}
+                            <span class="prize-icon">+ </span>{$info.mail_money}<small class="prize-icon">积分</small>
+                            {else /}
+                            <span class="prize-icon">+ ¥</span>{$info.mail_money}
+                            {/eq}
+                            </div>
+                        </div>
+                        <div class="weui-cell ui-border-t f-input-h">
+                            <div class="weui-cell__bd">
+                                <p>实付款</p>
+                            </div>
+                            <div class="weui-cell__ft s-black">
+                            {eq name="info.pay_type" value="90"}
+                            {$info.pay_money}<span class="prize-icon">积分</span>
+                            {else /}
+                            <span class="prize-icon">¥</span>{$info.pay_money}
+                            {/eq}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+                <!-- 下单信息 -->
+                <div class="card pay-info">
+                    <p>订单编号：<span>{$info.order_number}</span></p>
+                    <p>支付方式：<span>{eq name="info.pay_type" value="90"}积分支付
+                            {else /}微信支付
+                            {/eq}</span></p>
+                    <p>支付单号：<span>{$info.out_trade_no}</span></p>
+                    <p>下单时间：<span>{$info.cTime|time_format}</span></p>
+                    {php}$time = NOW_TIME - 432000;{/php}
+                    
+                    {if condition="$info['refund']>0"}
+                    <p>退款状态：<span>{$info.refund_title}</span></p>
+                    {/if}
+                    {if condition="$info['pay_status']==1 && $info['refund']==0 && $info['pay_time'] > $time"}
+                    <div class="btn-group">
+                        <a class="border-btn" href="{:U('refund',['id'=>$info['id']])}">申请退款</a>
+                    </div>
+                    {/if}
+
+
+                </div>
+                <!-- /下单信息 -->
+
+
+        <!-- /物流信息 -->
+    </div>
+
+        {if condition="$info['status_code'] == 3"}
+    <div class="bottom-nav bottom-nav-clear">
+        <a href="javascript:;" onClick="confirmGetGoods('{:U('confirm_get',array('id'=>$info['id']))}');" class="weui-btn weui-btn_primary btn-lg">确认收货</a>
+    </div>
+
+        {/if}
+        {if condition="$info['pay_status']==0"}
+    <div class="bottom-nav bottom-nav-clear">
+        <a href="{:U('do_pay?out_trade_no='.$info['id'])}" class="weui-btn weui-btn_primary btn-lg">立即付款</a>
+    </div>
+        {/if}
+</body>
+    
+{/block}

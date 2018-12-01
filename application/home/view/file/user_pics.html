@@ -1,0 +1,5 @@
+<ul class="upload_piclist">
+	{volist name="picList" id="vo"}
+		<li class="upload-pre-item22" data-id="{$vo.id}" onClick="toggleCheck(this)"><img src="{$vo.id|get_cover_url}" width="100" height="100"/><span class="ck-ico"></span><input type="hidden" value="{$vo.id}"/></li>
+    {/volist}
+</ul>

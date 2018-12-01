@@ -1,0 +1,7 @@
+<template name="0ab40d97">
+  <view class="_div data-v-9b3e6298 login">
+    <image src="/static/img/head.png" class="_img data-v-9b3e6298 login-logo"></image>
+    <view class="_p data-v-9b3e6298 login-name">圆梦云商城</view>
+    <view class="_p data-v-9b3e6298 login-hint__tt">圆梦云商城 - 品质生活，极速到家</view> <button open-type="getUserInfo" bindgetuserinfo="handleProxy" class="_button data-v-9b3e6298 u-button u-button--primary u-button--big" data-eventid="{{'0'}}" data-comkey="{{$k}}">微信登录</button>
+  </view>
+</template>

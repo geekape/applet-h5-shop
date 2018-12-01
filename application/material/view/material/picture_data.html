@@ -1,0 +1,40 @@
+
+{empty name="list_data"}
+	<div class="empty_container"><p>您的图片素材库为空，<a target="_blank" href="{:U('material/Material/picture_lists')}">请先增加素材</a></p></div>
+{else/}
+<div class="data_container">
+	<ul class="material_list">
+      {volist name="list_data" id="vo"}
+       {if condition="isset($vo['count']) && $vo['count']==1"}
+       		<li class="appmsg_li" data-id="{$vo.id}" style="overflow:hidden">
+            <div class="appmsg_item">
+                <div class="main_img">
+                    <img src="{$vo.cover_url}" width='100px' height='100px'/>
+                </div>
+            </div>
+      
+        	</li>
+        {else/}
+        	<li class="appmsg_li" data-id="{$vo.id}" style="overflow:hidden">
+            <div class="appmsg_item">
+                <div class="main_img">
+                    <img src="{$vo.cover_url}" width='100px' height='100px'/>
+                </div>
+            </div>
+        	</li>
+        {/if}
+       {/volist}
+     </ul>
+ </div>
+{/empty}
+<div class="page"> {$_page|raw|default=''} </div></div>
+<script type="text/javascript">
+    // 素材分页切换
+    $('.page .pagination a').click(function (e) {
+          e.preventDefault();
+          var selfHref = $(this).attr('href');
+           $.WeiPHP.openSelectAppMsg(selfHref,selectAppMsgCallback);
+      })
+
+</script>
+</body>

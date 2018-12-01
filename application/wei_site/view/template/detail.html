@@ -1,0 +1,68 @@
+{extend name="common@base/common" /}
+{block name="body"}
+<div class="span9 page_message">
+	<section id="contents">
+      <div class="setting_step app_setting content_step" style="margin-top:20px;">
+         <a class="step step_cur" href="{:U('wei_site/template/lists',array('mdm'=>I('mdm')))}">1.选择列表模板</a>
+       	 <a class="step step_cur_1" href="{:U('wei_site/template/detail',array('mdm'=>I('mdm')))}">2.选择内容模板</a>
+         <a class="step " href="{:U('wei_site/Cms/lists',array('mdm'=>I('mdm')))}">3.内容管理</a> 
+         <a class="step " href="{:U('wei_site/WeiSite/preview_cms',array('mdm'=>I('mdm')))}">4.效果预览</a>
+  </div>
+     
+      <div class="tab-content" id="hasSubNav"> 
+        	<div class="sub_tab_content">
+            <form>
+            	<ul class="template_select">
+                    {volist name="tempList" id="vo"}
+                    <li class="template_item {$vo.class}">
+                    	{if condition = "!empty($vo['desc'])"}
+                    	<div class="use_tips">{$vo.desc}</div>
+                        {/if}
+                    	<div class="phone">
+                        	<img src="{$vo.icon}" />
+                        </div>
+                        <p><input type="radio" {$vo.checked} name="template" id="template_{$vo.dirName}" value="{$vo.dirName}"/>
+                        <label for="template_{$vo.dirName}">{$vo.title}</label></p>
+                    </li>
+                    {/volist}
+                </ul>
+              </form>
+            </div>
+      </div>
+    </section>
+ </div>
+{/block}
+
+{block name="script"}
+<script type="text/javascript" charset="utf-8">
+	$(function(){
+		//选择模板并且ajax提交
+		//选择Ajax提交		
+		$('.template_item').click(function(){
+			if(!$(this).hasClass('selected')){
+				$(this).addClass('selected');
+				$(this).siblings().removeClass("selected");
+				$(this).find('input').click();
+
+				//如果不是ajax提交 不要以下代码"{:ACTION_NAME}"
+				var value = $(this).find('input').val();
+				var type = "{:ACTION_NAME}";
+				$.ajax({
+					url:"{:U('save')}",
+					data:{template:value,type:type},
+					type:"post",
+					dataType:"json",
+					success:function(data){ window.location.href = "{$next_url}?mdm={:I('mdm')}"; }
+					})
+				}
+			});
+	})
+	$('.template_item').hover(function(){
+			$(this).find('.use_tips').stop().fadeIn();
+			$(this).addClass('hover');
+		},function(){
+			$(this).find('.use_tips').stop().fadeOut();
+			$(this).removeClass('hover');
+			})
+</script>
+{/block}

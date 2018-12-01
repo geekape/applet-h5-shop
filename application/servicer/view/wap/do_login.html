@@ -1,0 +1,19 @@
+{include file="common@base/mobile_head"/}
+<style type="text/css">
+.container{ text-align:center; padding:50px 0;}
+</style>
+<body class="withFoot">
+    <div class="container">
+    	{empty name="info"}
+        	<img src="__IMG__/error.png" width="60"/>
+            <br/>
+            <p>授权登录失败!请重试或联系管理员</p>
+    	{else/}
+        	<img src="__IMG__/yes.png" width="60"/>
+            <br/>
+            <p>授权登录成功!</p>
+            <p>你拥有如下权限：<br/>{$info['roleStr']}</p>
+        {/empty}
+    </div>	
+</body>
+</html>

@@ -1,0 +1,184 @@
+{extend name="common@base/common" /}
+{block name="body"}
+  <div class="span9 page_message">
+    <section id="contents"> 
+      {include file="common@base/_nav" /} 
+      {if condition="$add_button || $del_button || $search_button || !empty($top_more_button)"}   
+      <div class="table-bar">
+        <div class="fl">
+          {empty name="model.extend"}
+			<div class="tools">
+				{if condition="$add_button"}{php} isset($add_url) || $add_url = U('add?model='.$model['id'], $get_param);{/php}<a class="btn" href="{$add_url}">新 增</a>{/if}
+				{if condition="$del_button"}{php} isset($del_url) || $del_url = U('del?model='.$model['id'], $get_param);{/php}<button class="btn ajax-post confirm" target-form="ids" url="{$del_url}">删 除</button>{/if}    
+                {volist name="top_more_button" id="vo"}
+                {if condition="$vo['is_buttion']"}
+                <button class="btn {$vo.class}" target-form="ids" url="{$vo.url}">{$vo.title}</button>
+                {else/}
+                <a class="btn" href="{$vo.url}">{$vo.title}</a>
+                {/if}
+                &nbsp;
+                {/volist}            
+			</div>
+          {/empty}
+        </div>
+           <div>
+           {php} $status = input('status/d', 0);{/php}
+          	<select id='search_status'>
+          		<option value='0' {if condition="$status==0"}selected=selected{/if}>全部</option>
+          		<option value='3' {if condition="$status==3"}selected=selected{/if}>未处理</option>
+          		<option value='1' {if condition="$status==1"}selected=selected{/if}>处理成功</option>
+          		<option value='2' {if condition="$status==2"}selected=selected{/if}>处理失败</option>
+          	</select>
+          	 <!-- 高级搜索 -->
+        {if condition="$search_button"}
+        <div class="search-form fr cf">
+          <div class="sleft">
+          {php}empty($search_key) && $search_key=$model['search_key'];empty($search_key) && $search_key='title';unset($get_param[$search_key]);{/php}
+            {php} $get_param['model']=$model['name']; isset($search_url) || $search_url = U('lists', $get_param);{/php}
+            
+            <input type="text" name="{$search_key}" class="search-input" value="{:I($search_key)}" placeholder="{$placeholder}">
+            <a class="sch-btn" href="javascript:;" id="search" url="{$search_url}"><i class="btn-search"></i></a> </div>
+        </div>
+        {/if}
+          </div>
+       
+        <!-- 多维过滤 -->
+        {notempty name="muti_search"}
+        <form class="muti_search cf">
+        
+         
+              
+          <div style="line-height: 30px;">
+          {volist name='muti_search' id='vo'}
+          {switch name="vo.type"}
+                {case value="select"}
+                    <span>{$vo.title}：</span>
+                    <select name="{$vo.name}" class="search-input input-small">
+                    {volist name='vo.options' id='option'}
+                    <option value="{$option.value}" {eq name='option.default_value' value='option.value'}selected{/eq} >{$option.title}</option>
+                    {/volist}                    
+                    </select>
+                {/case}
+                {case value="datetime"}
+                    <span>{$vo.title}：</span>
+             <input type="datetime" name="start_time" class="search-input date input-small" value="{$vo.start_time}" placeholder="请选择时间">
+             <span>至</span>
+             <input type="datetime" name="end_time" class="search-input date input-small" value="{$vo.end_time}" placeholder="请选择时间">
+                {/case}
+                {case value="checkbox"}
+                    <span>{$vo.title}：</span>
+                    {volist name='vo.options' id='option'}
+                    <input type="checkbox" name="{$option.name}" value="{$option.value}" {eq name='option.default_value' value='option.value'}checked{/eq} >{$option.title}
+                    {/volist}
+                {/case}
+                {case value="radio"}
+                    <span>{$vo.title}：</span>
+                    {volist name='vo.options' id='option'}
+                    <input type="radio" name="{$option.name}" value="{$option.value}" {eq name='option.default_value' value='option.value'}checked{/eq} >{$option.title}
+                    {/volist}
+                {/case}
+                  
+             
+            {/switch}
+            {/volist}
+             
+             <!-- <a class="sort " href="#" title="排序">排序:高->低</a> -->
+             <button type="button" class="sch-btn btn" href="javascript:;" id="search">搜索</button> </div>
+        </form>
+        {/notempty}
+      </div>
+      {/if}
+      <!-- 数据列表 -->
+      <div class="data-table">
+        <div class="table-striped">
+          <table cellspacing="1">
+            <!-- 表头 -->
+            <thead>
+              <tr>
+                {if condition="$check_all"}<th class="row-selected row-selected"> <input type="checkbox" id="checkAll" class="check-all regular-checkbox"><label for="checkAll"></label></th>{/if}
+                {volist name="list_grids" id="field"}
+                  <th {notempty name="field.width"}width="{$field.width}%"{/notempty} >
+                   {$field.title}
+                  </th>
+                {/volist}
+              </tr>
+            </thead>
+            
+            <!-- 列表 -->
+            <tbody>
+              {volist name="list_data" id="data"}
+                <tr>
+                  {if condition="$check_all"}<td><input class="ids regular-checkbox" type="checkbox" value="{$data['id']}" name="ids[]" id="check_{$data['id']}"><label for="check_{$data['id']}"></label></td>{/if}
+                  {volist name="list_grids" id="grid"}
+                    {if ($grid.raw == 1) OR ($grid.come_from == 1) }<td>{$data[$key]|raw}</td>{else /}<td>{$data[$key]}</td>{/if}
+                  {/volist}
+                </tr>
+              {/volist}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="page"> {$_page|raw|default=''} </div>
+    </section>
+  </div>
+{/block}
+{block name="script"} 
+ <link href="__STATIC__/datetimepicker/css/datetimepicker.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+  {php} if(config('COLOR_STYLE')=='blue_color') echo '
+    <link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+    '; {/php}
+  <link href="__STATIC__/datetimepicker/css/dropdown.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script> 
+  <script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js?v={:SITE_VERSION}" charset="UTF-8"></script> 
+ <link href="__STATIC__/datetimepicker/css/datetimepicker.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+  {php} if(config('COLOR_STYLE')=='blue_color') echo '
+    <link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+    '; {/php}
+  <link href="__STATIC__/datetimepicker/css/dropdown.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script> 
+  <script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js?v={:SITE_VERSION}" charset="UTF-8"></script> 
+  <script type="text/javascript">
+$(function(){
+	$('.time').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        language:"zh-CN",
+        minView:0,
+        autoclose:true
+    });
+    $('.date').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language:"zh-CN",
+        minView:2,
+        autoclose:true
+    });	
+    
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+        if(query == '' ){
+        	url = $(this).attr('url');
+        }
+		url = change_search_url(url);
+		window.location.href = url;
+	});
+	$("#search_status").change(function(){
+		var status=$("#search_status option:selected").val();
+		var url="{:U('cashout_log_lists')}?status="+status;
+		window.location.href=url;
+	});
+    
+})
+function set_status(id){
+	var url="{:U(set_cashout_status)}?id="+id;
+	$.WeiPHP.openSubmitDialog('设置状态',url,300,250);
+}
+</script> 
+{/block}

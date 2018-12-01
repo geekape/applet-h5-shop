@@ -1,0 +1,53 @@
+{extend name="common@base/common" /}
+{block name="body"}
+  <div class="wrap">
+	<section id="contents">
+  
+  <div class="setting_step app_setting">
+         <a {eq name="has_audit" value="0"} class="step step_cur_1"{else /} class="step"{/eq} >1.上传并审核</a>
+         <a {eq name="has_audit" value="1"} class="step step_cur_1"{else /} class="step"{/eq} style="cursor:deault" >2.审核状态</a>
+         <a {eq name="has_audit" value="2"} class="step step_cur_1"{else /} class="step"{/eq} style="cursor:deault">3.已发布</a> 
+  </div>     
+  
+  <div class="tab-content"> 
+    <!-- 表单 -->
+    <form class="form-horizontal bind_step_form" method="post" action="{$jump_url}" id="form" style="overflow:hidden; zoom:1">
+      <!-- 基础文档模型 -->
+      <div class="tab-pane in tab1" id="tab1">
+        <div class="item_wrap">
+      	 <div class="form-item cf">
+      	 {if condition="$has_audit eq 0"}
+      	 微信小程序制作完成后，需要提交给微信官方进行审核，审核时间大约需要1-7个工作日，微信审核通过后，才可以正式发布上线。若未完成发布，只有绑定小程序账号本人以及有授权为体验者的用户才能查看该小程序。
+      	 {elseif condition="$has_audit eq 1" /}
+      	 {$show_msg}
+      	 {else /}
+      	 您的小程序已经正式发布上线啦！！！
+      	 {/if}
+        </div>  
+       
+        <div class="form-item cf mt_10 bind_step_form_next_item">
+         {notempty name="jump_url"}
+          	<input type="hidden" name="id" value="{$id|intval}">
+         	{if condition="$audit_status eq 1"}
+         	 	<button target-form="form-horizontal" type="submit" id="submit" class="btn submit-btn ajax-post">重新审核</button>
+         		&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn" href="{:U('lists')}">返  回</a>
+         	{else /}
+          	 <button target-form="form-horizontal" type="submit" id="submit" class="btn submit-btn ajax-post">{eq name="has_audit" value="0"}提  交{else /}发布{/eq}</button>
+         	{/if}
+         {else /}
+         	<a class="btn" href="{:U('lists')}">返  回</a>
+         {/notempty}
+        </div>
+      </div>
+    </form>
+  </div>
+  
+</section>
+{/block}
+{block name="script"}
+  <script type="text/javascript">
+$('#submit').click(function(){
+    $('#form').submit();
+});
+</script> 
+{/block}

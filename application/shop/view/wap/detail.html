@@ -1,0 +1,165 @@
+{extend name="shop@wap/common_file" /} {block name="common_body"}
+<body class="details">
+  <!-- 头部导航 -->
+   <div class="top-nav">
+       <div class="flex">
+           <i class="iconfont icon-back" id="go-back"></i>
+           <slot>
+               <span class="title">{$goods.title}</span>
+           </slot>
+       </div>
+   </div>
+  <div class="wrap">
+     
+
+      <!-- 头 -->
+      <div class="details-head">
+          <!-- 轮播 -->
+          {:W('common/Swiper/html', array('imgs_url'=>$goods['imgs_url']))}
+      
+                
+        <div class="details-head-other">
+        
+          <p class="red">
+            <span class="prize-icon">¥</span>
+            <strong>{$goods.sale_price}</strong>
+          </p>
+          {if condition="$goods.sale_price<$goods.market_price"}<del class="gray"><span class="prize-icon">¥</span>{$goods.market_price}</del>{/if}
+          <h2 class="details-head-other-name">
+            {$goods.title}
+          </h2>
+          <span class="gray">库存{$goods.stock_active}件</span>
+        </div>
+      </div>
+      <!-- 商品参数 -->
+      <div class="details-body">
+        <div class="weui-cells f-mb15">
+            <a class="weui-cell weui-cell_access" href="{:U('lists',['tab_goods_id'=>$goods['id'],'tab'=>$goods['tab']])}">
+                <div class="weui-cell__bd">
+                    <p>同款</p>
+                </div>
+                <i class="iconfont icon-more">
+                </i>
+            </a>
+        
+        </div>
+        </div>
+        <!-- 使用widget展示通用的产品参数，商品详情，评价  -->
+        {:W('shop/GoodsDetail/html', $goods)}
+      
+  </div>
+  <div class="u-bootom-to-top" id="goToTop"></div>
+   <!-- 底部导航 -->
+  <div class="bottom-nav ui-border-t">
+    <div class="icon1"><a href="{:U('shop/wap/service',['come_from'=>'goods_'.$goods['id']])}">
+      <div class="u-service-icon"></div>
+      <p>客服</p></a>
+    </div>
+    <div class="icon2 collect-icon"><a href="javascript:;" onClick="addToFavorite()">
+      <!-- {if condition="$goods['is_collect']==1"} icon-love-b {else /}icon-xinheart281{/if} -->
+      <div class="{if condition="$goods['is_collect']==1"} u-collect-icon-a {else /}u-collect-icon{/if}"></div>
+      <!-- <div class="heart-shape"></div> -->
+      <p>{if condition="$goods['is_collect']==1"}已{/if}收藏</p></a>
+    </div>
+    <div class="icon3"><a href="{:U('shop/wap/cart')}" class="bottom-nav-item">
+      <div class="u-cart-icon"></div>
+      <p>购物车</p><span class="weui-badge {gt name="cart_count" value="0"}active{/gt}" id="cartCount" style="position: absolute;top: -.2em;right: 2px">{$cart_count|default='0'}</span></a>
+    </div>
+    <div class="btn-group">
+      <a href="javascript:;" onClick="addToCart({$goods['id']},'{:U('addToCart')}')" class="btn" id="addCart">加入购物车</a>
+      <a href="{:U ( 'Shop/Wap/confirm_order',['goods_id'=>$goods['id']])}" class="btn">立即购买</a>
+    </div>
+  </div>
+</body>
+<script src="__STATIC__/default/js/cart/cart.js"></script>
+<script src="__STATIC__/default/js/cart/cartAnimation.js"></script>
+
+
+
+<script type="text/javascript">
+
+var isClick = true;
+
+$('#addCart').on('click', function (e) {
+  var even = e;
+  if(isClick) {
+    addProduct(even);
+    isclick= false;
+  }
+
+    // 定时器，防止快速点击
+    setTimeout(function(){ 
+        isclick = true;
+    }, 1000);
+  });
+
+// 加入购物车动画
+function addProduct(event) {
+    var offset = $('.icon3').offset(),
+        goods_pic = $('.swiper-slide:first-child img').attr('src'),
+        flyer = $('<img src=' + goods_pic + '>');
+    flyer.css({
+      'width': '50px',
+      'height': '50px',
+      'z-index': 510,
+      'border-radius': '100%'
+    });
+
+    flyer.fly({
+        start: {
+            left: event.pageX,
+            top: 50
+        },
+        end: {
+            left: offset.left+50,
+            top: offset.top,
+            width: 20,
+            height: 20
+
+        }
+
+    });
+
+}
+
+
+
+
+var is_collect = "{$goods['is_collect']|intval}";
+if(is_collect==1){
+	 $('.add_favorite').addClass('favorite_act');
+}
+
+
+//分享
+$.WeiPHP.initWxShare({
+	title:'{$goods.title}',
+	desc:'',
+	link:"{:U('goods_detail',array('uid'=>$share_uid,'id'=>$goods['id']))}",
+	imgUrl:'{$goods.cover}'
+});
+
+
+//加入收藏
+function addToFavorite(){
+	$.ajax({
+		url:"{:U('addToCollect')}",
+		data:{goods_id:"{$goods.id}"},
+		dataType:'JSON',
+		type:"POST",
+		success:function(data){
+			if(data==1){
+				$.toast('收藏成功', 'text');
+        $('.u-collect-icon').removeClass('u-collect-icon').addClass('u-collect-icon-a');
+	
+				$('.collect-icon p').text('已收藏');
+			}else{
+				$.toast('取消收藏成功', 'text');
+				$('.u-collect-icon-a').removeClass('u-collect-icon-a').addClass('u-collect-icon');
+				$('.collect-icon p').text('收藏');
+			}
+		}
+	})
+}
+</script>	
+{/block}

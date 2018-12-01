@@ -1,0 +1,20 @@
+@charset "utf-8";
+/* CSS Document */
+html{ height:100%;}
+body{ min-height:100%;}
+.item_list{ margin:10px;}
+.item_list li a{ display:block; color:#444; margin:10px 0; padding:10px; border-radius:5px; border:1px solid #ddd; background:#fff;}
+.item_list li a img{ width:100%;}
+.item_list .title{ padding:0 0 10px; line-height:20px;font-size:16px; white-space:nowrap; text-overflow:ellipsis}
+.item_list li .count{ padding:10px;}
+.detail_content{ padding:10px;}
+.detail_content .title{ font-weight:bold;}
+.detail_content .time{ font-size:13px; color:#888}
+.detail_content .name{ color:#F60; font-size:18px; line-height:30px; padding-right:5px;}
+.content_title{ line-height:40px; border-bottom:1px solid #ccc; margin:0 15px 15px; text-align:center }
+.detail_content .content{ padding:0 10px;}
+.content_head{ background-color:#ddd; margin:5px; border-radius:5px; padding:10px;}
+.content_head .desc span{ color:#F60;}
+.content_head .btn_wrap{ margin:10px 20px;}
+.content_title{ border-bottom:1px solid #ccc; height:20px; position:relative; text-align:center}
+.content_title span{ background:#f4f4f4; padding:10px;}

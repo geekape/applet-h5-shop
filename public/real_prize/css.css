@@ -1,0 +1,24 @@
+@charset "utf-8";
+/* CSS Document */
+html,body{ background:#fdfce0;width: 100%; min-height:100%;}
+body{margin:0;padding:0;width: 100%; min-height:100%;min-height: 100%;font-family: Microsoft YaHei,Helvitica,Verdana,Tohoma,Arial,san-serif;font-size: 15px;line-height: 1.5em;-webkit-touch-callout: none;
+display: -webkit-box;-webkit-box-orient: vertical;-webkit-box-align: stretch;position: relative;}
+*{margin: 0;outline: 0;padding: 0;font-size: 100%;-webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+li,ul{ list-style:none}
+img{ border:none; max-width:100%;}
+a{ text-decoration:none; color:#000;}
+.copyright{ text-align:center; line-height:60px; color:#999}
+.container{ max-width:640px; min-width:320px; min-height:100%; position:relative; margin:auto; outline:none; font-size:100%; overflow:hidden;}
+.common_btn,.common_btn:hover,.common_btn:active,.common_btn:visited{ background:#db4902; border-radius:5px; height:44px; line-height:44px; display:block; margin:15px 0; text-align:center; color:#fff; display:block; border:none;}
+#addressform h2{ text-align:center; line-height:40px;}
+#addressform h2 span{ font-size:13px; color:#888; font-weight:normal}
+#addressform td{ padding:5px; vertical-align:top}
+.head_div{ position:relative;}
+.head_div .title{ position:absolute; top:30%; text-align:center; color:#fff; left:0; right:0;}
+.head_div .info{ position:absolute; top:60%; right:0; left:0; text-align:center; color:#888; line-height:30px; font-size:13px;}
+.head_div .user_head{ width:60px; height:60px; border-radius:33px; border:3px solid #db4902;display:block; margin:0 auto;}
+.content{ margin:40px 20px 20px; text-align:center}
+.content img{ width:200px; height:200px; border:2px solid #ccc; display:block; margin:20px auto 10px;}
+.content .name{ color:#555;}
+.content .remark{ border:1px dashed #aaa; background:#fff; padding:10px; text-align:left; font-size:13px; color:#888; margin-top:15px;}
+.get_btn,.get_btn:visited,.get_btn:link,.get_btn:hover,.get_btn:active{ background:#db4902; border-radius:5px; height:44px; line-height:44px; display:block; margin:15px 0; text-align:center; color:#fff;}

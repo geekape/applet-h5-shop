@@ -1,0 +1,43 @@
+{include file="common@base/mobile_head"/}
+<link href="__CSS__/Coupon.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+<body id="scratch">
+<div class="container body" style="position:relative; background:#fff;">
+    <div class="common_header">
+        <a class="back" href="{:U ( 'weixin/Wap/userCenter')}">&nbsp;</a>
+        <span>我的优惠券</span>
+   </div>
+   <div class="head_box">
+        <img src="{:ADDON_PUBLIC_PATH}/head_bg.png" width="100%"/>
+        <div class="title_layer">{$data.title}</div>
+        <div class="style"></div>
+   </div>
+   <div class="box">
+    {notempty name="my_sn_list"}
+      <p class="content">
+        {volist name="my_sn_list" id="sn"} 
+           SN码 :{$sn.sn}<br/>
+           状 态 :{eq name="sn.is_use" value="1"}已使用{else/}未使用{/eq}
+          <br/>
+          {if condition="!empty($data['voer_time'])"} 截止时间：{$data.voer_time|time_format} {/if}
+          <br/>
+          {eq name="sn.is_use" value="0"}
+          	<a class="use_btn" href="{:U('qr_code', array('sn_id'=>$sn['id']))}" class="btn">核销二维码</a>
+          {/eq}
+          
+        {/volist}
+      </p>
+    {/notempty}
+  </div>
+  <div class="box">
+    <h6>使用说明</h6>
+    <p class="content">{$data.use_tips}</p>
+  </div>
+  <p class="copyright">{$system_copy_right|raw}{$tongji_code|raw}</p>
+</div>
+</div>
+</body>
+<script type="text/javascript">
+var h=$(document).height();
+$('.container').css("min-height",h);
+</script>
+</html>

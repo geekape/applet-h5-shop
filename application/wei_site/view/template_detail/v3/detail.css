@@ -1,0 +1,10 @@
+@charset "utf-8";
+/* CSS Document by jacy use in weisite */
+.container{ background:none}
+/* 详情页 */
+.detail {}
+.detail h6{ font-size:24px; line-height:30px; padding:30px 15px; font-weight:bold; background-color:#066; color:#fff}
+.detail h6 .info{ font-size:14px;}
+.detail img{ padding:5px 0; max-width:100%;}
+.detail .content{padding:10px; font-size:16px;}
+.detail .content a{ text-decoration:underline}

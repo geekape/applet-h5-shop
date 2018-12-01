@@ -1,0 +1,75 @@
+{extend name="common@base/common" /}
+{block name="body"}
+<link href="{:ADDON_PUBLIC_PATH}/weisite.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+<div class="span9 page_message">
+	<section id="contents">
+      {include file="common@base/_nav" /}
+      
+      <div class="tab-content" id="hasSubNav"> 
+      		<ul class="sub_tab">
+                <li><a href="{:U('wei_site/template/lists')}">底部菜单配置</a></li>
+                <li><a class="cur" href="{:U('wei_site/footer/template')}">底部菜单模板</a></li>
+            </ul>
+            
+        	<div class="sub_tab_content">
+            
+            <form>
+            	<ul class="template_select">
+                	<li class="template_item selected">
+                    	<div class="phone">
+                        	<img src="{:ADDON_PUBLIC_PATH}/template/menu_v1.jpg" />
+                        </div>
+                        <p><input type="radio" checked="checked" name="template" id="template1" value=""/>
+                        <label for="template1">模板1（多彩）</label><p/>
+                    </li>
+                    <li class="template_item">
+                    	<div class="phone">
+                        	<img src="{:ADDON_PUBLIC_PATH}/template/menu_v1.jpg" />
+                        </div>
+                        <p><input type="radio" name="template" id="template2" value=""/>
+                        <label for="template2">模板2（简约）</label></p>
+                    </li>
+                </ul>
+                <button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button>
+              </form>
+            </div>
+      </div>
+    </section>
+ </div>
+{/block}
+
+{block name="script"}
+<script type="text/javascript" charset="utf-8">
+	//导航高亮
+    $('.side-sub-menu').find('a[href="{:U('Addons/index')}"]').closest('li').addClass('current');
+    if($('ul.tab-nav').length){
+    	$('.btn-return').hide();
+    }
+	$(function(){
+		showTab();
+		//选择模板并且ajax提交
+		//选择Ajax提交		
+		$('.template_item').click(function(){
+			if(!$(this).hasClass('selected')){
+				$(this).addClass('selected');
+				$(this).siblings().removeClass("selected");
+				$(this).find('input').click();
+				//如果不是ajax提交 不要以下代码
+				//如果不是ajax提交 不要以下代码
+				var value = $(this).find('input').val();
+				$.ajax({
+					url:"url",
+					data:{},
+					type:"post",
+					dataType:"json",
+					success:function(data){
+						if(data.code){
+							//提交成功
+							}
+						}
+					})
+				}
+			});
+	})
+</script>
+{/block}

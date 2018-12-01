@@ -1,0 +1,54 @@
+{include file="common@base/mobile_head"/}
+<link href="{:ADDON_PUBLIC_PATH}/userCenter.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+
+<body>
+<div class="container">
+  <div class="userHead">
+    <div class="userInfo">
+      <div class="head"><img src="{$info.headimgurl}"/></div>
+      <div class="info">
+        <p class="name"><strong>{$info.nickname}</strong></p>
+        <p class="attr"><span>积分:</span> {$info.score|intval}</p>
+      </div>
+    </div>
+  </div>
+  
+      <h3>个人管理</h3>
+    <div class="user_box"> 
+    <a class="item" href="{:U('bind_prize_info')}"><span class="td title">资料编辑</span><em class="arrow">&nbsp;</em> </a> 
+<!--    <a class="item" href="{:U('credit')}"><span class="td title">积分记录</span><em class="arrow">&nbsp;</em> </a> 
+    <a class="item" href="{:U('weixin_message')}"><span class="td title">咨询消息</span><em class="arrow">&nbsp;</em> </a> 
+    <a class="item" href="{:U('message')}"><span class="td title">系统推送</span><em class="arrow">&nbsp;</em> </a> -->
+    
+        {volist name="default_link" id="link"}
+    <a class="item" href="{$link.url}"> 
+    {if condition="!empty($link['icon'])"}<img src="{$link.icon}">{/if}
+    <span class="td title">{$link.title}</span>
+    {neq name="link.new_count" value="0"}<span class="new_count">{$link.new_count}</span>{/neq}
+    
+     <em class="arrow">&nbsp;</em> </a> 
+    {/volist}
+
+    </div>
+    
+  {volist name="list_data" id="group"}
+    <h3>{$key}</h3>
+    <div class="user_box"> 
+    {volist name="group" id="link"}
+    <a class="item" href="{$link.url}"> 
+    {if condition="!empty($link['icon'])"}<img src="{$link.icon}">{/if}
+    <span class="td title">{$link.title}</span>
+    {neq name="link.new_count" value="0"}<span class="new_count">{$link.new_count}</span>{/neq}
+    
+     <em class="arrow">&nbsp;</em> </a> 
+    {/volist}
+    </div>
+  {/volist}
+  <!--<div class="m_10 unbind">
+    <p class="colorless pb_10">你还没绑定用户信息!</p>
+    <p><a class="btn" href="#">马上去绑定</a></p>
+  </div>-->
+</div>
+{include file="common@base/mobile_foot"/}
+</body>
+</html>

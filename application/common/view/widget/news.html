@@ -1,0 +1,73 @@
+<div id="news_{$name}"></div>
+<div class="appmsg_area" id="appmsg_area_{$name}">
+    <input type="hidden" name="{$name}" value="{$value}"/>
+    <a class="select_appmsg" href="javascript:;" onClick="$.WeiPHP.openSelectAppMsg('{:U('material/Material/material_data')}',selectAppMsgCallback)">选择图文</a>
+    <div class="appmsg_wrap">
+      {if condition="$count==1"}
+        <!-- 单图文 -->
+            <div class="appmsg_item">
+                <h6>{$main.title}</h6>
+                <p class="title">{$main.cTime|time_format}</p>
+                <div class="main_img">
+                    <img src="{$main.cover_id|get_cover_url}"/>
+                </div>
+                <p class="desc">{$main.intro}</p>
+            </div>
+            <div class="hover_area"></div>
+        {else/}
+        <!-- 多图文 -->
+            <div class="appmsg_item">
+                <p class="title">{$main.cTime|time_format}</p>
+                <div class="main_img">
+                    <img src="{$main.cover_id|get_cover_url}"/>
+                    <h6>{$main.title}</h6>
+                </div>
+                <p class="desc">{$main.intro}</p>
+            </div>
+            {volist name="list" id="vv"}
+            <div class="appmsg_sub_item">
+                <p class="title">{$vv.title}</p>
+                <div class="main_img">
+                    <img src="{$vv.cover_id|get_cover_url}"/>
+                </div>
+            </div>
+            {/volist}
+            <div class="hover_area"></div>
+        {/if}    
+    </div>
+    <a class="delete" href="javascript:;">删除</a>
+</div>
+
+ <script type="text/javascript">
+$('.msg_tab .appmsg').click(function(){
+	//图文消息
+	$(this).addClass('current').siblings().removeClass('current');
+	$('input[name="msg_type"]').val('appmsg');
+	$('#appmsg_area_{$name}').show().siblings().hide();
+})
+$('.appmsg_area .delete').click(function(){
+	$('.appmsg_wrap').html('').hide();
+	$('.select_appmsg').show();
+	$('.appmsg_area .delete').hide();
+	$('input[name="{$name}"]').val(0);
+})
+function selectAppMsgCallback(_this){
+	$('.appmsg_wrap').html($(_this).html()).show();
+	$('.select_appmsg').hide();
+	$('.appmsg_area .delete').show();
+	$('input[name="{$name}"]').val($(_this).data('id'));
+	$.Dialog.close();
+}
+$(function(){
+	var val = $('input[name="{$name}"]').val();
+	if(val!=''){
+		$('.appmsg_wrap').show();
+		$('.select_appmsg').hide();
+		$('.appmsg_area .delete').show();
+	}else{
+		$('.appmsg_wrap').hide();
+		$('.select_appmsg').show();
+		$('.appmsg_area .delete').hide();		
+	}
+})
+</script> 

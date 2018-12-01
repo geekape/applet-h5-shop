@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+    {include file="common@base/head" /}
+
+    <style>
+        html,body {
+            background: #fff;
+        }
+        .reg_box {
+            width: 100%;
+            padding: 15px;
+            margin: 0;
+        }
+        .reg_box .alert {
+            padding-left: 10px;
+
+        }
+        table {width: 100%}
+        table tr {height: 45px;}
+        table thead tr {background: #f9f9f9}
+        table tbody td {border-bottom: 1px solid #ececec;}
+        table th,table td {padding-left: 10px}
+    </style>
+</head>
+<body>
+<!-- 头部 -->
+<!-- 提示 -->
+<div id="top-alert" class="top-alert-tips alert-error" style="display: none;">
+    <a class="close" href="javascript:;"><b class="fa fa-times-circle"></b></a>
+    <div class="alert-content">这是内容</div>
+</div>
+<section class="reg_box small_wrap">
+    <div class="alert">请正确复制相应的公众号的地址，复制错会导致系统无法获取用户信息</div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>公众号</th>
+            <th>地址</th>
+            <th>复制</th>
+        </tr>
+        </thead>
+        <tbody>
+        {volist name="lists" id="vo"}
+        <tr>
+            <td>{$vo.public_name}</td>
+            <td>{$vo.url}</td>
+            <td><a class="list_copy_public_link" id="copyPublicLink_{$vo.id}"   data-clipboard-text="{$vo.url}">复制地址</a></td>
+        </tr>
+
+        {/volist}
+        </tbody>
+    </table>
+    
+</section>
+</body>
+</html>

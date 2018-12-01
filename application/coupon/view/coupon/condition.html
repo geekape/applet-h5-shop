@@ -1,0 +1,237 @@
+{extend name="common@base/common" /} {block name="body"}
+        <style>
+            .check-item{
+                display: inline-block !important;
+                margin-left: 20px;
+                margin-bottom: 10px;
+            }
+        </style>
+<div class="span9 page_message">
+    <section id="contents"> {include file="common@base/_nav" /}
+        <div class="tab-content">
+            <!-- 表单 -->
+            <h4 class="offset-sm-1 mb-4">优惠券使用条件</h4> {php} isset($post_url) || $post_url = U('condition?model='.$model['id'], $get_param);{/php}
+            <form id="form" action="{$post_url}" method="post" class="form-horizontal" style="overflow:hidden">
+            <div class="form-group row cf toggle-addsort">
+							<label class="col-sm-2">指定可用的商品分类</label>
+							<div style="padding-left: 0; margin-left: 5px"
+								class="data-table col-sm-8">
+								<table cellspacing="1" cellpadding="0">
+									<tbody id="list_data_tbody">
+										<tr class="more_tr">
+											<td colspan='3' style="padding-top: 2px"><a
+												href="javascript:add_tr()">+增加分类</a></td>
+										</tr>
+										{notempty name='cate_list'} {volist name="cate_list" id="cd"}
+										<tr class="list_tr" data-sort="{$cd.sort}">
+											<td style="text-align: left"><span class="td_key">分类{$cd.sort+1}</span></td>
+											<td style="width: 80%; padding-left: 0;">{notempty
+												name="cate_data.first"} <select
+												style="margin: 6px 30px 6px 0" name="cate_first[{$cd.sort}]"
+												class='class_first' data-sort='{$cd.sort}'
+												onchange="select_cate(this)"> {volist
+													name="cate_data.first" id="vo"}
+													<option value="{$vo.id}" {if
+														condition="$vo['id'] eq $cd['category_first']"}selected{/if}>{$vo.title}</option>
+													{/volist}
+											</select> {notempty name='$cate_data["second"]'} {volist
+												name="cate_data.first" id="vo"} {php} $fid=$vo['id']; {/php}
+												<select class='class_second_{$cd.sort}'
+												name="cate_second[{$cd.sort}]"
+												id="cate_second_{$fid}_{$cd.sort}"
+												data-count="{notempty name="
+												$cate_data['second'][$fid]" }{:count($cate_data['second'][$fid])}{else /}0{/notempty}" style="display: none;">
+
+													{php} $second =isset($cate_data['second'][$fid]) ?
+													$cate_data['second'][$fid] :[]; if($second){
+													foreach($second as $dd){ if($dd['id'] ==
+													$cd['category_second']){ echo '
+													<option value="'.$dd['id'].'" selected="selected">'.$dd['title'].'</option>
+													'; }else{ echo '
+													<option value="'.$dd['id'].'">'.$dd['title'].'</option> ';
+													} } } {/php}
+											</select> {/volist} {/notempty} <input type='hidden'
+												name="select_cate_second[{$cd.sort}]"
+												id="select_cate_second_{$cd.sort}"
+												value='{$cd.category_second}' /> {/notempty}
+											</td>
+											<td style="width: 10%"><a href="javascript:void(0);" onclick="remove_tr(this)">删除</a></td>
+										</tr>
+										{/volist} {/notempty}
+
+									</tbody>
+
+								</table>
+                                <span class="form-text text-muted">不设置分类时表示不限制分类</span>
+							</div>
+						</div>
+                <div style="width: 100%;">
+                {php} isset($data['only_goods']) || $data['only_goods']=0; {/php}
+                    <div class="form-group row">
+                    <label class="col-sm-2">&nbsp;</label>
+                        <label>商品 <select name="only_goods"  style="width:80px">
+                             <option value="0" {eq name="data['only_goods']" value="0"}selected{/eq} >整单 </option>
+                              <option value="1" {eq name="data['only_goods']" value="1"}selected{/eq} >单件 </option>
+                          </select> 满 
+                          <input type="number" name="order_money" class="text" value="{$data.order_money}" style="width:100px" min="0" /> 可用</label>
+                    </div>
+
+                </div>
+        </div>
+        <div class="row form_bh">
+            <div class="offset-sm-2">
+              {notempty name="data.id"}
+              <input type="hidden" name="id" value="{$data.id|default=0}">{/notempty}
+              <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">提交</button>
+            </div>
+        </div>
+        </form>
+<table style="display: none">
+	<tr id="default_tr">
+		<td style="text-align: left"><span class="td_key">分类sort_id</span></td>
+		<td style="width: 80%; padding-left: 0;">{notempty
+			name="cate_data.first"} <select style="margin: 6px 30px 6px 0"
+			name="cate_first[sort_id]" class='class_first' data-sort='sort_id'
+			onchange="select_cate(this,sort_id)"> {volist
+				name="cate_data.first" id="vo"}
+				<option value="{$vo.id}">{$vo.title}</option> {/volist}
+		</select> {volist name="cate_data.first" id="vo"} <select
+			class='class_second_sort_id class_second' name="cate_second[sort_id]"
+			id="cate_second_{$vo.id}_sort_id"
+			data-count="{php}echo isset($cate_data['second'][$vo['id']]) && is_array($cate_data['second'][$vo['id']])?count($cate_data['second'][$vo['id']]):0;{/php}"
+			style="display: none;"> {php} $fid=$vo['id'];
+				if(isset($cate_data['second'][$fid]) && $cate_data['second'][$fid]){
+				foreach($cate_data['second'][$fid] as $dd){ {/php}
+				<option value="{$dd.id}">{$dd.title}</option> {php} }} {/php}
+		</select> {/volist} <input type='hidden' name="select_cate_second[sort_id]"
+			id="select_cate_second_sort_id" value='' /> {else/} <input
+			type='hidden' name='no_cate' value='1' /> {/notempty}
+		</td>
+		<td style="width: 10%"><input type="hidden"
+			name="cate_ids[sort_id]" value="" /> <a href="javascript:void(0);"
+			onclick="remove_tr(this)">删除</a></td>
+	</tr>
+</table>        
+</div>
+</section>
+</div>
+{/block} {block name="script"}
+<script type="text/javascript">
+function  Chinese(num) {
+    var  N  =   [    "零",  "一",  "二",  "三",  "四",  "五",  "六",  "七",  "八",  "九",   "十"];    
+    var  str  =  num.toString();    
+    var  len  =  num.toString().length;    
+    var  C_Num  =   [];    
+    for (var  i  =  0;  i  <  len;  i++) {         C_Num.push(N[str.charAt(i)]);     }    
+    return  C_Num.join('');
+}
+
+function add_tr() {
+    var no_cate = $("input[name='no_cate']").val();
+    if (no_cate == 1) {
+        if (confirm('还没有商品分类，前往添加')) {
+            window.location.href = "{:U ( 'Shop/Category/lists')}";
+            return false;
+        } else {
+            return false;
+        }
+    }
+    var count = 1;
+    re = new RegExp("sort_id", "g");
+    var aTr = $('#list_data_tbody tr').length;
+    if (aTr > 1) {
+        var last_count = $('#list_data_tbody').find('tr').eq(-1).attr('data-sort');
+        count = parseInt(last_count) + 1;
+    }else{
+		count=0;
+	}
+
+    str = $('#default_tr').html().replace(re,count+1);
+    // str = $('#default_tr').html().replace(/sort_id_cn/g, Chinese(count)).replace(re, count);
+    //console.log(str);
+    var html = '<tr class="list_tr" data-sort="' + count + '">' + str + '</tr>';
+	$('#list_data_tbody tr:last').after(html);
+    var fid=$('.class_first').val();
+    changeCate(fid, count);
+}
+
+
+function changeCate(fid, sort_id) {
+	if(sort_id=='sort_id') return false;
+	
+	var id = '#cate_second_' + fid + '_' + sort_id
+	console.log(id)
+	
+    $('.class_second_' + sort_id).hide();
+    $(id).show();
+    var sfcid = $(id + ' option:selected').val();
+    var dataCount = $(id).attr('data-count');
+    if (parseInt(dataCount) <= 0) {
+        $(id).hide();
+    }
+    $("#select_cate_second_" + sort_id).val(sfcid);
+    $(id).change(function() {
+        var sval = $(this).val();
+        $("#select_cate_second_" + sort_id).val(sval);
+    });
+}
+function remove_tr(_this) {
+    $(_this).parent().parent().remove();
+    var aTr = $('.list_tr').length;
+	re = new RegExp("sort_id", "g");
+    var count = 0;
+    $('.td_key').each(function() {
+        if (count > 1) {
+            count = count + 1;
+            $(this).html('分类' + count);
+        }
+    });
+    $('.list_tr').each(function(i){
+        count=i+1;
+        // console.log(i);
+        str = $("#default_tr").children().children('.td_key').html().replace(re,count);
+        // str = $('#default_tr').html().replace(/sort_id_cn/g, Chinese(count)).replace(re, count);
+		$(this).attr("data-sort",count);
+		$(this).children().children(".td_key").text(str);
+		//console.log(str);
+	})
+}
+
+function select_cate(_this, sort_id) {
+    var val = $(_this).val();
+    changeCate(val, sort_id);
+}
+
+
+$('#submit').click(function() {
+    $('#form').submit();
+});
+
+$(function() {
+	$('.class_first').each(function() {
+		$(this).change(function() {
+			var sort_id = $(this).data('sort');
+			var catefid = $(this).val();
+			changeCate(catefid, sort_id);
+		});
+		var sort_id = $(this).data('sort');
+		var catefid = $(this).val();
+		changeCate(catefid, sort_id);
+	});
+
+    $('select').change(function() {
+        $('.toggle-data').each(function() {
+            var data = $(this).attr('toggle-data');
+            if (data == '') return true;
+
+            if ($(this).is(":selected") || $(this).is(":checked")) {
+                change_event(this)
+            }
+        });
+    });
+    
+
+});
+
+</script>
+{/block}

@@ -1,0 +1,33 @@
+<!-- 提示 -->
+<div id="top-alert" class="top-alert-tips alert-error" style="display: none;">
+  <a class="close" href="javascript:;"><b class="fa fa-times-circle"></b></a>
+  <div class="alert-content"></div>
+</div>
+<!-- 导航条
+================================================== -->
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="wrap">
+
+       <a class="brand" title="{:config('WEB_SITE_TITLE')}" href="{:U('home/index/main')}">
+       		<img height="52" src="__STATIC__/base/images/logo.png"/>
+       </a>
+      {php} $index_2 = parse_name(MODULE_NAME) . '/' . parse_name(CONTROLLER_NAME) . '/*' ; $index_3 = parse_name(MODULE_NAME) . '/' . parse_name(CONTROLLER_NAME) . '/' . parse_name(ACTION_NAME ); {/php}
+
+            <div class="top_nav">
+                {if condition="is_login()"}
+                    <ul class="nav" style="margin-right:0">
+                          
+                        <li class="dropdown admin_nav">
+                            <a href="#" class="dropdown-toggle login-nav" data-toggle="dropdown" style="">
+                                <img class="admin_head url" src="{$myinfo.headimgurl}"/>
+                                {$myinfo.nickname|getShort=4}
+                            </a>
+                            <ul class="dropdown-menu" style="">
+                                <li><a href="{:U('home/User/logout')}">退出</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                {/if}
+            </div>
+        </div>
+</div>

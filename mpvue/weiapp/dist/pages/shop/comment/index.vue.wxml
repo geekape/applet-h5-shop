@@ -1,0 +1,11 @@
+<template name="2330d90d">
+  <view class="_div data-v-07fa13ac comment">
+    <view class="_div data-v-07fa13ac goods-line" wx:key="index" key="{{index}}" wx:for="{{goodsList}}" wx:for-index="index" wx:for-item="item">
+      <image class="_img data-v-07fa13ac u-goods__img" src="{{item.cover}}"></image>
+      <view class="_div data-v-07fa13ac goods-line__right">
+        <view class="_p data-v-07fa13ac u-goods__tt overflow-dot">{{item.title}}</view>
+        <view class="_div data-v-07fa13ac goods-line__ft">
+          <view class="_div data-v-07fa13ac goods-line__price"><label class="_span data-v-07fa13ac">¥{{item.sale_price}}</label></view>
+        </view>
+      </view>
+    </view> <textarea class="_textarea data-v-07fa13ac comment-box" name maxlength="999" placeholder="至少5个字哦~" bindinput="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}" /> <button class="_button data-v-07fa13ac u-button u-button--big u-button--primary" bindtap="handleProxy" data-eventid="{{'1'}}" data-comkey="{{$k}}">评价</button> <van-toast id="van-toast" class="_van-toast data-v-07fa13ac"></van-toast></view></template>

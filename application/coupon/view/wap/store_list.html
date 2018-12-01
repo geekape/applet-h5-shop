@@ -1,0 +1,28 @@
+{include file="common@base/mobile_head"/}
+<link href="__CSS__/Coupon.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+<body>
+<div class="container body" style="position:relative; background:#eee;">
+  <P class="b_title">适用门店</P>
+ {notempty name="shop_list"}
+     <ul class="v_nav">
+        
+        {volist name="shop_list" id="vo"}
+            <li class="item single_address">
+                <span class="title">{$vo.name}</span>
+                <span style="padding-left: 8px;">营业时间：{$vo.open_time}</span>
+                <br/>
+                {notempty name="vo.gps"}
+                    <a href="http://apis.map.qq.com/tools/poimarker?marker=coord:{$vo.gps};title:{$vo.name};addr:{$vo.address}&referer=myapp&key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77">{$vo.address}</a>
+                {else/}
+                    <a href="http://api.map.baidu.com/geocoder?address={$vo.address}&output=html&src={$vo.name}|{$vo.address}">{$vo.address}</a>
+                {/notempty}
+                <a href="tel:{$vo.phone}"><em>&nbsp;</em></a>
+            </li>
+        {/volist}
+        
+     </ul>
+  {/notempty}
+  <p class="copyright">{$system_copy_right|raw}{$tongji_code|raw}</p>
+</div>
+</body>
+</html>

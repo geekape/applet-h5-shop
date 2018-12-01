@@ -1,0 +1,165 @@
+.lanren {
+        width: 4.5rem;
+        height: 4.5rem;
+        top: 38%;
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: auto;
+        border-radius: 50%;
+        animation: a 1000s linear;
+        -webkit-animation: a 1000s linear;
+    }
+    .winBox {position: absolute; bottom: 18%; left: 0; right: 0; margin: auto; width: 18rem;}
+
+    .agg {
+
+        width: 2.5rem; height: 3.5rem;
+        transform-origin:center;
+        -webkit-transform-origin:center;
+
+        background: url("../img/activity/agg.png") no-repeat center;
+        background-size: cover;
+
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+
+        border-radius: 100%;
+    }
+    .agg:nth-child(1){
+        margin-top: 45%;
+        animation: b 1000s linear,zindex 10000ms 0ms infinite linear;
+        -webkit-animation: b 1000s linear,zindex 10000ms 0ms infinite linear;
+
+    }
+    .agg:nth-child(2){
+        margin-top: -5%;
+        margin-left: -5%;
+        animation: b 1000s linear,zindex 10000ms -2500ms infinite linear;
+        -webkit-animation: b 1000s linear,zindex 10000ms -2500ms infinite linear;
+    }
+    .agg:nth-child(3){
+        margin-top: -5%;
+        margin-right: -5%;
+        animation: b 1000s linear,zindex 10000ms -5500ms infinite linear;
+        -webkit-animation: b 1000s linear,zindex 10000ms -5500ms infinite linear;
+    }
+
+    .lanren.paused,.paused .agg {-webkit-animation-play-state:paused; animation-play-state:paused;}
+
+    @keyframes a{
+        0% {
+            transform: rotate(0deg);
+            -webkit-transform: rotate(0deg);
+        }
+        to{
+            transform: rotate(36000deg);
+            -webkit-transform: rotate(36000deg);
+        }
+    }
+    @-webkit-keyframes a{
+        0% {
+            transform: rotate(0deg);
+            -webkit-transform: rotate(0deg);
+        }
+        to{
+            transform: rotate(36000deg);
+            -webkit-transform: rotate(36000deg);
+        }
+    }
+    @keyframes b{
+        0% {
+            transform: rotate(0deg);
+            -webkit-transform: rotate(0deg);
+        }
+        to{
+            transform: rotate(-36000deg);
+            -webkit-transform: rotate(-36000deg);
+        }
+    }
+    @-webkit-keyframes b{
+        0% {
+            transform: rotate(0deg);
+            -webkit-transform: rotate(0deg);
+        }
+        to{
+            transform: rotate(-36000deg);
+            -webkit-transform: rotate(-36000deg);
+        }
+    }
+
+    @keyframes zindex {
+        0% {
+            z-index: 1;
+        }
+        25% {
+            z-index: -1;
+        }
+        55% {
+            z-index: -1;
+        }
+        75% {
+            z-index: 1;
+        }
+    }
+    @-webkit-keyframes zindex {
+        0% {
+            z-index: 1;
+        }
+        25% {
+            z-index: -1;
+        }
+        55% {
+            z-index: -1;
+        }
+        75% {
+            z-index: 1;
+        }
+    }
+
+
+    .hammer {
+        position: absolute;
+        z-index: 10;
+        left: -60%;
+        top: -30%;
+        width: 3rem;
+        display: block;
+        max-width: none;
+
+        -webkit-animation: hammer 0.5s alternate;
+        animation: hammer 0.5s alternate;
+        transform-origin: bottom left;
+        -webkit-transform-origin: bottom left;
+
+    }
+    .agg-puo {
+        position: absolute;
+        left: -40%;
+        right: 0;
+        bottom: 18%;
+        width: 4.5rem;
+        display: block;
+        max-width: none;
+        display: none;
+    }
+    @keyframes hammer
+    {
+
+        50%
+        {
+            transform: rotate(15deg);
+        }
+
+    }
+    @-webkit-keyframes hammer
+    {
+        50%
+        {
+            -webkit-transform: rotate(15deg);
+        }
+    }

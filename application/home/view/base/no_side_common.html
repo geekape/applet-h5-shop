@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	{include file="common@base/head"/}
+</head>
+<body>
+	<!-- 头部 -->
+	{include file="common@base/header"/}
+	<!-- /头部 -->
+
+	<!-- 主体
+	{include file="public/no_side_body"/}
+	/主体 -->
+
+	{block name="header"}{/block}
+{php}
+//验证登录
+if(!is_login()){
+   $forward = cookie('__forward__');
+            empty( $forward ) && cookie('__forward__', $_SERVER['REQUEST_URI']);
+   return redirect(U('home/user/login',array('from'=>5)));
+}
+{/php}
+<div id="main-container" class="container" style="position:relative">
+    <div class="no_side_main_body">
+        {block name="body"}{/block}
+    </div>
+</div>
+
+
+	<!-- 底部 -->
+	{include file="publics/footer"/}
+	<!-- /底部 -->
+</body>
+</html>

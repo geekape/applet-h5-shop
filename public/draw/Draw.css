@@ -1,0 +1,82 @@
+@charset "utf-8";
+/* CSS Document */
+
+.container{
+	background-color:#ffee6f;
+	max-width: 640px;
+    min-width: 320px;
+    min-height: 100%;
+    position: relative;
+    margin: auto;
+    outline: none;
+    font-size: 100%;
+    overflow: hidden;
+	
+}
+.nine{
+	margin:15px 10px 0;	
+}
+.nine_ins,.nine_prize{
+	position:relative;
+	padding:30px 10px 20px;
+	background-color:#ffd743;
+	border-radius:7px;
+	margin-top:30px;
+	margin-bottom:10px;
+}
+.diamond1,.diamond2,.diamond3,.diamond4{
+display: inline-block;
+padding: 5px 20px;
+color:#FFF;
+transform: skew(-20deg);
+background-color:#f9621c;
+position:absolute;
+left:50%;
+margin-left:-50px;
+top:-15px;	
+}
+.nine_jieshao .nine_p p{
+	color:#fc8525;
+}
+.nine_ins p{
+	color:#fc8525;
+}
+.nine_jieshao .nine_p{
+	
+	color:#f2611b;
+}
+.nine_jieshao{
+	text-align:center;	
+	color:#fc8525;
+}
+
+#lottery{width:300px;height:300px;margin:0px auto; no-repeat; padding-top:15px; margin-bottom:15px;}
+#lottery table td{
+	width:90px;height:90px;text-align:center;vertical-align:middle;font-size:24px;color:#333;
+    border:6px solid #005ca3;
+    border-radius:15px;}
+#lottery table td a{width:90px;height:90px;line-height:150px;display:block;text-decoration:none;}
+#lottery table td.active{border:6px solid #0F9;
+}
+.lottery-unit-0,.lottery-unit-1,.lottery-unit-2{
+	background-image:url(nine_file.jpg);
+}
+
+.lottery-unit-3{
+	background-image:url(nine_gift.jpg);	
+}
+.lottery-unit-4{
+	background-image:url(nine_file.jpg);	
+}
+.lottery-unit-5{
+	background-image:url(nine_jie.jpg);	
+}
+.lottery-unit-6{
+	background-image:url(nine_file.jpg);	
+}
+.lottery-unit-7{
+	background-image:url(nine_gold.jpg);	
+}
+.nine_star{
+		background-image:url(nine_star.jpg);
+}

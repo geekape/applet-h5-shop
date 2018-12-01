@@ -1,0 +1,37 @@
+{include file="common@base/mobile_head"/}	
+<link href="{:ADDON_PUBLIC_PATH}/common.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+
+<body>
+	<div id="container" class="container">
+		
+        
+        <div class="prize_content">
+        	
+            <div class="content_item">
+            	<h6 class="title"><span>中奖记录</span></h6>
+                <div class="content">
+                	<ul class="prize_log">
+                	{notempty name='luck_lists'}
+                		{volist name='luck_lists' id='vo'}
+                		<li>
+                            <span class="head">{notempty name='vo.headimgurl'}<img src="{$vo.headimgurl}"/>{else/}<img src="__PUBLIC__/home/images/default.png"/>{/notempty}</span>
+                            <span class="name">{$vo.nickname}</span>
+                            <span class="award">{$vo.grade} </span>
+                            <span class="award_name">{$vo.award_name}</span>
+                        </li>
+                		{/volist}
+                	{/notempty}
+                        
+                	</ul>
+            	</div>
+        	</div>
+        </div>
+        <p class="copyright">{$system_copy_right|raw}{$tongji_code|raw}</p>
+    </div>
+    {include file="common@base/mobile_foot"/}
+    <script>
+	$('#container').css({'min-height':$(window).height()});
+	</script>
+    
+</body>
+</html>

@@ -1,0 +1,53 @@
+{include file="common@base/mobile_head"/}	
+<link href="{:ADDON_PUBLIC_PATH}/userCenter1.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+
+<body>
+	<div class="container">
+    	<div class="userHead">
+        	<img class="bg" src="{:ADDON_PUBLIC_PATH}/head_bg.jpg?v={:SITE_VERSION}"/>
+            <div class="userInfo">
+                <div class="head"><img src="{:ADDON_PUBLIC_PATH}/shop.png"/></div>
+                <div class="info">
+                    <p class="name" style="padding-bottom:40px; font-size:18px; white-space:nowrap">{$info.shop_name}</p>
+                </div>
+            </div>
+        </div>
+        {volist name="coupons" id="vo"}
+        <p class="section_title">{$vo.title}</p>
+        <div class="user_box">
+        	<span class="item">
+            	<span class="td title">共计划发布 <span class="num">{$vo.num|intval}</span> 张</span>
+            </span>
+            <a class="item" href="{:U ( 'weixin/Wap/sn', array('is_use'=>0,'coupon_id'=>$vo['id']))}">
+            	<span class="td title">已被领取 <span  class="num">{$vo.collect_count|intval}</span> 张</span>
+                <em class="arrow">&nbsp;</em>
+            </a>
+            <a class="item" href="{:U ( 'weixin/Wap/sn', array('is_use'=>1,'coupon_id'=>$vo['id']))}">
+            	<span class="td title">已被使用 <span  class="num">{$vo.use_count|intval}</span> 张</span>
+                <em class="arrow">&nbsp;</em>
+            </a>
+            <span class="item last_item">
+            	<span class="td title">剩余 <span  class="num">{:intval($vo['num']-$vo['collect_count'])}</span> 张</span>
+            </span>
+        </div>
+        
+        {/volist}
+<!--        <p class="section_title">第二期优惠券领取情况</p>
+        <div class="user_box">
+        	<span class="item">
+            	<span class="td title">共发布 <span class="num">235</span> 张</span>
+            </span>
+            <span class="item">
+            	<span class="td title">已被领取 <span  class="num">235</span> 张</span>
+            </span>
+            <span class="item">
+            	<span class="td title">已被使用 <span  class="num">235</span> 张</span>
+            </span>
+            <span class="item last_item">
+            	<span class="td title">剩余 <span  class="num">235</span> 张</span>
+            </span>
+        </div>-->
+    </div>
+    {include file="common@base/mobile_foot"/}
+</body>
+</html>

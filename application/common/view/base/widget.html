@@ -1,0 +1,24 @@
+<!--通用的diy页面widget模板的基类模板-->
+<!--头部标题栏-->
+<!--鉴于样式title放进具体每块模块-->
+<!--CSS模块-->
+{block name="css"}{/block}
+{block name="widget_head"}
+	{if condition="!empty($widget_title) || !empty($widget_more_title[0])"}
+        <div class="widget_title">
+            {notempty name="widget_title"}<h2>{$widget_title}</h2>{/notempty}
+            
+            {notempty name="widget_more_title.0"}
+            {volist name="widget_more_title" id="title" key="k" } 
+                <div class="more"><a href="{$widget_more_url[$k]}">{$title}</a></div>
+            {/volist}
+            {/notempty}
+        </div>
+    {/if}
+{/block}
+
+<!--widget内容块 一般情况widget里的显示模板继承此模板后只需要重写widget_content代码块即可-->
+{block name="widget_content"}这是widget的填充内容块{/block}
+
+<!--JS模块-->
+{block name="script"}{/block}

@@ -1,0 +1,81 @@
+{include file="common@base/mobile_head"/}	
+<link href="{:ADDON_PUBLIC_PATH}/common.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+<body>
+	<div id="container" class="container">
+		<div class="common_header">
+        	<a class="back" href="javascript:;" onClick="history.back()"></a>
+            <span>我的奖品</span>
+        </div>
+        <ul class="my_prizes">
+        	{notempty name='user_award' }
+        		{volist name='user_award' id='vo'}
+        		<li>
+        			{notempty name='vo.img'}
+        			<img src="{$vo.img|get_cover_url}"/>
+        			{else/}
+        			 <img src="__IMG__/default_goods_pic.jpg"/>
+        			{/notempty}
+	                
+	                <p class="title">[{$vo.grade}] {$vo.award_name}</p>
+	                {notempty name='vo.address'}
+	                <p class="address">地址： {$vo.address}</p>
+	                {/notempty}
+	                
+	                <p class="status">
+	                &nbsp;
+	                </p>
+	                <p class="colorless">时间：{$vo.zjtime|time_format}</p>
+	                <!-- 虚拟物品直接跳到优惠券 -->
+
+	                	{notempty name='vo.address'}
+	                	<p class="btn_p"><a href="javascript:;" data-jurl="{:U('get_prize')}?id={$vo.id}" data-vcard="{$vo.card_id}"  class="get_btn">修改地址</a></p>
+	               
+	                	{else/}
+	                	<p class="btn_p"><a href="javascript:;" data-jurl="{:U('get_prize')}?id={$vo.id}" data-vcard="{$vo.card_id}" class="get_btn">查看</a></p>
+	                	{/notempty}
+	                	
+            	</li>
+        		{/volist}
+        	{/notempty}
+        </ul>
+        
+        <p class="copyright">{$system_copy_right|raw}{$tongji_code|raw}</p>
+    </div>
+    {include file="common@base/mobile_foot"/}
+    <script>
+	$('#container').css({'min-height':$(window).height()});
+	$(document).ready(function() { 
+		$('.get_btn').each(function(){
+			
+			$(this).click(function(){
+				dogetbag(this);
+			});
+		});
+	});
+	function dogetbag(ee){
+		var cardId=$(ee).data('vcard');
+		if(cardId){
+				var purl="{:U ( 'cardVouchers/Wap/ajaxdosign')}";
+				$.post(purl,{'card_id':cardId},function(dd){
+					var ext=dd.card_ext;
+					var card_id=dd.strcard;
+					wx.addCard({
+					    cardList: [{
+					        cardId: card_id,
+					        cardExt: ext 
+					    }], // 需要添加的卡券列表
+					    success: function (res) {
+				 	        var cardList = res.cardList; // 添加的卡券列表信息
+					    }
+					});
+				});
+			}else{
+				var url=$(ee).data('jurl');
+				window.location.href=url;
+			}
+		}
+	
+	</script>
+    
+</body>
+</html>

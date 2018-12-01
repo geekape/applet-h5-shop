@@ -1,0 +1,19 @@
+@charset "utf-8";
+/* CSS Document */
+html,body{ background:#fff;width: 100%; min-height:100%;}
+body{margin:0;padding:0;width: 100%; min-height:100%;min-height: 100%;font-family: Microsoft YaHei,Helvitica,Verdana,Tohoma,Arial,san-serif;font-size: 15px;line-height: 1.5em;-webkit-touch-callout: none;
+display: -webkit-box;-webkit-box-orient: vertical;-webkit-box-align: stretch;position: relative; }
+*{margin: 0;outline: 0;padding: 0;font-size: 100%;-webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+li,ul{ list-style:none}
+img{ border:none; max-width:100%;}
+a{ text-decoration:none; color:#fff;}
+.copyright{ text-align:center; line-height:60px; color:#999}
+.container{ max-width:640px; min-width:320px; min-height:100%; position:relative; margin:auto; outline:none; font-size:100%; overflow:hidden;}
+.item_hd{ position:relative; margin-top:-50px;}
+.head_hd .item{ background:#fff; min-height:150px; width:70%; padding:10px; margin:0 auto; box-shadow:0 0 1px #888; color:#444; text-align:center; border-radius:5px;}
+.head_hd .item .img_list{ max-height:200px; overflow:hidden; margin-bottom:10px;}
+.head_hd .item img{ width:100%; position:relative; top:0; left:0;}
+.head_hd .item a{ color:#C00}
+.head_hd .title{ text-align:center; padding-bottom:10px; font-size:13px; color:#888}
+.head_hd a{ color:#888; font-size:12px;}
+.buy_btn{ border-radius:5px; background:#ff5252; color:#fff; width:160px; height:50px; line-height:50px; margin:20px auto; text-align:center; display:block; border:none; font-size:16px;}

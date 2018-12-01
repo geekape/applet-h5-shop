@@ -1,0 +1,28 @@
+@charset "utf-8";
+/* CSS Document */
+html,body{ background:#eee;width: 100%; min-height:100%;}
+body{margin:0;padding:0;width: 100%; min-height:100%;min-height: 100%;font-family: Microsoft YaHei,Helvitica,Verdana,Tohoma,Arial,san-serif;font-size: 15px;line-height: 1.5em;-webkit-touch-callout: none;
+display: -webkit-box;-webkit-box-orient: vertical;-webkit-box-align: stretch;position: relative;}
+.body{}
+*{margin: 0;outline: 0;padding: 0;font-size: 100%;-webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+li,ul{ list-style:none}
+img{ border:none; max-width:100%;}
+a{ text-decoration:none; color:#fff;}
+.copyright{ text-align:center; line-height:60px; color:#999}
+.container{ max-width:640px; min-width:320px; min-height:100%; position:relative; margin:auto; outline:none; font-size:100%; overflow:hidden;}
+.head_hd{ min-height:220px; max-height:250px; overflow:hidden; background:#35a2dd; position:relative; text-shadow:0 2px RGBA(0,0,0,.3)}
+.head_pic{ display:block; width:100%;}
+.head_hd .line{ height:20px; background:url(line.png) repeat-x; background-size:auto 20px; position:absolute; bottom:0; width:100%;}
+.head_hd .title{ position:absolute; left:20px; right:20px; top:90px; font-size:24px; color:#fff; text-align:center}
+.head_hd .seller{ position:absolute; left:20px; top:20px;}
+.head_hd .seller img{ width:50px; height:50px; border-radius:100%; vertical-align:-18px; margin-right:5px;}
+.head_hd .seller .name{ color:#fff; font-size:18px;}
+.head_hd .time{ font-size:12px; line-height:30px;}
+.start_btn,.start_btn:hover,.start_btn:link,.start_btn:active,.start_btn:visited{ border-radius:5px; background:#0dbd02; display:block; margin:20px 15px 20px; padding:13px 0; text-align:center; color:#fff; font-size:16px;}
+.v_nav{ border-top:1px solid #ddd; background:#fff}
+.v_nav .item{ height:46px; line-height:46px; border-bottom:1px solid #ddd; display:block; color:#333; padding:0 50px 0 20px; position:relative}
+.v_nav .item em{ position:absolute; right:10px; top:14px; height:24px; width:24px; background:url(arw.png) no-repeat; background-size:18px 18px;}
+.v_nav a{ color:#888}
+.v_nav .single_address{ line-height:24px; padding:10px 60px 10px 20px; color:#888}
+.v_nav .single_address .title{ font-size:16px; color:#444;}
+.v_nav .single_address em{ width:60px; height:40px; background:url(phone.png) center center no-repeat; background-size:40px 40px; border-left:1px solid #ccc;}

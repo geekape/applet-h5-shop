@@ -1,0 +1,11 @@
+<!-- 底部导航最多能添加4个选项 -->
+<link href="{:CUSTOM_TEMPLATE_PATH}_footer/pop_v1/footer.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+<div class="flyout-wrap">
+    <a class="flyout-btn" href="#" title="Toggle"><span>Flyout Menu Toggle</span></a>
+    <ul class="flyout flyout-init">
+    	{volist name="footer" id="vo"}
+      <li><a href="#"><span>Item</span></a></li>
+      {/volist}
+    </ul>
+</div>
+<script src="{:CUSTOM_TEMPLATE_PATH}_footer/pop_v1/index.js"></script>

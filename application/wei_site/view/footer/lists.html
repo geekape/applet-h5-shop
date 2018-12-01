@@ -1,0 +1,104 @@
+{extend name="common@base/common" /}
+{block name="body"}
+<link href="{:ADDON_PUBLIC_PATH}/weisite.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+  <div class="span9 page_message">
+    <section id="contents"> 
+       <div class="setting_step app_setting content_step content_step_2" style="margin:20px;">
+         <a class="step step_cur" href="{:U('wei_site/template/footer',array('mdm'=>I('mdm')))}">1.选择模板</a>
+       	 <a class="step step_cur_1" href="{:U('wei_site/Footer/lists',array('mdm'=>I('mdm')))}">2.导航配置</a>
+         <!--<a class="step " href="{:U('wei_site/WeiSite/preview',array('mdm'=>I('mdm')))}">3.效果预览</a>-->
+  </div>
+  
+            {if condition="!$has_data"}
+            <p style="padding:80px 30px 30px; text-align:center; font-size:18px">
+      您选择了无导航栏模板，不需要配置导航了！
+      </p>
+       <!--<p style="padding:30px; text-align:center"><a class="btn submit-btn" href="{:U('wei_site/WeiSite/preview')}">预览</a></p>-->
+      {else/}
+      {if condition="!empty($normal_tips)"}
+	<p class="normal_tips"><b class="fa fa-info-circle"></b> {$normal_tips|raw}</p>
+{/if}
+      <div class="table-bar">
+        <div class="fl">
+          {empty name="model.extend"}
+			<div class="tools">
+				{if condition="$add_button"}{php} isset($add_url) || $add_url = U('add?model='.$model['id']);{/php}<a class="btn" href="{$add_url}">新 增</a>{/if}
+				{if condition="$del_button"}{php} isset($del_url) || $del_url = U('del?model='.$model['id']);{/php}<button class="btn ajax-post confirm" target-form="ids" url="{$del_url}">删 除</button>{/if}                
+			</div>
+          {/empty}
+        </div>
+        <!-- 高级搜索 -->
+        {if condition="$search_button"}
+        <div class="search-form fr cf">
+          <div class="sleft">
+          {php}empty($search_key) && $search_key=$model['search_key'];empty($search_key) && $search_key='title';unset($get_param[$search_key]);{/php}
+            {php} isset($search_url) || $search_url = U(MODULE_NAME.'/'.CONTROLLER_NAME.'/lists',array('model'=>$model['name']));{/php}
+            
+            <input type="text" name="{$search_key}" class="search-input" value="{:I($search_key)}" placeholder="请输入关键字">
+            <a class="sch-btn" href="javascript:;" id="search" url="{$search_url}"><i class="btn-search"></i></a> </div>
+        </div>
+        {/if}
+      </div>
+      
+      <!-- 数据列表 -->
+      <div class="data-table">
+        <div class="table-striped">
+          <table cellpadding="0" cellspacing="1">
+            <!-- 表头 -->
+            <thead>
+              <tr>
+                {if condition="$check_all"}<th class="row-selected row-selected"> <input class="regular-checkbox check-all" id="checkAll" type="checkbox"><label for="checkAll"></label></th>{/if}
+                {volist name="list_grids" id="field"}
+                  <th {notempty name="field.width"}width="{$field.width}%"{/notempty} >{$field.title}</th>
+                {/volist}
+              </tr>
+            </thead>
+            
+            <!-- 列表 -->
+            <tbody>
+              {volist name="list_data" id="data"}
+                <tr>
+                  {if condition="$check_all"}<td><input class="regular-checkbox ids" type="checkbox" value="{$data['id']}" id="ids_{$data['id']}" name="ids[]"><label for="ids_{$data['id']}"></label></td>{/if}
+                  
+                  {volist name="list_grids" id="grid"}
+                    {if ($grid.raw == 1) OR ($grid.come_from == 1) }<td>{$data[$key]|raw}</td>{else /}<td>{$data[$key]}</td>{/if}
+                  {/volist}
+                </tr>
+              {/volist}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="page"> {$_page|raw|default=''} </div>
+      {/if}
+    </section>
+  </div>
+{/block}
+{block name="script"} 
+  <script type="text/javascript">
+$(function(){
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+		url = change_search_url(url);
+		window.location.href = url;
+	});
+
+    //回车自动提交
+    $('.search-form').find('input').keyup(function(event){
+        if(event.keyCode===13){
+            $("#search").click();
+        }
+    });
+
+})
+</script> 
+{/block}

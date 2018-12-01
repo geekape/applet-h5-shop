@@ -1,0 +1,12 @@
+@charset "utf-8";
+/* CSS Document by jacy use in weisite */
+/* 底部菜单 */
+.bottom_nav_blank{ height:50px; width:100%;}
+.bottom_nav{ height:50px; width:100%; background:#2e393f url(bg.png); background-size:100% 100%;display:-webkit-box; position:fixed; bottom:0; left:0; right:0; z-index:1000;}
+.bottom_nav .item{ color:#fff; display:block; padding:5px 0; font-weight:bold; text-align:center; -webkit-box-flex:1;line-height:40px; font-size:16px;}
+.bottom_nav .item.cur{ background-color:#111}
+.bottom_nav .has_nav{ position:relative;}
+.more_nav{ position:absolute; right:5%; left:5%;bottom:60px; width:90%; height:auto; background:#3b3d40; display:none;}
+.more_nav em{ width:10px; height:10px; background:#2e393f; position:absolute; left:50%; margin-left:-5px; bottom:-3px; -webkit-transform:rotate(45deg);}
+.bottom_nav .more_nav a{ padding:0; line-height:40px; font-size:13px; border-bottom:1px solid #555}
+.arrow_up{ background:url(arrow_up.png) no-repeat center center; background-size:15px auto; padding:10px; margin-left:5px}

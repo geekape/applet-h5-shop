@@ -1,0 +1,52 @@
+{include file="common@base/mobile_head"/}	
+
+
+<body>
+	<div id="container" class="container body">
+        {if condition="!empty($list)" }
+    	<div class="coupons_list">
+        	{volist name='list_data' id="vo"}
+                 
+                 <a class="coupon_item" href="{:U ( 'Coupon/Wap/index',array('id'=>$vo['id']))}">
+                 
+                  <div class="coupon_head" 
+                  	 style="{notempty name="vo['background']"}background:url({$vo.background|get_cover_url}) no-repeat; background-size:100% auto;{else/}background:url({:ADDON_PUBLIC_PATH}/cover_pic.jpg) no-repeat; background-size:100% auto;{/notempty}"
+                    >
+                  		
+                        
+                        <div class="line"></div>
+                        
+                  </div>
+                  <div class="coupon_bottom">
+                  		<p class="title">{$vo.title}</p>
+                        <p class="colorless">
+                        
+                                {notempty name="vo.over_time"}有效期至:{$vo.over_time|time_format}{/notempty}
+                           
+                        </p>
+                  </div>
+                </a>
+            {/volist} 
+        </div>
+     
+       {/if}
+        {if condition="empty($list)" }
+        	<div class="empty_default">
+            <br/><br/><br/><br/>
+            	<img src="__IMG__/empty_content.png" width="100"/>
+                <br/>
+                目前还发放优惠券~</p>
+            </div>
+        {/if}
+        <p class="copyright">{$system_copy_right|raw}</p>
+                
+    </div>
+    {include file="common@base/card_footer"/}
+    {include file="common@base/mobile_foot"/}
+</body>
+<script type="text/javascript">
+wx.hideMenuItems({
+   menuList: [] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+});
+</script>
+</html>

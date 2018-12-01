@@ -1,0 +1,167 @@
+
+{extend name="common@base/common" /}
+{block name="body"}
+  <!-- 标签页导航 -->
+  <div class="span9 page_message">
+    <section id="contents">
+      {include file="common@base/_nav" /}
+      <div class="tab-content">
+        <!-- 表单 -->
+        {php} isset($post_url) || $post_url = U('edit?model='.$model['id'], $get_param);{/php}
+        <form id="form" action="" method="post" class="form-horizontal form-center">
+
+              {volist name="fields" id="field"}
+                {if condition="$field['is_show'] == 1 || $field['is_show'] == 3 || ($field['is_show'] == 5 && I($field['name']) )"}
+                  <div class="form-group row cf toggle-{$field.name}">
+                    <label class="col-sm-2">
+                    {notempty name="field.is_must"}<span class="need_flag">*</span>{/notempty}
+                    {$field['title']}
+
+                    </label>
+                    <div class="col-sm-8">
+                      {switch name="field.type"}
+                        {case value="textarea"}
+                          <div class="textarea">
+                            <input class="form-control" type="" name="{$field.name}" value="{$data[$field['name']]}">
+                            <span class="form-text text-muted">
+                      {notempty name="field['remark']"}（{$field['remark']|raw}）{/notempty}
+                      </span>
+                          </div>
+                        {/case}
+
+                        {default /}
+                        <input type="text" class="text input-large" name="{$field.name}" value="{$data[$field['name']]}">
+                      {/switch}
+					             
+                    </div>
+
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-sm-2">选择类型</label>
+                    <div class="col-sm-8">
+                      {:W('common/material/material', array('name'=>$data['name'],'value'=>$data['value'],'extra'=>isset($field['extra'])?$field['extra']:''))}
+                    </div>
+                  </div>
+
+
+                {/if}
+              {/volist}
+              <div class="form-item row">
+            <div class="offset-sm-2 col-sm-4">
+              {notempty name="data.id"}<input type="hidden" name="id" value="{$data.id|default=0}">{/notempty}
+              <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">{$submit_name|default='确 定'}</button>
+            </div>
+          </div>
+
+        </div>
+        
+      </form>
+      </div>
+    </section>
+  </div>
+{/block}
+{block name="script"}
+  <link href="__STATIC__/datetimepicker/css/datetimepicker.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+  {php}if(config('COLOR_STYLE')=='blue_color') echo '
+    <link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+    ';{/php}
+  <link href="__STATIC__/datetimepicker/css/dropdown.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+  <script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js?v={:SITE_VERSION}" charset="UTF-8"></script>
+  <script type="text/javascript">
+  $(function(){
+	 var str_image='<div class="appmsg_item"><div class="main_img"><img src="{$data.cover_url}" width="200px" height="200px"/></div></div><div class="hover_area"></div>';
+	 var material_image="{$data.image_material}";
+	 if(material_image != 0){
+		 $('.image_wrap').html(str_image).show();
+		 $('.select_image').hide();
+		 $('.image_material .delete').show();
+	 }
+	initUploadImg({width:100,height:100,callback:function(){
+    $('.image_wrap').html('').hide();
+    $('.select_image').show();
+    $('.image_material .delete').hide();
+    $('input[name="image_material"]').val(0);
+  }});
+	initUploadFile();
+
+   $('.time').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        language:"zh-CN",
+        minView:0,
+        autoclose:true
+    });
+    $('.date').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language:"zh-CN",
+        minView:2,
+        autoclose:true
+    });
+    showTab();
+
+	$('.toggle-data').each(function(){
+		var data = $(this).attr('toggle-data');
+		if(data=='') return true;
+
+	     if($(this).is(":selected") || $(this).is(":checked")){
+			 change_event(this)
+		 }
+	});
+
+	$('.toggle-data').bind("click",function(){ change_event(this) });
+
+  $('.image_material .delete').click(function(){
+    $('.image_wrap').html('').hide();
+    $('.select_image').show();
+    $('.image_material .delete').hide();
+    $('input[name="image_material"]').val(0);
+  })
+	$('#voice_area .delete').click(function(){
+		$('.voice_wrap').html('').hide();
+		$('#voice_area .select_appmsg').show();
+		$('#voice_area .delete').hide();
+		$('input[name="voice_id"]').val(0);
+	})
+	$('#video_area .delete').click(function(){
+		$('.video_wrap').html('').hide();
+		$('#video_area .select_appmsg').show();
+		$('#video_area .delete').hide();
+		$('input[name="video_id"]').val(0);
+	})
+
+
+});
+
+  function selectText(){
+		$.WeiPHP.openSelectLists("{:U('material/Material/text_lists')}",1,'选择素材',function(data){
+			if(data && data.length>0){
+				for(var i=0;i<data.length;i++){
+					var id=data[i]['id'];
+					if(id){
+						$.post("{:U('material/Material/get_content_by_id')}",{'id':id},function(d){
+							$("textarea[name='content']").text(d);
+						})
+					}
+				}
+			}
+		})
+	}
+
+	function playSound(id,obj){
+		var audio = document.getElementById(id);
+		if(audio.paused){
+			audio.play();
+			$(obj).find('img').attr('src',IMG_PATH+'/icon_sound_play.gif');
+			audio.addEventListener('ended', function () {
+//	 			alert('over');
+				$(obj).find('img').attr('src',STATIC_PATH + '/base/images/icon_sound.png');
+			}, false);
+			return;
+		}
+		audio.pause();
+		$(obj).find('img').attr('src',STATIC_PATH + '/base/images/icon_sound.png');
+
+	}
+
+</script>
+{/block}

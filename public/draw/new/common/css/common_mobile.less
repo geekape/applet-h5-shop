@@ -1,0 +1,397 @@
+@charset "utf-8";
+@rem:75rem;
+
+body, div, p, ul, ol, li, dl, dt, dd, h1, h2, h3, h4, h5, h6, pre, form, input, select, button, textarea, table, th, td,a,span,canvas{
+    margin: 0;
+    padding: 0;  
+    background: no-repeat center/contain;
+    cursor: default;
+}
+
+body {
+    display: block;
+    position: relative;
+    margin: auto;
+    max-width: 750/@rem;
+    min-width: 320/@rem;
+    font-size: 12/@rem;
+    font-family: "Microsoft Yahei", "Arial", sans-serif;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+img {
+    border: none;
+}
+
+a {
+    outline: none;
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+input {
+    outline: none;
+}
+
+.block {
+    display: block;
+}
+
+.none {
+    display: none;
+}
+
+.r {
+    position: relative;
+}
+
+.a {
+    position: absolute;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.clearfix:after {
+    content: "";
+    clear: both;
+    display: block;
+    visibility: hidden;
+    height: 0;
+}
+
+/*H5游戏共用类*/
+#wrap {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 1201/@rem;
+}
+
+
+/*奖品展示*/
+.awards{
+    overflow: hidden;
+    position: absolute;
+    left: 50%;
+}
+
+.awards .swiper-slide{
+    margin: 5/@rem 20/@rem;
+    padding: 15/@rem;
+    width: 105/@rem;
+    height: 105/@rem;
+    background-image: url("../image/icon/drag/drag_box.png");
+}
+
+.awards .swiper-slide img {
+    width: inherit;
+    height: inherit;
+}
+
+/*规则弹窗*/
+#mask-rule,#mask{
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+}
+
+#mask-rule .box-rule{
+    position: relative;
+    margin: 20% auto;
+    padding-top: 40/@rem;
+    width: 90%;
+    height: 70%;
+    border-radius: 20/@rem;
+}
+
+#mask-rule .box-rule .star{
+    position: absolute;
+    left: 50%;
+    top: -100/@rem;
+    margin-left: -130/@rem;
+    width: 259/@rem;
+    height: 87/@rem;
+}
+
+#mask-rule .box-rule h2{
+    width: 100%;
+    text-align: center;
+    line-height: 34/@rem;
+    font-size: 34/@rem;
+    font-weight: normal;
+    color: #fff;
+}
+
+#mask-rule .box-rule h2::before,#mask-rule .box-rule h2::after{
+    display: inline-block;
+    content: "";
+    width: 18/@rem;
+    height: 18/@rem;
+    background-color: #fff;
+    border-radius: 50%;
+}
+
+#mask-rule .box-rule h2::before{
+    margin-right: 24/@rem;
+}
+
+#mask-rule .box-rule h2::after{
+    margin-left: 24/@rem;
+}
+
+#mask-rule #close-rule{
+    position: absolute;
+    right: 34/@rem;
+    top: 38/@rem;
+    width: 40/@rem;
+    height: 40/@rem;
+    background-image: url("../image/rule/close.png");
+}
+
+/*内容盒子*/
+#mask-rule .con{
+    overflow: auto;
+    position: relative;
+    margin: 40/@rem auto;
+    padding-right: 15/@rem;
+    width: 580/@rem;
+    height: 82%;
+    line-height: 48/@rem;
+    font-size: 26/@rem;
+    color: #fff;
+}
+
+#mask-rule .con .text{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: inherit;
+    height: auto;
+}
+
+/*中奖提示*/
+#mask {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+}
+
+#mask .blin {
+    width: 100%;
+    height: 100%;
+    background-image: url("../image/redPack/gold.png");
+    -o-animation: circle 10s linear infinite;
+    -ms-animation: circle 10s linear infinite;
+    -moz-animation: circle 10s linear infinite;
+    -webkit-animation: circle 10s linear infinite;
+    animation: circle 10s linear infinite;
+}
+
+@keyframes circle {
+    0%{
+        -o-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100%{
+        -o-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+#mask .caidai{
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background-image: url("../image/redPack/dianzhui.png");
+    -o-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+}
+
+#mask .winning{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    width: 600/@rem;
+    height: 510/@rem;
+    margin: -260/@rem 0 0 -300/@rem;
+    -o-transform: scale(0.1);
+    -ms-transform: scale(0.1);
+    -moz-transform: scale(0.1);
+    -webkit-transform: scale(0.1);
+    transform: scale(0.1);
+}
+
+#mask .reback{
+    -o-animation: reback .5s linear forwards;
+    -ms-animation: reback .5s linear forwards;
+    -moz-animation: reback .5s linear forwards;
+    -webkit-animation: reback .5s linear forwards;
+    animation: reback .5s linear forwards;
+}
+
+@keyframes reback{
+    100%{
+        -o-transform: scale(1);
+        -ms-transform: scale(1);
+        -moz-transform: scale(1);
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+.winning .red-head{
+    position: relative;
+    top: -25/@rem;
+    width: 100%;
+    height: 335/@rem;
+    background-image: url("../image/redPack/top.png");
+}
+.winning .red-body{
+    position: relative;
+    top: -160/@rem;
+    z-index: 2;
+    width: 100%;
+    height: 360/@rem;
+    background-image: url("../image/redPack/bottom.png");
+}
+
+.winning #card{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    margin-left: -240/@rem;
+    margin-top: -80/@rem;
+    width: 80%;
+    height: 320/@rem;
+    background-image: url("../image/redPack/middle.png");
+    -o-transition: top .5s;
+    -ms-transition: top .5s;
+    -moz-transition: top .5s;
+    -webkit-transition: top .5s;
+    transition: top .5s;
+}
+
+#card .win{
+    display: block;
+    margin: 10/@rem auto;
+    width: 92%;
+    height: 290/@rem;
+    background-image: url("../image/prize/prize2.png");
+}
+
+.winning .pull{
+    -o-animation: card .5s linear forwards;
+    -ms-animation: card .5s linear forwards;
+    -moz-animation: card .5s linear forwards;
+    -webkit-animation: card .5s linear forwards;
+    animation: card .5s linear forwards;
+}
+
+@keyframes card {
+    100%{
+        margin-top:-240/@rem;
+    }
+}
+
+.winning .btn{
+    position: absolute;
+    left: 50%;
+    bottom: 10%;
+    z-index: 2;
+    width: 364/@rem;
+    height: 71/@rem;
+    margin-left: -182/@rem;
+    background-image: url("../image/redPack/button.png");
+    -o-animation: shake .5s 2 linear alternate;
+    -ms-animation: shake .5s 2 linear alternate;
+    -moz-animation: shake .5s 2 linear alternate;
+    -webkit-animation: shake .5s 2 linear alternate;
+    animation: shake .5s 2 linear alternate;
+}
+
+@keyframes shake {
+    50%{
+        -o-transform: rotate(-5deg);
+        -ms-transform: rotate(-5deg);
+        -moz-transform: rotate(-5deg);
+        -webkit-transform: rotate(-5deg);
+        transform: rotate(-5deg);
+    }
+    100%{
+        -o-transform: rotate(5deg);
+        -ms-transform: rotate(5deg);
+        -moz-transform: rotate(5deg);
+        -webkit-transform: rotate(5deg);
+        transform: rotate(5deg);
+    }
+}
+
+#close{
+    opacity: 0;
+    position: absolute;
+    right: 0/@rem;
+    top: -80/@rem;
+    z-index: 10;
+    width: 64/@rem;
+    height: 64/@rem;
+    background-image: url("../image/redPack/close.png");
+    -o-animation: fadein .5s .5s linear forwards;
+    -ms-animation: fadein .5s .5s linear forwards;
+    -moz-animation: fadein .5s .5s linear forwards;
+    -webkit-animation: fadein .5s .5s linear forwards;
+    animation: fadein .5s .5s linear forwards;
+}
+
+@keyframes fadein {
+    100%{
+        opacity: 1;
+        -o-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+
+
+
+
+

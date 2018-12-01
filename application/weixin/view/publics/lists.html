@@ -1,0 +1,110 @@
+{extend name="common@base/common" /}
+{block name="body"}
+<div class="wrap" style="clear:both; margin:30px auto;">
+  <section class="tab-content" id="contents"> 
+    <!-- 数据列表 -->
+    <div style="overflow:hidden; zoom:1;">
+      <h3 style=" float:left;margin-bottom:15px;"><img style="vertical-align:middle; height:30px" src="__IMG__/weixin.png"/> 我的公众号</h3>
+      <div style="margin:0 0 15px 0; float:right"> <a class="btn" href="{:U('step_0')}">+新增公众号</a> </div>
+    </div>
+    
+    <div class="data-table" style="margin:0;"> {notempty name="list_data[0]"}
+      <div class="table-striped">
+        <table cellspacing="1">
+          <!-- 表头 -->
+          <thead>
+            <tr>
+              <th width="8%">公众号ID</th>
+              <th  width="32%">公众号名称</th>
+              <th  width="15%">原始ID</th>
+              <th  width="15%">AppID</th>
+              <th  width="45%">操作</th>
+            </tr>
+          </thead>
+          
+          <!-- 列表 -->
+          <tbody>
+          {volist name="list_data[0]" id="data"}
+          
+          <tr>
+            <td>{$data.id|default=0}</td>
+            <td>{$data.public_name}</td>
+            <td>{$data.public_id}</td>
+            <td>{$data.appid}</td>
+            <td><a href="{:U('weixin/wecome/config',array('pbid'=>$data['id']))}" target="_self">公众号基础功能</a>&nbsp;&nbsp;&nbsp;
+              <a href="{:U('weixin/Publics/payment_set',array('pbid'=>$data['id']))}" target="_self">微信支付配置</a>&nbsp;&nbsp;&nbsp;
+            <a href="{:U('weixin/Publics/check_res',array('id'=>$data['id'],'pbid'=>$data['id']))}" target="_self">自动检测</a>&nbsp;&nbsp;&nbsp;
+              {php}if(!config('PUBLIC_BIND') || !$data['is_bind']) { {/php}<a href="{:U('step_0',array('id'=>$data['id'],'pbid'=>$data['id']))}" target="_self">编辑</a>&nbsp;&nbsp;&nbsp;{php} } {/php} <a href="javascript:;" onclick="do_del('{$data.id|default=0}','{$data.public_name}')" >{eq name='data.is_bind' value='1'}取消绑定{else/}删除{/eq}</a></td>
+          </tr>
+          {/volist}
+            </tbody>
+          
+        </table>
+      </div>
+      {else/}
+      <div style="padding:100px; text-align:center;"><img style="vertical-align:middle;" src="__IMG__/weixin.png"/> 你还没有创建公众号</div>
+      {/notempty} </div>
+  </section>
+  
+  <section class="tab-content" id="contents"> 
+    <!-- 数据列表 -->
+    <div style="overflow:hidden; zoom:1;">
+      <h3 style=" float:left;margin-bottom:15px;"><img style="vertical-align:middle; height:30px" src="__IMG__/weixin.png"/> 我的小程序</h3>
+      <div style="margin:0 0 15px 0; float:right"> <a class="btn" href="{:U('step_miniapp_0')}">+新增小程序</a> </div>
+    </div>
+    <div class="data-table" style="margin:0;"> {notempty name="list_data[1]"}
+      <div class="table-striped">
+        <table cellspacing="1">
+          <!-- 表头 -->
+          <thead>
+            <tr>
+              <th width="8%">小程序ID</th>
+              <th  width="32%">小程序名称</th>
+              <th  width="15%">原始ID</th>
+              <th  width="15%">AppID</th>
+              
+              <!--<th  width="10%">管理员数</th>-->
+              <th  width="45%">操作</th>
+            </tr>
+          </thead>
+          
+          <!-- 列表 -->
+          <tbody>
+          
+          {volist name="list_data[1]" id="data"}
+          <tr>
+            <td>{$data.id|default=0}</td>
+            <td>{$data.public_name}</td>
+            <td>{$data.public_id}</td>
+            <td>{$data.appid}</td>
+            <td><a href="{:U('weixin/publics/step_miniapp_1',array('pbid'=>$data['id']))}" target="_self">小程序端配置</a>&nbsp;&nbsp;&nbsp;
+              <a href="{:U('weixin/Publics/payment_set',array('pbid'=>$data['id']))}" target="_self">微信支付配置</a>&nbsp;&nbsp;&nbsp;
+              <a href="{:U('weixin/Publics/check_res',array('id'=>$data['id'],'pbid'=>$data['id']))}" target="_self">自动检测</a>&nbsp;&nbsp;&nbsp;
+              {php}if(!config('PUBLIC_BIND') || !$data['is_bind']) { {/php}<a href="{:U('step_miniapp_0',array('id'=>$data['id'],'pbid'=>$data['id']))}" target="_self">编辑</a>&nbsp;&nbsp;&nbsp;{php} } {/php} <a href="javascript:;" onclick="do_del('{$data.id|default=0}','{$data.public_name}')" >{eq name='data.is_bind' value='1'}取消绑定{else/}删除{/eq}</a></td>
+          </tr>
+          {/volist}
+            </tbody>
+          
+        </table>
+      </div>
+      {else/}
+      <div style="padding:100px; text-align:center;"><img style="vertical-align:middle;" src="__IMG__/weixin.png"/> 你还没有创建小程序</div>
+      {/notempty} </div>
+  </section>
+</div>
+{/block}
+{block name="script"} 
+<script type="text/javascript">
+//搜索功能
+function do_del(id,name){
+	var msg='您确定要 取消绑定 以下公众号吗？  '+name;
+	if(confirm(msg)){
+		var url="{:U('del')}";
+// 		alert(url);
+		$.post(url,{'id':id},function(){
+			location.reload();
+		});
+	}
+}
+</script> 
+{/block}

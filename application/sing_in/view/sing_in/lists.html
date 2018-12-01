@@ -1,0 +1,80 @@
+{extend name="common@base/common" /}
+{block name="body"}
+  <div class="span9 page_message">
+    <section id="contents">
+      <ul class="tab-nav nav">
+        <li class="current"><a href="{:U('lists')}">签到记录<b class="arrow fa fa-sort-up"></b></a></li>
+        <li><a href="{:U('config')}">签到配置<b class="arrow fa fa-sort-up"></b></a></li>
+      </ul>
+
+      <div class="table-bar">
+        <!-- 高级搜索 -->
+        <div class="search-form fr cf">
+          <div class="sleft">
+            <input type="text" name="uid" class="search-input" value="{:I('uid')}" placeholder="请输入关键字">
+            <a class="sch-btn" href="javascript:;" id="search" url="{:U('lists')}"><i class="btn-search"></i></a> </div>
+        </div>
+      </div>
+
+      <!-- 数据列表 -->
+      <div class="data-table">
+        <div class="table-striped">
+          <table cellpadding="0" cellspacing="1">
+            <!-- 表头 -->
+            <thead>
+              <tr>
+                  <th>用户ID</th>
+                  <th>昵称</th>
+                  <th>签到时间</th>
+                  <th>签到积分</th>
+                  <th>原始ID</th>
+              </tr>
+            </thead>
+
+            <!-- 列表 -->
+            <tbody>
+              {volist name="list_data" id="data"}
+                <tr>
+                    <td>{$data.user_id}</td>
+                    <td>{$data.nickname}</td>
+                    <td>{$data.sTime|date="y-m-d H:i:s"}</td>
+                    <td>{$data.score}</td>
+                    <td>{$data.uid}</td>
+                </tr>
+              {/volist}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="page"> {$_page|raw|default=''} </div>
+    </section>
+  </div>
+{/block}
+{block name="script"}
+  <script type="text/javascript">
+$(function(){
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+		url = change_search_url(url);
+		window.location.href = url;
+	});
+
+    //回车自动提交
+    $('.search-form').find('input').keyup(function(event){
+        if(event.keyCode===13){
+            $("#search").click();
+        }
+    });
+
+})
+</script>
+{/block}

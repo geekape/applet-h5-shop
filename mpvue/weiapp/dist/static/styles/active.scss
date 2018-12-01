@@ -1,0 +1,83 @@
+$font_size: 14px;
+$theme_color: #ff0204;
+
+//（秒杀、砍价、拼团）首页
+/*activeBanner*/
+.active,.active_detail{font-size:$font_size;
+  .active_bg{width:100%;height:200px;}
+}
+/*activeContent*/
+.active{
+  .active_banner{text-align: center;background: #fff;height: 230px;overflow: hidden;}
+  .active_goods{width:100%;padding-bottom:50px;
+    .goods{margin: .4rem;-webkit-box-shadow: 0 1px 18px 1px #eee;box-shadow: 0 1px 18px 1px #eee;background: #fff;border-radius: 10px;position: relative;
+      .collage_tag{margin-left:20px;padding:3px;color:white;background: $theme_color;}
+      .active_img{height:200px;
+        .good_img{width:90%;height:100%;margin:0 5%;}
+      }
+      .active_time {background: #feedd6;text-align: center;height: 30px;line-height: 30px;}
+      .active_good_detail{display:flex;margin:10px;padding-bottom:10px;
+        .good_detail{width:70%;
+          .title{margin:5px 0;}
+          .red{display:flex;color:#ff0204;animation: twinkle 1.5s infinite;}
+          .tag{background:#ff0204;color:white;margin-left:10px;padding:0 3px;font-size:10px;height:16px;animation: twinkle1 1.5s infinite;border-radius:3px;}
+          .market_price{text-decoration:line-through;}
+        }
+        .active-btn{width:60px;text-align:center;line-height:25px;margin:auto;color:white;background:#ff0204;border-radius:5px;}
+      }
+    }
+  }
+  @keyframes  twinkle{ 0%{ color: $theme_color;opacity:1;} 50%{color: #8b0000;opacity:.7} 100%{color:$theme_color; opacity:1} }
+}
+.active_end{text-align:center;font-size:16px;margin:20px 0;}
+//（秒杀、砍价、拼团）详情页
+/*活动信息*/
+.active_detail{
+  .active_name{text-align: center;padding:10px 0 0;}
+  .active_img{height:200px;padding:10px;}
+  .active_time{background: #feedd6;text-align: center;width:90%;height: 30px;line-height: 30px;margin:5px auto;font-size:12px;padding:0 5px;
+    .active_price{float:left;}
+    .countdown{float:right;color:#aaa;}
+  }
+  /*轮播*/
+  .slide{height:100%;
+    .swiper{height:100%;
+      .swiper-item{height:100%;
+        .slide-url{height:100%;
+          .slide-image{width:90%;height:90%;margin:5%;box-shadow:0 5px 20px #aaa;}
+        }
+      }
+    }
+  }
+  /*商品信息*/
+  .good_detail {width:90%;margin:10px 5%;padding:10px 0;text-align: center;background:white;
+    .good_name{font-size:16px;margin:2px 0;}
+    .price-icon{display:inline-flex;}
+    .market_price{text-decoration:line-through;}
+    .red{color:$theme_color;text-align: center;display:inline-flex;}
+  }
+  /*产品参数*/
+  .parameter{width:94%;margin: 10px 3%;}
+  .iconfont{float:right;padding-top:3px;}
+  .switch-card{padding:10px;}
+  .switch-card-list-item{width:100%;display:inline-flex;border-bottom:1px solid #ddd;line-height:30px;}
+  .gray{ width:25%;color:#aaa;}
+  /*详情、评价*/
+  .detail_estimate{width:90%;margin:0 5%;}
+  .van_tab {padding-bottom:50px;}
+  .detail{padding: 5px 10px 50px;}
+  .m-flex {text-align: center;padding: 5px 10px 50px;}
+  .null_img {width:80%;height:300px;margin:auto;}
+  /*活动按钮*/
+  .bottom-btn{text-align:center;color:white;position:fixed;width:100%;bottom:0;display:inline-flex;z-index:2;}
+}
+@keyframes  twinkle1{ 0%{ background: $theme_color;opacity:1;} 50%{background:white;opacity:.7} 100%{background:$theme_color; opacity:1} }
+
+
+//（秒杀、砍价、拼团）说明页
+.instruction{margin:10px;
+  .null_instruction{text-align:center;font-size:16px;margin:20px 0;
+  }
+}
+
+

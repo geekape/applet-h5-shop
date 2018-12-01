@@ -1,0 +1,307 @@
+{extend name="common@base/common" /}
+{block name="body"}
+  <div class="span9 page_message">
+    <section id="contents"> {include file="common@base/_nav" /}
+
+      <!-- 数据列表 -->
+      <div class="data-table">
+      
+        <div class="table-striped">
+        
+          <table cellspacing="0" class="message_list">
+            <thead>
+            	<tr>
+                	<th  width="50%">最近回复</th>
+                    <th  width="25%">回复时间</th>
+                    <th  width="25%">查看消息</th>
+                </tr>
+            </thead>
+            <!-- 列表 -->
+            <tbody>
+            {volist name="list_data" id="vo"}
+                <tr>
+                  <td width="50%" class="user">
+                	{notempty name="vo['user']['headimgurl']"}
+                		<img width="50" src="{$vo.user.headimgurl}"/>
+                    {else/}
+                    	<img width="50" src="__IMG__/default.png"/>
+                    {/notempty}
+                	<div class="u_info">
+                    	{notempty name="vo['user']['headimgurl']"}
+                            <p class="name">{$vo.user.nickname}</p>
+                        {else/}
+                            <p class="name">{$vo.openid}</p>
+                        {/notempty}
+                    	
+                        <p class="msg">
+                        	{if condition="$vo['Content']['msg_type'] eq 'image'"}
+                        		<a target="_blank" href="{$vo.Content.url}"><img width="100" height="100" src="{$vo.Content.url}"></a>
+                        	{elseif condition="$vo['Content']['msg_type'] eq 'voice'"  /}
+	                        	<div class="sound_item" onClick="playSound('sound_{$vo.Content.id}',this);">
+	                            <img class="icon_sound" src="__STATIC__/base/images/icon_sound.png"/>
+	                            <p class="audio_name">{$vo.Content.title}<span class="fr colorless"></span></p>
+	                            <p class="ctime colorless"></p>
+	                            <audio id="sound_{$vo.Content.id}" src="{$vo.Content.file_id|get_file_url}"></audio>
+	                        	</div>
+                        	{elseif condition="$vo['Content']['msg_type'] eq 'video'"  /}
+                        		<div class="video_item">
+	                        	<p class="title">{$vo.Content.title}</p>
+	                            <p class="ctime colorless"></p>
+	                            <div class="video_area">
+	                            	<video src="{$vo.Content.file_id|get_file_url}" controls="controls">您的浏览器不支持 video 标签。</video>
+	                            </div>
+	                             <p>{$vo.Content.introduction}</p>
+	                        	</div>
+                        	{elseif condition="$vo['Content']['msg_type'] eq 'news'"  /}
+                        		<div>
+	                        	<div class="appmsg_item" style="width: 270px;">
+		                        <p class="title"></p>
+		                        <div class="main_img">
+		                            <img src="{$vo.Content.first.picurl}" width='50'/>
+		                            <h6><a target="_blank" href="{$vo.Content.first.url}">{$vo.Content.first.title}</a></h6>
+		                        </div>
+		                        <p class="desc">{$vo.Content.first.description}</p>
+			                    </div>
+			                    {notempty name="vo.Content.child"}
+				                    {volist name="vo.Content.child" id="vv"}
+				                    <div class="appmsg_sub_item"  style="width: 270px;">
+				                        <a target='_blank' href='{$vv.url}'><p class="title">{$vv.title}</p></a>
+				                        <div class="main_img">
+				                            <img src="{$vv.picurl}"/>
+				                        </div>
+				                    </div>
+				                    {/volist}
+			                    {/notempty}
+			                    </div>
+			                {elseif condition="$vo['Content']['msg_type'] eq 'shortvideo'"  /}
+			                {elseif condition="$vo['Content']['msg_type'] eq 'location'"  /}
+			                {elseif condition="$vo['Content']['msg_type'] eq 'link'"  /}  
+			                	<a  target='_blank' href="{$vo.Content.url}"><h3>"{$vo.Content.title}"</h3><br>{$vo.Content.description}</a>  
+	                        {else/}
+                        	{$vo.Content.content|raw}
+                        	{/if}
+                        </p>
+                    </div>
+                </td>
+                <td width="15%" valign="top">{$vo.CreateTime|time_format}</td>
+                <td width="25%" valign="top">
+                	{eq name="vo.collect" value="0"} <a href="javascript:void(0)" onclick="set_status({$vo.id},'collect', 1)">收藏</a>
+                      {else/}
+                      <a href="javascript:void(0)" onclick="set_status({$vo.id},'collect', 0)">取消收藏</a> {/eq}
+                    {eq name="vo.deal" value="0"} <a href="javascript:void(0)" onclick="set_status({$vo.id},'deal', 1)">设为待处理</a>
+                      {else/}
+                      <a href="javascript:void(0)" onclick="set_status({$vo.id},'deal', 0)">取消待处理状态</a> {/eq}
+                   
+                  {php}if(config('SEND_CUSTOM_MSG') && (NOW_TIME-$vo['CreateTime'])<172800) { {/php}<!--48小时以内可以回复用户-->
+                <a href="{:U('person',array('openid'=>$vo['FromUserName'],'mdm'=>I('mdm')))}" >快速回复</a>
+                {php} } {/php}
+                 </td>
+                </tr>
+              {/volist}            
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="page"> {$_page|raw|default=''} </div>
+    </section>
+  </div>
+{/block}
+{block name="script"} 
+  <script type="text/javascript">
+$(function(){
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+        if(query == '' ){
+        	url="{:U('lists')}";
+        }
+		url = change_search_url(url);
+		window.location.href = url;
+	});
+
+    //回车自动提交
+    $('.search-form').find('input').keyup(function(event){
+        if(event.keyCode===13){
+            $("#search").click();
+        }
+    });
+
+})
+function set_status(id, field, val){
+   $.post("{:U('set_status')}",{id:id,field:field,val:val},function(){
+	   location.reload();
+   })	
+}
+$(function(){
+	//初始化上传图片插件
+	initUploadImg({width:308,height:200,callback:function(){
+		$('.image_wrap').html('').hide();
+		$('.select_image').show();
+		$('.image_material .delete').hide();
+		$('input[name="image_material"]').val(0);
+	}});
+	$('.uploadify-button').css('background-color','#ccc')
+})
+$('.msg_tab .txt').click(function(){
+	//纯文本
+	$(this).addClass('current').siblings().removeClass('current');
+	$('input[name="msg_type"]').val('text');
+	$('textarea[name="content"]').show().siblings().hide();
+	$('#getText').show();
+	
+})
+$('.msg_tab .appmsg').click(function(){
+	//图文消息
+	$(this).addClass('current').siblings().removeClass('current');
+	$('input[name="msg_type"]').val('appmsg');
+	$('#appmsg_area').show().siblings().hide();
+	$('#getText').hide();
+	
+	$('.appmsg_wrap').html('').hide();
+	$('.select_appmsg').show();
+	$('.appmsg_area .delete').hide();
+	$('input[name="appmsg_id"]').val(0);
+})
+$('.msg_tab .image').click(function(){
+	//图片消息
+	$(this).addClass('current').siblings().removeClass('current');
+	$('input[name="msg_type"]').val('image');
+	$('.msg_image').show().siblings().hide();
+	$('#getText').hide();
+	$('#image_material').show();
+	
+	$('.image_wrap').html('').hide();
+	$('.select_image').show();
+	$('.image_material .delete').hide();
+	$('input[name="image_material"]').val(0);
+})
+$('.msg_tab .voice').click(function(){
+	//图片消息
+	$(this).addClass('current').siblings().removeClass('current');
+	$('input[name="msg_type"]').val('voice');
+	$('#voice_area').show().siblings().hide();
+	$('#voice_area .voice_wrap').html('').hide();
+	$('#voice_area .select_appmsg').show();
+	$('#voice_area .delete').hide();
+	$('input[name="voice"]').val(0);
+	$('#getText').hide();
+	$('#image_material').hide();
+})
+$('.msg_tab .video').click(function(){
+	//图片消息
+	$(this).addClass('current').siblings().removeClass('current');
+	$('input[name="msg_type"]').val('video');
+	$('#video_area').show().siblings().hide();
+	$('#getText').hide();
+	$('#image_material').hide();
+	
+	$('#video_area .video_wrap').html('').hide();
+	$('#video_area .select_appmsg').show();
+	$('#video_area .delete').hide();
+	$('input[name="video"]').val(0);
+})
+
+
+
+$('.appmsg_area .delete').click(function(){
+	$('.appmsg_wrap').html('').hide();
+	$('.select_appmsg').show();
+	$('.appmsg_area .delete').hide();
+	$('input[name="appmsg_id"]').val(0);
+})
+$('.image_material .delete').click(function(){
+	$('.image_wrap').html('').hide();
+	$('.select_image').show();
+	$('.image_material .delete').hide();
+	$('input[name="image_material"]').val(0);
+})
+$('#voice_area .delete').click(function(){
+	$('#voice_area .voice_wrap').html('').hide();
+	$('#voice_area .select_appmsg').show();
+	$('#voice_area .delete').hide();
+	$('input[name="voice"]').val(0);
+})
+$('#video_area .delete').click(function(){
+	$('#video_area .video_wrap').html('').hide();
+	$('#video_area .select_appmsg').show();
+	$('#video_area .delete').hide();
+	$('input[name="video"]').val(0);
+})
+function selectAppMsgCallback(_this){
+	$('.appmsg_wrap').html($(_this).html()).show();
+	$('.select_appmsg').hide();
+	$('.appmsg_area .delete').show();
+	$('input[name="appmsg_id"]').val($(_this).data('group_id'));
+	$.Dialog.close();
+}
+
+function selectImageCallback(_this){
+	$('.image_wrap').html($(_this).html()).show();
+	$('.select_image').hide();
+	$('.image_material .delete').show();
+	$('input[name="image_material"]').val($(_this).data('id'));
+	$("input[name='image']").val(0);
+	$('.upload-img-box').hide();
+	$.Dialog.close();
+}
+function selectVoiceCallback(_this){
+	$(_this).find('.icon_sound').attr('src',STATIC_PATH + '/base/images/icon_sound.png');
+	$('.voice_wrap').html($(_this).html()).show();
+	$('#voice_area .select_appmsg').hide();
+	$('#voice_area .delete').show();
+	$('input[name="voice_id"]').val($(_this).data('id'));
+	$.Dialog.close();
+}
+function selectVideoCallback(_this){
+	$('.video_wrap').html($(_this).html()).show();
+	$('#video_area .select_appmsg').hide();
+	$('#video_area .delete').show();
+	$('input[name="video_id"]').val($(_this).data('id'));
+	$.Dialog.close();
+}
+
+function set_material(id,type,set_sucai){
+	var url="{:U('set_meterial')}";
+	$.post(url,{'id':id,'type':type,'set_sucai':set_sucai},function(data){
+			location.reload();
+	});
+}
+function selectText(){
+	$.WeiPHP.openSelectLists("{:U('material/Material/text_lists')}",1,'选择素材',function(data){
+		if(data && data.length>0){
+			for(var i=0;i<data.length;i++){
+				var id=data[i]['id'];
+				if(id){
+					$.post("{:U('material/Material/Material/get_content_by_id')}",{'id':id},function(d){
+						$('#message_text').text(d);
+					})
+				}
+			}
+		}
+	})
+}
+function playSound(id,obj){
+	var audio = document.getElementById(id);
+	if(audio.paused){
+		audio.play();
+		$(obj).find('img').attr('src',IMG_PATH+'/icon_sound_play.gif');
+		audio.addEventListener('ended', function () {  
+// 			alert('over');
+			$(obj).find('img').attr('src',STATIC_PATH + '/base/images/icon_sound.png');
+		}, false);
+		return;
+	}
+	audio.pause();
+	$(obj).find('img').attr('src',STATIC_PATH + '/base/images/icon_sound.png');
+	
+}
+</script> 
+{/block}

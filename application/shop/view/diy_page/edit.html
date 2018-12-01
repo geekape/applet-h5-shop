@@ -1,0 +1,164 @@
+{extend name="common@base/common" /}
+{block name="body"}
+  <link href="__STATIC__/diy_page.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+  <link type="text/css" rel="stylesheet" href="__STATIC__/colorpicker/colpick.css?v={:SITE_VERSION}"/>
+  <style type="text/css">
+    .app_editor input[type="radio"], .app_editor input[type="checkbox"] {vertical-align: middle;}
+    .app_editor {overflow: hidden;}
+    .app_editor .form_item label {width: auto;}
+    /*隐藏多余组件*/
+    #edui1,#edui133{max-width: 420px !important;min-width: auto}
+    #edui110,#edui116,#edui131,#edui240,#edui246,#edui251,#edui256,#edui261{
+        display:none !important;
+    }
+    .upload-img-box {
+      position: static;
+    }
+  </style>
+  <script src="__STATIC__/angular.min.js"></script>
+  <script type="text/javascript" src="__STATIC__/colorpicker/colpick.js?v={:SITE_VERSION}" charset="UTF-8"></script> 
+  <script type="text/javascript" charset="utf-8" src="__STATIC__/ueditor/ueditor.config.js?v={:SITE_VERSION}"></script>
+  <script type="text/javascript" charset="utf-8" src="__STATIC__/ueditor/ueditor.all.js?v={:SITE_VERSION}"></script>
+   <script type="text/javascript" charset="utf-8" src="__STATIC__/ueditor/lang/zh-cn/zh-cn.js?v={:SITE_VERSION}"></script>
+   <script type="text/javascript" charset="utf-8" src="__STATIC__/init_editor.js?v={:SITE_VERSION}"></script>
+   <script type="text/javascript" charset="utf-8" src="__STATIC__/flipsnap.min.js?v={:SITE_VERSION}"></script>
+   
+  <!-- 标签页导航 -->
+  <div class="span9 page_message">
+    <section id="contents">
+    {include file="common@base/_nav" /}
+    <div class="tab-content">
+    <!-- 表单 -->
+    {php} $post_url || $post_url = U('edit?model='.$model['id'], $get_param);{/php}
+    <form id="form" action="{$post_url}" method="post" class="form-horizontal form-center" ng-controller="commonCtrl">
+     
+      <div class="page_diy_container">
+			<div class="page_left app_preview">
+            	<div class="app_header"></div>
+                <div class="app_inner"  ng-style="{'background-color' : activeModules[0].params.bgColor}">
+                    
+
+
+                    <div class="app-content">
+                        <div class="modules" id="modules">
+                            <div ng-click="editItem(module)" ng-if="module['id']" id="module-{{module.index}}" name="{{module.id}}" index="{{module.index}}" ng-class="{'modules-actions': activeItem.index == module.index, 'js-sorttable' : !module.issystem,'edit_panel':!module.disable,'disable_muodule':module.disable}" ng-repeat="module in activeModules track by $index" on-finish-render-filters>
+                                <div ng-init="displayPanel = ('widget-'+(module['id'].toLowerCase())+'-display.html')" ng-include="displayPanel"></div>
+                                <div class="edit_cover">
+                                    
+                                </div>
+                                <div class="aciton_wrap">
+                                    <span class="action edit" ng-click="editItem(module)">编辑</span>
+                                    <span ng-show="!module.issystem" class="action remove" data-container="body" data-toggle="popover" data-placement="left" ng-click="deleteItem(module)">删除</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="add_page_widget">
+                    <em class="arrow-top"></em>
+                    <h4 class="text-center">添加内容</h4>
+                    <ul class="widget_btn_list">
+                        <li ng-repeat="m in modules" ng-if="!m.issystem" ng-click="addItem(m['id'])"><a id="{{m['id']}}" class="border-btn" href="javascript:;" ng-bind="m['name']"></a></li>
+                    </ul>
+                </div>
+            	<div class="app_footer"><em></em></div>
+            </div>
+            <div class="page_right">
+            	<div class="form_wrap">
+            		
+                	<div ng-init="editorPanel = ('widget-'+(activeItem['id'].toLowerCase())+'-editor.html'.toLowerCase())" ng-show="activeItem.id == editorid" ng-repeat="editorid in editors" ng-include="editorPanel" id="editor{{editorid}}" class="editor">
+                	
+                	</div>
+               	</div>
+               	
+           </div>
+      </div>
+      <div class="form-item mt-4" style="margin-left: 580px">
+        {notempty name="data.id"}
+          <input type="hidden" name="id" value="{$data.id|default=0}">
+        {/notempty}
+        <button class="btn submit-btn ajax-post" id="submit" type="button" ng-click="submitForm()" target-form="form-horizontal">{$submit_name|default='确 定'}</button>
+        <div class="temp_click" ng-click="tempClick($event)" ng-model="activeItem.params.id" style="visibility:hidden"></div>
+      </div>
+      <a href="#" class="color_picker_hide" ng-model="colorValue">&nbsp;&nbsp;&nbsp;&nbsp;</a>
+      {include file="shop@diy_template/allDisplay"/}
+      {include file="diy_template/allEditor"/}
+    </form>
+  </div>
+  </section>
+  </div>
+{/block}
+{block name="script"}
+<link href="__STATIC__/datetimepicker/css/datetimepicker.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+{php}
+
+if(config('COLOR_STYLE')=='blue_color') echo '
+<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+';
+{/php}
+<link href="__STATIC__/datetimepicker/css/dropdown.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.min.js"></script> 
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js?v={:SITE_VERSION}" charset="UTF-8"></script> 
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js?v={:SITE_VERSION}" charset="UTF-8"></script> 
+<script type="text/javascript">
+var activeModels = '{:isset($data["config"]) ? $data["config"] :""}'=='null'?'':decodeURIComponent('{:isset($data["config"]) ? $data["config"] :""}');
+var useFor = "{:I('use')}";
+var editorUrl = {
+  ue_upimg:'{:U ( "home/Uploads/ue_upimg")}',
+  ue_mgimg:'{:U ( "home/Uploads/ue_mgimg")}',
+  get_article_style:''
+}
+//
+$(function(){    
+
+
+  initUploadImg();
+  initUploadFile();
+  $('.time').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        language:"zh-CN",
+        minView:0,
+        autoclose:true
+    });
+    $('.date').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language:"zh-CN",
+        minView:2,
+        autoclose:true
+    }); 
+    showTab();
+  
+  $('.toggle-data').each(function(){
+    var data = $(this).attr('toggle-data');
+    if(data=='') return true;   
+    
+       if($(this).is(":selected") || $(this).is(":checked")){
+       change_event(this)
+     }
+  });
+  $('.toggle-data').bind("click",function(){ change_event(this) });
+  
+  var is_show=parseInt("{:isset($data['is_show']) ? $data.is_show : ''}");
+  $("input[name='is_show'][value="+is_show+"]").prop("checked", true);
+  var is_index=parseInt("{:isset($data['is_index']) ? $data.is_index : ''}");
+  $("input[name='is_index'][value="+is_index+"]").prop("checked", true);
+  
+  var type="{:isset($_GET['use']) ? $_GET['use'] : ''}";
+  if(type == 'index'){
+    $("input[name='is_index'][value=1]").prop("checked", true);
+    $("input[name='is_index'][value=0]").parent().hide();
+  }
+});
+function callbackimg(fieldName,picId,src){
+  uploadObj.pic = src;
+  uploadObj.picId =picId;
+  $('.temp_click').click();
+   $('#cover_id_'+fieldName).attr('src',src);
+   $('#cover_id_'+fieldName).attr('data-picid',picId);
+   $('#banner_id_'+fieldName).attr('src',src);
+}
+
+
+</script>
+<script type="text/javascript" src="__STATIC__/base/js/diy_page.js?v={:SITE_VERSION}" charset="UTF-8"></script> 
+{/block}

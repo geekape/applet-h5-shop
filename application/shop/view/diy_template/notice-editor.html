@@ -1,0 +1,34 @@
+<div>
+	<!--页面标题设置-->
+	<div class="app_editor">
+		<em class="arrow-left"></em>
+<!--         <div class="form_item"> -->
+<!-- 			<label>标题</label> -->
+<!-- 			<div class="iput"> -->
+<!-- 				<textarea style="width:420px" ng-model="activeItem.params.content" placeholder="公告: 请填写内容,如果过长,将会在手机上滚动显示!">{{activeItem.params.content}}</textarea> -->
+<!-- 			</div> -->
+			
+<!-- 		</div> -->
+			<div class="form_item">
+				<label>背景颜色</label>
+				<div class="iput">
+				<div data-color="bgColor" class="color_picker" ng-click="colorPicker($event)"  ng-style="{'background-color':activeItem.params.bgColor}"  ng-model="activeItem.params.bgColor"></div>
+					<span class="tips">背景颜色只在手机端显示</span>
+				</div>
+			</div>
+<!--         <div class="form_item"> -->
+<!-- 			<label>字体颜色</label> -->
+<!-- 			<div class="iput"> -->
+<!-- 				<div data-color="color" class="color_picker" ng-click="colorPicker($event)"  ng-style="{'background-color':activeItem.params.color}"  ng-model="activeItem.params.color"></div> -->
+<!-- 				<span class="tips"></span> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+		<div class="form_item">
+			<label>公告编辑</label>
+			<div class="iput">
+				<textarea style="width:420px" name="diy_editor_noticecontent" ng-model="activeItem.params.notice_content">{{activeItem.params.notice_content}}</textarea>
+			</div>
+		</div>
+            <p class="edit_tips"><b class="fa fa-info-circle"></b> 为了美观，公告图标请控制大小</p>			
+	</div>
+</div>

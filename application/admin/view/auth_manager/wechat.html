@@ -1,0 +1,67 @@
+{extend name="publics/base" /}
+{block name="body"}
+  <!-- 标题栏 -->
+
+  <div class="main-title">
+    <h2>公众号组管理</h2>
+  </div>
+
+  <!-- 数据列表 -->
+  <div class="data-table table-striped">
+    <table border="1" cellspacing="0" cellpadding="4" align="center" width="80%">
+      <thead>
+        <tr>
+          <th width="120">节点名称</th>
+          <th width="500">接口名称 </th>
+          {php}$rule=[];{/php}
+          {foreach name='wx_type' key='k' item='tv'}
+          	{php}$rule[$tv['id']] = explode(',',$tv['rule']);{/php}
+          	<th>{$tv.title}</th>
+          {/foreach}
+
+        </tr>
+      </thead>
+      <tbody>
+      {foreach name="list_data" item="vo"}
+
+        <tr>
+          <td>{$vo.name}</td>
+          <td>{$vo.title}</td>
+          {foreach name='wx_type' key='k' item='sv'}
+          <td>
+          	<input class="auth_rules rules_row" type="checkbox" data-tid="{$sv.id}" data-rid="{$vo.id}" {php}if(in_array($vo['id'],$rule[$sv['id']])) echo 'checked="checked"';{/php} value="1"/>
+          </td>
+          {/foreach}
+          </tr>
+        {/foreach}
+
+      </tbody>
+    </table>
+  </div>
+{/block}
+{block name="script"}
+  <script type="text/javascript" charset="utf-8">
+	$(function(){
+    $(".rules_row").change(function() {
+		var tid = $(this).data('tid');
+		var rid = $(this).data('rid');
+		var val = $(this).is(':checked');
+        $.post(
+        	"{:U('set_switch')}",
+        	{tid:tid,rid:rid,val:val},
+        	function(data){
+				if(data.code){
+					updateAlert(data.msg ,'alert-success');
+				}else{
+				    updateAlert(data.msg);
+				}
+
+				setTimeout(function(){
+					$('#top-alert').find('button').click();
+				},1500);
+			}
+        );
+    });
+});
+</script>
+{/block}

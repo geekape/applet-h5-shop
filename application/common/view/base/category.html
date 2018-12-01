@@ -1,0 +1,96 @@
+{extend name="common@base/common" /}
+
+{block name="body"}
+<div class="span9 page_message">
+	<section id="contents"> 
+      {include file="common@base/_nav" /}     
+      	<div class="table-bar">
+        <div class="fl">
+          {empty name="model.extend"}
+			<div class="tools">
+				{if condition="$add_button"}{php} isset($add_url) || $add_url = U('add?model='.$model['id'].'&module='.input('module'));{/php}<a class="btn" href="{$add_url}">新 增</a>{/if}
+
+                <a class="btn" href="{:U('inputData?model='.$model['id'].'&module='.input('module'))}">导入本组数据</a>
+                <a class="btn" href="{:U('exportData?model='.$model['id'].'&module='.input('module'))}">导出本组数据</a>              
+			</div>
+          {/empty}
+        </div>
+        </div>
+
+	<!-- 表格列表 -->
+	<div class="tb-unit data-table posr">
+		<div class="category">
+			<div class="hd cf">
+				<div class="fold">折叠</div>
+				<div class="order">排序</div>
+				<!--<div class="order">发布</div>-->
+                {notempty name="group.has_admin"}
+                <div class="has_admin">管理员</div>
+                {/notempty}                
+				<div class="name">名称</div>
+			</div>
+			{:R('Category/tree', array($tree))}
+		</div>
+	</div>
+	<!-- /表格列表 -->
+    </section>
+  </div>    
+    
+{/block}
+
+{block name="script"}
+	<script type="text/javascript">
+		(function($){
+			/* 分类展开收起 */
+			$(".category dd").prev().find(".fold i").addClass("icon-unfold")
+				.click(function(){
+					var self = $(this);
+					if(self.hasClass("icon-unfold")){
+						self.closest("dt").next().slideUp("fast", function(){
+							self.removeClass("icon-unfold").addClass("icon-fold");
+						});
+					} else {
+						self.closest("dt").next().slideDown("fast", function(){
+							self.removeClass("icon-fold").addClass("icon-unfold");
+						});
+					}
+				});
+
+			/* 三级分类删除新增按钮 */
+			
+			$(".category {$level_path} .add-sub-cate").remove();
+
+			/* 实时更新分类信息 */
+			$(".table-striped")
+				.on("submit", "form", function(){
+					var self = $(this);
+					$.post(
+						self.attr("action"),
+						self.serialize(),
+						function(data){
+							/* 提示信息 */
+							var name = data.code ? "success" : "error", msg;
+							msg = self.find(".msg").addClass(name).text(data.msg)
+									  .css("display", "inline-block");
+							setTimeout(function(){
+								msg.fadeOut(function(){
+									msg.text("").removeClass(name);
+								});
+							}, 1000);
+						},
+						"json"
+					);
+					return false;
+				})
+                .on("focus","input",function(){
+                    $(this).data('param',$(this).closest("form").serialize());
+
+                })
+                .on("blur", "input", function(){
+                    if($(this).data('param')!=$(this).closest("form").serialize()){
+                        $(this).closest("form").submit();
+                    }
+                });
+		})(jQuery);
+	</script>
+{/block}

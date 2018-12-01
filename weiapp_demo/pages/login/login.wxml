@@ -1,0 +1,20 @@
+<view class="login-container">
+  <view class="login" wx:if="{{ !logged }}">
+    <view class="app-info">
+      <image class="app-logo" src="{{logo}}" />
+      <text class="app-name">{{title}}</text>
+    </view>
+    <view class="alert">
+      <view class="alert-title">尊敬的用户，请确认授权以下信息</view>
+      <view class="alert-desc">
+        <view class="alert-text">获得你的公开信息（昵称、头像等）</view>
+      </view>
+    </view>
+    <button class="weui-btn" type="primary" open-type="getUserInfo" bindgetuserinfo="login">确认授权</button>
+  </view>
+  <view class="logged" wx:else>
+    <image class="logged-icon" src="../../images/iconfont-weixin.png" />
+    <view class="logged-text">近期你已经授权登陆过{{title}}</view>
+    <view class="logged-text">自动登录中</view>
+  </view>
+</view>

@@ -1,0 +1,11 @@
+<div class="updatelist">
+  <a href="{:U('admin/Update/index')}" class="btn_b right">返回</a>
+  
+  <h3>下面是没有可写权限的文件列表，您可以选择返回手动下载覆盖更新或者更改可写权限后重新升级</h3>
+  <ul>
+    {volist name='list' id='vo'}
+      <li>{$vo}</li>
+    {/volist}
+  </ul>
+  
+</div>

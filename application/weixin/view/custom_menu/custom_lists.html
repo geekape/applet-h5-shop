@@ -1,0 +1,57 @@
+{extend name="common@base/common" /}
+{block name="body"}
+<style>
+.rule_nav {margin-bottom: 30px;border-bottom-color: #e7e7eb;overflow: hidden;}
+.rule_nav li {  
+	  float: left;
+    padding: 0 3px;
+    position: relative;
+    border: 1px solid #ddd;
+    margin: 6px 15px;
+    border-radius: 2px;
+    line-height:30px;
+}
+.rule_nav li.cur {border-bottom: 3px solid #44b549;}
+.rule_nav li .rule {color: #444;}
+.rule_nav li .del {margin-left: 5px; position: absolute; white-space: nowrap; display: none;}
+</style>
+<div class="span9 page_message">
+  <section id="contents"> {include file="common@base/_nav" /}
+    {empty name="rule_lists"}
+			<div class="null_deal"><p>aOh!<a href="{:U('add_custom_tag')}">请先增加个性化规则!</a></p>
+      {else/}
+			<div class="table-bar">
+				<div class="tools">
+					<a class="btn" href="{:U('add_custom_tag')}">增加规则</a>
+				</div>
+			</div>
+      <!-- 规则配置 -->
+      <ul class="rule_nav">
+        {volist name="rule_lists" id="vo"} <li 
+          {php}if($rule_id==$vo['id']) echo 'class="cur"';{/php}
+          ><a class="rule" href="{:U('custom_lists',['rule_id'=>$vo['id']])}">{$vo.title}</a><a href="javascript:;" rel="{$vo.id}" class="del delRule">删除</a>
+          </li>
+        {/volist}
+      </ul>
+      <!-- 菜单配置 --> 
+      {include file="custom_menu/_lists_content" /} {/empty}
+  </section>
+</div>
+<script type="text/javascript">
+$(function(){
+	$('.rule_nav li').hover(function(){
+		$(this).find('.delRule').toggle()
+	})
+	  $('.delRule').click(function(){
+			var id = $(this).attr('rel')
+			if(confirm("你确认要删除此规则吗？")){
+				$.post("{:U('delRule')}",{id:id},function(){
+					  window.location.href = window.location.href;
+				  })
+			}	
+	  });
+})
+
+
+</script>
+{/block}

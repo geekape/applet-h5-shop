@@ -1,0 +1,600 @@
+{extend name="common@base/common" /}
+
+{block name="body"}
+<style type="text/css">
+.check-item{
+	margin-right: 10px;
+    display: inline;
+}
+</style>
+
+<div class="span9 page_message">
+	<section id="contents">
+      {include file="common@base/_nav" /}
+      <div class="tab-content"> 
+      
+	<form action="{:U('config')}" class="form-horizontal" method="post" id='config_form'>
+		{empty name="custom_config"}
+			{foreach name="fields" item="form" key="o_key"}
+				<div class="form-group row cf">
+                   {if condition="$form['type']!='hidden'"}
+					<label class="col-sm-2">
+						{$form.title|default=''}
+						
+					</label>
+                    {/if}
+						{switch name="form.type"}
+							{case value="text"}
+							<div class="col-sm-8">
+								<input type="text" name="{$o_key}" class="text input-large" value="{$form.value}">
+								{present name="form.tip"}
+							<span class="form-text text-muted">{$form.tip}</span>
+						{/present}
+							</div>
+							{/case}
+							{case value="password"}
+							<div class="col-sm-8">
+								<input type="password" name="{$o_key}" class="text input-large" value="{$form.value}">
+							</div>
+							{/case}
+							{case value="hidden"}
+								{if condition="($o_key neq 'flevel') and ($o_key neq 'slevel') and ($o_key neq 'tlevel') and  ($o_key neq 'flevel1') and ($o_key neq 'flevel2') and ($o_key neq 'flevel3') and ($o_key neq 'slevel1') and ($o_key neq 'slevel2') and ($o_key neq 'slevel3') and ($o_key neq 'tlevel1') and ($o_key neq 'tlevel2') and ($o_key neq 'tlevel3') "}
+								<input type="hidden" name="{$o_key}" value="{$form.value}">
+								{/if}
+							{/case}
+							{case value="radio"}
+							<div class="col-sm-8">
+								{eq name='o_key' value='is_all_goods'}
+									<div class="form-group row  is_all_goods">
+									{foreach name="form.options" item="opt" key="opt_k"}
+									 <div class="check-item">
+										<label class="radio">
+										<input type="radio" name="{$o_key}" value="{$opt_k}" {eq name="form.value" value="$opt_k"} checked{/eq}>{$opt}
+									</label>
+        							</div>
+									{/foreach}
+								 <div class="form-group row cf" id="goods_item">
+							        <div style="margin:15px 0;" class="data-table">
+							            <table cellspacing="1" cellpadding="0">
+							              <thead>
+							                <tr>
+							                  <th colspan="2" align="center">商品信息</th>
+							                  <th align="center" width="200">满足购买数量</th>
+							                  <th>操作</th>
+							                </tr>
+							              </thead>
+							              <tbody id="goods_list">
+							                <tr class="add_goods_tr">
+							                  <td colspan="4"><a href="javascript:choose_goods()">+选择商品</a></td>
+							                </tr>
+							              </tbody>
+							            </table>
+							          </div>
+									</div>
+								</div>
+								{else/}
+									{foreach name="form.options" item="opt" key="opt_k"}
+									<label class="radio">
+										<input type="radio" name="{$o_key}" value="{$opt_k}" {eq name="form.value" value="$opt_k"} checked{/eq}>{$opt}
+									</label>
+								{/foreach}
+								{/eq}
+							</div>
+							
+							{/case}
+							{case value="checkbox"}
+							<div class="col-sm-8">
+								{foreach name="form.options" item="opt" key="opt_k"}
+									<label class="checkbox">
+										{php}
+											is_null($form["value"]) && $form["value"] = [];
+										{/php}
+										<input type="checkbox" name="{$o_key}[]" value="{$opt_k}" {in name="opt_k" value="$form.value"} checked{/in}>{$opt}
+									</label>
+								{/foreach}
+							</div>
+							
+							{/case}
+							{case value="select"}
+							<div class="col-sm-8">
+								<select name="{$o_key}">
+									{foreach name="form.options" item="opt" key="opt_k"}
+										<option value="{$opt_k}" {eq name="form.value" value="$opt_k"} selected{/eq}>{$opt}</option>
+									{/foreach}
+								</select>
+							</div>
+							{/case}
+							{case value="textarea"}
+							<div class="col-sm-8">
+								<label class="textarea input-large">
+									<textarea name="{$o_key}">{$form.value}</textarea>
+								</label>
+							</div>
+							{/case}
+                            {case value="picture"}
+                            	<div class="col-sm-8">
+                               <div class="uploadrow2" data-max="1" title="点击修改图片" rel="{$o_key}">
+                                  <input type="file" id="upload_picture_{$o_key}">
+                                  <input type="hidden" name="{$o_key}" id="cover_id_{$o_key}" value="{$form['value']}"/>
+                                  <div class="upload-img-box">
+                                    {notempty name="form['value']"}
+                                   
+                                      <div class="upload-pre-item2"><img width="100" height="100" src="{$form['value']|get_cover_url}"/></div>
+                                      <em class="edit_img_icon">&nbsp;</em>
+                                    {/notempty}
+                                    
+                                  </div>
+                              </div>
+                              </div>
+                    		{/case}
+                    		
+                    		 {case value="file"}
+                          <div class="col-sm-8 upload_file">
+                          	
+                                <input type="file" id="upload_file_{$o_key}">
+                                <input type="hidden" name="{$o_key}" value="{$form['value']}"/>
+                                <div class="upload-img-box">
+                                  {present name="form.value"}
+                                    <div class="upload-pre-file"><span class="upload_icon_all"></span>
+                                    {$form['value']|get_table_field=###,'id','name','File'}</div>
+                                  {/present}
+                                </div>
+                          </div>
+                          <script type="text/javascript">
+								//上传图片
+							    /* 初始化上传插件 */
+								$("#upload_file_{$o_key}").uploadify({
+							        "height"          : 30,
+							        "swf"             : "__STATIC__/uploadify/uploadify.swf",
+							        "fileObjName"     : "download",
+							        "buttonText"      : "上传附件",
+							        "uploader"        : "{:U('home/File/upload',array('session_id'=>session_id()))}",
+							        "width"           : 120,
+							        'removeTimeout'	  : 1,
+							        "onUploadSuccess" : uploadFile{$o_key}
+							    });
+								function uploadFile{$o_key}(file, data){
+									var data = $.parseJSON(data);
+// 									console.log(data);
+							        if(data.code){
+							        	var name = "{$o_key}";
+							        	$("input[name='"+name+"']").val(data.id);
+							        	$("input[name='"+name+"']").parent().find('.upload-img-box').html(
+							        		"<div class=\"upload-pre-file\"><span class=\"upload_icon_all\"></span>" + data.name + "</div>"
+							        	);
+							        } else {
+							        	updateAlert(data.msg);
+							        	setTimeout(function(){
+							                $('#top-alert').find('button').click();
+							                $(this).removeClass('disabled').prop('disabled',false);
+							            },1500);
+							        }
+							    }
+								</script> 
+                        {/case}
+                        
+                    		                            
+							{case value="group"}
+								<ul class="tab-nav nav">
+									{volist name="form.options" id="li"}
+										<li data-tab="tab{$i}" {eq name="i" value="1"}class="current"{/eq}><a href="javascript:void(0);">{$li.title}</a></li>
+									{/volist}
+							    </ul>
+							    <div class="tab-content">
+							    {volist name="form.options" id="tab"}
+							    	<div id="tab{$i}" class="tab-pane {eq name="i" value="1"}in{/eq} tab{$i}">
+							    		{foreach name="tab['options']" item="tab_form" key="o_tab_key"}
+							    		<label class="item-label">
+											{$tab_form.title|default=''}
+											{present name="tab_form.tip"}
+												<span class="form-text text-muted">{$tab_form.tip}</span>
+											{/present}
+										</label>
+							    		<div class="col-sm-8">
+							    			{switch name="tab_form.type"}
+												{case value="text"}
+													<input type="text" name="{$o_tab_key}" class="text input-large" value="{$tab_form.value}">
+												{/case}
+												{case value="password"}
+													<input type="password" name="{$o_tab_key}" class="text input-large" value="{$tab_form.value}">
+												{/case}
+												{case value="hidden"}
+													<input type="hidden" name="{$o_tab_key}" value="{$tab_form.value}">
+												{/case}
+												{case value="radio"}
+													{foreach name="tab_form.options" item="opt" key="opt_k"}
+														<label class="radio">
+															<input type="radio" name="{$o_tab_key}" value="{$opt_k}" {eq name="tab_form.value" value="$opt_k"} checked{/eq}>{$opt}
+														</label>
+													{/foreach}
+												{/case}
+												{case value="checkbox"}
+													{foreach name="tab_form.options" item="opt" key="opt_k"}
+														<label class="checkbox">
+															{php} is_null($tab_form["value"]) && $tab_form["value"] = [];{/php}
+            												<input type="checkbox" name="{$o_tab_key}][" value="{$opt_k}" {in name="opt_k" value="$tab_form.value"} checked{/in}>{$opt}
+        												</label>
+													{/foreach}
+												{/case}
+												{case value="select"}
+													<select name="{$o_tab_key}">
+														{foreach name="tab_form.options" item="opt" key="opt_k"}
+															<option value="{$opt_k}" {eq name="tab_form.value" value="$opt_k"} selected{/eq}>{$opt}</option>
+														{/foreach}
+													</select>
+												{/case}
+												{case value="textarea"}
+													<label class="textarea input-large">
+														<textarea name="{$o_tab_key}">{$tab_form.value}</textarea>
+													</label>
+												{/case}
+												{/switch}
+											</div>
+							    		{/foreach}
+							    	</div>
+							    {/volist}
+							    </div>
+							{/case}
+						{/switch}
+						
+					</div>
+			{/foreach}
+		{else/}
+			{present name="custom_config"}
+				{$custom_config}
+			{/present}
+		{/empty}
+<!-- 			<input type="hidden" name="id" value="{$data.id|default=0}" readonly> -->
+<!-- 			<button type="button" class="btn submit-btn ajax-post" target-form="form-horizontal" id='subbtn'>确 定</button> -->
+			<input type="hidden" name="id" value="{$data.id|default=0}" readonly>
+			
+		
+		</form>
+		<div class="row">
+			<div class="offset-sm-2 col-sm-4"><button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button></div>
+		</div>
+      </div>
+    </section>
+ </div>
+{/block}
+
+{block name="script"}
+<script type="text/javascript" charset="utf-8">
+
+function select_param(_this){
+	var val = $(_this).is(':checked');
+	if(val==true){
+	  $(_this).parent().find('.title').hide();
+	  $(_this).parent().find('.param').show();
+  }else{
+	  $(_this).parent().find('.title').show();
+	  $(_this).parent().find('.param').hide();
+  }
+}
+function is_mult(){
+	var count = 0;
+	$('.list_tr').each(function() {
+        count += 1;
+    });
+	
+	var val = $('input[name="is_mult"]:checked').val();
+	if(val==0||count==5){
+		$('.more_tr').hide();
+	}else{
+		$('.more_tr').show();
+	}
+	
+	if(val==0){
+		$('.list_tr').each(function(index, element) {
+            if(index>0) $(this).remove();
+        });
+	}
+}
+
+function add_tr(){
+	var count = 0;
+	$('.list_tr').each(function() {
+        count += 1;
+    });	
+	
+	re = new RegExp("sort_id", "g");
+	str  = $('#default_tr').html().replace(re, count+1);
+	console.log(str);
+	var html = '<tr class="list_tr">'+ str +'</tr>';
+	$('.list_tr:last').after(html);
+	
+	if(count>=4){
+	    $('.more_tr').hide();	
+	}
+}
+function remove_tr(_this){	
+	$(_this).parent().parent().remove();
+	
+	var count = 0;
+	$('.td_key').each(function() {
+		count = count + 1;
+        if(count>1) $(this).html(count);
+    });	
+	is_mult();
+}
+function is_all_goods(){
+	var val = $('input[name="is_all_goods"]:checked').val();
+	if(val==0){
+		$('#goods_item').hide();
+		$("input[name='count_value']").closest('.cf').show();
+		$('.goods_data').each(function(index, element) {
+            $(this).remove();
+        });
+	}else{
+		$("input[name='count_value']").closest('.cf').hide();
+		$('#goods_item').show();
+	}
+}
+function choose_goods(){
+	var dataUrl = "{:U ( 'Shop/Goods/lists', array('isAjax'=>1))}";
+	$.WeiPHP.openSelectGoods(dataUrl,function(goodsList){
+		        console.log(goodsList);
+				if(goodsList.length>0 ){
+					//获取已经存在的商品
+					var arr = [];
+					var goods_count = 0;
+					$('.goods_data').each(function(){
+						var gid = $(this).attr('rel');
+						arr.push(gid);
+						goods_count = goods_count + 1;
+					});
+					for(var i=0;i<goodsList.length;i++){
+						var val = goodsList[i];
+						if($.inArray(val.id, arr)!=-1) continue;
+												
+						var html =  '<tr rel="'+val.id+'" class="goods_data">'
+								  + '<td width="100" align="center"><img src="'+val.img+'" /></td>'
+								  + '<td align="center">'+val.title+'</td>'
+								  + '<td align="center"><input type="text" name="buy_num_'+val.id+'" /></td>'
+								  + '<td align="center">'
+								  + '<input type="hidden" name="goods_ids" value="'+val.id+'" />'
+								  + '<a href="javascript:void(0);" onclick="remove_tr(this)">删除</a></td> '                 
+								  + '</tr>';
+								  
+				        $('.add_goods_tr').before(html);
+					}
+				}
+			});
+}
+	$(function(){
+		var id_num_str=$("input[name='buy_num']").val();
+	   	if(id_num_str){
+		   var id_num_arr=id_num_str. split(','); 
+		   for(var i=0; i<id_num_arr.length;i++){
+			   var id_num=id_num_arr[i].split(':');
+			   var id=id_num[0];
+			   var bnum=id_num[1];
+			   var data=null;
+			   $.ajax({ 
+				   type : "post",  
+			       url : "{:U ( 'Shop/Goods/getConfigGoods')}",  
+			       data : {'goods_id':id},  
+			       async : false,  
+			       success: function(goods_data){
+					   data=goods_data;
+				   }
+			   });
+			   var html =  '<tr rel="'+id+'" class="goods_data">'
+				  + '<td width="100" align="center"><img src="'+data.img+'" /></td>'
+				  + '<td align="center">'+data.title+'</td>'
+				  + '<td align="center"><input type="text" name="buy_num_'+id+'" value="'+bnum+'"/></td>'
+				  + '<td align="center">'
+				  + '<input type="hidden" name="goods_ids" value="'+id+'" />'
+				  + '<a href="javascript:void(0);" onclick="remove_tr(this)">删除</a></td> '                 
+				  + '</tr>';
+			   $('.add_goods_tr').before(html);
+		   }
+	   	}
+		//初始化上传图片插件
+		initUploadImg();
+		initUploadFile();
+		//支持tab
+		showTab();
+		
+		distribution();
+		//check_condition();
+		$(".radio").click(function(){
+			distribution();
+		});
+		//有条件
+		$(".checkbox").click(function(){
+			//check_condition();
+		});
+		
+		$('.toggle-data').each(function(){
+			var data = $(this).attr('toggle-data');
+			if(data=='') return true;		
+			
+		     if($(this).is(":selected") || $(this).is(":checked")){
+				 change_event(this)
+			 }
+		});
+		
+		$('.toggle-data').bind("click",function(){ change_event(this) });
+		
+		$('.is_mult').bind('click',function(){ is_mult();	});
+		is_mult();
+		
+		$('.is_all_goods').bind('click',function(){ is_all_goods();	});
+		
+		//is_all_goods();
+		
+		$('#subbtn').click(function(){
+			var buy_num_str='';
+			$(".goods_data input[name='goods_ids']").each(function(index, element) {
+				var goods_id= $(this).val();
+				var num_name='buy_num_'+goods_id;
+				var num=$("input[name="+num_name+"]").val();
+				buy_num_str += goods_id+':' + num +',';
+	        });
+			buy_num_str=buy_num_str.substring(0,buy_num_str.length-1);
+			$("input[name='buy_num']").val(buy_num_str);
+			$('#config_form').submit();
+		});
+	});
+	function distribution(){
+			var is_distribution=$("input[name='need_distribution']:checked").val();
+			if(is_distribution ==0){
+				$("input[name='is_fixed_shopper']").closest('.cf').hide();
+				$("input[name='is_audit']").closest('.cf').hide();
+				$("input[name='level']").closest('.cf').hide();
+				$("input[name='level1']").closest('.cf').hide();
+				$("input[name='level2']").closest('.cf').hide();
+				$("input[name='level3']").closest('.cf').hide();
+				$("input[name='level_name_1']").closest('.cf').hide();
+				$("input[name='level_name_2']").closest('.cf').hide();
+				$("input[name='level_name_3']").closest('.cf').hide();
+				$("input[name='set_require']").closest('.cf').hide();
+				$("input[name='add_conditon[]']").closest('.cf').hide();
+				$("input[name='is_all_goods']").closest('.cf').hide();
+				$("input[name='money_value']").closest('.cf').hide();
+				$("input[name='score_value']").closest('.cf').hide();
+				$("input[name='count_value']").closest('.cf').hide();
+				$("input[name='max_money']").closest('.cf').hide();
+				$("input[name='set_turn_fans_gift']").closest('.cf').hide();
+				check_gift_set(0);
+			}else{
+				$("input[name='is_fixed_shopper']").closest('.cf').show();
+				$("input[name='is_audit']").closest('.cf').show();
+				$("input[name='level']").closest('.cf').show();
+				$("input[name='level1']").closest('.cf').show();
+				$("input[name='level2']").closest('.cf').show();
+				$("input[name='level3']").closest('.cf').show();
+				$("input[name='level_name_1']").closest('.cf').show();
+				$("input[name='level_name_2']").closest('.cf').show();
+				$("input[name='level_name_3']").closest('.cf').show();
+				$("input[name='set_require']").closest('.cf').show();
+				$("input[name='add_conditon[]']").closest('.cf').show();
+				$("input[name='is_all_goods']").closest('.cf').show();
+				$("input[name='money_value']").closest('.cf').show();
+				$("input[name='score_value']").closest('.cf').show();
+				$("input[name='count_value']").closest('.cf').show();
+				$("input[name='max_money']").closest('.cf').show();
+				
+				var set_turn_gift=$("input[name='set_turn_fans_gift']:checked").val();
+				
+				var level=$("input[name='level']:checked").val();
+				if(level==2){
+					$("input[name='level1']").closest('.cf').show();
+					$("input[name='level2']").closest('.cf').show();
+					$("input[name='level3']").closest('.cf').hide();
+					$("input[name='level_name_1']").closest('.cf').show();
+					$("input[name='level_name_2']").closest('.cf').show();
+					$("input[name='level_name_3']").closest('.cf').hide();
+// 					$("input[name='set_turn_fans_gift']").closest('.cf').hide();
+					check_gift_set(0);
+				}else if(level==1){
+					$("input[name='level_name_1']").closest('.cf').show();
+					$("input[name='level_name_2']").closest('.cf').hide();
+					$("input[name='level_name_3']").closest('.cf').hide();
+					$("input[name='level1']").closest('.cf').show();
+					$("input[name='level2']").closest('.cf').hide();
+					$("input[name='level3']").closest('.cf').hide();
+// 					$("input[name='set_turn_fans_gift']").closest('.cf').show();
+					check_gift_set(set_turn_gift);
+				}else{
+					$("input[name='level_name_1']").closest('.cf').show();
+					$("input[name='level_name_2']").closest('.cf').show();
+					$("input[name='level_name_3']").closest('.cf').show();
+					$("input[name='level1']").closest('.cf').show();
+					$("input[name='level2']").closest('.cf').show();
+					$("input[name='level3']").closest('.cf').show();
+// 					$("input[name='set_turn_fans_gift']").closest('.cf').hide();
+					check_gift_set(0);
+				}
+				
+				var has_condition= $("input[name='set_require']:checked").val();
+				if(has_condition==0){
+					$("input[name='add_conditon[]']").closest('.cf').hide();
+					$("input[name='is_all_goods']").closest('.cf').hide();
+					$("input[name='money_value']").closest('.cf').hide();
+					$("input[name='score_value']").closest('.cf').hide();
+					$("input[name='count_value']").closest('.cf').hide();
+				}else{
+					$("input[name='add_conditon[]']").closest('.cf').show();
+					$("input[name='is_all_goods']").closest('.cf').show();
+					$("input[name='money_value']").closest('.cf').show();
+					$("input[name='score_value']").closest('.cf').show();
+					$("input[name='count_value']").closest('.cf').show();
+				}
+			}
+		}
+		
+		function check_condition(){
+			var set_require= parseInt($("input[name='set_require']:checked").val());
+			var is_count=0;
+			var is_money=0;
+			var is_score=0;
+			$("input[name='add_conditon[]']:checked").each(function(){
+				var condition=$(this).val();
+				if(condition == 'count'){
+					is_count=1;
+				}
+				if(condition == 'money'){
+					is_money=1;
+				}
+				if(condition == 'score'){
+					is_score=1;
+				}
+			});
+			if(is_count && set_require){
+				$("input[name='is_all_goods']").closest('.cf').show();
+// 				$('.toggle-is_all_goods').show();
+			}else{
+				$("input[name='is_all_goods']").closest('.cf').hide();
+// 				$('.toggle-is_all_goods').hide();
+			}
+			if(is_money && set_require){
+				$("input[name='money_value']").closest('.cf').show();
+			}else{
+				$("input[name='money_value']").closest('.cf').hide();
+			}
+			if(is_score && set_require){
+				$("input[name='score_value']").closest('.cf').show();
+			}else{
+				$("input[name='score_value']").closest('.cf').hide();
+			}
+		}
+		
+		function check_gift_set(is_set){
+			if(is_set==0){
+				$("input[name='add_new_fans']").closest('.cf').hide();
+				$("input[name='gift_money']").closest('.cf').hide();
+				$("input[name='gift_score']").closest('.cf').hide();
+				$("select[name='gift_coupon']").closest('.cf').hide();
+			}else{
+				$("input[name='add_new_fans']").closest('.cf').show();
+				$("input[name='gift_money']").closest('.cf').show();
+				$("input[name='gift_score']").closest('.cf').show();
+				$("select[name='gift_coupon']").closest('.cf').show();
+			}
+		}
+		
+		function get_coupon(type){
+			var url="{:U ( 'Shop/Shop/get_card_coupon')}";
+
+			var couponId="{:isset($data['gift_coupon']['value']) ?$data['gift_coupon']['value']:'' }";
+			var name='gift_coupon';
+			var title='请选择优惠券';
+			
+			$.post(url,{'type':type},function(data){
+				$("select[name='"+name+"'] option").remove();
+				var str='<option value=0>'+title+'</option>';
+				for(var i=0;i<data.length;i++){
+					if(couponId == data[i]['id']){
+						str +="<option value="+data[i]['id']+" selected=selected>"+data[i]['title']+"</option>";
+					}else{
+						str +="<option value="+data[i]['id']+" >"+data[i]['title']+"</option>";
+					}
+				}
+				$(str).appendTo("select[name='"+name+"']");
+			})
+		}
+		
+</script>
+{/block}

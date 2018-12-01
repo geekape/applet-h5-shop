@@ -1,0 +1,17 @@
+
+<section class="mutipic_goods" data-colGoods="{{module.params.colGoods}}" id="mutipic_goods{{module.index}}" ng-show="module.params.goods_list.length">
+<ul>
+    <li ng-repeat="m in module.params.goods_list track by $index" on-finish-render-filters>
+    	<a href="{{m.url}}">
+        	<div class="goods-img"><img ng-if="m.img" src="{{m.img}}"/></div>
+        	<p class="title">{{m.title}}</p>
+            <p class="price" ng-show="module.params.show_price">¥{{m.market_price}}</p>
+            <span class="btn" ng-show="module.params.show_btn">立即购买</span>
+        </a>
+    </li>
+</ul>
+    <span class="mutipic_banner_identify" style="left:auto;top:0;right:0;">
+        <span  class="pointer">
+        </span>       
+    </span>
+</section>

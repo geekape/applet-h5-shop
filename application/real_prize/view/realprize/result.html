@@ -1,0 +1,38 @@
+{include file="common@base/mobile_head"/}
+<link href="{:ADDON_PUBLIC_PATH}/css.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+<body class="result_page">
+	<div id="container" class="container">
+    	<div class="result_top">
+    		{if condition="$res['result'] eq 'success'"}
+            	<img src="__IMG__/jump_success.png"/>
+            {else/}
+            	<img src="__IMG__/jump_err.png"/>
+            {/if}
+            <br/><br/>
+            {$res.msg}
+        </div>
+        <div class="m_15">
+        	{if condition="$res['result'] eq 'success'"}
+                <div class="result_content">
+                    <p><strong>奖品：</strong><br/>{$data.prize_title}</p>
+                    {notempty name="address"}
+                        <p><strong>寄送信息：<br/></strong>
+                        姓名：{$address.turename}<br/>
+                         手机：{$address.mobile}<br/>
+                          地址：{$address.address}<br/>
+                        </p>
+                    {/notempty}
+                    <p><strong>使用说明：</strong><br/>
+                        {$data.use_content}
+                     </p>
+                </div>
+            {else/}
+            	 <div class="result_content">
+                 	 {$data.fail_content}
+                 </div>
+            {/if}
+            <a href="javascript:;" onClick="wx.closeWindow();" class="common_btn m_15">返回微信</a>
+        </div>
+    </div>
+</body>
+</html>

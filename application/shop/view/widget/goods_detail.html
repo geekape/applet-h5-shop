@@ -1,0 +1,62 @@
+<!-- 开关卡片参数  -->
+{notempty name="goods.goods_param"}
+<div class="switch-card">
+  <div class="switch-card-title" id="switch-btn">
+    <p>产品参数</p>
+    <i class="iconfont icon-moreunfold"></i> </div>
+  <div class="switch-card-list"> {volist name="goods.goods_param" id="vo"}
+    <div class="switch-card-list-item ui-border-b"> <span class="gray">{$vo.title}</span> <strong>{$vo.param_value}</strong> </div>
+    {/volist} </div>
+</div>
+{/notempty} 
+
+<!-- 商品详情 -->
+<div class="details-footer" style="min-height: 300px;">
+  <div class="weui-tab">
+    <div class="weui-navbar">
+
+      <a class="weui-navbar__item weui-bar__item--on" href="#tab1">
+        商品详情
+      </a>
+      <a class="weui-navbar__item" href="#tab2">
+        评价
+      </a>
+    </div>
+
+    <div class="weui-tab__bd">
+      <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
+         <!-- 商品详情内容 --> 
+         {empty name="is_diy"} {$goods.content|raw} {else /} {include file="shop@diy_template/allDisplay"/} {/empty}
+      </div>
+      <div id="tab2" class="weui-tab__bd-item">
+          <div class="detail_comment_warp"> 
+            <!--评论列表--> 
+            {notempty name='comments'}
+            <div class="detail_comment_list">
+            {volist name="comments"  id='co'}
+
+              <div class="comment_list_item flex"> 
+                <!--评论星级用户名-->
+                <div class="comment_list_name"> 
+                  <p>{$co.username}</p>
+                  <div class="comment_star"> <span class="comment_star_{$co.score}"></span> </div>
+                </div>
+                <div class="flex-item f-ml-base">
+                  <!--评论内容-->
+                  <p class="comment_list_content">{$co.content|raw}</p>
+                  <!--评论时间-->
+                  <div class="comment_list_time gray">{$co.cTime}</div>
+                </div>
+              </div>
+            
+            {/volist}
+            </div>
+            {else/}
+            {:W('common/EmptyTip/html', ['remark'=>'暂无相关评价'])}
+            {/notempty} </div>
+        </div>
+    </div>
+  </div>
+
+  
+</div>

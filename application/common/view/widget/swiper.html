@@ -1,0 +1,53 @@
+<!-- 放图片 -->
+{notempty name="imgs_url"}
+<div class="swiper-container photoList">
+  <ul class="swiper-wrapper">
+    {volist name="imgs_url" id="vo"}
+    <li class="swiper-slide"><img src="{$vo}"></li>
+    {/volist}
+  </ul>
+  <div class="swiper-pagination" style="display: none"></div>
+
+  <div class="swiper-count">
+  	<strong>1</strong>/
+  	<span></span>
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){
+	$.WeiPHP.gallery('.photoList','.photoList ul');
+
+	//图片预览
+	var picList = [];
+	$('.photoList li img').each(function(index, element) {
+		var picUrl = $(this).attr("src");
+		picList[index] = picUrl;
+        $(this).click(function(){
+			wx.previewImage({
+				current: picUrl, // 当前显示的图片链接
+				urls: picList // 需要预览的图片链接列表
+			});
+		})
+    });
+    // 轮播
+	var swiper = new Swiper('.swiper-container', {
+		pagination: {
+			el: '.swiper-pagination',
+		},
+		on: {
+			init: function() {
+
+			},
+		    slideChangeTransitionEnd: function(){
+		    	$('.swiper-count>strong').text(this.activeIndex+1);
+	       	},
+		},
+        autoplay:2000,
+        speed:300
+	});
+	// 取轮播图片数
+	swiperCount = $('.swiper-pagination span').length;
+	$('.swiper-count span').text(swiperCount);
+})
+</script>
+{/notempty}

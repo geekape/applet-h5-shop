@@ -1,0 +1,51 @@
+{empty name="list_data"}<style>
+.material_list{margin: 0;}
+.appmsg_item .main_img {margin: 0;}
+</style><div class="empty_container"><p>您的图文素材库为空，<a target='_blank' href="{:U('material/Material/material_lists')}">请先增加素材</a></p></div>
+{else/}
+    <div class="data_container"><ul class="material_list">
+      {volist name="list_data" id="vo"}
+
+      {if condition="$vo['count']==1"}<li class="appmsg_li" data-id="{$vo.id}" data-group_id="{$vo.group_id}" style="overflow:hidden">
+            <div class="appmsg_item">
+                <h6 class="ellipsis">{$vo.title}</h6>
+                <p class="title"><?php if(isset($vo['cTime'])){?>{$vo.cTime|time_format}</p><?php }?>
+                <div class="main_img">
+                    <img src="{$vo.cover_id|get_cover_url}"/>
+                </div>
+                <p class="desc">{$vo.intro}</p>
+            </div>
+            
+        </li>{else/}<li class="appmsg_li" data-id="{$vo.id}" data-group_id="{$vo.group_id}" style="overflow:hidden">
+            <div class="appmsg_item">
+                <p class="title"><?php if(isset($vo['cTime'])){?>{$vo.cTime|time_format}</p><?php }?>
+                <div class="main_img">
+                    <img src="{$vo.cover_id|get_cover_url}"/>
+                    <h6>{$vo.title}</h6>
+                </div>
+                <p class="desc">{$vo.intro}</p>
+            </div>
+            {volist name="vo.child" id="vv"}
+            <div class="appmsg_sub_item">
+                <p class="title">{$vv.title}</p>
+                <div class="main_img">
+                    <img src="{$vv.cover_id|get_cover_url}"/>
+                </div>
+            </div>
+            {/volist}
+            
+        </li>{/if}{/volist}</ul>
+
+{/empty}
+<div class="page"> {$_page|raw|default=''} </div></div>
+
+
+<script type="text/javascript">
+// 素材分页切换
+$('.page .pagination a').click(function (e) {
+    e.preventDefault();
+    var selfHref = $(this).attr('href');
+     $.WeiPHP.openSelectAppMsg(selfHref,selectAppMsgCallback);
+})
+</script>
+

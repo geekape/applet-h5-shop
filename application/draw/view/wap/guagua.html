@@ -1,0 +1,203 @@
+{extend name="draw@wap/common_file" /} {block name="common_body"}
+<style type="text/css">
+    body {
+        background: #341854;
+    }
+    .scratch_container {
+      position: relative;
+      margin: 0 auto;
+      max-width: 1024px;
+    }
+    .scratch_viewport {
+      position: relative;
+      overflow: hidden;
+      margin: 0 auto;
+      z-index: 0;
+    }
+     
+    .scratch_picture-under {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+      z-index: -1;
+      height: 150px;
+    }
+     
+    .scratch_container canvas {
+      position: relative;
+      height: auto;
+      z-index: 1;
+    }   
+</style>
+<script type="text/javascript" src="__STATIC__/default/lib/Scratch.js"></script>
+
+
+<!-- 刮刮乐 -->
+<div class="wrap activity">
+  
+  <!-- title大标题 -->
+  <div class="draw-title"></div>
+  <!-- /title大标题 -->
+
+
+    <div class="scratch_container">
+      <div class="scratch_viewport">
+        <!-- result picture -->
+        <canvas id="guagua"></canvas>
+      </div>
+    </div>   
+
+
+    <script type="text/javascript">
+
+    //分享
+    $.WeiPHP.initWxShare({
+      title:'{$shareData.title}',
+      desc:'{$shareData.desc}',
+      link:'{$shareData.link}',
+      imgUrl:'{$shareData.imgUrl}'
+    });
+
+    var has_subscribe = "{$has_subscribe}";
+    var qrcode='{$qrcode}';
+    var err_msg="{$err_msg}";
+    var join_url = "{$joinurl}";
+    
+   
+   
+
+    var canvas_w = $('.scratch_container').width(),
+        prize_pic = '__STATIC__/default/img/activity/guagua_thank.png',  //奖品图片(默认)
+        guagua = document.getElementById('guagua'),
+        ctx = guagua.getContext('2d'),
+        jmsg='',
+        jump_url='',
+        isfirst=1,
+        first_dialog = 0; // 防止弹窗重叠
+
+    var game = {
+      check_subscribe: function (e) {
+          if(has_subscribe=="0"){
+             if(first_dialog == 0) {
+               $.WeiPHP.showSubscribeTips({
+                'qrcode': qrcode,
+                'configClose': false,
+                'des': '请先关注公众号再玩此游戏！！！'
+               });
+               first_dialog=1;
+               e.preventDefault();
+               return false;
+            }
+
+          }
+          else{
+             if(err_msg != ""){
+                if(first_dialog == 0) {
+                  console.log(first_dialog);
+                  $.alert(err_msg, function() {window.location.reload();});
+                  first_dialog=1;
+                  return false;
+                }
+              }
+            return true;
+          }
+      },
+      disTouch: function (e) {
+        var is_touch = game.check_subscribe();
+        if(is_touch){
+          if(isfirst==1){
+            game.do_draw();
+          }
+          
+        }else {
+          return false;
+        }
+        isfirst=0;
+        e.preventDefault(); 
+      },
+
+      do_draw: function () {
+        $.post(join_url,function(res){
+          console.log(res);
+          prize_pic=res.img;
+          jmsg=res.msg;
+          jump_url=res.jump_url
+          });
+      },
+
+      drawImg: function () {
+        var img = new Image();
+        img.src = prize_pic;
+        img.onload = function () {
+          ctx.drawImage(img, Math.floor(guagua.width/2-50), Math.floor(guagua.height-120), 100, 100);
+        }
+
+      }  
+    };
+    guagua.addEventListener('touchstart', game.disTouch);
+    guagua.addEventListener('touchmove', game.disTouch);
+    guagua.addEventListener('touchend', game.disTouch);
+
+
+    var scratch = new Scratch({
+        canvasId: 'guagua',
+        imageBackground: prize_pic,
+        sceneWidth: canvas_w,
+        sceneHeight: 150,
+        pictureOver: '__STATIC__/default/img/activity/guagua_bg.png',
+        cursor: {
+            png: '__STATIC__/default/img/activity/piece.png',
+            cur: '__STATIC__/default/img/activity/piece.cur',
+            x: '20',
+            y: '17'
+        },
+        radius: 25,
+        nPoints: 45,
+        percent: 50, //刮百分之多少回调
+        callback: function () {
+
+          if(first_dialog == 0) {
+            first_dialog = 1;
+            $.showLoading();
+            var request = function () {
+              console.log(jmsg + '----------');
+              if(jmsg != "") {
+                // 绘制图片
+                game.drawImg(prize_pic);
+
+                $.hideLoading();
+                $.alert(jmsg,function(){
+                  window.location.reload();
+                });
+              }
+              else {
+                // 轮询数据
+                setTimeout(request, 300)
+              }
+            }
+
+            request();
+
+          }
+        },
+        pointSize: { x: 8, y: 8}
+    });
+
+    
+
+
+
+
+    </script>
+    
+
+
+  <!-- 共用内容 -->
+  {include file='wap/common_index' /}
+
+
+</div>
+
+   
+{/block}

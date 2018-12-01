@@ -1,0 +1,96 @@
+{extend name="common@base/common" /}
+{block name="body"}
+
+  <div class="span9 page_message">
+    
+    <section id="contents"> 
+      {include file="common@base/_nav" /}
+      {if condition="$search_button or !empty($model['extend'])"}        
+      <div class="table-bar">
+        <div class="fl">
+          {empty name="model.extend"}
+			<div class="tools">
+				{if condition="$add_button"}{php} isset($add_url) || $add_url = U('add?model='.$model['id']);{/php}<a class="btn" href="{$add_url}">新 增</a>{/if}
+				{if condition="$del_button"}{php} isset($del_url) || $del_url = U('del?model='.$model['id']);{/php}<button class="btn ajax-post confirm" target-form="ids" url="{$del_url}">删 除</button>{/if}                
+				{volist name="top_more_button" id="vo"}
+                {if condition="$vo['is_buttion']"}
+                <button class="btn {$vo.class}" target-form="ids" url="{$vo.url}">{$vo.title}</button>
+                {else/}
+                <a class="btn" href="{$vo.url}">{$vo.title}</a>
+                {/if}
+                &nbsp;
+                {/volist} 
+			</div>
+          {/empty}
+        </div>
+        <!-- 高级搜索 -->
+        {if condition="$search_button"}
+        <div class="search-form fr cf">
+          <div class="sleft">
+            {php} isset($search_url) || $search_url = U('home/CreditData/lists',array('model'=>$model['name']));{/php}
+            <input type="text" name="nickname" class="search-input" value="{:I('nickname')}" placeholder="请输入用户名或者openid">
+            <a class="sch-btn" href="javascript:;" id="search" url="{$search_url}"><i class="btn-search"></i></a> </div>
+        </div>
+        {/if}
+      </div>
+      {/if}
+      <!-- 数据列表 -->
+      <div class="data-table">
+        <div class=" table-striped">
+          <table cellpadding="0" cellspacing="1">
+            <!-- 表头 -->
+            <thead>
+              <tr>
+                {if condition="$check_all"}<th class="row-selected row-selected"> <input autocomplete="off" class="regular-checkbox check-all" type="checkbox" id="checkAll"><label for="checkAll"/></th>{/if}
+                {volist name="list_grids" id="field"}
+                  <th>{$field.title}</th>
+                {/volist}
+              </tr>
+            </thead>
+            
+            <!-- 列表 -->
+            <tbody>
+              {volist name="list_data" id="data"}
+                <tr>
+                  {if condition="$check_all"}<td><input autocomplete="off" class="ids regular-checkbox" type="checkbox" value="{$data['id']}" name="ids[]" id="check_{$data['id']}"><label for="check_{$data['id']}"/></td>{/if}
+                  {volist name="list_grids" id="grid"}
+                    {if ($grid.raw == 1) OR ($grid.come_from == 1) }<td>{$data[$key]|raw}</td>{else /}<td>{$data[$key]}</td>{/if}
+                  {/volist}
+                </tr>
+              {/volist}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="page"> {$_page|raw|default=''} </div>
+    </section>
+  </div>
+{/block}
+{block name="script"} 
+  <script type="text/javascript">
+$(function(){
+	//搜索功能
+  $("#search").click(function(){
+    var url = $(this).attr('url');
+    var str = $('.search-input').val()
+        var query  = $('.search-input').attr('name')+'='+str.replace(/(^\s*)|(\s*$)/g,"");
+
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+		url = change_search_url(url);
+    window.location.href = url;
+  });
+
+    //回车自动提交
+    $('.search-form').find('input').keyup(function(event){
+        if(event.keyCode===13){
+            $("#search").click();
+        }
+    });
+
+})
+</script> 
+{/block}

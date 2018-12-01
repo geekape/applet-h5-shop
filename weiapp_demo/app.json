@@ -1,0 +1,38 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/login/login",
+    "pages/contact/contact",
+    "pages/message/message",
+    "pages/payment/payment",
+    "pages/qrcode/qrcode",
+    "pages/upload/upload",
+    "pages/service/service",
+    "pages/sms/sms"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#000",
+    "navigationBarTitleText": "WeiPHP",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "实用小功能",
+        "iconPath": "images/icon_home.png",
+        "selectedIconPath": "images/icon_home_cur.png"
+      },
+      {
+        "pagePath": "pages/service/service",
+        "text": "寻求帮助",
+        "iconPath": "images/icon_service.png",
+        "selectedIconPath": "images/icon_service_cur.png"
+      }
+    ],
+    "color": "#929292",
+    "selectedColor": "#2190dd",
+    "backgroundColor": "#fff"
+  }
+}

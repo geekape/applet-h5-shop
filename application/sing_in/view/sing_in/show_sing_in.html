@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+<head>
+{include file="common@base/head"/}	
+<link rel="stylesheet" href="__STATIC__/swiper/swiper.min.css">
+<style type="text/css">
+body,html{height: 100%;overflow: hidden;}
+h1{font-size: 50px;text-align: center;}
+.swiper-container{width: 980px;height: 320px;}
+.swiper-wrapper{display: block;}
+#sing_in {overflow: hidden;min-height: 320px; }
+#sing_in li{height: 120px;width: 100px;float: left; margin: 20px; text-align: center;font-size: 20px;}
+#sing_in li img{width: 80px;height: 80px;border-radius: 50%;}
+</style>
+</head>
+<body>
+	<div id="prize_users">
+		<div class="title" style="margin-bottom:10px;">
+	    	<h1 data="">签到满后自动循环滚动</h1>
+	    </div>
+      <div class="swiper-container">
+	    <ul id="sing_in" class="swiper-wrapper">
+	        <li class="swiper-slide">
+            <img src="__PUBLIC__/home/images/default.png" alt="">
+            <p>Amy1</p>
+          </li>
+          <li class="swiper-slide">
+            <img src="__PUBLIC__/home/images/default.png" alt="">
+            <p>Amy2</p>
+          </li>
+          <li class="swiper-slide">
+            <img src="__PUBLIC__/home/images/default.png" alt="">
+            <p>Amy3</p>
+          </li>
+          <li class="swiper-slide">
+            <img src="__PUBLIC__/home/images/default.png" alt="">
+            <p>Amy4</p>
+          </li>
+          <li class="swiper-slide">
+            <img src="__PUBLIC__/home/images/default.png" alt="">
+            <p>Amy5</p>
+          </li>
+          <li class="swiper-slide">
+            <img src="__PUBLIC__/home/images/default.png" alt="">
+            <p>Amy6</p>
+          </li>
+          <li class="swiper-slide">
+            <img src="__PUBLIC__/home/images/default.png" alt="">
+            <p>Amy7</p>
+          </li>
+          <li class="swiper-slide">
+            <img src="__PUBLIC__/home/images/default.png" alt="">
+            <p>Amy8</p>
+          </li>
+          <li class="swiper-slide">
+            <img src="__PUBLIC__/home/images/default.png" alt="">
+            <p>Amy9</p>
+          </li>
+          <li class="swiper-slide">
+            <img src="__PUBLIC__/home/images/default.png" alt="">
+            <p>Amy10</p>
+          </li>
+          <li class="swiper-slide">
+            <img src="__PUBLIC__/home/images/default.png" alt="">
+            <p>Amy11</p>
+          </li>
+          <li class="swiper-slide">
+            <img src="__PUBLIC__/home/images/default.png" alt="">
+            <p>Amy12</p>
+          </li>
+          <li class="swiper-slide">
+            <img src="__PUBLIC__/home/images/default.png" alt="">
+            <p>Amy13</p>
+          </li>
+          <li class="swiper-slide">
+            <img src="__PUBLIC__/home/images/default.png" alt="">
+            <p>Amy14</p>
+          </li>
+          <li class="swiper-slide">
+            <img src="__PUBLIC__/home/images/default.png" alt="">
+            <p>Amy15</p>
+          </li>
+          <li class="swiper-slide">
+            <img src="__PUBLIC__/home/images/default.png" alt="">
+            <p>Amy16</p>
+          </li>
+          <li class="swiper-slide">
+            <img src="__PUBLIC__/home/images/default.png" alt="">
+            <p>Amy17</p>
+          </li>
+          <li class="swiper-slide">
+            <img src="__PUBLIC__/home/images/default.png" alt="">
+            <p>Amy18</p>
+          </li>
+          <li class="swiper-slide">
+            <img src="__PUBLIC__/home/images/default.png" alt="">
+            <p>Amy19</p>
+          </li>
+          <li class="swiper-slide">
+            <img src="__PUBLIC__/home/images/default.png" alt="">
+            <p>Amy20</p>
+          </li>
+          <li class="swiper-slide">
+            <img src="__PUBLIC__/home/images/default.png" alt="">
+            <p>Amy21</p>
+          </li>
+          <li class="swiper-slide">
+            <img src="__PUBLIC__/home/images/default.png" alt="">
+            <p>Amy22</p>
+          </li>
+          <li class="swiper-slide">
+            <img src="__PUBLIC__/home/images/default.png" alt="">
+            <p>Amy23</p>
+          </li>
+          <li class="swiper-slide">
+            <img src="__PUBLIC__/home/images/default.png" alt="">
+            <p>Amy24</p>
+          </li>
+	    </ul>
+    </div>
+	</div>  
+<script src="__STATIC__/swiper/swiper.jquery.min.js"></script>
+<script type="text/javascript">
+var mySwiper = new Swiper('.swiper-container',{
+              //loop : true,
+              // direction : 'horizontal',
+              direction : 'vertical',
+              autoplay : 3000,
+              slidesPerView : 'auto',
+              slidesPerColumn : 8,
+              //slidesPerColumnFill : 'row',
+          })
+  function addUserPrize(img,name,amount,index){
+			var imgUrl = (img==''||img==null)?'__PUBLIC__/home/images/default.png':img;
+			$html = $('<li class="swiper-slide" data-amount='+amount+'><img src="'+imgUrl+'"/><p>'+name+'</p></li>');
+			// $('#commen_prize').prepend($html);
+			// $html.addClass('anim');
+			// if($('#commen_prize li').length>10){
+			// 	$('#commen_prize li').eq(10).remove();
+			// }
+			
+			var topSize = $('#sing_in li').length;
+			
+			if(topSize>9){
+				var minAmount = parseInt($('#sing_in li').eq(9).data('amount'));
+				if(amount>=minAmount){
+					$('#sing_in li').eq(9).replaceWith($html.clone());	
+				}
+			}else{
+				$('#sing_in').append($html.clone());
+			}
+			reLayoutTopPrize('#sing_in li');
+		}
+     	
+
+</script>   	
+</body>
+</html>

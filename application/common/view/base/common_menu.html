@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	{include file="common@base/head"/}
+    {block name="style"}{/block}
+</head>
+<body>
+	<!-- 头部 -->
+	{include file="common@base/header"/}
+	<!-- /头部 -->
+
+	<!-- 主体 -->
+{block name="header"}{/block}
+{php} //验证登录
+  if(!is_login() && empty(cookie( '__forward__'))){
+  $forward = cookie('__forward__');
+            empty( $forward ) && cookie('__forward__', $_SERVER['REQUEST_URI']);
+  //return redirect(U('home/user/login',array('from'=>4)));
+
+  }
+  $url_tag = MODULE_NAME.'/'.CONTROLLER_NAME;
+   {/php}
+<div id="main-container" class="admin_container">
+
+	  <div class="sidebar">
+      <ul class="sidenav">
+        <li>
+          <a class="sidenav_parent" href="javascript:;">
+            <!--<img src="/home/images/left_icon_.png"/>-->
+            用户管理</a>          <ul class="sidenav_sub">
+            <li class="{php}if($url_tag=='weixin/Weixin')echo 'active';{/php}" data-id="1"> <a href="{:U('weixin/user_center/lists',array('mdm'=>1))}"> 微信用户 </a><b class="active_arrow"></b></li>
+            <li class="{php}if($url_tag=='weixin/user_center/lists')echo 'active';{/php}" data-id="2"> <a href="{:U('home/WeixinMessage/lists',array('mdm'=>2))}"> 微信咨询 </a><b class="active_arrow"></b></li>
+            <li class="{php}if($url_tag=='weixin/user_center/lists')echo 'active';{/php}" data-id="3"> <a href="{:U ( 'card/Card/config',array('mdm'=>3))}"> 会员卡 </a><b class="active_arrow"></b></li>
+            <li class="{php}if($url_tag=='weixin/UserTag')echo 'active';{/php}" data-id="4"> <a href="{:U('weixin/UserTag/lists',array('mdm'=>4))}"> 用户标签 </a><b class="active_arrow"></b></li>
+            <li class="{php}if($url_tag=='weixin/user_center/lists')echo 'active';{/php}" data-id="5"> <a href="{:U('QrAdmin/QrAdmin/lists',array('mdm'=>5))}"> 扫码管理 </a><b class="active_arrow"></b></li>
+            <li class="{php}if($url_tag=='weixin/user_center/lists')echo 'active';{/php}" data-id="6"> <a href="{:U('home/AuthGroup/lists',array('mdm'=>6))}"> 用户分组 </a><b class="active_arrow"></b></li>
+            <li class="{php}if($url_tag=='weixin/user_center/lists')echo 'active';{/php}" data-id="7"> <a href="{:U('home/CreditConfig/lists',array('mdm'=>7))}"> 用户积分 </a><b class="active_arrow"></b></li>
+            </ul>
+        </li>
+              </ul>
+    </div>
+
+
+  <div class="main_body">
+    {block name="body"}{/block}
+  </div>
+</div>
+
+	<!-- /主体 -->
+
+	<!-- 底部 -->
+	{include file="common@base/footer"/}
+    {block name="script"}{/block} <!-- 用于加载js代码 -->
+    <div class="hidden"><!-- 用于加载统计代码等隐藏元素 -->
+        {block name="hidden"}{/block}
+    </div>
+	<!-- /底部 -->
+</body>
+</html>

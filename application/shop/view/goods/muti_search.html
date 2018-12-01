@@ -1,0 +1,56 @@
+<style type="text/css">
+            .sleft{
+                height:32px;
+                margin-right:20px;
+            }
+
+            .condition{
+                float: left;
+                min-width: 320px;
+                margin-bottom: 10px;
+            }
+            .search-input:focus{
+                border:1px solid #006fd8;
+            }
+			.muti_search{ margin-top:45px;}
+        </style>
+<!-- 高级搜索 -->
+<form class="muti_search cf" action="{$search_url|default=''}" id="muth_search_form">
+  <div style="line-height: 30px;">
+    <div class="condition">
+      <span>商品价格：</span>
+      <input type="number" name="start_price" class="search-input input-small" value="{$start_price|default=''}">
+      <span>至</span>
+      <input type="number" name="end_price" class="search-input input-small" value="{$end_price|default=''}">
+    </div>
+    <div class="condition">
+      <span>商品名称：</span>
+      <input type="text" name="title" class="search-input" value="{$title|default=''}">
+    </div>
+    <div class="condition">
+    <button type="button" class="sch-btn btn" href="javascript:;" id="muti_search" style="padding: 10px;">搜索</button>
+    </div>
+  </div>
+</form>
+<script type="text/javascript">
+$(function(){
+	//搜索功能
+	$("#muti_search").click(function(){
+		var data = $('#muth_search_form').serializeArray();
+		//console.log(data)
+		var query = '/';
+		for(var i = 0; i< data.length; i++){
+			if(data[i]['value']!=''){
+			   query += data[i]['name'] + '/'+data[i]['value']+'/'
+			}
+		}
+		//console.log(query)
+		var url = "{$search_url}"+query;
+		//console.log(url)
+		
+		url = url.replace(/[?&=]/g,'/');
+				window.location.href = url;
+	});
+
+})
+</script> 

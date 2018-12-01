@@ -1,0 +1,48 @@
+{extend name="common@base/common" /} {block name="body"}
+        <style>
+            .block{
+                padding: 10px 20px;
+                margin-bottom: 20px;
+                border-radius: 3px;
+                box-shadow: 0px 0px 10px black;
+            }
+            .block img{
+                margin: 10px 0;
+                border-radius: 2px;
+                box-shadow: 0px 0px 5px black;
+            }
+            h3{
+
+                color: white;
+                padding: 0 10px;
+                margin: 10px 0;
+                background-color: #0054a3;
+                border-radius: 3px;
+
+            }
+            p{margin: 5px 0}
+        </style>
+<section id="contents">
+
+  <div class="tab-content" style="margin-top:50px">
+    <div class="block">
+    <p style="color: red">要使用微信支付，必须先在微信商户平台（pay.weixin.qq.com）设置相应的支付参数</p>
+    <h3>第一步：设置支付目录</h3>
+    <p>1、登录商户平台后，进入：产品中心 > 开发配置</p>
+    <p><img src="__IMG__/payment_help_01.png" /></p>
+    <p>2、如下图在公众号后台设置支付目录，支付目录直接设置到网站根目录就好，如果网站放到二级目录下，也需要把二级目录带上，并且以斜杠/结尾</p>
+    <p><img src="__IMG__/payment_help_02.png" /></p>
+    </div>
+
+    <div class="block">
+    <h3>第二步：设置扫码支付回调的URL</h3>
+    <p style="color: #888">（如果仅在公众号内支付此步可略）</p>
+        <div style="display: inline-flex"><p>回调的地址：</p> <p style="color: red">http://您的网址/notice.php 或者 https://您的网址/notice.php</p>
+            </div>
+    <p>设置的位置如下图</p>
+    <p><img src="__IMG__/payment_help_03.png" /></p>
+     </div>
+    <div style="text-align: center"><a style="padding:10px 30px" class="btn" href="{:U('payment_set')}">返 回</a></div>
+  </div>
+</section>
+{/block}

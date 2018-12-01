@@ -1,0 +1,204 @@
+{extend name="common@base/common" /}
+{block name="body"}
+<div class="span9 page_message">
+  <section id="contents"> {include file="common@base/_nav" /}
+    <div class="tab-content">
+      <!-- 表单 -->
+      <form id="form" action="{:U('add')}" method="post" class="form-horizontal form-center">
+        <div class="form-group row cf toggle-pid">
+          <label class="col-sm-2"> 一级菜单 </label>
+          <div class="col-sm-8">
+            <select name="pid" style="margin-left: 0">
+              <option value="0">无 </option>
+              {notempty name="pList"}
+                
+                {volist name="pList" id="vo"}
+                  <option value="{$vo.id}">{$vo.title} </option>
+                {/volist}
+              {/notempty}
+            </select>
+            <span class="form-text text-muted"> （如果是一级菜单，选择“无”即可） </span>
+          </div>
+        </div>
+        <div class="form-group row cf toggle-title">
+          <label class="col-sm-2"><span class="need_flag">*</span> 菜单名 </label>
+          <div class="col-sm-8">
+            <input class="text input-large" name="title" value="{:initValue('title', $data)}" type="text">
+          </div>
+        </div>
+        <div class="form-group row cf toggle-from">
+          <label class="col-sm-2"> 菜单内容 <span class="form-text text-muted"> </span></label>
+          <div class="col-sm-8">
+
+            <div class="check-item">
+              <input class="regular-radio choose_from" value="1" id="from_1" name="from"  checked="" type="radio">
+              <label for="from_1"></label>
+              发送素材内容 </div>              
+            <div class="check-item">
+              <input class="regular-radio choose_from" value="2" id="from_2" name="from"  type="radio">
+              <label for="from_2"></label>
+              跳转到网页 </div>
+            <!-- <div class="check-item">
+              <input class="regular-radio choose_from" value="4" id="from_4" name="from"  type="radio">
+              <label for="from_4"></label>
+              跳转到小程序 </div>   -->            
+            <div class="check-item">
+              <input class="regular-radio choose_from" value="3" id="from_3" name="from"  type="radio">
+              <label for="from_3"></label>
+              自定义事件 </div>
+            <div class="check-item" id="top_show">
+              <input class="regular-radio choose_from" value="0" id="from_0" name="from"  type="radio">
+              <label for="from_0"></label>
+              无事件的一级菜单 </div>              
+          </div>
+        </div>
+        
+        <!--发送内容-->
+        <div id="content_1" style="display: none;">
+          <div class="form-group row cf">
+            <label class="col-sm-2"><span class="need_flag">*</span> 选择素材 <span class="form-text text-muted"> </span></label>
+            <div class="col-sm-8"> {:W('common/material/material', ['name'=>'material','value'=>initValue('material',$data),'extra'=>''])} </div>
+          </div>
+        </div>
+        <!--跳转URL-->
+        <div id="content_2" style="display: none;">
+          <div class="form-group row cf">
+            <label class="col-sm-2"><span class="need_flag">*</span> 关联URL <span class="form-text text-muted"> </span></label>
+            <div class="col-sm-8">
+              <input class="text input-large" name="url" value="{:initValue('url', $data)}" type="text">
+            </div>
+           <!--  <p class="normal_tips" style="margin:0">为了方便移植,可以用以下特殊字符代替常用地址参数：<br>
+              [website]: ' . SITE_URL . '<br>
+              [publicid]: ' . get_pbid_appinfo('', 'id') . '<br>
+              [wpid]: ' . get_wpid() . '<br>
+              用法例如：微网站：[website]/?s=/addon/WeiSite/Wap/index/publicid/[publicid]</p> -->
+          </div>
+        </div>
+        
+        <!--自定义-->
+        <div id="content_3" style="display: none;">
+          <div class="form-group row cf toggle-type">
+            <label class="col-sm-2"><span class="need_flag">*</span> 事件类型 <span class="form-text text-muted"> </span></label>
+            <div class="col-sm-8">
+              <div class="check-item">
+                <input class="regular-radio" value="click" name="type" id="type_click" type="radio">
+                <label for="type_click"></label>
+                点击推事件 </div>
+              <!-- <div class="check-item">
+                <input class="regular-radio" value="scancode_push" name="type" id="type_scancode_push" type="radio">
+                <label for="type_scancode_push"></label>
+                扫码推事件 </div>
+              <div class="check-item">
+                <input class="regular-radio" value="scancode_waitmsg" name="type" id="type_scancode_waitmsg" type="radio">
+                <label for="type_scancode_waitmsg"></label>
+                扫码带提示 </div>
+              <div class="check-item">
+                <input class="regular-radio" value="pic_sysphoto" name="type" id="type_pic_sysphoto" type="radio">
+                <label for="type_pic_sysphoto"></label>
+                弹出系统拍照发图 </div>
+              <div class="check-item">
+                <input class="regular-radio" value="pic_photo_or_album" name="type" id="type_pic_photo_or_album" type="radio">
+                <label for="type_pic_photo_or_album"></label>
+                弹出拍照或者相册发图 </div>
+              <div class="check-item">
+                <input class="regular-radio" value="pic_weixin" name="type" id="type_pic_weixin" type="radio">
+                <label for="type_pic_weixin"></label>
+                弹出微信相册发图器 </div>
+              <div class="check-item">
+                <input class="regular-radio" value="location_select" name="type" id="type_location_select" type="radio">
+                <label for="type_location_select"></label>
+                弹出地理位置选择器 </div> -->
+            </div>
+          </div>
+          <div class="form-group row cf">
+            <label class="col-sm-2"><span class="need_flag">*</span> 关联关键词 <span class="form-text text-muted">(菜单KEY值，用于消息接口推送，不超过128字节)</span></label>
+            <div class="col-sm-8">
+              <input class="text input-large" name="keyword" value="{:initValue('keyword', $data)}" type="text">
+            </div>
+          </div>
+        </div>
+        <!--小程序-->
+        <div id="content_4" style="display: none;">
+          <div class="form-group row cf">
+            <label class="col-sm-2"><span class="need_flag">*</span> 小程序的appid <span class="form-text text-muted"> </span></label>
+            <div class="col-sm-8">
+              <input class="text input-large" name="appid" value="{:initValue('appid', $data)}" type="text">
+            </div>
+          </div>
+          <div class="form-group row cf">
+            <label class="col-sm-2"><span class="need_flag">*</span> 小程序的页面路径 <span class="form-text text-muted"> </span></label>
+            <div class="col-sm-8">
+              <input class="text input-large" name="pagepath" value="{:initValue('pagepath', $data)}" type="text">
+            </div>
+          </div> 
+          <div class="form-group row cf">
+            <label class="col-sm-2"><span class="need_flag">*</span> 备用URL <span class="form-text text-muted">不支持小程序的老版本客户端将打开本url</span></label>
+            <div class="col-sm-8">
+              <input class="text input-large" name="appurl" value="{:initValue('appurl', $data)}" type="text">
+            </div>
+            <p class="normal_tips" style="margin:0">为了方便移植,可以用以下特殊字符代替常用地址参数：<br>
+              [website]: ' . SITE_URL . '<br>
+              [publicid]: ' . get_pbid_appinfo('', 'id') . '<br>
+              [wpid]: ' . get_wpid() . '<br>
+              用法例如：微网站：[website]/?s=/addon/WeiSite/Wap/index/publicid/[publicid]</p>
+          </div>                   
+        </div>        
+        
+        <input class="text" name="rule_id" value="{:I('rule_id',0)}" type="hidden">
+        <input class="text" name="id" value="{:I('id',0)}" type="hidden">
+        <div class="row">
+          <div class="offset-sm-2 col-sm-4">
+            <button class="btn submit-btn ajax-post" type="submit" target-form="form-horizontal">{$submit_name|default='确 定'}</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+</div>
+{/block}
+{block name="script"} 
+  <script type="text/javascript">
+
+$(function(){
+	{php}if(isset($data['pid'])) { {/php}
+	$("select[name='pid']").val({$data.pid})
+	{php} } {/php}
+	
+	{php}if(isset($data['from'])) { {/php}
+	$("input[name='from'][value='{$data.from}']").prop("checked",true)
+	{php} } {/php}
+	{php}if(isset($data['type'])) { {/php}
+	$("input[name='type'][value='{$data.type}']").prop("checked",true)
+	{php} } {/php}
+			
+	$('.choose_from').click(function(){
+		choose_from();
+	});
+	choose_from();
+	
+	$('select[name="pid"]').change(function(){
+		choose_top();
+	});
+	choose_top();
+});
+
+function choose_from(){ 
+	var from = $("input[name='from']:checked").val();
+	console.log('from:'+from)
+	$('#content_1').hide();
+	$('#content_2').hide();
+	$('#content_3').hide();
+	$('#content_4').hide();
+	$('#content_'+from).show();
+}
+function choose_top(){ 
+	var pid = $('select[name="pid"]').val();
+
+	if(pid==0){
+		$("#top_show").show()
+	}else{
+		$("#top_show").hide()
+	}
+}
+</script> 
+{/block}

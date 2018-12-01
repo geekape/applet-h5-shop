@@ -1,0 +1,64 @@
+.pikaddress {
+  font-size: 14px;
+  border: 1px solid #eaeaea;
+  width: 250px;
+  color: #333333;
+  background-color: white;
+}
+
+.pikaddress-tabs {
+  overflow: hidden;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.pikaddress-tab
+{
+  float: left;
+  padding: 10px 20px;
+  background-color: #f8f8f8;
+  border-right: 1px solid #eaeaea;
+}
+
+.pikaddress-tab--selected {
+  color: #ffb506;
+}
+
+.pikaddress-content
+{
+  overflow: hidden;
+}
+
+.pikaddress-contentOften
+{
+}
+.pikaddress-contentProvince
+{
+}
+.pikaddress-contentCity
+{
+}
+.pikaddress-contentCountry
+{
+}
+.pikaddress-address
+{
+  display: inline-block;
+  float: left;
+  font-size: 13px;
+  padding: 10px 10px;
+  cursor: pointer;
+}
+
+
+.pikaddress-address--selected
+{
+  color: white;
+  background-color: #ffb506;
+}
+
+.pikaddress-address--hover,.pikaddress-address:hover
+{
+  color:white;
+  background-color: #FF8000;
+}
+

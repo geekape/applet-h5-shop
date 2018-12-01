@@ -1,0 +1,56 @@
+<link href="__STATIC__/base/css/store_main.css?v={:SITE_VERSION}" rel="stylesheet">
+	<div class="nav_bar">
+		<div class="login">
+			{notempty name="user"}
+			<span>欢迎&emsp;{$user.nickname}<a href="" class="c70 mr20">[退出]</a></span>
+			<!--<span class="c70 mr20">我的金币：{$user.score}个 <a href="">[充值金币]</a></span>-->
+			{else/}
+			<span>还未登录&emsp;<a href="{:U('login')}" class="c70 mr20">[登录]</a></span>
+			{/notempty}
+			<a href="javascript:;" class="c40" onclick="web_collect()">收藏网站</a>
+		</div>
+		<div class="logo_search">
+			<img class="fl" src="__PUBLIC__/home/images/logo_xcc.png" height="120">
+			<h1 class="fl mt30 ml30">提交小程序</h1>
+		</div>
+		<div class="navigation">
+			<a href="{:U('index')}" {if condition="(!isset($cid) or $cid elt 0) and (ACTION_NAME eq 'index')"}class='item act'{else/}class='item'{/if} >首页</a>
+			{notempty name="category"}
+				{volist name="category" id="ca"}
+					<a href="{:U('index',array('cid'=>$ca['id']))}" {if condition="isset($cid) and $cid eq $ca['id']"}class='item act'{else/}class='item'{/if} >{$ca.title}</a>
+				{/volist}
+			{/notempty}
+			<!-- <a href="" class="item">资讯阅读</a>
+			<a href="" class="item">交友社区</a>
+			<a href="" class="item">本地商家</a>
+			<a href="" class="item">生活购物</a>
+			<a href="" class="item">影音娱乐</a>
+			<a href="" class="item">文化教育</a>
+			<a href="" class="item">微信店铺</a>
+			<a href="" class="item">网站相关</a> -->
+			
+			<a href="{:U('classify_nav')}" {if condition="ACTION_NAME eq 'classify_nav'"}class="item act"{else/}class="item"{/if} >其他类别</a>
+		</div>
+	</div>
+	<script>
+	function web_collect(){
+		var title= $('title').text();
+		var url=window.location.href;
+		$.post('{:U("do_collect")}',{'title':title,'url':url,'type':1},function(res){
+			if(res > 0){
+				alert('收藏成功');
+				location.reload() ;
+			}else{
+				alert('收藏失败');
+			}
+		})
+	}
+	function do_search(){
+		var key = $("input[name='search']").val();
+		if(key != ''){
+			var url = "{:U('search')}/key/"+key;
+			window.location.href=url;
+		}
+		
+	}
+	</script>

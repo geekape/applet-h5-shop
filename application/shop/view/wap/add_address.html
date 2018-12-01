@@ -1,0 +1,61 @@
+{extend name="shop@wap/common_file" /} {block name="common_body"}
+<!-- 头部导航 -->
+<div class="top-nav">
+    <div class="flex">
+      <i class="iconfont icon-back" id="go-back"></i>
+        <slot>
+            <span class="title">新增地址</span>
+        </slot>
+    </div>
+</div>
+<div class="wrap">
+    
+    <!-- 输入框 -->
+    <form class="m-input" action="{:U('add_address')}" method="post" onSubmit="return tgSubmit()" id="form">
+      <input class="m-input-item" type="text" placeholder="收货人姓名" name="truename" id="truename" value="{$info.truename|default=''}">
+      <input class="m-input-item" type="number" placeholder="手机号码" name="mobile" id="mobile" value="{$info.mobile|default=''}">
+      <input class="m-input-item" type="text" placeholder="收货地址" name="address" id="address" value="{$info.address|default=''}">
+      <input class="m-input-item" type="text" placeholder="详细地址：区/街道" name="address_detail" value="{$info.address_detail|default=''}">
+
+        <input type="hidden" name="is_choose" value="{:I('is_choose/d', 0)}"/>
+    </form>
+    <!-- /输入框 -->
+
+
+    <!-- 保存 -->
+    <a onclick="doPost()" class="weui-btn weui-btn_primary">保存</a>
+</div>
+
+<script src="__STATIC__/default/lib/jquery-weui/city-picker.js"></script>
+
+<script type="text/javascript">
+    $("#address").cityPicker({
+       title: "请选择收货地址"
+     });
+
+    
+
+
+function doPost(){
+    $('#form').submit();
+}
+function tgSubmit() {
+	var userName = $('#truename').val();
+	if ($.trim(userName) == "") {
+		$.toast('请填写姓名', 'text');
+		return false;
+	}
+	var userPhone = $("#mobile").val();
+	if ($.trim(userPhone) == "") {
+		$.toast('请填写您的手机号码', 'text');
+		return false;
+	}                   
+	var patrn = /^0?(13[0-9]|15[0123456789]|18[0123456789]|14[0123456789])[0-9]{8}$/;
+	if (!patrn.exec($.trim(userPhone))) {
+		$.toast('手机号格式错误', 'text');
+		return false;
+	}
+	return true;
+}
+</script>
+{/block}

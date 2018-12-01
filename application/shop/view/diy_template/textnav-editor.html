@@ -1,0 +1,43 @@
+<div>
+	<!--页面标题设置-->
+	<div class="app_editor" ng-controller="textNavListController">
+		<em class="arrow-left"></em>
+		
+        <div class="form_item">
+			<label>导航背景</label>
+			<div class="iput">
+				<div data-color="bgColor" class="color_picker" ng-click="colorPicker($event)"  ng-style="{'background-color':activeItem.params.bgColor}"  ng-model="activeItem.params.bgColor"></div>
+				<span class="tips">背景颜色只在手机端显示</span>
+			</div>
+		</div>
+        <div class="form_item">
+			<label>文字颜色</label>
+			<div class="iput">
+				<div data-color="color" class="color_picker" ng-click="colorPicker($event)"  ng-style="{'background-color':activeItem.params.color}"  ng-model="activeItem.params.color"></div>
+				<span class="tips"></span>
+			</div>
+		</div>
+        <div class="form_item">
+			<label>样式设置</label>
+			<div class="iput pt_8">
+                <input type="radio" name="align" value="1" ng-model="activeItem.params.text_nav_style"/>一列&nbsp;&nbsp;&nbsp;			
+                <input type="radio" name="align" value="2" ng-model="activeItem.params.text_nav_style"/>两列&nbsp;&nbsp;&nbsp;
+                 <input type="radio" name="align" value="3" ng-model="activeItem.params.text_nav_style"/>三列&nbsp;&nbsp;&nbsp;
+                <input type="radio" name="align" value="4" ng-model="activeItem.params.text_nav_style"/>四列
+			</div>
+		</div>		
+		<div class="form_item">
+			<div class="iput wput">
+				<a href="javascript:;" class="btn" ng-click="addTextNav()">添加导航</a>
+               
+                <div class="sub_edit_item sub_edit_item_no_pic" ng-repeat="b in activeItem.params.text_nav_list">
+                    <div class="s_i_p">
+                        <input type="text" placeholder="填写标题" ng-model="b.title"/><br/>
+                        <input type="text" placeholder="填写链接" ng-model="b.url"/>
+                    </div>
+                    <a class="del_pic_btn" href="javascript:;" ng-click="deleteTextNav(b)">&nbsp;</a>
+                </div>
+			</div>
+		</div>
+	</div>
+</div>

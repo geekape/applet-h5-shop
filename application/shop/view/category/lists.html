@@ -1,0 +1,80 @@
+{extend name="common@base/common" /}
+{block name="body"}
+  <div class="span9 page_message">
+    <section id="contents"> 
+      {include file="common@base/_nav" /} 
+      {if condition="$add_button || $del_button || $search_button || !empty($top_more_button)"}   
+      <div class="table-bar">
+        <div class="fl">
+          {empty name="model.extend"}
+			<div class="tools">
+				{if condition="$add_button"}{php} isset($add_url) || $add_url = U('add?model='.$model['id'], $get_param);{/php}<a class="btn" href="{$add_url}">新 增</a>{/if}
+				
+			</div>
+          {/empty}
+        </div>
+      </div>
+      {/if}
+      <!-- 数据列表 -->
+      <div class="data-table">
+        <div class="table-striped">
+          <table cellspacing="1">
+            <!-- 表头 -->
+            <thead>
+              <tr>
+                {if condition="$check_all"}<th class="row-selected row-selected"> <input autocomplete="off"  type="checkbox" id="checkAll" class="check-all regular-checkbox"><label for="checkAll"></label></th>{/if}
+                {notempty name="$list_grids"}
+                {volist name="list_grids" id="field"}
+                  <th {notempty name="field.width"}width="{$field.width}%"{/notempty} >{$field.title}</th>
+                {/volist}{/notempty}
+              </tr>
+            </thead>
+            
+            <!-- 列表 -->
+            <tbody>
+            {notempty name="$list_data"}
+              {volist name="list_data" id="data"}
+                <tr>
+                  {if condition="$check_all"}<td><input autocomplete="off"  class="ids regular-checkbox" type="checkbox" value="{$data['id']}" name="ids[]" id="check_{$data['id']}"><label for="check_{$data['id']}"></label></td>{/if}
+                  {volist name="list_grids" id="grid"}
+                    {if ($grid.raw == 1) OR ($grid.come_from == 1) }<td>{$data[$key]|raw}</td>{else /}<td>{$data[$key]}</td>{/if}
+                  {/volist}
+                </tr>
+              {/volist}{/notempty}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="page"> {$_page|raw|default=''} </div>
+    </section>
+  </div>
+{/block}
+{block name="script"} 
+<script src="__STATIC__/thinkbox/jquery.thinkbox.js?v={:SITE_VERSION}"></script>
+<script type="text/javascript" src="__STATIC__/jquery.dragsort-0.5.2.min.js"></script> 
+<script type="text/javascript">
+$(function(){
+	//搜索功能
+  $("#search").click(function(){
+    var url = $(this).attr('url');
+    var str = $('.search-input').val()
+        var query  = $('.search-input').attr('name')+'='+str.replace(/(^\s*)|(\s*$)/g,"");
+
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+		url = change_search_url(url);
+    window.location.href = url;
+  }); 
+
+    //回车自动提交
+    $('.search-form').find('input').keyup(function(event){
+        if(event.keyCode===13){
+            $("#search").click();
+        }
+    });
+})
+</script> 
+{/block}

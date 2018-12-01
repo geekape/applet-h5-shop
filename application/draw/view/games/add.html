@@ -1,0 +1,458 @@
+{extend name="common@base/common" /} {block name="body"}
+<style type="text/css">
+.address input {
+    width: 100px;
+}
+
+.chooseShopDialog li {
+    height: 50px;
+}
+
+.chooseShopDialog li span {
+    width: 100px;
+    height: 50px;
+    float: left;
+    text-align: center;
+}
+
+.img img {
+    width: 50px;
+    height: 50px;
+}
+
+.shop_tr input {
+    height:34.44px;
+    width: 100px;
+    margin-bottom: 0;
+}
+    td .need_flag{
+        vertical-align: -2px;
+
+    }
+</style>
+<div class="span9 page_message">
+    <section id="contents"> {include file="common@base/_nav" /} {empty name='award'}
+        <div class="empty_container">
+            <p>您还没有创建奖品,<a target='_blank' href="{:U('Draw/Award/add',array('rt_id'=>I('rt_id'),'mdm'=>I('mdm')))}">您需要先增加奖品</a></p>
+        </div>
+        {else/}
+        <div class="tab-content">
+            <!-- 表单 -->
+            {php} isset($post_url) || $post_url = U('add?model='.$model['id'], $get_param);{/php}
+            <form id="form" action="{$post_url}" method="post" class="form-horizontal">
+                {volist name="fields" id="field"} {if condition="$field['is_show'] == 4"}
+                <input type="hidden" class="text" name="{$field.name}" value="{:I($field['name'], $field['value'])}"> {/if} {if condition="$field['is_show'] == 1 || $field['is_show'] == 2 || ($field['is_show'] == 5 && I($field['name']))"}
+                <div class="form-group row cf toggle-{$field.name}">
+                    <label class="col-sm-2">
+                        {notempty name="field.is_must"}<span class="need_flag" >*</span>{/notempty} {$field['title']} </label>
+                    <div class="col-sm-8">
+                        {switch name="field.type"} {case value="num"}
+                         {if condition="$field['name'] eq 'draw_count'"}
+                          	<input type="number" class="text" name="{$field.name}" value="" onblur="change_percent();">
+                          {else/}
+                          	<input type="number" class="text" name="{$field.name}" value="">
+                          {/if}
+                         {/case} {case value="string"}
+                        <input type="text" class="form-control" name="{$field.name}" value="{:I($field['name'], $field['value'])}"> {/case} 
+                        {case value="textarea"}
+                        <label class="textarea input-large">
+                            <textarea name="{$field.name}" >{:I($field['name'], $field['value'])}</textarea>
+                        </label>
+                        {/case} {case value="datetime"}
+                        <input type="datetime" name="{$field.name}" class="form-control time" value="{:I($field['name'], $field['value'])}" placeholder="请选择时间" /> {/case} {case value="date"}
+                        <input type="datetime" name="{$field.name}" class="form-control date" value="{:I($field['name'], $field['value'])}" placeholder="请选择日期" /> {/case} {case value="bool"} {volist name=":parse_field_attr($field['extra'])" id="vo"}
+                        <div class="check-item">
+                            <!--[if !IE]><!-->
+                            <input type="radio" class="regular-radio toggle-data" value="{$key}" id="{$field.name}_{$key}" name="{$field.name}" toggle-data="{$vo|get_hide_attr}" {eq name="field.value" value="$key" }checked{/eq} />
+                            <label for="{$field.name}_{$key}"></label>
+                            {$vo|clean_hide_attr}
+                            <!--<![endif]-->
+                            <!--[if IE]>
+                     <input type="radio" value="{$key}" 
+                   id="{$field.name}_{$key}" name="{$field.name}" class="toggle-data" toggle-data="{$vo|get_hide_attr}"
+                  {eq name="field.value" value="$key"}checked="checked"{/eq} />
+                  <label for="{$field.name}_{$key}"></label>{$vo|clean_hide_attr}
+                 <![endif]-->
+                        </div>
+                        {/volist} {/case} {case value="select"}
+                        <select name="{$field.name}">
+                            {volist name=":parse_field_attr($field['extra'])" id="vo"}
+                            <option value="{$key}" class="toggle-data" toggle-data="{$vo|get_hide_attr}" {eq name="field.value" value="$key" }selected{/eq}>{$vo|clean_hide_attr}
+                            </option>
+                            {/volist}
+                        </select>
+                        {/case} {case value="cascade"} {:W('common/cascade/cascade', array('name'=>$field['name'],'value'=>$field['value'],'extra'=>$field['extra']))} {/case} {case value="dynamic_select"} {:W('common/dynamic_select/dynamic_select', array('name'=>$field['name'],'value'=>$data[$field['name']],'extra'=>$field['extra']))} {/case} {case value="dynamic_checkbox"} {:W('common/dynamic_checkbox/dynamic_checkbox', array('name'=>$field['name'],'value'=>$data[$field['name']],'extra'=>$field['extra']))} {/case} {case value="news"} {:W('common/news/news', array('name'=>$field['name'],'value'=>$data[$field['name']],'extra'=>$field['extra']))} {/case} {case value="image"}
+                        <div id="image_{$field.name}"></div>
+                        {:hook('image', array('name'=>$field['name'],'value'=>$data[$field['name']],'extra'=>$field['extra']))} {/case} {case value="radio"} {volist name=":parse_field_attr($field['extra'])" id="vo"}
+                        <div class="check-item">
+                            <!--[if !IE]><!-->
+                            <input type="radio" class="regular-radio toggle-data" value="{$key}" id="{$field.name}_{$key}" name="{$field.name}" toggle-data="{$vo|get_hide_attr}" {eq name="field.value" value="$key" }checked{/eq} />
+                            <label for="{$field.name}_{$key}"></label>
+                            {$vo|clean_hide_attr}
+                            <!--<![endif]-->
+                            <!--[if IE]>
+                     <input type="radio" value="{$key}" 
+                   id="{$field.name}_{$key}" name="{$field.name}" class="toggle-data" toggle-data="{$vo|get_hide_attr}"
+                  {eq name="field.value" value="$key"}checked="checked"{/eq} />
+                  <label for="{$field.name}_{$key}"></label>{$vo|clean_hide_attr}
+                 <![endif]-->
+                        </div>
+                        {/volist} {/case} {case value="checkbox"} {volist name=":parse_field_attr($field['extra'])" id="vo"}
+                        <div class="check-item">
+                            <input type="checkbox" class="regular-checkbox toggle-data" value="{$key}" id="{$field.name}_{$key}" name="{$field.name}[]" toggle-data="{$vo|get_hide_attr}" {in name="key" value="$field['value']" }checked="checked" {/in}>
+                            <label for="{$field.name}_{$key}"></label>
+                            {$vo|clean_hide_attr} </div>
+                        {/volist} {/case} {case value="editor"}
+                        <label class="textarea">
+                            <textarea name="{$field.name}" style="width:405px; height:200px;"></textarea>
+                            {:W('common/editor/adminArticleEdit', array('name'=>$field['name'],'value'=>$field['value']))} </label>
+                        {/case} {case value="picture"}
+                        <div class="uploadrow2" data-max="1" title="点击修改图片" rel="{$field.name}">
+                            <input type="file" id="upload_picture_{$field.name}">
+                            <input type="hidden" name="{$field.name}" id="cover_id_{$field.name}" />
+                            <div class="upload-img-box">
+                                {notempty name="data[$field['name']]"}
+                                <div class="upload-pre-item2"><img width="100" height="100" src="{$data[$field['name']]|get_cover_url}" /></div>
+                                <em class="edit_img_icon">&nbsp;</em> {/notempty}
+                            </div>
+                        </div>
+                        {/case} {case value="mult_picture"}
+                        <div class="mult_imgs">
+                            <div class="upload-img-view" id='mutl_picture_{$field.name}'>
+                                {notempty name="data[$field['name']]"} {php}$data[$field['name']] = explode(',', $data[$field['name']]);{/php} {volist name="data[$field['name']]" id="vo"}
+                                <div class="upload-pre-item22">
+                                    <img width="100" height="100" src="{$vo|get_cover_url}" />
+                                    <input type="hidden" name="{$field.name}[]" value="{$vo}" />
+                                    <em>&nbsp;</em>
+                                </div>
+                                {/volist} {/notempty}
+                            </div>
+
+                            <div class="uploadrow2" data-max="9" title="点击上传图片" rel="{$field.name}">
+                                <input type="file" id="upload_picture_{$field.name}">
+                            </div>
+                        </div>
+                        {/case} {case value="file"}
+            
+                        <div class="upload_file">
+                            <input type="file" id="upload_file_{$field.name}" title="点击修改文件">
+                            <input type="hidden" name="{$field.name}" value="{$data[$field['name']]}" />
+                            <div class="upload-img-box">
+                                {present name="data[$field['name']]"}
+                                <div class="upload-pre-file"><span class="upload_icon_all"></span>{$data[$field['name']]}</div>
+                                {/present}
+                            </div>
+                        </div>
+
+
+                        {/case} {case value="user"}
+                        <div class="col-sm-8">
+                            <div id="userList" class="common_add_list fl">
+                                {notempty name="data[$field['name']]"}
+                                <div class="item" onClick="$.WeiPHP.selectSingleUser('{:U ( 'weixin/UserCenter/lists_choose')}','{$field.name}');">
+                                    {php} $userInfo = getUserInfo($data[$field['name']]); {/php}
+                                    <img src="{$userInfo['headimgurl']}" />
+                                    <br/><span>{$userInfo['nickname']}</span>
+                                    <input type="hidden" name="{$field.name}" value="{$data[$field['name']]}" />
+                                    <span class="name">{$userInfo['nickname']}</span>
+                                </div>
+                                {else/}
+                                <a href="javascript:;" class="common_add_btn fl" onClick="$.WeiPHP.selectSingleUser('{:U ( 'weixin/UserCenter/lists_choose')}','{$field.name}');"></a> {/notempty}
+                            </div>
+                        </div>
+                        {/case} {case value="users"}
+                        <div class="col-sm-8">
+                            <div id="userList" class="common_add_list fl">
+                                {notempty name="data[$field['name']]"} {php} $userIds = explode(',',$data[$field['name']]); {/php} {volist name="userIds" id="uid"} {php} $userInfo = getUserInfo($uid); {/php}
+                                <div class="item" onClick="$.WeiPHP.selectSingleUser('{:U ( 'weixin/UserCenter/lists_choose')}','{$field.name}');">
+                                    {php} $userInfo = getUserInfo($data[$field['name']]); {/php}
+                                    <img src="{$userInfo['headimgurl']}" />
+                                    <br/><span>{$userInfo['nickname']}</span>
+                                    <input type="hidden" name="{$field.name}'[]" value="{$data[$field['name']]}" />
+                                    <span class="name">{$userInfo['nickname']}</span>
+                                </div>
+                                {/volist} {/notempty}
+                                <a href="javascript:;" class="common_add_btn fl" onClick="$.WeiPHP.selectMutiUser('{:U ( 'weixin/UserCenter/lists_choose')}',9,'{$field.name}');"></a>
+                            </div>
+                        </div>
+                        {/case} {default /}
+                        <input type="text" class="form-control" name="{$field.name}" value="{:I($field['name'], $field['value'])}"> {/switch}                       
+                        <span class="form-text text-muted">{notempty name="field['remark']"}（{$field['remark']|raw}）{/notempty}</span>
+                    </div>
+                </div>
+                {/if} {/volist}
+                <div class="offset-sm-2">
+                    <label style="margin-left: -80px">添加奖品</label>
+                    <table id="awardList" class="form_table" cellpadding="0" cellspacing="1" style="table-layout: fixed">
+                        <thead>
+                            <tr>
+                                <td width="11%">奖品名称</td>
+                                <td width="8%">奖品图片</td>
+                                <td width="8%">奖品类型</td>
+                                <td width="13%"><span class="need_flag">*</span> 中奖等级名</td>
+                                <td width="13%"><span class="need_flag">*</span> 奖品数量</td>
+                                <td width="10%"><span class="need_flag"></span> 中奖比例(%)</td>
+                                <td width="25%"><span class="need_flag"></span> 虚拟数量<span class="text-muted">（不填则显示真实数量）</span></td>
+                                <td width="17%"><span class="need_flag"></span> 排序<span class="text-muted">（值小的排前面）</span></td>
+<!--                                 <td><span class="need_flag">*</span> 最多抽奖<span class="check-tips">（n次,把奖品发放完）</span></td> -->
+                                <td width="5%">操作</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {volist name="award_list" id="vo"}
+                            <tr class="shop_tr">
+                                <td style="overflow: hidden;white-space:nowrap;text-overflow: ellipsis">
+                                    <input type="hidden" name="award_id[]" value="{$vo.award_id}" /><span class="name">{$vo.name}</span></td>
+                                <td><span class="img"><img src="{$vo.img|get_cover_url}" width='50' height='50'/></span></td>
+                                <td><span class="award_type">{$vo.type_name}</span></td>
+                                <td><span class="address"><input name='grade[{$vo.award_id}]' value='{$vo.grade}'/></span></td>
+                                <td><span class="address"><input type="number" class="p_num" data-aid="{$vo.award_id}" name='num[{$vo.award_id}]' value='{$vo.num}' onblur="change_percent();"/></span></td>
+                                <td><span class="percent"  id="percent_{$vo.award_id}">0</span></td>
+                                <td><span class="unreal_num"><input type="number" name='unreal_num[{$vo.award_id}]' type='number' value='{$vo.unreal_num}'/></span></td>
+                                <td><span class="sort"><input name='sort[{$vo.award_id}]' type='number' value='{$vo.sort}'/></span></td>
+<!--                                 <td><span class="address"><input name='max_count[{$vo.award_id}]' value='{$vo.max_count}'/></span></td> -->
+                                <td><a href="javascript:;" onclick="removeSingleAddress(this)">删除</a></td>
+                            </tr>
+                            {/volist}
+                            <tr class="add_tr">
+                                <td colspan="9">
+                                    <a href="javascript:;" onClick="chooseAward();">+添加奖品</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+        <div class="form-group row form_bh">
+            <div class="offset-sm-2">
+                <button class="btn btn-primary submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">{$submit_name|default='确 定'}</button>
+            </div>
+        </div>
+        </form>
+        <!-- 预览 -->
+        {//include file="common@base/weixinPreview" /}
+</div>
+{/empty}
+</section>
+</div>
+{/block} {block name="script"}
+<link href="__STATIC__/datetimepicker/css/datetimepicker.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css"> {php}if(config('COLOR_STYLE')=='blue_color') echo '
+<link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css"> ';{/php}
+<link href="__STATIC__/datetimepicker/css/dropdown.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js?v={:SITE_VERSION}" charset="UTF-8"></script>
+<script type="text/javascript">
+$('#submit').click(function() {
+    $('#form').submit();
+});
+function change_percent(){
+	  var draw_count=$('input[name="draw_count"]').val();
+	  if(draw_count>0){
+		  $('.p_num').each(function(){
+			  var p_num=$(this).val();
+			  var aid = $(this).attr('data-aid');
+			  var percent = Math.round((p_num/draw_count)*100*100)/100;
+			  $('#percent_'+aid).text(percent);
+//			  $(this).parents('td').children().find('.persent').text(percent);
+			  console.log(percent,aid);
+//			  console.log($(this).parents('td').children().find('.persent'));
+		  });
+	  }
+	
+}
+$(function() {
+    //初始化上传图片插件
+    initUploadImg();
+    initUploadFile();
+    $('.time').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        language: "zh-CN",
+        minView: 0,
+        autoclose: true
+    });
+    $('.date').datetimepicker({
+        format: 'yyyy-mm-dd',
+        language: "zh-CN",
+        minView: 2,
+        autoclose: true
+    });
+    showTab();
+
+    $('.toggle-data').each(function() {
+        var data = $(this).attr('toggle-data');
+        if (data == '') return true;
+
+        if ($(this).is(":selected") || $(this).is(":checked")) {
+            change_event(this)
+        }
+    });
+    $('.toggle-data').bind("click", function() { change_event(this) });
+    $('select').change(function() {
+        $('.toggle-data').each(function() {
+            var data = $(this).attr('toggle-data');
+            if (data == '') return true;
+
+            if ($(this).is(":selected") || $(this).is(":checked")) {
+                change_event(this)
+            }
+        });
+    });
+    //填充
+    $("iframe").load(function() {
+
+        var count = 0;
+        var prevLiHtml = "";
+        $('.shop_tr').each(function(index, element) {
+            count++;
+            var id = $(this).find('.wpid').val();
+            //console.log(1);
+            var name = $(this).find('.name').text();
+            var img = $(this).find('.img img').attr('src');
+            var award_type = $(this).find('.award_type').text();
+
+            prevLiHtml = '<li class="item single_address">' +
+                '<span class="title">' + name + '</span><br/>' +
+                '<a href="#"><img src="' + img + '" width="50" height="50" /></a>' +
+                '<a href="#">' + award_type + '</a>' +
+                '<td><input name="grade[' + id + ']" /></td>' +
+                '<td><input type="number" name="num['+id+']"  onblur="change_percent();"  class="p_num" data-aid="'+id+'"/></td>'+
+				 '<td><span class="percent" id="percent_'+id+'">0</span></td>' +
+				 '<td><input type="number" name="unreal_num[' + id + ']" /></td>' +
+                '<td><input type="number" name="sort[' + id + ']" /></td>' +
+//                 '<td><input name="max_count[' + id + ']" /></td>' +
+                '<a href="#"><em>&nbsp;</em></a>' +
+                '</li>';
+
+        });
+        if (count == 1) {
+            $(window.frames["wxIframe"].document).find(".v_nav").append(prevLiHtml);
+        } else if (count > 1) {
+            var prevHtml = '<a class="item" href="#">适用门店<em>&nbsp;</em></a>';
+            $(window.frames["wxIframe"].document).find(".v_nav").append(prevHtml);
+        }
+
+
+    })
+    //编辑页面预览
+    $('input[name="title"]').keyup(function() {
+        var val = $(this).val();
+        $(window.frames["wxIframe"].document).find("#title").text(val);
+    })
+    $('input[name="shop_name"]').keyup(function() {
+        var val = $(this).val();
+        $(window.frames["wxIframe"].document).find(".name").text(val);
+    })
+});
+
+//添加地址
+var addnewShopUrl = "{:U ( 'Draw/Award/add?model=sport_award')}";
+
+function chooseAward() {
+    var $shopHtml = $('<div class="chooseShopDialog"><ul><center><img src="__IMG__/loading.gif"/></center></ul><br/></div><div style="text-align: center" class="m15"><a href="javascript:;" class="btn" id="confirmBtn" style="padding: 8px 15px;">确定</a></div>');
+    $.Dialog.open("添加奖品", { width: 600, height: 500 }, $shopHtml);
+    $('#addNewShopBtn', $shopHtml).click(function() {
+        window.open(addnewShopUrl);
+        $.Dialog.close();
+    })
+    var ids = [];
+    $('.shop_tr').each(function(index, element) {
+        var _id = $(this).find('input').val();
+        ids[index] = _id;
+    });
+    $.ajax({
+        url: "{:U ( 'Draw/Award/list_data',array('p'=>1))}",
+        data: {},
+        dataType: 'JSON',
+        success: function(data) {
+            var html = "";
+            var list_data = data.list_data;
+            if (list_data && list_data.length > 0) {
+                for (var i = 0; i < list_data.length; i++) {
+                    //console.log(list_data[i].name)
+                    var id = list_data[i].id;
+                    var name = list_data[i].name;
+                    var award_type = list_data[i].type_name;
+                    var award = list_data[i].award_title;
+                    var img_url = list_data[i].img_url;
+                    //console.log(ids)
+                    //console.log(id)
+                    if (ids.indexOf(id) != -1) {
+                        html += '<li><input type="checkbox"  checked="true" class="wpid" value="' + id + '"/><span class="name">' + name + '</span><span class="img"><img src="' + img_url + '" ></span><span class="award_type">' + award_type + '</span><span class="award">' + award + '</span></li>';
+                    } else {
+                        html += '<li><input type="checkbox" class="wpid" value="' + id + '"/><span class="name">' + name + '</span><span class="img"><img src="' + img_url + '" width="50" height="50"></span><span class="award_type">' + award_type + '</span><span class="award">' + award + '</span></li>';
+                    }
+                }
+                if (html != "") {
+                    $('ul', $shopHtml).html(html);
+                    $('#awardList').show();
+                }
+            } else {
+                $('ul', $shopHtml).html("<center>奖品库还没有奖品</center>");
+            }
+        }
+    })
+    $('#confirmBtn', $shopHtml).click(function() {
+        var selectHtml = "";
+        var count = 0;
+        var prevLiHtml = "";
+        $('li', $shopHtml).each(function(index, element) {
+            if ($(this).find('.wpid').prop("checked") == true) {
+                count++;
+                //console.log(1);
+                var id = $(this).find('.wpid').val();
+                var name = $(this).find('.name').text();
+                var img = $(this).find('.img img').attr('src');
+                var award_type = $(this).find('.award_type').text();
+                var idArr = new Array();
+                $('#awardList tbody .shop_tr').each(function(index, element) {
+                    idArr.push($(element).find('input[name="award_id[]"]').val());
+                });
+                if ($.inArray(id, idArr) == -1) {
+                    selectHtml += '<tr class="shop_tr">' +
+                        '<td style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;" title="'+name+'"><input type="hidden" name="award_id[]" value="' + id + '"/>' + name + '</td>' +
+                        '<td><img src="' + img + '" width="50" height="50" /></td>' +
+                        '<td>' + award_type + '</td>' +
+                        '<td><input name="grade[' + id + ']" /></td>' +
+                        '<td><input type="number" name="num['+id+']"  onblur="change_percent();"  class="p_num" data-aid="'+id+'"/></td>'+
+						'<td><span class="percent" id="percent_'+id+'">0</span></td>' +
+						'<td><input type="number" name="unreal_num[' + id + ']" /></td>' +
+                        '<td><input type="number" name="sort[' + id + ']" /></td>' +
+//                         '<td><input name="max_count[' + id + ']" /></td>' +
+                        '<td><a href="javascript:;" onclick="removeSingleAddress(this)">删除</a></td>' +
+                        '</tr>';
+                }
+                prevLiHtml = '<li class="item single_address">' +
+                    '<span class="title">' + name + '</span><br/>' +
+                    '<a href="#"><img src="' + img + '" width="50" height="50" /></a>' +
+                    '<a href="#">' + award_type + '</a>' +
+                    '<td><input name="grade[' + id + ']" /></td>' +
+                    '<td><input type="number" name="num['+id+']"  onblur="change_percent();"  class="p_num" data-aid="'+id+'"/></td>'+
+					'<td><span class="percent" id="percent_'+id+'">0</span></td>' +
+					'<td><input type="number" name="unreal_num[' + id + ']" /></td>' +
+					'<td><input type="number" name="sort[' + id + ']"  /></td>' +
+//                     '<td><input name="max_count[' + id + ']" /></td>' +
+                    '<a href="#"><em>&nbsp;</em></a>' +
+                    '</li>';
+            }
+        });
+        $(selectHtml).insertBefore($('#awardList tbody .add_tr'));
+        //$(window.frames["wxIframe"].document).find(".v_nav .item").eq(0).siblings().remove();
+        if (count == 1) {
+            //$(window.frames["wxIframe"].document).find(".v_nav").append(prevLiHtml);
+        } else if (count > 1) {
+            var prevHtml = '<a class="item" href="#">添加奖品<em>&nbsp;</em></a>';
+            //$(window.frames["wxIframe"].document).find(".v_nav").append(prevHtml);
+        }
+        $.Dialog.close();
+    })
+
+}
+
+function removeSingleAddress(_this) {
+    $(_this).parents('tr').remove();
+    if ($('.shop_tr').length == 0) {
+        //$(window.frames["wxIframe"].document).find(".v_nav .item").eq(0).siblings().remove();
+    }
+}
+</script>
+{/block}

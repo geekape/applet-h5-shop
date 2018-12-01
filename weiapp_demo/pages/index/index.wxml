@@ -1,0 +1,21 @@
+<!--    "pages/contact/contact", 
+    "pages/message/message",  
+    "pages/payment/payment",  
+    "pages/qrcode/qrcode",  
+    "pages/upload/upload"  -->
+<view class="user-box">
+    <image class="user-img" src="{{userImg}}">
+    </image>
+    <view class="user-info">
+        {{userName}}
+    </view>
+</view>
+<view class="container">
+  <button bindtap="upload">上传图片到后端服务器</button>
+  <button bindtap="qrcode">事件二维码</button>
+  <button bindtap="payment">微信支付</button>
+  <button bindtap="contact">客服会话</button>
+  <button bindtap="message">模板消息</button>
+  <button bindtap="sms">手机验证码</button>
+</view>
+<view class="container">以上功能的后台配置说明请登录官网：www.weiphp.cn 查看二次开发手册</view>

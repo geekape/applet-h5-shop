@@ -1,0 +1,219 @@
+{extend name="common@base/common" /}
+{block name="body"}
+<div class="span9 page_message">
+	<section id="contents">
+		<ul class="tab-nav nav">
+			<li class="current"><a href="###">设置抽奖奖品<b
+					class="arrow fa fa-sort"></b></a></li>
+		</ul>
+		<div class="tab-content">
+			<!-- 表单 -->
+			{php} isset($post_url) || $post_url = U('add?model='.$model['id'],
+			$get_param);{/php}
+			<form id="form" action="{$post_url}" method="post"
+				class="form-horizontal form-center">
+				<ul id="tab" class="tab-pane in">
+
+					<li class="form-item cf">
+						<div class="controls">
+							<table id="option_list" class="add_list_table" cellpadding="0"
+								cellspacing="1">
+								<tr class="add_list add_list_head">
+									<td>奖品图片</td>
+									<td>名称</td>
+									<td>数量</td>
+									<td>已发放数量</td>
+									<td>奖品库剩余数量</td>
+								</tr>
+								{notempty name='awards'} {volist name='awards'
+									id='vo'>
+								<tr class="add_list">
+									<td width='250px'><img alt="{$vo['name']}"
+										src="{$vo['img']|get_cover_url}" width="100" height="100"></td>
+									<td width='250px'>{$vo['name']}</td>
+									<td width='250px'>
+										{eq name="vo.award_type" value="1"}
+											<input type="text" value="{$vo.set_num|intval}" name="award_num[{$vo['id']}]">
+											{else/}
+											<input type="text" value="{$vo.set_num|intval}" name="award_num[{$vo['id']}]" style="width: 50px;">%
+										{/eq}
+									</td>
+
+									<td width='250px'>{$vo.has_pay|intval}</td>
+
+									<td width='250px'>{$vo['count']}</td>
+								</tr>
+								{/volist} {/notempty}
+
+							</table>
+						</div>
+
+					</li>
+
+				</ul>
+		</div>
+		<div class="form-item form_bh">
+			<input type="hidden" name='sports_id' value='{$sports_id}'>
+			<button class="btn btn-primary submit-btn ajax-post" id="submit" type="submit"
+				target-form="form-horizontal">确 定</button>
+		</div>
+		</form>
+</div>
+</section>
+</div>
+{/block}
+{block name="script"}
+<link
+	href="__STATIC__/datetimepicker/css/datetimepicker.css?v={:SITE_VERSION}"
+	rel="stylesheet" type="text/css">
+{php}if(config('COLOR_STYLE')=='blue_color') echo '
+<link
+	href="__STATIC__/datetimepicker/css/datetimepicker_blue.css?v={:SITE_VERSION}"
+	rel="stylesheet" type="text/css">
+';{/php}
+<link
+	href="__STATIC__/datetimepicker/css/dropdown.css?v={:SITE_VERSION}"
+	rel="stylesheet" type="text/css">
+<script type="text/javascript"
+	src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript"
+	src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js?v={:SITE_VERSION}"
+	charset="UTF-8"></script> <script type="text/javascript">
+		//上传图片
+		/* 初始化上传插件 */
+		var node = '';
+		function initPuls() {
+			$(".uploadImage")
+					.each(
+							function(index, obj) {
+								var id = $(obj).attr('rel');
+								if (id > 0)
+									node = '#uploadImage_exist_' + id;
+								else
+									node = '#uploadImage_' + (0 - id);
+								$(node)
+										.uploadify(
+												{
+													"height" : 120,
+													"swf" : "__STATIC__/uploadify/uploadify.swf",
+													"fileObjName" : "download",
+													"buttonText" : "上传图片",
+													"uploader" : "{:U('home/File/upload_picture',array('session_id'=>session_id()))}",
+													"width" : 120,
+													'removeTimeout' : 1,
+													'fileTypeExts' : '*.jpg; *.png; *.gif;',
+													"onUploadSuccess" : function(
+															file, data,
+															response) {
+														upload_pictureimage(
+																file, data, id);
+													}
+												});
+							});
+		}
+
+		function upload_pictureimage(file, data, id) {
+			var data = $.parseJSON(data);
+			var src = '';
+			if (data.code) {
+				$("#cover_id_" + id).val(data.id);
+				src = data.url || '__ROOT__' + data.path;
+				$("#cover_id_" + id)
+						.parent()
+						.find('.upload-img-box')
+						.html(
+								'<div class="upload-pre-item"><img width="120" height="120" src="' + src + '"/></div>');
+			} else {
+				updateAlert(data.msg);
+				setTimeout(function() {
+					$('#top-alert').find('button').click();
+				}, 1500);
+			}
+		}
+
+		function addOpt() {
+			var i = 1;
+			$('.optionSort').each(function() {
+				i++;
+			});
+			var id = 0 - i;
+
+			var html = '<tr class="add_list"><td class="pic_td"><div class="uploadrow" title="更改图片">'
+
+					+ '<div class="upload-img-box"></div>'
+					+ '</div></td><td>'
+					+ '<select id="select'+i+'"  name="award['+id+']" style="width:250px">{notempty name="awards"}	{volist name="awards" id="vo"}<option value="{$vo['id']}">{$vo.name}</option>{/volist}{/notempty}	</select>'
+					+ '</td><td>'
+					+ '<input type="text" value="'+i+'" name="order['+id+']" class="optionSort text input-large" style="width:80px">&nbsp;'
+					+ '</td><td>'
+					+ '<a href="###" onClick="delOpt(this)" class="fr btn btn-yellow" >删除</a></td></tr>';
+			$('#option_list').append(html);
+			initPuls();
+			changeOption();
+			$('.add_list_head').show();
+		}
+		function delOpt(obj) {
+			$(obj).parents('tr').remove();
+		}
+		function changeOption() {
+			var val = $('input[name="is_img"]:checked').val();
+			if (val != 1) {
+				$('.uploadify').each(function() {
+					if ($(this).attr('id') != 'upload_picture_picurl')
+						$(this).hide();
+				});
+				$('.upload-img-box').each(function() {
+					if ($(this).attr('rel') != 'img')
+						$(this).hide();
+				});
+				$('.pic_td').hide();
+			} else {
+				$('.uploadify').each(function() {
+					$(this).show();
+				});
+				$('.upload-img-box').each(function() {
+					$(this).show();
+				});
+				$('.pic_td').show();
+			}
+		}
+		$(function() {
+			initPuls();
+			changeOption();
+			initUploadImg();
+		});
+		$('#submit').click(function() {
+			$('#form').submit();
+		});
+
+		$(function() {
+			$('.time').datetimepicker({
+				format : 'yyyy-mm-dd hh:ii',
+				language : "zh-CN",
+				minView : 0,
+				autoclose : true
+			});
+			$('.date').datetimepicker({
+				format : 'yyyy-mm-dd',
+				language : "zh-CN",
+				minView : 2,
+				autoclose : true
+			});
+			showTab();
+
+			$('.toggle-data').each(function() {
+				var data = $(this).attr('toggle-data');
+				if (data == '')
+					return true;
+
+				if ($(this).is(":selected") || $(this).is(":checked")) {
+					change_event(this)
+				}
+			});
+
+			$('.toggle-data').bind("click", function() {
+				change_event(this)
+			});
+
+		});
+	</script> {/block}

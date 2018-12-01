@@ -1,0 +1,108 @@
+{extend name="publics/base" /}
+
+{block name="body"}
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2><a href="{:U('Admin/User/index')}">用户列表</a></h2>
+	</div>
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
+	<table>
+    <thead>
+        <tr>
+		<th>UID</th>
+		<th>昵称</th>
+		<th>联系人</th>
+		<th>手机号码</th>
+		<th>邮箱</th>
+		
+        <th>公众号名称</th>
+        <th>原始ID</th>
+		<th>微信号</th>
+		<th>公众号绑定</th>
+		<th>应用ID</th>
+		<th>应用密钥</th>
+		<th>EncodingAESKey</th>
+		<th>GammaAppId</th>
+		<th>GammaSecret</th>
+		<th>是否初始化</th>
+		<th>是否审核</th>
+		<th>审核通过</th>
+		</tr>
+    </thead>
+    <tbody>
+		<tr>
+			<td>{$ucanter.uid} </td>
+			<td>{$ucanter.nickname}</td>
+            <td>{$ucanter.truename}</td>
+            <td>{$ucanter.mobile}</td>
+			<td>{$ucanter.email}</td>
+			
+			<td>{$public.public_name}</td>
+			<td>{$public.public_id}</td>
+			<td>{$public.wechat}</td>
+			<td>
+				{if condition="$ucanter.has_public eq 0"}
+					无公众号
+					{else/}认证服务号
+				{/if}
+			</td>
+			<td>{$public.appid}</td>
+			<td>{$public.secret}</td>
+			<td>{$public.encodingaeskey}</td>
+			<td>{$ucanter.GammaAppId}</td>
+			<td>{$ucanter.GammaSecret}</td>
+			<td>
+				{eq name="ucanter.is_init" value="0"}
+					否
+					{else/}是
+				{/eq}
+			</td>
+			<td>
+				{eq name="ucanter.is_audit" value="0"}
+					否
+					{else/}是
+				{/eq}
+			</td>
+			
+			<td>
+				{eq name="ucanter.is_audit" value="1"}
+				<a href="{:U('User/changeAudit?is_audit='.$ucanter['is_audit'].'&uid='.$ucanter['uid'])}" class="ajax-get">不通过</a>
+				{else/}
+				<a href="{:U('User/changeAudit?is_audit='.$ucanter['is_audit'].'&uid='.$ucanter['uid'])}" class="ajax-get">通过</a>
+				{/eq}
+			</td>
+			
+		</tr>
+	</tbody>
+    </table> 
+	</div>
+{/block}
+
+{block name="script"}
+	<script src="__STATIC__/thinkbox/jquery.thinkbox.js?v={:SITE_VERSION}"></script>
+
+	<script type="text/javascript">
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+		 url = change_search_url(url);
+		window.location.href = url;
+	});
+	//回车搜索
+	$(".search-input").keyup(function(e){
+		if(e.keyCode === 13){
+			$("#search").click();
+			return false;
+		}
+	});
+	</script>
+{/block}

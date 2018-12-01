@@ -1,0 +1,80 @@
+{extend name="common@base/common" /}
+{block name="body"}
+  <div class="span9 page_message">
+    <section id="contents">
+      {include file="common@base/_nav" /}
+      	<style type="text/css">
+			.data-chart{ margin:20px;}
+        	.data-chart td{ background:#fafafa; padding:20px;word-break: break-all;
+word-wrap: break-word; vertical-align:top}
+			.data-chart tr:hover td{ background:#f6f6f6}
+			.data-chart table{ background:#ddd}
+			.data-chart .answer{ line-height:20px; margin:10px 0;}
+        </style>
+      	<div class="data-chart">
+        <table cellpadding="0" cellspacing="1">
+        {volist name='questions' id='vo'} 
+        <tr>
+        	<td width="40%">
+            	<div class="Result_tit">{$vo.title}</div>
+                <p class="answer">
+                	 {$vo.answerStr}
+                </p>
+                <p class="answer">
+                	{$vo.introStr}
+                </p>
+            </td>
+            <td width="60%">
+         		<script type="text/javascript">
+                    $(function () {
+                        $('#container_{$vo.id}').highcharts({
+                            chart: {
+                                backgroundColor: null,
+                                plotBackgroundColor: null,
+                                plotBorderWidth: null,
+                                plotShadow: false
+                            }, 
+                            title: {
+                                text: ''
+                            },
+                            subtitle: {
+                                text: '{$vo.subtitles}'
+                            },
+                            credits: { enabled: false },
+                            tooltip: {
+                                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                            },
+                            plotOptions: {
+                                pie: {
+                                    allowPointSelect: true,
+                                    cursor: 'pointer',
+                                    dataLabels: {
+                                        enabled: true,
+                                        color: '#000000',
+                                        connectorColor: '#000000',
+                                        format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                                    }
+                                }
+                            },
+                            series: [{
+                                type: 'pie',
+                                name: '百分比',
+                                data: [ {$vo.dataStr} ]
+                            }]
+                        });
+                    });
+                </script>
+                <div class="Result_graph" id="container_{$vo.id}"></div>
+            </td>
+        </tr>
+        
+        {/volist}
+        </table>
+        </div>
+      </div>
+    </section>
+  </div>
+{/block}
+{block name="script"}
+<script src="__STATIC__/highcharts-4.0.1/js/highcharts.js?v={:SITE_VERSION}"></script>
+{/block}

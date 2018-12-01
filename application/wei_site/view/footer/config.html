@@ -1,0 +1,69 @@
+{extend name="common@base/common" /}
+{block name="body"}
+<link href="{:ADDON_PUBLIC_PATH}/weisite.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+<div class="span9 page_message">
+	<section id="contents">
+     
+      <div class="tab-content" id="hasSubNav"> 
+            <ul class="sub_tab">
+                <li><a class="cur" href="{:U('wei_site/footer/lists')}">底部菜单配置</a></li>
+                <li><a href="{:U('wei_site/footer/template')}">底部菜单模板</a></li>
+            </ul>
+            <p class="normal_tips">
+            	一级主菜单最多4个，菜单风格1-8子菜单最多6个，菜单风格9-16子菜单最多10个。<br/>
+				一键拨号填写范例：tel:136xxxx1570请拷贝代码粘帖到输入框，修改电话号码。
+            </p>
+            <div class="sub_tab_content">
+            	
+                <div class="tools">
+                    {if condition="$add_button"}{php} isset($add_url) || $add_url = U('add?model='.$model['id']);{/php}<a class="btn" href="{$add_url}">新 增</a>{/if}
+                    {if condition="$del_button"}{php} isset($del_url) || $del_url = U('del?model='.$model['id']);{/php}<button class="btn ajax-post confirm" target-form="ids" url="{$del_url}">删 除</button>{/if}                
+                </div>
+                <!-- 数据列表 -->
+                  <div class="data-table">
+                    <div class="data-table table-striped">
+                      <table>
+                        <!-- 表头 -->
+                        <thead>
+                          <tr>
+                            {if condition="$check_all"}<th class="row-selected row-selected"> <input class="check-all" type="checkbox"></th>{/if}
+                            {volist name="list_grids" id="field"}
+                              <th>{$field.title}</th>
+                            {/volist}
+                          </tr>
+                        </thead>
+                        
+                        <!-- 列表 -->
+                        <tbody>
+                          {volist name="list_data" id="data"}
+                            <tr>
+                              {if condition="$check_all"}<td><input class="ids" type="checkbox" value="{$data['id']}" name="ids[]"></td>{/if}
+                              {volist name="list_grids" id="grid"}
+                                {if ($grid.raw == 1) OR ($grid.come_from == 1) }<td>{$data[$key]|raw}</td>{else /}<td>{$data[$key]}</td>{/if}
+                              {/volist}
+                            </tr>
+                          {/volist}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="page"> {$_page|raw|default=''} </div>
+            </div>
+      </div>
+    </section>
+ </div>
+{/block}
+
+{block name="script"}
+<script type="text/javascript" charset="utf-8">
+	//导航高亮
+    $('.side-sub-menu').find('a[href="{:U('Addons/index')}"]').closest('li').addClass('current');
+    if($('ul.tab-nav').length){
+    	$('.btn-return').hide();
+    }
+	$(function(){
+		showTab();
+		
+	})
+</script>
+{/block}

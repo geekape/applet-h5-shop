@@ -1,0 +1,125 @@
+.container{ padding-bottom:50px;}
+.bg{ background:#333 url(bg.jpg) no-repeat; position:fixed; top:0; right:0; left:0; bottom:0; background-size:100% 100%; z-index:1;}
+.card_wrap{ position:relative; z-index:10;}
+.card_wrap .head{ margin:20px 0 20px 20px; height:62px; padding:10px 10px 10px 80px; position:relative; background:RGBA(255,255,255,.8); border-top-left-radius:50px;border-bottom-left-radius:55px;}
+.card_wrap .head .head_pic{width:60px; height:60px; border-radius:100%; position:absolute; top:10px; left:10px; border:1px solid #fff;}
+.card_wrap .head .head_pic img{ width:100%; height:100%; border-radius:100px;}
+.card_wrap .head .name{ font-size:18px; line-height:30px; padding-top:5px;}
+.card_wrap .head .position{ font-size:14px; color:#888;}
+.qrcode_btn{ position:absolute; top:25px; right:15px;}
+.detail_info{ margin:15px 20px 0 0;border-top-right-radius:10px; border-bottom-right-radius:10px; background:RGBA(255,255,255,.9);}
+.detail_info .item{ padding:10px; border-bottom:1px dashed #ddd;}
+.detail_info .item:last-child{ border:none}
+.detail_info .item .label{color:#888; padding-right:5px; float:left;}
+.bottom_menu{ height:55px; padding:0 10px; position:fixed; right:0; left:0; bottom:0; background:#fff; box-shadow:0 -1px 1px RGBA(0,0,0,.6); border-top:1px solid #ddd; display:-webkit-box; z-index:11;}
+.bottom_menu a{ display:block; -webkit-box-flex:1; padding-top:30px;text-align:center; color:#888; font-size:12px; border-right:1px solid #ddd;}
+.bottom_menu a:last-child{ border:none}
+.bottom_menu .back{ background:url(back.png) no-repeat center 8px; background-size:22px 22px;}
+.bottom_menu .share{ background:url(share.png) no-repeat center 8px; background-size:22px 22px; position:relative}
+.bottom_menu .center{ background:url(center.png) no-repeat center 8px; background-size:22px 22px;}
+.bottom_menu .collected{ background:url(collected.png) no-repeat center 8px; background-size:22px 22px;}
+.exchange_btn{ margin:0 20px 15px 0;border-top-right-radius:10px; border-bottom-right-radius:10px; background:#44b549; color:#fff; padding:12px 10px; text-align:center; display:block; font-size:18px;}
+.del_btn{ background:#F36}
+.edit_tab{ display:-webkit-box; height:44px;border-top-right-radius:10px; border-bottom-right-radius:10px; background:#44b549; margin:0 20px 15px 0;}
+.edit_tab a{display:block; -webkit-box-flex:1; text-align:center; line-height:44px; color:#fff; border-right:1px solid #36a93b}
+.edit_tab a:last-child{ border:none;}
+
+.commenttitle{
+    background-color: lightseagreen;
+    color: aliceblue;
+    text-align: center;
+ 	border-top-right-radius: 10px;
+    margin:15px 20px 0 0;
+    line-height: 40px;
+}
+.commentbottom{
+    background-color: #52BABD;
+    text-align: center;
+    line-height: 40px;
+	margin:0 20px 15px 0;
+	border-bottom-right-radius:10px;
+	
+}
+.commentbottom input[type="text"],.commentbottom textarea{ border:none; border-bottom:1px solid #ddd; border-radius:0;}
+.commentbtn{
+    background-color:#F60;
+	border-radius:0;
+    border-bottom-right-radius: 10px;
+	padding:6px 0;
+}
+.delbtn{
+    border: 1px solid #36a93b;
+    padding: 5px 10px 5px 10px;
+    background-color: #36a93b;
+    color: snow;
+	border-radius:5px;
+
+}
+.btn_container{ overflow:hidden; zoom:1; margin:10px 20px 0 0; text-align:center;}
+.btn_container a{ display:inline-block; -webkit-box-flex:1px; color:#fff; padding:10px 0; text-align:center; width:44%; margin:10px; border-radius:10px;}
+.msg_list{ margin: 0 15px 15px 0;}
+.msg_list td{ border-bottom:1px dashed #ccc; padding:5px;}
+.msg_list tr:last-child td{ border:none}
+.msg_list td img{ border-radius:100%;}
+
+/* 动画 */
+.animated{
+	-webkit-animation-duration:1.0s;
+	animation-duration:1.0s;
+	-webkit-animation-fill-mode:both;
+	animation-fill-mode:both
+}
+@-webkit-keyframes slideLeftIn{
+0%{
+	-webkit-transform:translate(-100%,0);
+	transform:translate(-100%,0)
+}
+100%{
+	-webkit-transform:translate(0,0);
+	transform:translate(0,0);
+}
+
+}
+@keyframes slideLeftIn{
+0%{
+	-webkit-transform:translate(-100%,0);
+	transform:translate(-100%,0)
+}
+100%{
+	-webkit-transform:translate(0,0);
+	transform:translate(0,0);
+}
+
+}
+
+.slideLeftIn {
+  -webkit-animation-name: slideLeftIn;
+  animation-name: slideLeftIn;
+}
+@-webkit-keyframes slideRightIn{
+0%{
+	-webkit-transform:translate(100%,0);
+	transform:translate(100%,0)
+}
+100%{
+	-webkit-transform:translate(0,0);
+	transform:translate(0,0);
+}
+
+}
+@keyframes slideRightIn{
+0%{
+	-webkit-transform:translate(100%,0);
+	transform:translate(100%,0)
+}
+100%{
+	-webkit-transform:translate(0,0);
+	transform:translate(0,0);
+}
+
+}
+
+.slideRightIn {
+  -webkit-animation-name: slideRightIn;
+  animation-name: slideRightIn;
+}

@@ -1,0 +1,104 @@
+{extend name="shop@wap/common_file" /} {block name="common_body"}
+<body class="white-bg">
+	<!-- 头部导航 -->
+	<div class="top-nav">
+	    <div class="flex">
+	        <i class="iconfont icon-back" id="go-back"></i>
+	        <slot>
+	            <span class="title">优惠券</span>
+	        </slot>
+	    </div>
+	</div>
+
+	<div class="wrap white-bg">
+	    
+
+
+
+		<div class="white-bg use-chit">
+				<!-- 优惠卷 -->
+				<div class="m-chit">
+					<div class="m-chit-img">
+						<img src="__STATIC__/default/img/coupon.png">
+					</div>
+
+					<div class="m-chit-info f-lh-md">
+						<h4>{$data.title|default=''}</h4>
+						<p class="m-chit-info-time">有效期: {$data.use_start_time|day_format} - {$data.over_time|day_format}</p>
+					</div>
+				</div>
+				<!-- /优惠卷 -->
+
+
+			   <!-- 扫码 -->
+			   <div class="m-qrcode" id="unusedStatus" {if condition="isset($sn['is_use']) && $sn['is_use'] eq 1"}style='display: none '{/if}>
+
+				{notempty name="sn.id"}
+                <div id="barcode" style="margin:.4rem"></div>
+                
+			   	<!-- 使用前 -->
+			   	<div class="m-qrcode-img" id="qrCode">
+			   		<img src="https://dummyimage.com/200x200/eee/fff&text=qrcode">
+			   	</div>
+	            <p class="qr_time_tips mt-base gray"></p>
+
+			   	<div class="m-qrcode-text">
+			   		<span>如果线下门店使用，将本页面展示给商家即可使用</span>
+			   	</div>
+				{/notempty}
+                </div>
+			   	<!-- 使用后 -->
+			   	{notempty name="sn.id"}
+	 		   	<div class="hint" id="usedStatus" {if condition="isset($sn['is_use']) && $sn['is_use'] eq 0"} style='display:  none;' {/if}>
+			   		<div class="hint-img">
+			   			<img src="__STATIC__/default/img/succeed-icon.png">
+			   		</div>
+			   		<h3>已使用该优惠券</h3>
+			   	</div>
+			   	{/notempty}
+			   <!-- /扫码 -->
+
+				<!-- 优惠卷说明 -->
+				<div class="m-explain f-pb-lg">
+					<h3>优惠券使用说明</h3>
+					{$data.use_tips|raw}
+				</div>
+				<!-- /优惠卷说明 -->
+		</div>
+	</div>
+
+		<div class="bottom-nav bottom-nav-clear">
+	    	<a class="weui-btn weui-btn_primary" href="{:U ( 'coupon/wap/personal')}">查看更多优惠券</a>
+	 	 </div>
+</body>
+<script type="text/javascript" src="__STATIC__/qrcode/qrcode.js"></script>
+<script type="text/javascript" src="__STATIC__/qrcode/jquery.qrcode.js"></script>
+<script type="text/javascript" src="__STATIC__/qrcode/jquery-barcode.js"></script>
+
+<script type="text/javascript">   
+
+function closepage(){
+	wx.closeWindow();
+}
+var isUsed= '{$sn.is_use|default=0}';
+$(function(){
+	var code = "{$sn.sn|default=''}";
+	$('#barcode').barcode(code, "code128",{barWidth:2, barHeight:50});
+			
+	var textLink = "{:U('do_pay',array('sn_id'=>$sn['id']))}";
+	$('#qrCode').qrcode({width:200,height:200,text:textLink,refresh:true,time:30000});
+				
+	if(isUsed==0){
+	var timer = setInterval(function(){
+		$.post("{:U ( 'Coupon/Wap/get_sn_status')}",{ sn_id:"{$sn.id}"},function(data){
+			if(data==1){
+				$('#usedStatus').show();
+				$('#unusedStatus').hide();
+				clearInterval(timer)
+			}
+		})
+	},2000);
+	}
+})
+</script>
+{/block}

@@ -1,0 +1,41 @@
+{include file="common@base/mobile_head" /}
+<div style="margin:50% 0;text-align: center;font-size: 1em ">请在30分钟内完成支付</div>
+<script type="text/javascript">
+function jsApiCall(){
+   WeixinJSBridge.invoke(
+       'getBrandWCPayRequest', {
+           "appId":"{$pay.appId}",     //公众号名称，由商户传入     
+           "timeStamp":"{$pay.timeStamp}",         //时间戳，自1970年以来的秒数     
+           "nonceStr":"{$pay.nonceStr}", //随机串     
+           "package":"{$pay.package}",     
+           "signType":"{$pay.signType}",         //微信签名方式：     
+           "paySign":"{$pay.paySign}" //微信签名 
+       },
+       function(res){   
+		   alert(res.err_msg);  
+		   return true;
+           if(res.err_msg == "get_brand_wcpay_request:ok" ) {
+			   //alert("{$jump_url}")	
+			   window.location.href = "{$jump_url}";
+		   }else{
+			   window.location.href = "{$back_url}";
+		   }
+       }
+   ); 
+}
+function doPay(){
+	if (typeof WeixinJSBridge == "undefined"){
+	   if( document.addEventListener ){
+		   document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+	   }else if (document.attachEvent){
+		   document.attachEvent('WeixinJSBridgeReady', jsApiCall); 
+		   document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+	   }
+	}else{
+		jsApiCall()
+	}
+}
+$(function(){
+	doPay();
+})
+</script>

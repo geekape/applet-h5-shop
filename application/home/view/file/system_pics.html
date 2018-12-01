@@ -1,0 +1,10 @@
+<div class="pic_category">
+	{volist name="cateList" id="ca"}
+		<a {if condition="isset($ca['current'])&&$ca['current']"}class="current"{else/}onclick="switchPicCate(this,2);"{/if} data-href="{:U('home/File/system_pics',array('dir'=>$ca['dir']))}">{$ca.cate}</a>
+    {/volist}
+</div>
+<ul class="upload_piclist">
+	{volist name="picList" id="vo"}
+		<li class="upload-pre-item22" data-id="{$vo.id}" onClick="toggleCheck(this)"><img src="{$vo.url}" width="100" height="100"/><span class="ck-ico"></span><input type="hidden" value="{$vo.id}"/></li>
+    {/volist}
+</ul>

@@ -1,0 +1,49 @@
+{extend name="shop@wap/common_file" /} {block name="common_body"}
+<!-- 首页 -->
+
+<!-- 头部导航 -->
+<div class="top-nav">
+    <div class="flex">
+      <i class="iconfont icon-back" id="go-back"></i>
+        <slot>
+            <span class="title">我的足迹</span>
+        </slot>
+    </div>
+</div>
+
+
+<div class="wrap my-track">
+
+    
+{empty name="track"}{:W('common/EmptyTip/html', ['remark'=>'您还没相关足迹信息~'])}   {else /}
+{volist name="track" id="day_lists"}
+    <div class="weui-panel weui-panel_access">
+        <div class="weui-panel__hd">{$key}</div>
+        {volist name="day_lists" id="goods"}
+        <div class="weui-panel__bd ui-border-b">
+            <a href="{:U('goods_detail',['id'=>$goods['id']])}" class="weui-media-box weui-media-box_appmsg">
+                <div class="weui-media-box__hd">
+                    <img class="weui-media-box__thumb lazyload" class="lazyload" src="data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-src="{$goods.cover}" alt="{$goods.title}">
+                </div>
+                <div class="weui-media-box__bd">
+                    <h4 class="weui-media-box__title">{$goods.title}</h4>
+                    <p class="weui-media-box__desc">
+                        <span>
+                      <strong class="red"><span class="prize-icon">¥</span>{$goods.sale_price}</strong>
+                      {if condition="$goods['sale_price'] < $goods['market_price']"}<del><span class="prize-icon">¥</span>{$goods.market_price}</del>{/if}
+                    </span>
+                        <small class="fr">浏览{$goods.view_count}次</small>
+                    </p>
+                </div>
+            </a>
+        </div>
+        {/volist}
+        
+    </div>
+  <!-- /预览的商品 -->
+ {/volist}
+ {/empty} 
+  <!-- 预览的商品 -->   
+
+</div>
+{/block}

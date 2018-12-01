@@ -1,0 +1,100 @@
+{extend name="common@base/common" /}
+{block name="body"}
+  <style type="text/css">
+    .form-check {
+      padding-left: 0;
+      padding-right: 1.25em;
+    }
+  </style>
+  <div class="span9 page_message">
+    <section id="contents">{include file="common@base/_nav" /}
+      <div class="tab-content"> 
+        <!-- 表单 -->
+        <form id="form" action="{:U('add_custom_tag')}" method="post" class="form-horizontal form-center">
+          <ul id="tab" class="tab-pane in" style="float: initial">
+            <li class="form-group row toggle-pre">
+              <label class="col-sm-2 col-form-label">用户组 <!--<a href="">增加新标签</a>--></label>
+              <div class="col-sm-10">
+                <select name="tag_id" >
+                  <option value="0">不限</option>
+                  {notempty name="tags"}
+                  {volist name="tags" id="vo"}
+                  <option value="{$key}">{$vo}</option>
+                  {/volist}
+                  {/notempty}
+                </select>
+              </div>
+            </li>
+            <li class="form-group row toggle-pre">
+              <label class="col-sm-2 col-form-label">性别 </label>
+              <div class="col-sm-10 d-flex align-items-center">
+                <div class="form-check">
+                  <input type="radio" class="form-check-input regular-radio toggle-data" value="0" id="no_sex" name="sex" checked/>
+                  <label for="no_sex" class="form-check-label"></label>
+                  不限 </div>
+                <div class="form-check">
+                  <input type="radio" class="form-check-input regular-radio toggle-data" value="1" id="man" name="sex"/>
+                  <label for="man" class="form-check-label"></label>
+                  男 </div>
+                <div class="form-check">
+                  <input type="radio" class="form-check-input regular-radio toggle-data" value="2" id="woman" name="sex"/>
+                  <label for="woman" class="form-check-label"></label>
+                  女 </div>
+              </div>
+            </li>
+            <li class="form-group row toggle-pre">
+              <label class="col-sm-2 col-form-label">手机操作系统 <span class="check-tips"></span class="form-check-label"></label>
+              <div class="col-sm-10 d-flex align-items-center">
+                <div class="form-check">
+                  <input type="radio" class="form-check-input regular-radio toggle-data" value="0" id="no_phone" name="os" checked/>
+                  <label for="no_phone" class="form-check-label"></label>
+                  不限 </div>
+                <div class="form-check">
+                  <input type="radio" class="form-check-input regular-radio toggle-data" value="1" id="ios" name="os"/>
+                  <label for="ios" class="form-check-label"></label>
+                  IOS </div>
+                <div class="form-check">
+                  <input type="radio" class="form-check-input regular-radio toggle-data" value="2" id="android" name="os"/>
+                  <label for="android"></label>
+                  Android </div>
+                <div class="form-check">
+                  <input type="radio" class="form-check-input regular-radio toggle-data" value="3" id="other" name="os"/>
+                  <label for="other"></label>
+                  Others </div>
+              </div>
+            </li>
+            <li class="form-group row toggle-pre">
+              <label class="col-sm-2 col-form-label">地区 </label>
+              <div class="col-sm-10"> 
+                <div data-toggle="distpicker">
+                <div id="cascade_area"></div>
+                {:W('common/cascade/cascade', array('name'=>'area','value'=>'','extra'=>'table=area&first_option=不限'))}
+
+                </div>
+              </div>
+            </li>
+            <li class="form-group row toggle-pre">
+              <label class="col-sm-2 col-form-label">语言 </label>
+              <div class="col-sm-10">
+                <select name="lang">
+                  <option value="0">不限</option>
+                    {notempty name="lang"}
+                  {volist name="lang" id="vo"}
+                  <option value="{$key}">{$vo}</option>
+                  {/volist}
+                  {/notempty}               
+                </select>
+              </div>
+            </li>
+          </ul>
+          <div class="row">
+            <div class="col-sm-4 offset-sm-2">
+              <input type="hidden" name="rule_ie" value="{:I('rule_id', 0)}" />
+            <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+{/block}

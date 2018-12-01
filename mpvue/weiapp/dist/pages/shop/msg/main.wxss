@@ -1,0 +1,5 @@
+@import "../../../common/vendor.wxss";
+
+page {
+  background: #fff!important;
+}

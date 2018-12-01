@@ -1,0 +1,80 @@
+{extend name="Base/login_base" /}
+{block name="body"}
+<!-- 头部 -->
+<div class="login_header">
+    <div class="small_wrap">
+        <a href="/" title="乐摇"><img class="logo" src="__IMG__/logo.png"/></a>
+        <div class="nav_r">
+           <a href="{:U('home/index/lead')}">接入指引</a>
+        </div>
+    </div>
+</div>
+
+<section class="reg_box small_wrap about_wrap">
+	
+    <div class="about_content">
+    	
+        <p>
+        	<strong>注册账号</strong>
+        </p>
+        <P>
+        	填写正确的用户名、密码、邮箱，以后将使用该用户名和密码登录{:config('WEB_SITE_TITLE')}系统：
+            <br/>
+            <img src="__IMG__/about/help/ly_lead_001.png"/>
+        </P>
+        <p>
+        	<strong>在微信公众号后台</strong>
+        </p>
+        <P>
+        	请按照图示填写正确的信息：
+            <br/>
+            <img src="__IMG__/about/help/ly_lead_0021.png"/>
+        </P>
+        <p>
+        	<strong>如果选择使用自有的公众号，则需要按流程填写授权信息</strong>
+        </p>
+        <P>
+        	请按照图示填写正确的公众号信息：
+            <br/>
+            <img src="__IMG__/about/help/ly_lead_002.png"/>
+        </P>
+        
+        <p>
+        	<strong>同时在微信后台进行域名授权配置</strong>
+        </p>
+        <P>
+            配置域名授权：在开发者中心，功能列表里配置，配置授权域名如下图<br/>
+            <img src="__IMG__/about/help/ly_lead_003.png"/>
+            配置JS接口安全域名，在公众号设置-功能配置里面配置，配置JS安全域名如下图<br/>
+            <img src="__IMG__/about/help/ly_lead_004.png"/>
+        </P>
+        <p>
+        	<strong>在微信公众号后台配置授权信息</strong>
+        </p>
+        <P>
+        	 <strong>请在公众平台开发者中心里的服务器配置录入以下参数</strong>
+             <br/>
+             {notempty name="id"}
+             	URL(服务器地址)：<span style="color: #FF0000">{:U('home/weixin/index',array('id'=>$id))}</span><br>
+              	Token(令牌)：<span style="color: #F00">{:SYSTEM_TOKEN}</span><br>
+              {else/}
+                你还没有登录乐摇系统
+              {/notempty}
+              EncodingAESKey(消息加解密密钥)：点击随机生成得到密钥，不需要自己填写<br>
+              消息加解密方式： 根据自己的需要选择其中一种
+             
+        </P>
+        <P>
+        	 <strong>填写公众号授权信息</strong><br/>
+            <img src="__IMG__/about/help/ly_lead_0022.png"/>
+        </P>
+        <P>
+        	<strong>提交成功！刷新页面进入后台！</strong>
+        </P>
+    </div>
+    
+    
+</section>
+</block>
+{block name="script"}
+</block>

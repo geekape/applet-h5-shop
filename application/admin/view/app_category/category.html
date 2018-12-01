@@ -1,0 +1,32 @@
+{extend name="publics/base"/}
+
+{block name="body"}
+    <div class="main-title">
+        <h2>编辑 {$data.title} 分类</h2>
+    </div>
+    <form action="{:U()}" method="post" class="form-horizontal">
+        <div class="form-item">
+            <label class="item-label">请选择分类</label>
+            <div class="controls">
+                  <select name="cate_id">
+                  <option value="0" {eq name="data['cate_id']" value="0"}selected{/eq}>无分类</option>
+                      {volist name="categorys" id="vo"}
+                          <option value="{$vo.id}" {eq name="data['cate_id']" value="vo.id"}selected{/eq}>{$vo.title}</option>
+                      {/volist}
+                  </select>
+            </div>
+        </div>
+        <div class="form-item">
+            <input type="hidden" name="id" value="{$data.id|default=0}" />
+            <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+            <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+        </div>
+    </form>
+{/block}
+
+{block name="script"}
+    <script type="text/javascript">
+        //导航高亮
+        $('.side-sub-menu').find('a[href="{:U('apps/index')}"]').closest('li').addClass('current');
+    </script>
+{/block}

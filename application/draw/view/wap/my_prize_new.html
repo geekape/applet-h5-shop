@@ -1,0 +1,66 @@
+{extend name="shop@wap/common_file" /} {block name="common_body"}
+<!-- 头部导航 -->
+<div class="top-nav">
+    <div class="flex">
+      <i class="iconfont icon-back" id="go-back"></i>
+        <slot>
+            <span class="title">奖品详情</span>
+        </slot>
+    </div>
+</div>
+<div class="wrap prize-detail">
+    
+
+    <!-- 我的奖品 -->
+    {notempty name="list"}
+    {volist name="list" id="vo"}
+    <div class="m-card3">
+        <div class="m-goods2 flex">
+            <div class="flex-item flex">
+                <div class="m-goods2-img">
+                    <img src="{$vo.img|get_cover_url}">
+                </div>
+                <div class="m-goods2-text">
+                    <p>{$vo.award_name}</p>
+                    <small class="gray">{$vo.grade}</small>
+                </div>
+            </div>
+
+            {if condition="$vo['award_type'] eq 0"}
+             <a class="card-btn card-b-btn" href="###">已存入会员卡</a>
+            {elseif condition="$vo['award_type'] eq 4" }
+             <a class="card-btn card-b-btn" href="###">已存入微信零钱</a>
+            {else/}
+            {notempty name="vo.jump_url" }
+            <div>
+                <a class="card-btn" href="{$vo.jump_url}">去使用</a>
+            </div>
+             {/notempty}
+             {/if}
+        </div>
+		
+       
+    </div>
+ 	{/volist}
+ 	{/notempty}
+ <!-- <div class="m-card3 f-mt-base">
+        <div class="m-goods2">
+            <div class="m-goods2-img">
+                <img src="//dummyimage.com/200x200/000/fff">
+            </div>
+
+            <div class="m-goods2-text">
+                <p>情侣戒指一对</p>
+                <small class="gray">一等奖</small>
+            </div>
+        </div>
+
+        <div class="ui-border-t">
+            <a class="card-btn" href="">去使用</a>
+        </div>
+    </div> -->
+    
+    <!-- /我的奖品 -->
+    
+</div>
+{/block}

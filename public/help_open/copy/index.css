@@ -1,0 +1,24 @@
+@charset "utf-8";
+/* CSS Document */
+html,body{ background:#F30;width: 100%; min-height:100%; color:#fff}
+.fixed_bg{ position:fixed; top:0; left:0; right:0; bottom:0; z-index:1;}
+.fixed_bg img{ height:100%; width:100%;}
+.main_wrap{ position:relative; z-index:10;}
+.link{ text-align:center; font-size:12px; color:#CCC}
+.link a,.link a:visited{ color:#eee;}
+.title{ background:url(title_con.png) no-repeat; background-size:100% 100%; margin:15px; padding:10px; text-align:center; font-size:16px; font-weight:bold; color:#fbcb0c}
+.info{ padding:10px; text-align:center;}
+.info .prize_title,.left_count,.invite_count{ font-size:15px; color:#FF0}
+.info .time{ font-size:12px; color:#eee;}
+.prize_box{ width:100%; margin-bottom:10px;}
+.start_btn,.start_btn:visited{ display:inline-block; width:80%; height:44px; line-height:44px; background:url(btn.png) no-repeat; border-radius:10px; text-align:center; color:#990002; text-shadow:1px 1px 1px #930; font-size:16px; font-weight:bold;}
+.main_btn{ display:block; margin:10px auto;}
+.sub_btn_div{ display:-webkit-box; width:80%; margin:0 auto 10px;}
+.sub_btn_div .start_btn{-webkit-box-flex:1; display:block; width:auto;}
+.sub_btn_div .start_btn:first-child{ margin-right:20px;}
+.intro_content{ padding:15px;}
+.join_list{ position:absolute; top:20px; left:10px; right:10px; background:#fff; padding:10px; overflow:auto; border-radius:10px; color:#555;}
+.join_list .close{ position:absolute; width:20px; height:20px; top:10px; right:10px; background:url(close.png) no-repeat; background-size:auto 100%; z-index:1000;}
+.join_list li{ padding:10px 10px 10px 70px; position:relative; border-bottom:1px dashed #ddd;}
+.join_list li img{ position:absolute; top:10px; left:10px; width:50px; height:50px; background:#ccc; border-radius:100%;}
+.join_list li .time{ font-size:12px; color:#999}

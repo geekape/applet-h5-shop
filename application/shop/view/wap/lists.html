@@ -1,0 +1,80 @@
+{extend name="shop@wap/common_file" /} {block name="common_body"}
+
+<body class="lists">
+  <!-- 头部导航 -->
+  <div class="top-nav">
+      <div class="flex">
+          <i class="iconfont icon-back" id="go-back"></i>
+          <slot>
+              <span class="title">商品列表</span>
+          </slot>
+      </div>
+  </div>
+  <div class="wrap">
+      
+
+
+      <!-- 搜索区域 -->
+      <div class="search-block flex">
+      <form class="flex" id="search_price" action="{:U('lists',['search_key'=>I('search_key'),'cate_id'=>I('cate_id'),'pid'=>I('pid')])}" method="get">
+        <div class="flex-item">
+           <label class="">
+             <input type="number" step="0.01" min="0" name="min_price" placeholder="最低价格" value="{:input('min_price')}">
+           </label>
+           <span class="f-mx-base">-</span>
+          <label class="">
+            <input type="number" step="0.01" min="0" name="max_price" placeholder="最高价格" value="{:input('max_price')}">
+          </label>   
+          </div>
+        <i class="iconfont icon-search"></i>
+          </form>
+      </div>
+
+  {notempty name="goods"}
+    <!-- 商品列表 -->
+      <div class="goods-two">
+      {volist name="goods" id="vo"}
+        <div class="goods-item">
+            <a href="{:U('goods_detail',['id'=>$vo['id']])}">
+          <div class="goods-img">
+            <img class="lazyload" data-src="{$vo.cover}" alt="{$vo.title}">
+          </div>
+
+          <!-- 商品信息 -->
+          <div class="goods-info">
+            <p class="goods-title">{$vo.title}</p>
+            <div class="goods-price">
+              <strong class="goods-price-c"><span class="prize-icon">¥</span>{$vo.sale_price}</strong>
+              {if condition="$vo['sale_price'] < $vo['market_price']"}<span><span class="prize-icon">¥</span>{$vo.market_price}</span>{/if}
+            </div>
+          </div>
+              </a>
+        </div>
+            {/volist}
+        
+      </div>
+  {else /}
+  {:W('common/EmptyTip/html', ['remark'=>$empty_tip])}
+  {/notempty}
+       
+     </div>
+     <!-- 底部导航 -->
+     {include file="wap/_footer"}  
+</body>
+
+
+<script type="text/javascript">
+
+
+  
+$(function(){
+	$('.icon-search').click(function(){
+		console.log(55)
+		$('#search_price').submit()
+	});
+
+  
+
+})
+</script>  
+{/block}

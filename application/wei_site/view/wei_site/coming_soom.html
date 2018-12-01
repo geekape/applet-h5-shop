@@ -1,0 +1,29 @@
+{include file="common@base/mobile_head"/}	
+<style type="text/css">
+html,body{ background:#fff}
+	.coming_soom{ text-align:center; padding:50px 0;}
+	.coming_soom img{ margin-bottom:20px;}
+	.coming_soom a{ background:#900000; color:#fff; border-radius:20px; padding:8px 40px;}
+</style>
+<body id="weisite" style="background:#fff; background-size:100% 100%">
+<div class="container">
+	<div class="coming_soom">
+    	<img src="{$config.cover|get_cover_url}" width="60%"/><br/>
+        
+        <br/><br/>
+        
+        <a href="javascript:;" onClick="history.back();">返回</a>
+    </div>
+</div>
+<!-- 统计代码 -->
+{notempty name="config.code"}
+<p class="hide bdtongji">
+{$config.code}
+</p>
+{else/}
+<p class="hide bdtongji">
+{$tongji_code|raw}
+</p>
+{/notempty}
+</body>
+</html>

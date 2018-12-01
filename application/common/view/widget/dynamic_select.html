@@ -1,0 +1,11 @@
+<div id="dynamic_select_{$name}"></div>
+<select name="{$name}">
+	<option value="0" class="toggle-data" toggle-data="{$first_option}">{$first_option}</option>
+	{volist name="list" id="vo"}
+	<option value="{$key}" class="toggle-data"
+		toggle-data="{$vo|get_hide_attr}"
+		{eq name="default_value" value="$key"}selected{/eq}
+		>{$vo|clean_hide_attr}
+	</option>
+	{/volist}
+</select>

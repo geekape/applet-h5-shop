@@ -1,0 +1,58 @@
+{extend name="shop@wap/common_file" /} {block name="common_body"}
+<!-- 头部导航 -->
+<div class="top-nav">
+    <div class="flex">
+        <i class="iconfont icon-back" id="go-back"></i>
+        <slot>
+            <span class="title">我的收藏</span>
+        </slot>
+    </div>
+</div>
+<div class="wrap">
+   
+    {empty name="myCollect"}{:W('common/EmptyTip/html', ['remark'=>'您还没收藏过相关商品~'])}   {else /}
+{volist name="myCollect" id="goods"}
+    <div class="bought-goods">
+
+          <a href="{:U('goods_detail',['id'=>$goods['id']])}" class="m-goods2">
+          <div class="m-goods2-img">
+            <img src="{$goods.cover}">
+          </div>
+          <div class="m-goods2-text">
+            <p>
+              <span>{$goods.title}</span>
+            </p>
+            <div class="flex">
+              <p class="flex-item"><span class="prize-icon"><span class="prize-icon">¥</span>{$goods.sale_price}</p>
+              <small class="gray">x1</small>
+            </div>
+          </div>
+        </a>
+
+        <!-- 按钮 -->
+        <div class="ui-border-t btn-group">
+              {if condition="$goods['is_delete']==1"}
+<span class="gray">商品已删除</span>
+             {elseif condition="$goods['is_show']==0"}
+<span class="gray">商品已下架</span>             
+             {elseif condition="$goods['stock_active']==0"}
+<span class="gray">商品已售罄</span>             
+             {else /}
+              <a class="border-btn" href="javascript:;" onClick="addToCart({$goods['id']},'{:U('addToCart')}')">加入购物车</a>
+             <a class="btn" href="{:U ( 'Shop/Wap/confirm_order',['goods_id'=>$goods['id']])}">立即购买</a>
+             {/if}
+        </div>
+    </div>
+{/volist}
+ {/empty}
+
+    </div>
+
+
+
+   
+
+
+    
+</div>
+{/block}

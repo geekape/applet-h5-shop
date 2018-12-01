@@ -1,0 +1,6 @@
+<view class="container">
+  <view class="weishop_title">客服会话</view>
+  <contact-button type="default-dark" size="27" session-from="weiphp">
+    <text>进入客服</text>
+  </contact-button>
+</view>

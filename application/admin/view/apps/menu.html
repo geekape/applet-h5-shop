@@ -1,0 +1,41 @@
+{extend name="publics/base" /}
+
+{block name="body"}
+<div class="main-title">
+	<h2>设置菜单</h2>
+</div>
+<form action="{:U()}" method="post" class="form-horizontal">
+	<div class="form-item">
+		<label class="item-label">[{$title}] 应用显示位置</label>
+		<div class="controls">
+			<select name="type" id="menu" onchange="setmenu()">
+				<option value="1">顶部一级菜单</option>
+				<option value="2">侧栏二级菜单</option>
+				<option value="0">隐藏</option>
+			</select> <select name="pid" id="top_menu" style="display: none">
+				<option value="0">==请选择==</option>
+				{volist name="menu_list" id="vo"}
+				<option value="{$vo.id}">{$vo.title}</option>
+				{/volist}
+			</select>
+		</div>
+	</div>
+	<div class="form-item">
+		<input type="hidden" name="id" value="{$id}" />
+		<button class="btn submit-btn ajax-post" id="submit" type="submit"
+			target-form="form-horizontal">确 定</button>
+		<button class="btn btn-return"
+			onclick="javascript:history.back(-1);return false;">返 回</button>
+	</div>
+</form>
+{/block}
+
+{block name="script"} <script type="text/javascript">
+		function setmenu(){
+			var val = $('#menu').val()
+			if(val==2) $('#top_menu').show();
+			else $('#top_menu').hide()
+		}
+        //导航高亮
+        $('.side-sub-menu').find('a[href="{:U('apps/index')}"]').closest('li').addClass('current');
+    </script> {/block}

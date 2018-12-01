@@ -1,0 +1,17 @@
+body{ background:#ececec;}
+
+/*公共按钮*/
+.btn_blue{display: block; text-align: center;background: #36a2fd;line-height: 50px; color: #fff;margin: 35px 20px;border-radius: 4px;}
+/*垂直居中*/
+.pos_center{position: absolute;top: 50%;left: 0;right: 0; -webkit-transform: translateY(-50%);transform: translateY(-50%);}
+/*tabbar高亮*/
+.weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon, .weui-tabbar__item.weui-bar__item_on .weui-tabbar__icon>i, .weui-tabbar__item.weui-bar__item_on .weui-tabbar__label {
+    color: #36a2fd;
+}
+.bar_warp{margin-bottom:54px; }
+/*会员中心*/
+.vip_card{background: #fff;position: relative;color: #fff;}
+.vip_card .card_bg{width: 90%;margin: 0 5%;display: block;}
+.vip_card .info{position: absolute;left: 10%;top: 0; font-size: 44px;}
+.vip_card .name{position: absolute;top: 50%;left: 50%;-webkit-transform: translate(-50%,-50% );transform: translate(-50%,-50% );font-size: 24px;}
+.vip_card .number{position: absolute;left: 10%;bottom: 4%; font-size: 18px;}

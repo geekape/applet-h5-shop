@@ -1,0 +1,96 @@
+{extend name="common@base/common" /}
+{block name="body"}
+  <div class="span9 page_message">
+  
+    <section id="contents"> {include file="common@base/_nav" /}
+
+      <!-- 数据列表 -->
+      <div class="data-table" style="margin-top:20px;">
+      
+        <div class="table-striped">
+        
+        {php}if(config('MATERIAL')) { {/php} 
+        		<div style="padding-bottom: 20px;padding-left: 15px;">
+                <a class="btn" href="{:U('syc_image_to_wechat')}">一键上传素材到微信素材库</a>
+                <a class="btn" href="{:U('syc_image_from_wechat')}">一键下载微信素材库到本地</a>
+                </div>
+                 {php} } {/php}
+                 
+                 
+        
+        	<ul class="picture_list">
+            	<li>
+                	<div class="controls uploadrow2" data-max="1" title="点击修改图片" rel="p_cover" style="width:182px!important;height: 193px!important">
+                        <input type="file" id="upload_picture_p_cover">
+                        <input type="hidden" name="p_cover" id="cover_id_p_cover" data-callback="uploadImgCallback" value=""/>
+                        <div class="upload-img-box" rel="img" style="display:none">
+                          <div class="upload-pre-item2"><img width="100" height="100" src=""/></div>
+                            <em class="edit_img_icon">&nbsp;</em>
+                        </div>
+                  </div>
+                </li>
+                {notempty name="list_data"}
+                {volist name="list_data" id="vo"}
+            	<li>
+                	<div class="picture_item">
+                        <div class="main_img">
+                            <a href="{$vo['cover_url']}" target="_blank" style="display: block;text-align: center;"><img src="{$vo['cover_url']}"/></a>
+                        </div>
+                        <div class="picture_action">
+                            <a href="javascript:;" data-clipboard-text="{$vo['cover_url']}" id="picture_{$vo['id']}">复制链接</a>
+                            <a href="javascript:;" onclick="del({$vo.id}, this)">删除</a>	
+                        </div>
+                        <script type="application/javascript">
+							$.WeiPHP.initCopyBtn('picture_{$vo.id}');
+						</script>
+                    </div>
+                </li>
+                {/volist}
+            	{/notempty}
+            </ul>
+          
+        </div>
+      </div>
+      <div class="page"> {$_page|raw|default=''} </div>
+    </section>
+  </div>
+{/block}
+{block name="script"} 
+  <script type="text/javascript">
+$(function(){
+	//t上传图片
+	initUploadImg({width:210,height:192});
+	$('.uploadify-button').css('background-color','#ddd')
+})
+function uploadImgCallback(name,id,src){
+	$('.upload-img-box').hide();
+	console.log(id);
+	$.post("{:U('add_picture')}",{cover_id:id,src:src},function(data){
+		console.log(data);
+		if(data.code==1){
+			var imgHtml = $('<li>'+
+							'<div class="picture_item">'+
+								'<div class="main_img">'+
+									'<a href="'+src+'" target="_blank"><img src="'+src+'"/></a>'+
+								'</div>'+
+								'<div class="picture_action">'+
+									'<a href="javascript:;" data-clipboard-text="'+src+'" id="picture_'+id+'">复制链接</a>'+
+									'<a href="javascript:;" onclick="del('+data['data']['id']+', this)" class="ajax-post" data-url="">删除</a>'+
+								'</div>'+
+							'</div>'+
+						'</li>');
+			imgHtml.insertAfter($('.picture_list li').eq(0));
+			$.WeiPHP.initCopyBtn('picture_'+id);
+		}else{
+			updateAlert(data.msg);
+		}		
+	});
+}
+function del(id, _this){
+	if(!confirm('确认删除？')) return false;
+
+	$(_this).parent().parent().parent().remove();
+	$.post("{:U('del_picture')}",{id:id});
+}
+</script> 
+{/block}

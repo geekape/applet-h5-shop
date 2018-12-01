@@ -1,0 +1,68 @@
+{extend name="shop@wap/common_file" /} {block name="common_body"}
+<!-- 头部导航 -->
+<div class="top-nav">
+    <div class="flex">
+      <i class="iconfont icon-back" id="go-back"></i>
+        <slot>
+            <span class="title">中奖记录</span>
+        </slot>
+    </div>
+</div>
+<div class="wrap white-bg">
+    
+
+    <!-- 奖品信息 -->
+    <div class="m-table-box f-mt-base">
+    	<table>
+    		<thead>
+    			<tr>
+    				<th>奖品名称</th>
+    				<th>用户昵称</th>
+    				<th>中奖日期</th>
+    			</tr>
+    		</thead>
+
+    		<tbody>
+    			{notempty name="list"}
+    			{volist name="list" id="vo"}
+    			<tr>
+    				<td>
+    					<strong>{$vo.grade}</strong>
+    					<p class="gray">{$vo.award_name}</p>
+    				</td>
+    				<td>{$vo.nickname}</td>
+    				<td>{$vo.zjtime|time_format='Y-m-d'}</td>
+    			</tr>
+    			{/volist}
+    			{/notempty}
+    			<!-- <tr>
+    				<td>
+    					<strong>二等奖</strong>
+    					<p class="gray">情侣钻戒一对</p>
+    				</td>
+    				<td>10份</td>
+    				<td>5份</td>
+    			</tr>
+    			<tr>
+    				<td>
+    					<strong>三等奖</strong>
+    					<p class="gray">情侣钻戒一对</p>
+    				</td>
+    				<td>10份</td>
+    				<td>5份</td>
+    			</tr>
+    			<tr>
+    				<td>
+    					<strong>四等奖</strong>
+    					<p class="gray">情侣钻戒一对</p>
+    				</td>
+    				<td>10份</td>
+    				<td>5份</td>
+    			</tr> -->
+    		</tbody>
+    	</table>
+    </div>
+    <!-- /奖品信息 -->
+    
+</div>
+{/block}

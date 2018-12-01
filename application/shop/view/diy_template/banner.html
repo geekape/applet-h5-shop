@@ -1,0 +1,16 @@
+<div class="default_div" ng-show="!module.params.banner_list.length">请幻灯片图片</div>
+<section class="banner" ng-show="module.params.banner_list.length" id="banner{{module.index}}">
+    <ul>
+    	<li ng-repeat="b in module.params.banner_list" on-finish-render-filters>
+            <div class="upload-img-box">
+                <a href="{{b.url}}"><img src="{{b.pic}}"/></a>
+            </div>
+            <span ng-show="module.params.show_title" class="title">{{b.title}}</span>
+        </li>
+    </ul>
+    <span class="identify">
+        <span ng-show="module.params.show_cursor" class="pointer">
+			<em ng-repeat="b in module.params.banner_list"></em>
+        </span>       
+    </span>
+</section>

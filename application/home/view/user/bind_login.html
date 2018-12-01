@@ -1,0 +1,45 @@
+{extend name="common@base/no_side_common" /}
+{block name="body"}
+<div class="wrap">
+<section id="contents">
+  <div class="tab-content" style="margin:30px auto;"> 
+
+      <!-- 基础文档模型 -->
+      <div class="tab-pane in tab1" id="tab1">
+        <div class="item_wrap">
+          <h3 style="padding-bottom:30px; text-align:center">绑定扫码登录公众号</h3>
+          <div class="form_body" id='scan_login'>
+              <div class="input_panel">
+              <div id="qrCode"><img src="{$qrcode}" /></div>
+              <p class="qr_time_tips">如未关注公众号，先关注即可绑定，绑定后就可以直接扫码登录</p>
+              </div>
+              </div>
+      </div>
+
+  </div>
+</section>
+{/block}
+{block name="script"}
+  <link href="__STATIC__/datetimepicker/css/datetimepicker.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+  {php}if(config('COLOR_STYLE')=='blue_color') echo '
+    <link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+    ';{/php}
+  <link href="__STATIC__/datetimepicker/css/dropdown.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="__STATIC__/datetimepicker/js/bootstrap-datetimepicker.js"></script> 
+  <script type="text/javascript" src="__STATIC__/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js?v={:SITE_VERSION}" charset="UTF-8"></script> 
+  <script type="text/javascript">
+$('#submit').click(function(){
+    $('#form').submit();
+});
+
+$(function(){
+	setInterval(function(){
+		$.post("{:U('bind_login')}",{},function(res){
+			if(res==1){
+				window.location.href = "{:U('home/index/main')}";
+			}
+		});
+	},3000);
+});
+</script> 
+{/block}

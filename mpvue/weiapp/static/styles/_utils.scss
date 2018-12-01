@@ -1,0 +1,175 @@
+// 单行溢出点点
+.overflow-dot_row {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+// 多行溢出点点
+.overflow-dot {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+// 防止闪烁
+[v-cloak] {
+    display: none;
+}
+
+// 图片垂直居中
+.pic-align-center {
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+// 颜色
+.s-gray {
+    color: #aaa;
+}
+
+.s-red {
+    color: #ff0204;
+}
+.s-link {
+    color: $link-color;
+}
+
+// 字体
+.f-font-sm {
+    font-size: 12px
+}
+
+// 用户头像
+.u-head__img {
+    width: 30px;
+    min-width: 30px;
+    height: 30px;
+    background-color: #f9f9f9;
+    border-radius: 50%;
+}
+
+// 钱icon
+.icon-price {
+    font-size: 13px;
+    margin-right: 3px;
+}
+
+// 商品价格
+.goods__price-cost {
+    font-size: 12px;
+    text-decoration: line-through;
+    color: #aaa;
+}
+
+// 商品图片
+.u-goods__img {
+    width: 100px;
+    min-width: 100px;
+    height: 100px;
+    background: #f9f9f9;
+}
+
+// 商品标题
+.u-goods__tt {
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+.u-goods__price {
+    font-size: 16px;
+}
+
+// 提示页面
+.hint-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 80vh;
+    image,
+    img {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+.hint-page__text {
+    font-size: 12px;
+    margin-top: 15px;
+}
+
+// 白色背景
+.white-bg {
+    height: 100vh;
+    background: #fff;
+}
+
+// 商品行排版
+.goods-line {
+    display: flex;
+    padding: 0 15px;
+    &__right {
+        flex: 1;
+        border-top: 1px solid #ececec;
+        margin-left: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        padding-bottom: 5px;
+    }
+    &:first-child .goods-line__right {
+        border: 0
+    }
+    .u-goods__img {
+        margin-bottom: 5px;
+    }
+    &__ft {
+        display: flex;
+        align-items: center;
+    }
+    &__price {
+        flex: 1
+    }
+    &__icon {
+        width: 30px;
+        height: 30px;
+        background-color: rgba(255, 2, 4, .05);
+        border-radius: 50%;
+        background-image: url('~images/new_icon/icon_cart_red.png');
+        background-repeat: no-repeat;
+        background-size: 20px 20px;
+        background-position: center center;
+    }
+    &__tt {
+        font-size: 16px;
+    }
+}
+
+// 切换卡片
+.switch-card {
+    background: #fff;
+    margin-top: 15px;
+    padding: 0 15px;
+    &__hd,
+    &__item {
+        display: flex;
+        height: 45px;
+        line-height: 45px;
+    }
+    &__tt {
+        flex: 1;
+        font-size: 16px;
+    }
+    &__item {
+        font-size: 12px;
+    }
+    &__param {
+        min-width: 55px;
+        color: #aaa;
+    }
+}

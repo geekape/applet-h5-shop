@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="小程序开发，微信开发，小程序商城，weiphp，店付宝，公众号开发，微信商城" name="keywords"/>
+    <meta content="小程序开发，微信开发，商城小程序，小程序定制开发-深圳市圆梦云科技有限公司，店付宝小程序，微信小程序，微信商城，weiphp,新零售|O2O模式|餐饮|小程序开发|社区|门店|教育|教程|视频|解决方案" name="description"/>
+    <link rel="shortcut icon" href="{:SITE_URL}/favicon.ico">
+    <title>产品下载|weiphp|小程序开发|微信开发|微信小程序开发|小程序定制开发|小程序商城|weiphp店付宝|公众号|小程序|圆梦云</title>
+    <link type="text/css" rel="stylesheet" href="__CSS__/oweb.css?v={:SITE_VERSION}" />
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+    <script type="text/javascript" src="__STATIC__/jquery-2.0.3.min.js"></script>
+</head>
+<body>
+{include file="index/_head" /}
+
+<div class="body">
+    <div class="apps one">
+        <div>
+            <img class="code" src="__IMG__/oweb/code.jpg">
+            <p class="imformation">专业、快速、全方面一体化服务，专注微信开发、公众号开发、小程序开发，满足各种定制需求
+                使用自研weiphp微信框架，开发迅速。提供多行业解决方案，微商城、微营销，为您高效
+                引流，强大的团队技术支持，您有想法，我们帮您实现理想</p>
+        </div>
+    </div>
+    <div class="apps two">
+        <div class="bubbles">
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+        </div>
+        <div class="card-group">
+            {volist name="lists" id="vo"}
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">{$vo.title}</h4>
+                    <p>{$vo.intro|raw}</p>
+                    <div class="price">
+                        {empty name="vo.sale_price"}<span>免费下载</span>
+                        {else /}<span>{$vo.sale_price}元</span>
+                        {if condition="$vo['market_price'] > $vo['sale_price'] "}<del>{$vo.market_price}元</del>{/if}{/empty}
+                    </div>
+                    <a class="btn" href="{:U('apps_detail',['id'=>$vo['id']])}">查看详情</a>
+                </div>
+            </div>
+            {/volist}
+            <div style="clear:both;"></div>
+        </div>
+
+    </div>
+</div>
+
+{include file="index/_footer" /}
+
+<script>
+    $(document).ready(function(){
+        var width = $(window).width();
+        var docwidth = $(document).width();
+        var height = width;
+        $(".apps").css({'width' : width});
+        $(".apps.one").css({ 'height': height * 0.2});
+        $(".head").css('width',width);
+        $(".foot").css('width',width);
+        $(window).resize(function () {
+            var width = $(window).width();
+            var height = width;
+            $(".apps").css({'width' : width});
+            $(".apps.one").css({ 'height': height * 0.2});
+            $(".head").css('width',width);
+            $(".foot").css('width',width);
+        })
+    })
+</script>
+</body>
+</html>

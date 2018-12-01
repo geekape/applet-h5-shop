@@ -1,0 +1,80 @@
+{extend name="common@base/common" /}
+{block name="body"}
+  <div class="span9 page_message">
+    <style type="text/css">
+      span.fr.colorless {float:none!important;}
+      p.audio_name {max-width: 100px;}
+      .page_message .normal_tips {margin: 1em;border: 0;}
+    </style>
+    <section id="contents"> {include file="common@base/_nav" /}
+
+      <!-- 数据列表 -->
+      <div class="data-table" style="margin-top:20px;">
+      
+        <div class="table-striped">
+        <div style="padding-bottom: 20px;padding-left: 15px;">
+        <a class="btn" href="{:U('voice_add')}">新 增</a>
+        {php}if(config('MATERIAL')) { {/php} 
+                <a class="btn" href="{:U('syc_voice_to_wechat')}">一键上传素材到微信素材库</a>
+                <a class="btn" href="{:U('syc_file_from_wechat')}">一键下载微信素材库到本地</a>
+         {php} } {/php}
+        </div>     
+        
+        	<ul class="picture_list">
+                {volist name="list_data" id="vo"}
+            	<li>
+                	<div class="picture_item">
+                        <div class="sound_item" onClick="playSound('sound_{$vo.id}',this);">
+                            <img class="icon_sound" src="__STATIC__/base/images/icon_sound.png"/>
+                            <p class="audio_name ellipsis">{$vo.title|default=''}</p>
+                            <span class="fr colorless">{$vo.file_info.playtime|default=''}</span>
+                            <p class="ctime colorless">{$vo.cTime|time_format}</p>
+                            <audio id="sound_{$vo.id}" src="{$vo.file_id|get_file_url}"></audio>
+                        </div>
+                        <div class="picture_action item_three_action">
+                            <a href="{$vo.file_info.path|default=''}">下载</a>
+                             <a href="{:U('voice_edit',array('id'=>$vo['id']))}">编辑</a>
+                            <a href="javascript:;" onclick="del({$vo.id}, this)">删除</a>	
+                        </div>
+                    </div>
+                </li>
+                {/volist}
+            	
+            </ul>
+          
+        </div>
+      </div>
+      <div class="page"> {$_page|raw|default=''} </div>
+    </section>
+  </div>
+{/block}
+{block name="script"} 
+  <script type="text/javascript">
+$(function(){
+	console.log(IMG_PATH);
+})
+function del(id, _this){
+	if(!confirm('确认删除？')) return false;
+
+	$(_this).parent().parent().parent().remove();
+	$.post("{:U('del_file')}",{id:id});
+}
+function playSound(id,obj){
+	var audio = document.getElementById(id);
+	if(audio.paused){
+		audio.play();
+		$(obj).find('img').attr('src',IMG_PATH+'/icon_sound_play.gif');
+		audio.addEventListener('ended', function () {  
+// 			alert('over');
+			$(obj).find('img').attr('src','__STATIC__/base/images/icon_sound.png');
+		}, false);
+		return;
+	}else{
+        audio.pause();
+        $(obj).find('img').attr('src','__STATIC__/base/images/icon_sound.png');
+    }
+
+	
+}
+</script> 
+{/block}

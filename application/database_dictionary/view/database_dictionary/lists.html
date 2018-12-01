@@ -1,0 +1,54 @@
+{extend name="common@base/common" /}
+{block name="body"}
+  <div class="span9 page_message">
+    <section id="contents"> {include file="common@base/_nav" /} 
+      
+      <!-- 数据列表 -->
+      <div class="data-table">
+      	{volist name="tree" id="arr"}
+      	# {$key}<br/>
+        {volist name="arr" id="table"}
+        <div style=" margin: 20px;">{$key}&nbsp;&nbsp;&nbsp;{php}if(isset($tables[$key])) echo $tables[$key];{/php}</div>
+          <div class="table-striped">
+            <table cellspacing="1">
+              <!-- 表头 -->
+              <thead>
+                <tr>
+                  <th>字段名</th>
+                  <th>数据类型</th>
+                  <th>默认值</th>
+                  <th>允许非空</th>
+                  <th>备注</th>
+                </tr>
+              </thead>
+              
+              <!-- 列表 -->
+              <tbody>
+                {volist name="table" id="field"}
+                  <tr>
+                    <td>{$field.COLUMN_NAME}</td>
+                    <td>{$field.COLUMN_TYPE}</td>
+                    <td>{$field.COLUMN_DEFAULT}</td>
+                    <td>{$field.IS_NULLABLE}</td>
+                    <td>{$field.COLUMN_COMMENT}</td>
+                  </tr>
+                {/volist}
+              </tbody>
+            </table>
+          </div>
+        {/volist}
+        {/volist}
+      </div>
+    </section>
+  </div>
+  <script type="text/javascript">
+    $(function() {
+		//满屏
+		$('.admin-body').css({
+			'margin-left': '1.5em',
+			'margin-right': '0',
+		})
+		$('#contents').css('padding-top', '1em')
+    })
+</script>
+{/block}

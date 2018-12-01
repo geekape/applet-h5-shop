@@ -1,0 +1,513 @@
+{extend name="shop@wap/common_file" /} {block name="common_body"}
+
+<body class="submit_order">
+  <!-- 头部导航 -->
+  <div class="top-nav">
+      <div class="flex">
+          <i class="iconfont icon-back"></i>
+          <slot>
+              <span class="title">确认订单</span>
+          </slot>
+      </div>
+  </div>
+  <div class="wrap">
+      
+
+      
+  {if condition="$event_type==1 && $is_original==0"}
+    <!-- 商品开团说明 -->
+    <div class="collage-hint"></div>
+        <!-- /商品开团说明 -->
+  {/if}
+
+  {if condition="$event_type==3 && $is_original==0"}
+    <!-- 砍价信息 -->
+    <div class="card f-text-c f-lh-md f-pl0">
+        <h4><span class="prize-icon">¥</span><strong>{$sale_price}</strong></h4>
+        <div class="badge f-font-md f-lh-xs" style="margin:0 -10px;font-size: 18px;display: block;padding:2px 0;">已砍掉<span class="prize-icon">¥</span><span>{$dec_price|wp_money_format}</span></div>
+        <p class="f-m"><del class="gray">¥ {$event_market_pirce}</del></p>
+        <p class="gray">共有<span>{$member_count}</span>个好友帮你砍价</p>
+
+    </div>
+    <!-- /砍价信息 -->
+  {/if}
+  {volist name="lists" id="goods_block"}
+  {php}$block = empty($key) ? 1 : $key; {/php}
+      
+      <!-- 商品信息 -->
+      <div class="">
+          <div class="switch-card">
+            <div class="switch-card-title flex">
+              <div class="weui-cells flex-item">
+                      <div class="weui-cell__bd">
+                              <div class="weui-cells weui-cells_radio m0">
+                              {neq name="block" value="2"}
+                                  <label class="weui-cell weui-check__label m-checkbox" for="x8{$block}">
+                                      <div class="weui-cell__ft">
+                                          {eq name="block" value="3"}<input id="x8{$block}" type="radio" class="weui-check send_type" value="1" name="send_type" checked="checked">
+                                          {else /}<input id="x8{$block}" type="radio" value="1" class="weui-check" name="express" checked="checked" readonly>{/eq}
+                                          <i class="iconfont icon-selected"></i>
+                                      </div>
+                                          <span class="f-ml-base">邮寄</span>
+                                  </label>
+                                  {/neq}
+                                  {neq name="block" value="1"}
+                                   <label class="weui-cell weui-check__label m-checkbox" for="x9{$block}">
+                                      <div class="weui-cell__ft">
+                                          {eq name="block" value="3"}<input id="x9{$block}" type="radio" class="weui-check send_type" value="2" name="send_type">
+                                          {else /}<input id="x8{$block}" type="radio" value="2" class="weui-check" name="ziti" readonly>{/eq}
+                                          <i class="iconfont icon-selected"></i>
+                                      </div>
+                                          <span class="f-ml-base">自提</span>
+                                  </label>
+                                  {/neq}
+                              </div>
+                          </div>
+                  </div>
+                <i class="iconfont icon-moreunfold switch-btn"></i>
+            </div>
+              <div class="switch-card-list">
+                  <div class="weui-panel weui-panel_access">
+                    <div class="weui-panel__bd">
+                    {volist name="goods_block" id="vo"}
+                        <a href="{:U('goods_detail', ['id'=>$vo['shop_goods_id']])}" class="weui-media-box weui-media-box_appmsg">
+                            <div class="weui-media-box__hd">
+                                <img class="weui-media-box__thumb" src="{$vo.cover}" alt="{$vo.title}">
+                            </div>
+                            <div class="weui-media-box__bd">
+                                <h4 class="weui-media-box__title">{notempty name="event_type_title"}<strong class="red">[{$event_type_title}]</strong>{/notempty}{$vo.title}</h4>
+                                <p class="weui-media-box__desc">
+                                    <span>
+                                      <strong style="color:#000">{neq name="pay_type" value="90"}<span class="prize-icon">¥</span>{$vo.sale_price} {else / }积分 {$vo.sale_price|intval}{/neq}</strong>
+                                      {if condition="$vo['sale_price'] < $vo['market_price']"}<del><span class="prize-icon">¥</span>{$vo.market_price}</del>{/if}
+                                  </span>
+                                    <span class="fr">x{$vo.num}</span>
+                                </p>
+                            </div>
+                        </a>
+                        {/volist}
+                    </div>
+                  </div>
+
+                <div class="weui-cells m0">
+                    <div class="weui-cell">
+                        <div class="weui-cell__bd">
+                            <p>商品金额</p>
+                        </div>
+                        <div class="weui-cell__ft">{neq name="pay_type" value="90"}<small><span class="prize-icon">¥</span></small><span class="total_money">{$total_price[$block]|default=0}</span>{else / }<small>积分</small><span class="total_money"> {$total_price[$block]|default=0|intval}</span>{/neq}</div>
+                    </div>
+                {if condition="$pay_type!=90 && $block!=2"}<!--使用积分结算时无邮费-->
+                    <div class="weui-cell" id="express_{$block}">
+                        <div class="weui-cell__bd">
+                            <p>邮费</p>
+                        </div>
+                        <div class="weui-cell__ft"><small>+ <span class="prize-icon">¥</span></small><span {eq name="block" value="1"}class="total_money"{/eq} id="express_money_{$block}">{$total_express[$block]|default=0}</span></div>
+                    </div>
+                    {/if}
+                </div>
+              </div>
+                
+          </div>
+      
+      </div>
+      {/volist}
+
+      
+      <!-- 选择门店 -->
+      <div class="weui-cells" id="send_type_2" style="display:none">
+          <a class="weui-cell weui-cell_access" href="{:U('shop_list',['is_choose'=>'1', 'ids'=>$allow_stores])}">
+              <div class="weui-cell__bd">
+                  <p>选择门店</p>
+              </div>
+              <input type="hidden" name="store_id" id="store_id" value="{$default_store.id|default=0}">
+              <div class="weui-cell__ft">{$default_store.name|default=''}</div>
+          </a>
+
+      </div>
+      <!-- /选择门店  -->
+
+      <!-- 订单用户 -->    
+        <a class="weui-cell order_user" href="{:U('add_address?is_choose=1')}" id="send_type_1">
+      <input type="hidden" name="address_id" id="address_id" value="{$address.id|default=''}">
+            <div class="weui-cell__bd order-user-name">
+                <p>{$address.truename|default=''}</p>
+            </div>
+            <div class="weui-cell__bd order-user-moblie">
+                <strong>{$address.mobile|default=''}</strong>
+                <p>{$address.address|default=''} {$address.address_detail|default=''}</p>
+            </div>
+
+            <div class="iconfont icon-more"></div>
+        </a>
+      <!-- /订单用户 -->
+
+      
+
+
+      <!-- 买家留言 -->
+      <div class="weui-cells">
+      {neq name="pay_type" value="90"}
+      <!--使用积分结算时不能使用券-->
+
+      {notempty name="coupon_num"}
+          <a class="weui-cell f-border-b f-small-border no-coupon" href="###" style="display:none">
+              <div class="weui-cell__bd">
+                  <p>优惠券</p>
+              </div>
+              <div class="weui-cell__ft" id="coupon_tips">配送方式不同时无法使用优惠券</div>
+              <div class="iconfont icon-more"></div>
+          </a>
+          <a class="weui-cell f-border-b f-small-border coupon" href="{:U ( 'coupon/Wap/personal',array('from'=>'select','str_coupon_id'=>$str_coupon_id))}">
+              <div class="weui-cell__bd">
+                  <p>优惠券</p>
+              </div>
+              <div class="weui-cell__ft" id="coupon_tips">{empty name="sn_info"}你有{$coupon_num|intval} 张可用的优惠券，点击选择{else/}可优惠 {$sn_info.money}元{/empty}</div>
+              <div class="iconfont icon-more"></div>
+          </a>          
+      {/notempty}
+  {else /}        
+           <a class="weui-cell f-border-b f-small-border" href="javascript:;">
+              <div class="weui-cell__bd">
+                  <p>您的可用积分</p>
+              </div>
+              <div class="weui-cell__ft">{$my_score} 积分</div>
+          </a>       
+  {/neq}
+          <div class="weui-cell">
+              <div class="weui-cell__hd" style="flex:1">
+                  <label class="weui-label">买家留言：</label>
+              </div>
+              <div class="weui-cell__bd" style="flex:3">
+                  <input class="weui-input" type="text" placeholder="输入买家留言" name="remark" id="remark">
+              </div>
+          </div>
+
+      </div>
+
+
+      <!-- 同意协议 -->
+      
+
+          <span class="weui-agree__text">
+                <label for="weuiAgree" class="weui-agree">
+          <input id="weuiAgree" type="checkbox" class="weui-agree__checkbox" checked="checked">
+
+              <span>我已同意</span></label><a href="{:U('tcp')}" target="_blank" class="s-blue">《客户协议》</a>
+          </span>
+      
+      <!-- /同意协议 -->
+
+      
+      
+  </div>
+  <!-- 底部导航 -->
+  <div class="bottom-nav flex">
+      <p class="pay-info">
+          <strong>实付款：</strong>
+          <strong class="red" id="total_money">0.00</strong>
+          <small class="freight-text">含运费</small>
+      </p>
+      <div class="btn-group">
+          <a class="btn" href="javascript:void(0)" onClick="doPost()">提交订单</a>
+      </div>
+  </div>
+  <!-- /底部导航 -->
+</body>
+
+<script type="text/javascript">
+
+
+
+var show_1 = "{$show_1}"
+var show_2 = "{$show_2}"
+var my_socre = parseInt({$my_score});
+
+
+
+var total_money = 0;
+
+// 缓存的数据
+var cacheVal = sessionStorage.getItem('send_type') ? sessionStorage.getItem('send_type') : 1;
+$(function() {
+  $('.icon-back').click(function () {
+    // 没进过活动页
+    if(sessionStorage.getItem('eventState') == null) {
+      window.location.href = '{:U('shop/wap/cart')}';
+    } else {
+      history.back(-1);
+    }
+  })
+  
+
+
+  // 存个url
+  sessionStorage.setItem('orderUrl', window.location.href);
+
+    console.log(show_1, show_2, my_socre);
+    $('.send_type').bind('click', function() {
+        var selfVal = $(this).val();
+        show(selfVal, $(this));
+    });
+
+    // 有sesstion的情况
+    cacheVal != 2 ? show(1) : show(2);
+    console.log('状态:' + cacheVal);
+})
+
+// 多个订单的情况下判断是否选择一致，返回一个布尔值
+// 思路：在多个订单的情况下，取所有订单选中的value，放入一个数组中,遍历数组，全等返回true，反之则false
+// 确认订单的逻辑：
+// 1. 默认选中第一个（无论它是自提还是邮寄）
+// 2. 只要有一个是自提（【显示门店】，如果有不同的显示【提示】）
+// 3. 邮寄要显示优惠劵，邮费【不同方式例外】
+// 4. 点击选择门点后才存在取【自提状态】
+// 5. 选择门点后返回读取状态，【设置自提】
+
+// 构造函数
+function Order(num) {
+    this.allVal = [];
+}
+
+
+
+// 遍历订单
+Order.prototype.whileData = function() {
+    var _this = this;
+
+    $('.switch-card').each(function(index, ele) {
+        console.log($(this).eq(index));
+        // 默认选中第一个
+        $(this).find('input').eq(0).attr('checked', true);
+        // 有sesstion的情况下 选中第2个
+        if (cacheVal == 2) {
+            if ($(this).find('input').length > 1) {
+                $(this).find('input').eq(1).attr('checked', true);
+            }
+        }
+
+        // 判断选中的值
+        var val = $(this).find("input:checked").attr('value');
+        console.log('第' + index + '订单选中值是' + val);
+        _this.allVal.push(val);
+    })
+
+}
+
+// 多个订单情况下判断选中的值是否相等
+Order.prototype.isEq = function() {
+    var _this = this;
+    // 判断数组是否全等
+    if (_this.allVal.length > 0) {
+        console.log(_this.allVal);
+        return !_this.allVal.some(function(value, index) {
+            return value !== _this.allVal[0];
+        });
+
+
+    } else {
+        return true;
+    }
+}
+
+
+// 切换邮寄和自提的状态
+Order.prototype.ToggleState = function(num) {
+    var _this = this;
+    $('.coupon').show(); // 显示优惠卷
+    // 选中邮寄
+    if (num == 1) {
+        $('#send_type_2').hide(); // 隐藏门店
+        $('#express_3').show(); //显示邮费
+        $('.freight-text').show(); // 显示含邮费
+    } else if (num == 2) {
+        $('#send_type_2').show(); // 显示门店
+        $('#express_3').hide(); //隐藏邮费
+        $('.freight-text').hide(); // 隐藏含邮费
+    }
+
+    // 只要有一个选择自提，就显示门店
+    if (_this.allVal.indexOf("2") != -1) {
+      $('#send_type_2').show();
+    }
+
+
+}
+
+function show(isSet, ele) {
+    var _this = ele;
+
+    // 只有一个为自提的话
+
+    // if(isSet==0){
+    //  var default_type = sessionStorage.getItem('send_type');
+    //  if(default_type!=1){
+    //   $('#x83').prop('checked',true);
+    //  }
+    // }
+
+
+    // $('.m-checkbox input').eq(isSet-1).attr('checked',true);
+
+    
+    sessionStorage.setItem('send_type', isSet);
+    if (isSet == 2) {
+        $(_this).prop('checked', true);
+        
+
+    }
+
+    //选择邮寄
+    if (isSet == 1) {
+        $(_this).prop('checked', true);
+    }
+
+    var order = new Order(isSet);
+    order.whileData();
+    order.ToggleState(isSet);
+
+    // 多个订单才判断
+    if ($('.switch-card').length > 1) {
+        if (order.isEq()) {
+            console.log(order.allVal);
+            // 两个都选择的邮寄或者自提
+            $('.coupon').show();
+            $('.no-coupon').hide();
+       
+        } else {
+            $('.coupon').hide();
+            $('.no-coupon').show();
+        }
+    }
+
+
+    
+
+
+    total_money = 0
+    // if(show_2==2){ $('#send_type_2').show(); }
+
+    // $('.send_type').each(function(i,e) {
+    //      if($(e).is(":checked")){
+    //     var val = $(e).val();
+
+    //       // 存取当前选中的val
+    //     sessionStorage.setItem('send_type',val);
+
+    //     if(val==1){ //选择邮寄时
+    //      $('#send_type_2').show();
+    //      //假如上面没有只支持自提的商品，自提门店关闭
+    //      if(show_2!=2){
+    //        $('#send_type_2').hide();
+    //      }
+    //        $('#express_3').show(); //显示邮费
+    //        $('.freight-text').show();
+    //     }else{
+    //       $('#send_type_2').hide();
+    //      //假如上面没有只支持自提的商品，自提门店开启
+    //      if(show_2!=2){
+    //        $('#send_type_2').show();
+    //          $('#express_3').hide(); //隐藏邮费
+    //          $('.freight-text').hide();
+    //      }
+
+    //     }
+    //  }
+    //    }); 
+
+    $('.total_money').each(function(index, element) {
+        total_money += parseMoney($(element).text());
+    });
+
+    if ($('#x83').prop('checked')) {
+        total_money += parseMoney($('#express_money_3').text());
+    }
+
+    {neq name="pay_type" value="90"}
+    var coupon_money = parseMoney({$coupon_price|default=0});
+    total_money = total_money - coupon_money;
+    if (total_money < 0) {
+        total_money = 0;
+    }
+
+    var total_money = isPoint(total_money);
+    $('#total_money').html('<span class="prize-icon">¥</span>' + total_money)
+    {else /}
+    $('#total_money').html('<div class="integral-icon"></div>' + '<span>' + total_money + '</span>'); 
+    {/neq}
+
+}
+function doPost() {
+
+    {eq name="pay_type" value="90"}
+
+    if (my_socre < total_money) {
+        $.Dialog.fail('您的积分不足');
+        return false;
+      }
+
+    {/eq}
+
+      var address_id = $('#address_id').val();
+      if ($('#send_type_2').is(':visible')) {
+
+          //邮寄
+
+          if (!address_id) {
+              $.Dialog.fail("请选择收货地址");
+              return false;
+          }
+      }
+      store = $('#store_id').val();
+      if ($('#send_type_2').is(':visible')) {
+          //门店
+          if (!store) {
+              $.Dialog.fail("请选择自提门店");
+              return false;
+          }
+      }
+      if (!$('#weuiAgree').prop('checked')) {
+          $.Dialog.fail("请同意客户协议");
+          return false;
+      }
+
+      var remark = $('#remark').val();
+      var sendType = $('input[name="send_type"]:checked').val()
+
+      var sn_id = '{$sn_id}'; // 优惠券
+
+      var url = "{:U('add_order')}";
+
+      $.showLoading();
+
+      $.post(url, {'address_id': address_id, 'remark': remark, 'sn_id': sn_id, 'send_type': sendType, 'stores_id': store}, function(res) {
+          //console.log(res); return false;
+
+          if (res) $.hideLoading();
+
+          if (res.code == 0) {
+              $.Dialog.fail(res.msg);
+          } else {
+              var url = "{:U('do_pay')}?out_trade_no=" + res.out_trade_no;
+              window.location.href = url;
+
+          }
+      });
+
+
+    }
+
+
+
+    // 给金额没有小数点的加上小数点
+    function isPoint(num) {
+        var reg = /\./;
+        if (!reg.test(num)) {
+            var number = num + '.00';
+            return number;
+        }
+        return num;
+    }
+
+
+</script>
+{/block}

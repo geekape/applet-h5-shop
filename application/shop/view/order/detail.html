@@ -1,0 +1,220 @@
+{extend name="common@base/common" /} {block name="body"}
+        <style>
+            .f_i{
+                margin-bottom: 10px;
+            }
+            .f_i label{
+                margin-right: 1rem;
+            }
+            .alert-primary {
+              color: #666;
+              background-color: #f7f7f7;
+              border-color: #f7f7f7;
+            }
+            .alert.alert-primary p {
+              border-bottom: 1px dashed #eee;
+              padding: 10px 0;
+            }
+            .alert.alert-primary a {
+              margin: 10px 0;
+            }
+        </style>
+<div class="span9 page_message">
+  <section id="contents">
+    <div class="event-order"> 
+<div class="data-table pt-4 mb-4">
+        <div class="table-striped">
+          <table cellspacing="1">
+            <!-- 表头 -->
+            <thead style="background-color:transparent">
+              <tr>
+    
+                <th>订单号</th>
+                <th>下单时间</th>
+                <th>配送时间</th>
+                <th>支付方式</th>
+                <th>支付单号</th>
+              </tr>
+            </thead>
+            <!-- 列表 -->
+            <tbody>
+            
+
+            <tr>
+  
+              <td>{$info.order_number}</td>
+              <td>{$info.cTime|time_format}</td>
+              <td>{$info.send_time|time_format}</td>
+              {empty name="info.pay_status"}
+              <td>未支付</td>
+              <td> - </td>
+              {else /}
+              <td>{$info.common}</td>
+              <td>{$info.out_trade_no}</td>              
+              {/empty}
+            </tr>
+
+              </tbody>
+            
+          </table>
+        </div>
+      </div>    
+      <!-- 商品信息 -->
+      <div class="data-table pt-4 mb-4">
+        <div class="table-striped">
+          <table cellspacing="1">
+            <!-- 表头 -->
+            <thead style="background-color:transparent">
+              <tr>
+                <th></th>
+                <th>商品名称</th>
+                 <!-- <th>主石重量</th>
+                  <th>证书号</th>
+                   <th>模号</th>
+                    <th>条码号</th>
+                     <th>金重</th> -->
+                <th>数量</th>
+                <th>原单价</th>
+                <th>{$sale_price_title}</th>
+                <th>小计</th>
+              </tr>
+            </thead>
+            <!-- 列表 -->
+            <tbody>
+            
+            {volist name="info.goods" id="goods"}
+            <tr>
+              <td class="max-w-sm"><img src="{$goods.cover}"></td>
+              <td>{$goods.title}</td>
+              <td>{$goods.num}</td>
+              <td>{$goods.market_price}</td>
+              <td>{$goods.sale_price}</td>
+              <td>{:wp_money_format($goods['num']*$goods['sale_price'])}</td>
+            </tr>
+            {/volist}
+              </tbody>
+            
+          </table>
+        </div>
+      </div>
+      
+      <!-- 其它信息 -->
+      <div class="container-fliud px-4">
+        <div class="row"> 
+          <!-- 收货信息 -->
+          <div class="col-sm-6">
+            <div class="card" style="">
+              <div class="card-header">收货人信息：</div>
+              <div class="card-body">
+                <p class="card-text">
+                <ul>
+                  <li>收货：{notempty name="addressInfo.truename"}{$addressInfo.truename}{/notempty}</li>
+                  <li>联系方式：{notempty name="addressInfo.mobile"}{$addressInfo.mobile}{/notempty}</li>
+                  <li>收货地址：{notempty name="addressInfo.address"}{$addressInfo.address}{/notempty} {notempty name="addressInfo.address_detail"}{$addressInfo.address_detail}{/notempty}</li>
+                  <li>订单留言：{empty name="info.remark"}无{else /}{$info.remark}{/empty}</li>
+                </ul>
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- 付款信息 -->
+          <div class="col-sm-6">
+            <div class="card" style="">
+              <div class="card-header">付款信息：</div>
+              <div class="card-body">
+                <p class="card-text">
+                <ul>
+                  <li>商品总价：{$info.total_price}</li>
+                  {eq name="info.send_type" value="1"}
+                  <li>邮费：{$info.mail_money}</li>
+                  {/eq}
+                  <li>优惠抵扣：{$info.dec_money}</li>
+                  <li>实际支付：{$info.pay_money}</li>
+                </ul>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        {if condition="$info['refund']>0"}
+        <div class="card-body mr-4" style="color:#000">退款状态：{$info.refund_title}</div>
+        <div class="card-body mr-4" style="color:#000">退款理由：{$info.refund_content}</div>        
+        {elseif condition="$info['pay_status']==0"}
+        <div class="card-body mr-4" style="color:#000">等待买家支付</div>
+        {else /}
+        <div class="card mt-3 wuliu">
+          <div class="card-header">物流信息：</div>
+          <div class="card-body">
+            <p class="card-text"> {eq name="info.send_type" value="2"}
+            <div class="alert alert-primary" role="alert">
+              <p class="mr-4">收货方式：自提</p>
+              <p>自提门店：{$store_info.name}</p>
+              <p>门店地址：{$store_info.address}</p>
+              <p>门店电话：{$store_info.phone}</p>
+              {eq name="info.is_send" value="0"} <a href="{:U('has_ziti',['id'=>$info['id']])}" class="btn ajax-get">确认已自提</a> {/eq} </div>
+            {else /}
+            
+            {if condition="$info['is_send']==0"}
+            <div class="card-body mr-4">等待卖家发货</div>
+            <form id="sendDiv" action="{:U('do_send')}" method="post">
+              <div class="tab_content" id="tab1_content">
+                <div class="f_i">
+                  <label>物流公司</label>
+                  <select name="send_code" style="height:40px;width:206px;">
+                    <option>请选择物流公司</option>
+                    <option value="sf">顺丰</option>
+                    <option value="sto">申通</option>
+                    <option value="yt">圆通</option>
+                    <option value="yd">韵达</option>
+                    <option value="tt">天天</option>
+                    <option value="ems">EMS</option>
+                    <option value="zto">中通</option>
+                    <option value="ht">汇通</option>
+                    <option value="qf">全峰</option>
+                  </select>
+                </div>
+                <div class="f_i" >
+                  <label>快递单号</label>
+                  <input type="text" name="send_number" />
+                </div>
+                <input type="hidden" name="order_id" value="{$info.id}" />
+                <button style="margin-left: 75px" class="btn submit-btn1" type="button" id='check_do_send'>发 货</button>
+              </div>
+            </form>
+            {else /}
+            <div class="alert alert-primary" role="alert">
+              <p class="text-primary mr-4">收货方式：邮寄</p>
+              <p class="text-primary mr-4">物流公司：{$info.send_code_name}</p>
+              <p>快递单号：{$info.send_number}</p>
+            </div>
+            {if condition="!empty($log_msg)"}
+            <div class="card-body mr-4">物流信息获取失败：{$log_msg}</div>
+            {else /}
+            <ul class="border p-2 px-4" style="background: #f7f7f7;">
+              {volist name="log_list" id="log"}
+              <li class=""> <span class="mr-2 text-secondary"> {$log.datetime} </span> <span> 【{$log.zone}】 {$log.remark} </span> </li>
+              {/volist}
+            </ul>
+            {/if}{/if}{/eq}
+            </p>
+          </div>
+        </div>
+        {/if} </div>
+    </div>
+  </section>
+</div>
+<script type="text/javascript">
+$(function(){
+	$('#check_do_send').click(function(){
+		var state= "{$info.order_state}";
+		if(state != 1){
+			if(confirm('该订单状态有异常，是否继续？')){
+				$("#sendDiv").submit();
+			}
+		}else{
+			$("#sendDiv").submit();
+		}
+	})
+})
+</script> 
+{/block} {block name="script"} {/block}

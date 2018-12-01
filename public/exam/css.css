@@ -1,0 +1,28 @@
+@charset "utf-8";
+/* CSS Document */
+html{ height:100%;}
+body{ min-height:100%; background:url(content.png) repeat;}
+.container{ background:none}
+.copyright{ color:#444}
+.top{ background:url(top.png) no-repeat; height:30px; margin:20px 10px 0; background-size:100% 100%;}
+.bottom{ background:url(bottom.png) no-repeat left bottom; height:30px; margin:0 10px 20px; background-size:100% 100%;}
+.lead_box{ background:url(mid.png) repeat-y; background-size:100% auto; margin:0 10px; padding:10px 25px 10px 25px;}
+.lead_box h6{color:#333;text-align:center;font-size:18px; font-weight:bold; line-height:22px; border-bottom:1px dashed #888; text-shadow:1px 2px #ddd; text-align:left; padding-bottom:10px;}
+.lead_content{border-top:1px dashed #fff; line-height:22px; color:#444; font-size:16px; padding:15px 0 0; text-align:left;word-break: break-all;word-break: break-word;}
+.lead_btn{ border-radius:10px; background-color:#352c3a; -moz-box-shadow:0 1px 2px #6c6570;-webkit-box-shadow:0 1px 2px #6c6570;box-shadow:0 1px 2px #6c6570; padding:10px; color:#fff; width:200px; margin:20px auto; display:block; text-align:center; font-size:20px; position:relative; border:none}
+.lead_btn:active{ background-color:#333333}
+.lead_btn:active span.next_arr em{ background-color:#333333}
+input[type='text'],input[type='tel'],select,textarea{ border:1px solid #aaa;}
+.check-tips{ color:#c7210b}
+.lead_box .do h6{ border:none; text-shadow:none; color:#333; margin-bottom:10px}
+.lead_box .do{ border:none}
+.radio,.checkbox{ display:block; margin:0; text-align:left; border:1px solid #ccc; background:#dad8d8}
+.do .form-item{}
+.w_tips{ padding:10px 0; color:#333; font-size:13px;}
+span.next_arr{ height:45px; width:20px; overflow:hidden; position:absolute; top:0; right:-16px;}
+span.next_arr em{ height:26px; width:26px; background:#352c3a; -webkit-transform:rotate(45deg);-moz-transform:rotate(45deg);transform:rotate(45deg); position:absolute; left:-12px; top:8px; -moz-box-shadow:1px 1px 1px #6c6570;-webkit-box-shadow:1px 1px 1px #6c6570;box-shadow:1px 1px 1px #6c6570;}
+.lead_over{ padding:10px 30px; font-size:16px; text-align:center}
+.share_btn{ border-radius:24px; height:40px; width:200px; 
+line-height:40px; border:2px solid #090; color:#060; text-align:center; display:block; margin:20px auto;}
+.course{ font-size:20px; font-weight:bold; color:#C00; padding:30px 0; text-align:center}
+.course span{ font-size:30px;}

@@ -1,0 +1,28 @@
+{extend name="common@base/no_side_common" /}
+{block name="body"}
+  <div class="admin_container">
+    <section id="contents" class="tab-content">
+      <div class="table-bar">
+      <div class="main_apps">
+		<img style='width:100px;height:100px;' src='{$qrCode}' >
+		<div>扫码绑定微信 <a href='{$skip_url}'>跳过</a></div>
+      </div>
+    </section>
+  </div>
+	<script type="text/javascript">
+		$(function(){
+			setInterval(function(){
+				$.post(
+					'',
+					{},
+					function(data){
+						if(data.code == 1){
+							location.href=data.url;
+						}
+					},'json'
+				);
+			},1000);
+		})
+	</script>
+{/block}
+

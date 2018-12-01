@@ -1,0 +1,415 @@
+{extend name="common@base/common" /}
+
+{block name="body"}
+
+	<style type="text/css">
+		.chat-box .admin,
+		.chat-box .user {
+			margin: 1em 0;
+		}
+
+		.chat-box {
+			background: #f5f5f5;
+		    padding: 2em 1em;
+	        margin: 0 2px;
+	        padding-right: 0;
+		}
+
+		.chat-box .user-head,
+		.chat-box .user-list .head-img,
+		.chat-box .admin-head {
+			border-radius: 50%;
+			width: 50px;
+			overflow: hidden;
+		}
+		.chat-box .time {
+			text-align: center;
+			color: #b2b2b2;
+			margin: 2em 0;
+		}
+		.chat-box .user-text,
+		.chat-box .admin-text {
+			width: 80%;
+			padding: 20px;
+			background: #fff;
+			border-radius: 10px;
+			margin-left: 1.5em;
+			position: relative;
+		}
+		.chat-box .user-text:before,
+		.chat-box .admin-text:before {
+			content: '';
+			width: 20px;
+			height: 20px;
+			background: #fff;
+			transform: rotate(45deg);
+			position: absolute;
+		    top: 45%;
+		}
+		.chat-box .user-text:before {
+			left: -0.5em;
+		}
+
+
+
+		/* 管理员 */
+		.chat-box .admin {
+			overflow: hidden;
+			
+		}
+
+		.chat-box .admin .d-flex {
+			float: right;
+			justify-content: flex-end;
+			margin-right: 1.5em;
+		}
+		.chat-box .admin-head {
+			order: 2;
+			width: 100%;
+		}
+		.chat-box .admin-text {
+			margin-right: 1.5em;
+		}
+		.chat-box .admin-text:before {
+			right: -0.5em;
+		}
+		.list-group-item:hover, .list-group-item:focus {
+			z-index: 0
+		}
+
+
+		/* 用户列表 */
+		.chat-box .user-list .list-group-item.active {
+			background: #ddd;
+			color: #000;
+			border-radius: 0;
+		}
+		.list-group-item {
+			border-radius: 0;
+		}
+		.chat-box>.user-list {
+			border-left: 1px solid #eee;
+			padding-left: 0;
+			padding-right: 0;
+		}
+		
+		.chat-box .user-list .d-flex {
+		    align-items: center;
+		    background: #f5f5f5;
+		    border: 0;
+		    margin: 0;
+		    border-bottom: 1px solid #eee;
+
+		}
+		.chat-box .user-list .d-flex:hover {
+			background: #ddd;
+		}
+		
+
+		.chat-box .user-list .dot {
+			width: 10px;
+			height: 10px;
+			background: #ff0036;
+			border-radius: 50%;
+		    position: absolute;
+		    left: .5em;
+		}
+		
+		.chat-box .user-list .name {
+			margin-left: 1em;
+		}
+
+		.chat-massage {
+			overflow: auto;
+			height: 40em;
+		}
+		/* 聊天框 */
+		.chat-input textarea {
+			width: 100%;
+			height: 10em;
+			border: 0;
+			margin-bottom: 0;
+		}
+		.chat-input>div {
+			background: #fff;
+			padding-right: 20px;
+			    height: 60px;
+		}
+		.chat-input a.btn {
+			float: right;
+			width: 122px;
+			height: 44px;
+			line-height: 44px;
+			color: #010101;
+			padding: 0;
+			background: #f9f9f9;
+			border: 1px solid #eee;
+		}
+
+		.more-news {
+		  display: block;
+		  text-align: center;
+		  color: $link-color;
+		  
+		  
+		}
+
+		.more-news i.iconfont {
+		    font-size: 12px;
+		    color: $link-color;
+		    margin-left: 0.133333rem;
+		  }
+
+		  .more-news&:hover {
+		    text-decoration: underline;
+		  }
+
+	</style>
+	<!-- 客服 -->
+	<div class="chat-box row">
+		<div class="col-sm-10">
+			<div class="chat-massage">
+				<!-- 查看更多 -->
+				<a href="javascript:;" class="more-news" onclick="load_data()" style="display:none">
+				  <i class="iconfont icon-shijianlishijilujishizhongbiaomianxing"></i>
+				  <span>查看更多消息</span>
+				</a>
+			</div>
+			<!-- 输入框 -->
+			<div class="chat-input">
+				<textarea name="content" id="content"></textarea>
+				<div class="white-bg"><a onclick="onSubmit()" class="btn">发送(S）</a></div>
+			</div>
+			<!-- /输入框 -->
+
+
+		</div>
+		<div class="col-sm-2 user-list">
+			<ul class="list-group">
+            {volist name="user_lists" id="vo"}
+			  <li class="list-group-item d-flex flex-row" rel="{$vo.uid}">
+			  	<!-- 红点 -->
+			  	<span class="dot" {eq name="vo.is_read" value="1"} style="display:none" {/eq} ></span>
+			  	<!-- 头像 -->
+			  	<div class="head-img">
+			  		<img src="{$vo.head}">
+			  	</div>
+			  	<div class="name">{$vo.name}</div>
+			  </li>
+              {/volist}
+			 
+			</ul>
+		</div>
+		
+	</div>
+
+
+<link href="__STATIC__/chat/css/jquery-sinaEmotion-2.1.0.css" rel="stylesheet">
+<link href="__STATIC__/chat/css/style.css" rel="stylesheet">
+
+<script type="text/javascript" src="__STATIC__/chat/js/swfobject.js"></script>
+<script type="text/javascript" src="__STATIC__/chat/js/web_socket.js"></script>
+<script type="text/javascript" src="__STATIC__/chat/js/jquery-sinaEmotion-2.1.0.js"></script>
+
+<script type="text/javascript">
+  if (typeof console == "undefined") {    this.console = { log: function (msg) {  } };}
+  // 如果浏览器不支持websocket，会使用这个flash自动模拟websocket协议，此过程对开发者透明
+  WEB_SOCKET_SWF_LOCATION = "__STATIC__/chat/swf/WebSocketMain.swf";
+  // 开启flash的websocket debug
+  WEB_SOCKET_DEBUG = true;
+  var ws, name, client_list={};
+	var name = "{$myinfo.nickname}"
+	var mid = "{$mid}"
+	var head = "{$myinfo.headimgurl}";
+	var wpid = "{:WPID}"
+	var param = '{"name":"'+name+'", "head":"'+head+'", "uid":"'+mid+'", "wpid":"'+wpid+'", "type":';
+	var to_uid = 0;
+	var lastid = 0;
+
+  // 连接服务端
+  function connect() {    
+	 // 创建websocket
+	 ws = new WebSocket("ws://{:WORKERMAN_URL}:7272");
+	 // 当socket连接打开时，输入用户名
+	 ws.onopen = onopen;
+	 // 当有消息时根据消息类型显示不同信息
+	 ws.onmessage = onmessage; 
+	 ws.onclose = function() {
+	  console.log("连接关闭，定时重连");
+		connect();
+	 };
+	 ws.onerror = function() {
+	  console.log("出现错误");
+	 };
+  }
+
+  // 连接建立时发送登录信息
+  function onopen()
+  {
+	  // 登录
+	  var login_data = param + '"login"}';
+	  console.log("websocket握手成功，发送登录数据:"+login_data);
+	  ws.send(login_data);
+  }
+
+  // 服务端发来消息时
+  function onmessage(e)
+  {
+	  console.log(e.data);
+	  var data = JSON.parse(e.data);
+	  switch(data['type']){
+		  // 服务端ping客户端
+		  case 'ping':
+			  ws.send('{"type":"pong","wpid":"'+wpid+'"}');
+			  break;;
+		  // 登录 更新用户列表
+		  case 'login':
+			  //{"type":"login","client_id":xxx,"client_name":"xxx","client_list":"[...]","time":"xxx"}
+			  console.log(data['client_name']+"登录成功");
+			  break;
+		  // 发言
+		  case 'say':
+			  //{"type":"say","from_client_id":xxx,"to_client_id":"all/client_id","content":"xxx","time":"xxx"}
+			  say(data['name'], data['head'], data['content'], data['time'], data['uid']);
+			  break;
+	  }
+  } 
+
+  const toast = swal.mixin({
+	toast: true,
+	position: 'top-end',
+	showConfirmButton: false,
+	timer: 3000
+  });
+
+  
+  // 提交对话
+  function onSubmit() {
+	  content = $.trim( $("#content").val() );
+	  if(content == ''){
+		  toast({
+			type: 'error',
+			title: '请输入要咨询的内容'
+		  })
+		return false;
+	  }
+	  var data = param + '"say", "content":"'+content+'", "to_uid":"'+to_uid+'"}';
+	
+	  ws.send(data);
+	  $("#content").val('')
+	  
+	   say(name, head, content, '刚刚', mid);
+  }
+
+  // 发言
+  function say(name, head, content, time, uid){
+	  if(uid!=mid && uid!=to_uid){ //不是当前聊天的用户，只更新用户列表
+	      var has_update = false
+		  $('.list-group-item').each(function(index, e){
+			  var li_uid = $(e).attr('rel')
+			  console.log(li_uid)
+			  if(li_uid==uid){ //如果用户已经在列表
+			      $(e).find('.dot').show(); //显示出红点
+				  
+				  if(index>0){ //如果用户不在最前面,移动到最前
+					  $('.list-group').prepend(e)
+				  }
+				  has_update = true
+			  }
+		  })
+		  
+		  if(!has_update){ //新增加用户
+			  var li_html = '<li class="list-group-item d-flex flex-row" rel="'+uid+'"><span class="dot"></span><div class="head-img"><img src="'+head+'"></div><div class="name">'+name+'</div></li>';
+			  $('.list-group').prepend(li_html)
+		  }
+		  return false
+	  }
+	  //解析新浪微博图片
+	  content = content.replace(/(http|https):\/\/[\w]+.sinaimg.cn[\S]+(jpg|png|gif)/gi, function(img){
+		  return "<a target='_blank' href='"+img+"'>"+"<img src='"+img+"'>"+"</a>";}
+	  );
+
+	  //解析url
+	  content = content.replace(/(http|https):\/\/[\S]+/gi, function(url){
+		  if(url.indexOf(".sinaimg.cn/") < 0)
+			  return "<a target='_blank' href='"+url+"'>"+url+"</a>";
+		  else
+			  return url;
+	  }
+	  );
+	  if(uid==mid){
+		  var cla = 'admin';
+	  }else{
+		  var cla = 'user';
+	  }
+	  var html = '<div class="'+cla+'"><div class="time">'+time+'</div><div class="d-flex flex-row align-items-center"><div class="'+cla+'-head"><img src="'+head+'"></div><div class="'+cla+'-text"><p>'+content+'</p></div></div></div>';
+  
+  
+	$(".chat-massage").append(html);
+    scrollGoBootom();
+  }
+
+  $(function(){
+	  connect();
+	  
+	  $('.face').click(function(event){
+		  $(this).sinaEmotion();
+		  event.stopPropagation();
+	  });
+
+	  $('#content').keyup(function(event){
+	  if(event.keyCode ==13){
+		onSubmit();
+		scrollGoBootom();
+	  }
+	  });
+	  
+	  $('.list-group-item').click(function(){
+		  $(this).find('.dot').hide(); //去掉红点
+
+		  $('.list-group-item').removeClass('active');	//删除所有状态色
+
+		  $(this).addClass('active'); //加上状态色
+
+		  to_uid = $(this).attr('rel')
+		  lastid = 0
+		  
+		  //加载历史数据
+		  load_data()
+	   }); 
+
+	   $('.list-group-item').eq(0).trigger("click"); 
+  });
+
+  function load_data(){
+	$.post("{:U('shop/wap/service_more')}",{to_uid:to_uid, lastid:lastid},function(res_data){
+		if(res_data.length==0){
+			if(lastid>0){
+		  toast({
+			type: 'error',
+			title: '没有更多内容了'
+		  })				
+			}
+			$('.more-news').hide()
+		}else{
+			if(res_data.length>=10){
+				$('.more-news').show()
+			}else{
+				$('.more-news').hide()
+			}
+
+			for(i=0; i<res_data.length; i++){
+				var data = res_data[i]
+				say(data['name'], data['head'], data['content'], data['time'], data['uid']);
+				if(i==0) lastid = data['id']
+			}
+		}
+	})
+  }
+  // 自动到底部
+  function scrollGoBootom() {
+	 $('.chat-massage').animate({ scrollTop: 999999999 }, 500);
+  }
+
+</script>
+{/block}

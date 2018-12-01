@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>砸金蛋</title>
+    <link rel="stylesheet" href="{:ADDON_PUBLIC_PATH}/new/common/css/common_mobile.css">
+    <link rel="stylesheet" href="{:ADDON_PUBLIC_PATH}/new/egg/css/index.css">
+    <!-- 移动端适配-->
+    <script>
+        var html = document.querySelector('html');
+        changeRem();
+        window.addEventListener('resize', changeRem);
+
+        function changeRem() {
+            var width = html.getBoundingClientRect().width;
+            //console.log( width );
+            html.style.fontSize = width / 10 + 'px';
+        }
+    </script>
+</head>
+
+<body>
+<div id="wrap">
+    <div class="bg"></div>
+    <div class="rule"></div>
+    <a href="../my.html" id="myWin">
+        <div class="my">我的奖品</div>
+    </a>
+    <!--砸蛋区域-->
+    <div class="box">
+        <p class="tips">今天剩余免费<span id="change">5</span>次</p>
+        <ul class="egg clearfix">
+            <li>
+                <img src="../public/new/guagua/img/step3.png" class="goldegg init">
+                <img src="{:ADDON_PUBLIC_PATH}/new/egg/image/base.png">
+                <div class="info"></div>
+            </li>
+            <li>
+                <img src="{:ADDON_PUBLIC_PATH}/new/egg/image/egg.png" class="goldegg init">
+                <img src="{:ADDON_PUBLIC_PATH}/new/egg/image/base.png">
+                <div class="info"></div>
+            </li>
+            <li>
+                <img src="{:ADDON_PUBLIC_PATH}/new/egg/image/egg.png" class="goldegg init">
+                <img src="{:ADDON_PUBLIC_PATH}/new/egg/image/base.png">
+                <div class="info"></div>
+            </li>
+            <li>
+                <img src="{:ADDON_PUBLIC_PATH}/new/egg/image/egg.png" class="goldegg init">
+                <img src="{:ADDON_PUBLIC_PATH}/new/egg/image/base.png">
+                <div class="info"></div>
+            </li>
+            <li>
+                <img src="{:ADDON_PUBLIC_PATH}/new/egg/image/egg.png" class="goldegg init">
+                <img src="{:ADDON_PUBLIC_PATH}/new/egg/image/base.png">
+                <div class="info"></div>
+            </li>
+            <li>
+                <img src="{:ADDON_PUBLIC_PATH}/new/egg/image/egg.png" class="goldegg init">
+                <img src="{:ADDON_PUBLIC_PATH}/new/egg/image/base.png">
+                <div class="info"></div>
+            </li>
+            <li>
+                <img src="{:ADDON_PUBLIC_PATH}/new/egg/image/egg.png" class="goldegg init">
+                <img src="{:ADDON_PUBLIC_PATH}/new/egg/image/base.png">
+                <div class="info"></div>
+            </li>
+            <li>
+                <img src="{:ADDON_PUBLIC_PATH}/new/egg/image/egg.png" class="goldegg init">
+                <img src="{:ADDON_PUBLIC_PATH}/new/egg/image/base.png">
+                <div class="info"></div>
+            </li>
+            <li>
+                <img src="{:ADDON_PUBLIC_PATH}/new/egg/image/egg.png" class="goldegg init">
+                <img src="{:ADDON_PUBLIC_PATH}/new/egg/image/base.png">
+                <div class="info"></div>
+            </li>
+        </ul>
+        <div id="hammer" class="shak"></div>
+    </div>
+    <!--游戏规则弹窗-->
+    <div id="mask-rule">
+        <div class="box-rule">
+            <span class="star"></span>
+            <h2>活动规则说明</h2>
+            <span id="close-rule"></span>
+            <div class="con">
+                <div class="text">
+                    <p>活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明</p>
+                    <p>活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明</p>
+                    <p>活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明</p>
+                    <p>活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明</p>
+                    <p>活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明</p>
+                    <p>活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明</p>
+                    <p>活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明</p>
+                    <p>活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明</p>
+                    <p>活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明</p>
+                    <p>活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明</p>
+                    <p>活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明</p>
+                    <p>活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明活动规则说明</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--中奖提示-->
+    <div id="mask">
+        <div class="blin"></div>
+        <div class="caidai"></div>
+        <div class="winning">
+            <div class="red-head"></div>
+            <div class="red-body"></div>
+            <div id="card">
+                <a href="" target="_self" class="win"></a>
+            </div>
+            <a href="" target="_self" class="btn"></a>
+            <span id="close"></span>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="{:ADDON_PUBLIC_PATH}/new/common/js/jquery.cookie.js"></script>
+<script src="{:ADDON_PUBLIC_PATH}/new/common/js/h5_game_common.js?version=1.0.0"></script>
+<script src="{:ADDON_PUBLIC_PATH}/new/egg/js/index.js?version=1.0.0"></script>
+
+</body>
+</html>

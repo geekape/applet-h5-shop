@@ -1,0 +1,110 @@
+{extend name="shop@wap/common_file" /}
+
+{block name="common_body"}
+    <body class="my-center">
+          <div class="wrap">
+             <!-- 头部区域 -->
+             <div class="my-center-head flex">
+               <div class="my-center-head-img">
+                 <img src="{$myinfo.headimgurl}">
+               </div>
+               <p>{$myinfo.nickname}</p>
+             </div>
+
+             <!-- 四个 -->
+             <div class="u-border-b">
+                <div class="weui-grids flex center-icon-lg">
+                    <a href="{:U('my_order?type=2')}" class="weui-grid">
+                          <div class="weui-grid__icon icon-center-lg1">
+                              
+                          </div>
+                          <p class="weui-grid__label">待付款</p>
+                      </a>
+                      <a href="{:U('my_order?type=3')}" class="weui-grid">
+                          <div class="weui-grid__icon icon-center-lg2">
+                              
+                          </div>
+                          <p class="weui-grid__label">待收货</p>
+                      </a>
+                      <a href="{:U('my_order?type=4')}" class="weui-grid">
+                          <div class="weui-grid__icon icon-center-lg3">
+                              
+                          </div>
+                          <p class="weui-grid__label">待评价</p>
+                      </a>
+                      <a href="{:U('my_order')}" class="weui-grid">
+                          <div class="weui-grid__icon icon-center-lg4">
+                              
+                          </div>
+                          <p class="weui-grid__label">全部订单</p>
+                      </a>
+                  </div>
+             </div>
+             
+             
+             
+
+
+             <!-- 八个 -->
+             <div class="weui-grids center-icon-md">
+                     <a href="{:U('coupon/wap/personal')}" class="weui-grid">
+                         <div class="weui-grid__icon icon-center-md1">
+                            
+                         </div>
+                         <p class="weui-grid__label">优惠劵</p>
+                     </a>
+                     <a href="{:U('card/wap/member_center')}" class="weui-grid">
+                         <div class="weui-grid__icon icon-center-md2">
+                            
+                         </div>
+                         <p class="weui-grid__label">会员卡</p>
+                     </a>
+                     <a href="{:U('my_collect')}" class="weui-grid">
+                         <div class="weui-grid__icon icon-center-md3">
+                            
+                         </div>
+                         <p class="weui-grid__label">我的收藏</p>
+                     </a>
+                     <a href="{:U('my_track')}" class="weui-grid">
+                         <div class="weui-grid__icon icon-center-md4">
+                            
+                         </div>
+                         <p class="weui-grid__label">我的足迹</p>
+                     </a>
+                     <a href="{:U('add_address?is_choose=0')}" class="weui-grid">
+                         <div class="weui-grid__icon icon-center-md5">
+                            
+                         </div>
+                         <p class="weui-grid__label">我的地址</p>
+                     </a>
+                     <a href="{:U('my_comment')}" class="weui-grid">
+                         <div class="weui-grid__icon icon-center-md6">
+                            
+                         </div>
+                         <p class="weui-grid__label">我的评价</p>
+                     </a>
+                     <a href="{:U('service')}" class="weui-grid">
+                         <div class="weui-grid__icon icon-center-md7">
+                            
+                         </div>
+                         <p class="weui-grid__label">联系客服</p>
+                     </a>
+
+                     <a href="{:U('collage/wap/my_collage')}" class="weui-grid">
+                         <div class="weui-grid__icon icon-center-md8">
+                            
+                         </div>
+                         <p class="weui-grid__label">我的拼团</p>
+                     </a>
+                 </div>
+            {include file="shop@diy_template/allDisplay"/}
+
+            
+          </div>
+          <!-- 底部导航 -->
+          {include file="wap/_footer"}
+    </body>
+
+    
+    
+{/block}

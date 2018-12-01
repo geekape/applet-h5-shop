@@ -1,0 +1,37 @@
+<template name="3e8fa7c3">
+  <view class="_div data-v-7074d880 center">
+    <view class="_div data-v-7074d880 center-hd">
+      <image class="_img data-v-7074d880 center-hd__img" src="{{userData.avatarUrl}}"></image>
+      <view class="_p data-v-7074d880 center-hd__name">{{userData.nickName}}</view>
+    </view>
+    <view class="_div data-v-7074d880 icon-area">
+      <view class="_div data-v-7074d880 icon-area__hd">
+        <navigator url="../my_order/main?active=0" class="_a data-v-7074d880 icon-area__item">
+          <image src="/static/img/new_icon/center-icon-lg4.png" class="_img data-v-7074d880 icon-area__img"></image>
+          <view class="_p data-v-7074d880 icon-area__txt">全部订单</view>
+        </navigator>
+        <navigator url="../my_order/main?active=1" class="_a data-v-7074d880 icon-area__item"><label class="_span data-v-7074d880 weui-badge" wx:if="{{waitPayNum>0}}">{{waitPayNum}}</label>
+          <image src="/static/img/new_icon/center-icon-lg1.png" class="_img data-v-7074d880 icon-area__img"></image>
+          <view class="_p data-v-7074d880 icon-area__txt">待支付</view>
+        </navigator>
+        <navigator url="../my_order/main?active=2" class="_a data-v-7074d880 icon-area__item"><label class="_span data-v-7074d880 weui-badge" wx:if="{{waitCollectNum>0}}">{{waitCollectNum}}</label>
+          <image src="/static/img/new_icon/center-icon-lg2.png" class="_img data-v-7074d880 icon-area__img"></image>
+          <view class="_p data-v-7074d880 icon-area__txt">待收货</view>
+        </navigator>
+        <navigator url="../my_order/main?active=3" class="_a data-v-7074d880 icon-area__item"><label class="_span data-v-7074d880 weui-badge" wx:if="{{waitCommentNum>0}}">{{waitCommentNum}}</label>
+          <image src="/static/img/new_icon/center-icon-lg3.png" class="_img data-v-7074d880 icon-area__img"></image>
+          <view class="_p data-v-7074d880 icon-area__txt">待评价</view>
+        </navigator>
+      </view>
+      <view class="_div data-v-7074d880 icon-area__ct">
+        <navigator url="{{item.url}}" class="_a data-v-7074d880 icon-area__item" wx:key="index" key="{{index}}" wx:for="{{smallIcons}}" wx:for-index="index" wx:for-item="item">
+          <image src="{{item.img}}" class="_img data-v-7074d880 icon-area__img"></image>
+          <view class="_p data-v-7074d880 icon-area__txt">{{item.text}}</view>
+        </navigator> <button open-type="contact" class="_button data-v-7074d880 icon-area__item contact-btn">
+          <image class="_img data-v-7074d880 icon-area__img" src="/static/img/new_icon/center-icon-md7.png" alt></image>
+          <view class="_p data-v-7074d880 icon-area__txt">联系客服</view>
+        </button>
+      </view>
+    </view>
+  </view>
+</template>

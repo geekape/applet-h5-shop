@@ -1,0 +1,38 @@
+{extend name="common@base/common"/}
+
+{block name="body"}
+	
+    <ul class="tab-nav nav">
+    
+      <li class="current">
+      <a href="#">{$operate}分类<span class="arrow fa fa-sort-up"></span>
+      </a>
+      </li>
+      {/volist}
+    </ul>
+	<div class="tab-wrap">
+		<div class="tab-content">
+			<form action="{:U($type, $get_param)}" method="post" class="form-horizontal">
+				<div id="tab1" class="tab-pane in tab1">
+					<div class="form-item">
+						<label class="item-label">目标分类<span class="check-tips">（将{$operate}至的分类）</span></label>
+						<div class="controls">
+							<select name="to">
+								{volist name="list" id="vo"}
+									<option value="{$vo.id}">{$vo.title}</option>
+								{/volist}
+							</select>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-item">
+					<input type="hidden" name="from" value="{$from}">
+					<button type="submit" id="submit" class="btn submit-btn mr10 ajax-post" target-form="form-horizontal">确 定</button>
+					<button class="btn btn-yellow submit-btn" onclick="javascript:history.back(-1);return false;">返 回</button>
+				</div>
+			</form>
+		</div>
+	</div>
+{/block}
+

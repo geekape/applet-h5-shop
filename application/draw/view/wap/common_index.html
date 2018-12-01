@@ -1,0 +1,187 @@
+  <!-- 我的奖品 -->
+  <a class="weui-btn" href="{:U('draw/Wap/my_prize_new',array('games_id'=>$info['id']))}">我的奖品</a>
+  <!-- /我的奖品 -->
+
+   <!-- 活动时间 -->
+   <div class="activity-time">
+     <div class="activity-sub-title">
+       <p>活动时间</p>
+     </div>
+
+     <div class="flex">
+       <div class="activity-card f-mr-base">
+          <div class="activity-card-icon">
+            <img src="__STATIC__/default/img/activity/play_icon.png">
+          </div>
+          <h4>{$info.start_time|time_format}<h4>
+          <p>开始时间</p>
+       </div>
+
+       <div class="activity-card">
+          <div class="activity-card-icon">
+            <img src="__STATIC__/default/img/activity/pause_icon.png">
+          </div>
+          <h4>{$info.end_time|time_format}<h4>
+          <p>结束时间</p>
+       </div>
+     </div>
+   </div>
+   <!-- /活动时间 -->
+
+
+   <!-- 奖品介绍 -->
+    <div class="activity-prize">
+      <div class="activity-sub-title">
+        <p>奖品介绍</p>
+      </div>
+	  {notempty name="award_lists"}
+      <!-- 1 -->
+      {volist name="award_lists" id="vo"}
+      <div class="activity-prize-item flex">
+        <!-- 名次 -->
+        <div class="activity-prize-rank rank{$i}">
+          <p>{$vo.grade}</p>
+          {eq name="info.show_prize_num" value="1"}
+          <small>{gt name="vo.unreal_num" value="0"}{$vo.unreal_num}{else/}{$vo.num}{/gt}名</small>
+          {/eq}
+        </div>
+        
+        <!-- 奖品名称 -->
+        <div class="flex-item activity-prize-name">
+          <p>{$vo.name}</p>
+        </div>
+
+        <!-- 奖品图片 -->
+        <div class="activity-prize-img">
+          <img src="{$vo.img_url}">
+        </div>
+      </div>
+      {/volist}
+      {/notempty}
+      <!-- 2 -->
+      <!-- <div class="activity-prize-item flex">
+        名次
+        <div class="activity-prize-rank rank2">
+          <p>二等奖</p>
+          <small>2名</small>
+        </div>
+        
+        奖品名称
+        <div class="flex-item activity-prize-name">
+          <p>高级杯子一对</p>
+        </div>
+
+        奖品图片
+        <div class="activity-prize-img">
+          <img src="__STATIC__/default/img/activity/prize.png">
+        </div>
+      </div> -->
+      <!-- 3 -->
+      <!-- <div class="activity-prize-item flex">
+        名次
+        <div class="activity-prize-rank rank3">
+          <p>三等奖</p>
+          <small>2名</small>
+        </div>
+        
+        奖品名称
+        <div class="flex-item activity-prize-name">
+          <p>100元代金劵</p>
+        </div>
+
+        奖品图片
+        <div class="activity-prize-img">
+          <img src="__STATIC__/default/img/activity/prize.png">
+        </div>
+
+      </div> -->
+      <!-- <div class="activity-prize-item flex">
+        名次
+        <div class="activity-prize-rank rank">
+          <p>四等奖</p>
+          <small>2名</small>
+        </div>
+        
+        奖品名称
+        <div class="flex-item activity-prize-name">
+          <p>100元代金劵</p>
+        </div>
+
+        奖品图片
+        <div class="activity-prize-img">
+          <img src="__STATIC__/default/img/activity/prize.png">
+        </div>
+
+      </div>
+ -->
+    </div>
+   <!-- /奖品介绍 -->
+  
+
+    <!-- 查看详情 -->
+   <div class="activity-btn-icon">
+     <i class="iconfont icon-xiala"></i>
+   </div>
+	{eq name="info.show_prize_details" value="1"}
+    <a class="weui-btn" href="{:U('draw/Wap/prize_detail',array('games_id'=>$info['id']))}">查看奖品详情<i class="iconfont icon-more"></i></a>
+    {/eq}
+    <!-- /查看详情 -->
+  
+
+    <!-- 活动说明 -->
+    <div class="activity-intro">
+      <div class="activity-sub-title">
+        <p>活动说明</p>
+      </div>
+    
+      <div class="activity-card">
+
+      	<p>{$info.remark|raw}</p>
+
+      </div>
+    </div>
+    <!-- /活动说明 -->
+
+    <!-- 中奖记录 -->
+    {eq name="info.show_winner" value="1"}
+    <div class="winning-log">
+      <div class="activity-sub-title">
+        <p>中奖记录</p>
+      </div>
+      <div class="record">
+        {notempty name="luck_lists"}
+        {volist name="luck_lists" id="vo"}
+         <p style="display: -webkit-box;overflow: hidden;text-overflow: ellipsis;-webkit-box-orient: vertical;-webkit-line-clamp: 1;-webkit-box-flex: 1;height: inherit;">{$i}、{$vo.nickname}获得<span>{$vo.grade}</span><span>{$vo.award_name}</span></p>
+        {/volist}
+        {/notempty}
+        
+      </div>
+	  <a class="weui-btn" href="{:U('draw/Wap/lucky_list',array('games_id'=>$info['id']))}">查看更多<i class="iconfont icon-more"></i></a>
+     
+    <!--   <p>2、张南南获得<span>二等将</span><span>高级杯子两对</span></p>
+      <p>3、张南南获得<span>一等将</span><span>情侣戒指一对</span></p>
+      <p>4、张南南获得<span>三等将</span><span>100元代金劵</span></p> -->
+    </div>
+    {/eq}
+    <!-- /中奖记录 -->
+
+    <script type="text/javascript">
+      // 更多奖品
+      $('.activity-prize-item:gt(2)').hide();
+      $('.activity-btn-icon i').click(function () {
+        var prize_count = $('.activity-prize .activity-prize-item').length;
+        if (prize_count>3) {
+          if($('.activity-prize-item').is(":hidden")) {
+            $(this).addClass('active');
+            $('.activity-prize-item').show();
+          }else {
+            $(this).removeClass('active');
+            $('.activity-prize-item:gt(2)').hide();
+          }
+          
+        }else {
+          $.alert('没有更多奖品了');
+        }  
+
+      });
+    </script>

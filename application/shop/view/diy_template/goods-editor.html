@@ -1,0 +1,33 @@
+<div>
+	<!--页面标题设置-->
+	<div class="app_editor">
+		<em class="arrow-left"></em>
+		<div class="form_item">
+			<label>选择商品</label>
+			<div class="iput">
+            	<ul class="select_goods_list">
+                	<li ng-repeat="m in activeItem.params.goods_list" ng-show="activeItem.params.hasTestData == 0"><span class="img"><img ng-if="m.img" src="{{m.img}}"/></span><em ng-click="deleteGoods(m)">X</em></li>
+                </ul>
+				<div class="add_goods_btn" ng-click="addGoodsDialog('{:U ( "Shop/Goods/lists",array('isAjax'=>'ajax','isRadio'=>1))}');"></div>
+			</div>
+        </div>
+        <div class="form_item">
+			<label>样式</label>
+			<div class="iput pt_8">
+            	<input type="radio" name="list_style" value="1" ng-model="activeItem.params.list_style"/>大图&nbsp;&nbsp;&nbsp;
+                <input type="radio" name="list_style" value="2" ng-model="activeItem.params.list_style"/>小图&nbsp;&nbsp;&nbsp;
+                <input type="radio" name="list_style" value="3" ng-model="activeItem.params.list_style"/>一大两小&nbsp;&nbsp;&nbsp;
+                 <input type="radio" name="list_style" value="4" ng-model="activeItem.params.list_style"/>详细列表
+			</div>
+        </div>
+        <div class="form_item">
+			<label>显示</label>
+			<div class="iput pt_8">
+            	<input type="checkbox" name="show_price" value="1" ng-model="activeItem.params.show_price"/>显示价格&nbsp;&nbsp;&nbsp;
+               <input type="checkbox" name="show_btn" value="1" ng-model="activeItem.params.show_btn"/>显示购买按钮&nbsp;&nbsp;&nbsp;
+               
+			</div>
+        </div>
+        
+	</div>
+</div>

@@ -1,0 +1,91 @@
+{extend name="common@base/common_manager" /}
+{block name="body"}
+<style type="text/css">
+.ch_title{ text-align:center; line-height:30px; font-size:18px;}
+.ch_desc{ text-align:center; margin:0 15px 0; color:#888; line-height:30px;}
+.tab-content table td,.tab-content table th{ background:#fff; padding:12px 15px;}
+.tab-content table th{ background:#eee; font-weight:bold}
+</style>
+  <div class="wrap">
+	<section id="contents" style="padding:30px; background:#fff; margin:30px 0;">
+	<script type="text/javascript" src="__STATIC__/qrcode/qrcode.js"></script>
+	<script type="text/javascript" src="__STATIC__/qrcode/jquery.qrcode.js"></script>
+    <div>
+            <div class="ch_title">
+            	<img src="__IMG__/checking.png"/><br/>当前检测：{$info.public_name}
+            </div>
+            <div class="ch_desc">
+            <p>请使用手机微信扫以下二维码进入检测流程</p>
+             	<div id="qrCode"></div>
+             </div>
+            <script type="text/javascript">
+            var textLink = "{:U ( 'weixin/Wap/check')}";
+            $('#qrCode').qrcode({width:120,height:120,text:textLink});
+            </script>
+     </div>
+
+  <div class="tab-content data-table table-striped">
+    <table style="background:#ddd" cellspacing="1" cellpadding="0" align="center" width="80%">
+      <thead>
+        <tr>
+          <th>检测项</th>
+          <th>检测结果 </th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr>
+          <td>获取access_token</td>
+          <td class="need_check" id="access_token"><span style=" color:#000">待检测</span></td>
+        </tr>
+        <tr>
+          <td>判断access_token是否正常</td>
+          <td class="need_check" id="access_token_check"><span style=" color:#000">待检测</span></td>
+        </tr>
+        <tr>
+          <td>收发消息</td>
+          <td class="need_check" id="massage"><span style=" color:#000">待检测</span></td>
+        </tr>
+        {eq name="info.type" value="3"}
+        <tr>
+          <td>H5自动获取Openid</td>
+          <td class="need_check" id="openid"><span style=" color:#000">待检测</span></td>
+        </tr>
+        <tr>
+          <td>JSAPI配置</td>
+          <td class="need_check" id="jsapi"><span style=" color:#000">待检测</span></td>
+        </tr>
+{/eq}
+
+      </tbody>
+    </table>
+  </div>
+</section>
+{/block}
+{block name="script"}
+  <link href="__STATIC__/datetimepicker/css/datetimepicker.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+  {php}if(config('COLOR_STYLE')=='blue_color') echo '
+    <link href="__STATIC__/datetimepicker/css/datetimepicker_blue.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+    ';{/php}
+  <link href="__STATIC__/datetimepicker/css/dropdown.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+  <script type="text/javascript">
+$(function(){
+	setInterval(check_res, 3000);
+});
+
+function check_res(){
+	var url = "{:U ( 'weixin/Wap/check_res_ajax')}";
+	$.post(url,{},function(res){
+		if(res!=0){
+			$.each(res,function(na,data){
+				if(data.msg!=""){
+				    $('#'+na).html('<span style="color:#F00">'+data.msg+'</span>');
+				}else{
+					$('#'+na).html('<span style="color:#0C0">正常</span>');
+				}
+			})
+		}
+		},'JSON');
+}
+</script>
+{/block}

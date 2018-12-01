@@ -1,0 +1,34 @@
+{extend name="shop@wap/common_file" /} {block name="common_body"}
+<body class="refund">
+    <!-- 头部导航 -->
+    <div class="top-nav">
+        <div class="flex">
+            <i class="iconfont icon-back" id="go-back"></i>
+            <slot>
+                <span class="title">申请退款</span>
+            </slot>
+        </div>
+    </div>
+    
+
+    <form id="form" class="f-pb-lg" action="{:U('doRefund')}" method="post" >
+    <div class="wrap"> 
+        <p class="u-comment-title">退款原因<span class="red"> *</span></p>
+        <div class="u-comment2">
+            <input type="hidden" name="id" value="{$id}" />
+                <!-- 评价框 -->
+                <div class="u-comment-box">
+                    <textarea placeholder="请填写退款理由,至少5个字以上" name="refund_content"></textarea>
+                </div>
+                <!-- /评价框 -->
+        </div>
+
+            
+    </div>
+
+    <div class="bottom-nav bottom-nav-clear">
+     <button class="weui-btn weui-btn_primary ajax-post" type="submit">提交申请</button>   
+    </div>
+    </form>
+</body>
+{/block}

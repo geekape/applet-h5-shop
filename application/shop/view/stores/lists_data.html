@@ -1,0 +1,83 @@
+{include file="common@base/head"/}
+<body style="background:#fff">
+<div class="lists_data">
+  <div class="span9">
+    <section id="contents"> 
+
+      <div class="table-bar">  
+        <!-- 高级搜索 -->
+         <div class="search-form fr cf">
+                <div class="sleft">
+                {php}empty($search_key) && $search_key=$model['search_key'];empty($search_key) && $search_key='title';unset($get_param[$search_key]);{/php}
+                {php} isset($model['name']) && $get_param['model']=$model['name']; isset($search_url) || $search_url = U(MODULE_NAME.'/'.CONTROLLER_NAME.'/lists', $get_param);{/php}
+                
+                <input type="text" name="{$search_key}" class="search-input" value="{:I($search_key)}" placeholder="{$placeholder}">
+                <a class="sch-btn" href="javascript:;" id="search" url="{$search_url}"><i class="btn-search"></i></a> </div>
+        </div>
+        <!-- 多维过滤 -->
+        
+      </div>
+      <!-- 数据列表 -->
+      <div class="data-table">
+        <div class="table-striped">
+          <table cellspacing="1">
+            <!-- 表头 -->
+            <thead>
+              <tr>
+                {if condition="$check_all"}<th class="row-selected row-selected"> <input type="checkbox" id="checkAll" class="check-all regular-checkbox"><label for="checkAll"></label></th>{/if}
+                {volist name="list_grids" id="field"}
+                  <th {notempty name="field.width"}width="{$field.width}%"{/notempty} >
+                   {$field.title}
+                  </th>
+                {/volist}
+              </tr>
+            </thead>
+            
+            <!-- 列表 -->
+            <tbody>
+              {volist name="list_data" id="data"}
+                <tr>
+                  {if condition="$check_all"}<td><input class="ids regular-checkbox" type="checkbox" value="{$data['id']}" name="ids[]" id="check_{$data['id']}"><label for="check_{$data['id']}"></label></td>{/if}
+                  {volist name="list_grids" id="grid"}
+                    <td type="{$key}">{$data[$key]}</td>
+                  {/volist}
+                </tr>
+              {/volist}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="page"> {$_page|raw|default=''} </div>
+    </section>
+  </div>
+<script type="text/javascript">
+$(function(){
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+        if(query == '' ){
+        	url="{:U ( 'shop/stores/lists', array('isAjax'=>1))}";
+        }
+		url = change_search_url(url);
+		window.location.href = url;
+	});
+
+    //回车自动提交
+    $('.search-form').find('input').keyup(function(event){
+        if(event.keyCode===13){
+            $("#search").click();
+        }
+    });
+
+})
+</script>
+</div>
+</body>

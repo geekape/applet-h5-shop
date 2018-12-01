@@ -1,0 +1,48 @@
+{extend name="shop@wap/common_file" /} {block name="common_body"}
+<style type="text/css">
+    .page-hint {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: #fff;
+				flex-direction: column;
+    }
+	
+@-webkit-keyframes rotate {
+  from {-webkit-transform:rotate(0deg);}
+  to {-webkit-transform:rotate(360deg);}
+}	
+.page-hint img {
+  -webkit-animation-name: rotate;
+  -webkit-animation-duration: 1.5s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+	margin-bottom: 10px;
+}	
+</style>
+
+<body class="index">
+
+    <div class="page-hint">
+			<img src="__ROOT__/home/images/checking1.png"/>
+			<p>自动获取用户信息中...</p>
+    </div>
+</body>
+<script type="text/javascript">
+    var openid = "{$openid}";
+    var uid = {$uid|default=0};
+    var sid = "{$sid}";
+    var pbid = "{$pbid}";
+    var public_name = "{$public_name}";
+    if (openid != '' && openid != -1 && openid != -2 && uid > 0) {
+        window.localStorage.setItem('openid', openid)
+        window.localStorage.setItem('uid', uid)
+        window.localStorage.setItem('PHPSESSID', sid)
+        window.localStorage.setItem('public_name', public_name)
+        setTimeout(function() {
+            window.location.href = "{:SITE_URL}/wap/index.html?pbid=" + pbid 
+        }, 3000)
+    }
+</script>
+{/block}

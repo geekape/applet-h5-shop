@@ -1,0 +1,206 @@
+{extend name="publics/base" /}
+
+{block name="body"}
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>用户列表</h2>
+	</div>
+	<div class="cf">
+		<div class="fl">
+            <a class="btn" href="{:U('add')}">新 增</a>
+            <button class="btn ajax-post" url="{:U('changeStatus?method=resumeUser')}" target-form="ids">启 用</button>
+            <button class="btn ajax-post" url="{:U('changeStatus?method=forbidUser')}" target-form="ids">禁 用</button>
+            <button class="btn ajax-post confirm" url="{:U('changeStatus?method=deleteUser')}" target-form="ids">删 除</button>
+            <button class="btn setting_group" url="{:U('changeGroup')}" target-form="ids">设置用户组</button>
+            <button class="btn setting_Tag" url="{:U('changeTag')}" target-form="ids">设置用户角色</button>
+        </div>
+
+        <!-- 高级搜索 -->
+		<div class="search-form fr cf">
+	<div class="sleft">
+		    <select name="group">
+            <option value="{:U('Admin/User/index',array('group_id'=>0,'nickname'=>I('nickname')))}" {eq name="$group_id" value="0"}selected{/eq} >全部用户</option>
+			    {volist name="auth_group" id="vo"}
+				    <option value="{:U('Admin/User/index',array('group_id'=>$vo['id'],'nickname'=>I('nickname')))}" {eq name="vo['id']" value="$group_id"}selected{/eq} >{$vo.title}</option>
+			    {/volist}
+		    </select>
+    </div>
+			<div class="sleft">
+				<input type="text" name="nickname" class="search-input" value="{:I('nickname')}" placeholder="请输入用户昵称或者ID">
+				<a class="sch-btn" href="javascript:;" id="search" url="{:U('index',array('group_id'=>$group_id))}"><i class="btn-search"></i></a>
+			</div>
+		</div>
+    </div>
+    <!-- 数据列表 -->
+    <div class="data-table table-striped">
+	<table>
+    <thead>
+        <tr>
+		<th class="row-selected row-selected"><input class="check-all" type="checkbox"/></th>
+		<th>UID</th>
+		<th>昵称</th>
+        <th>用户组</th>
+<!--        <th>公众号数（管理数/创建数）</th>
+        <th>最多可创建公众号数</th>-->
+		<th>金币值</th>
+		<th>登录次数</th>
+		<th>最后登录时间</th>
+		<th>最后登录IP</th>
+		<th>注册时间</th>
+		<th>状态</th>
+        <th>审核</th>
+		<th>操作</th>
+		</tr>
+    </thead>
+    <tbody>
+		{notempty name="_list"}
+		{volist name="_list" id="vo"}
+		<tr>
+            <td><input class="ids" type="checkbox" name="id[]" value="{$vo.uid}" /></td>
+			<td>{$vo.uid} </td>
+			<td>{$vo.nickname}</td>
+            <td>{$vo.group}</td>
+			<td>{$vo.score}</td>
+			<td>{$vo.login_count|intval}</td>
+			<td><span>{$vo.last_login_time|time_format}</span></td>
+			<td><span>{$vo['last_login_ip']|intval|long2ip}</span></td>
+			<td><span>{$vo.reg_time|time_format}</span></td>
+			<td>{eq name="vo.status" value="1"}
+				<a href="{:U('User/changeStatus?method=forbidUser&id='.$vo['uid'])}" class="ajax-get">{$vo.status_text}</a>
+				{else/}
+				<a href="{:U('User/changeStatus?method=resumeUser&id='.$vo['uid'])}" class="ajax-get">{$vo.status_text}</a>
+				{/eq}</td>
+            <td>{eq name="vo.is_audit" value="1"}
+				<a href="{:U('User/changeStatus?method=audit_0&id='.$vo['uid'])}" class="ajax-get">{$vo.audit_text}</a>
+				{else/}
+				<a href="{:U('User/changeStatus?method=audit_1&id='.$vo['uid'])}" class="ajax-get">{$vo.audit_text}</a>
+				{/eq}</td>
+			<td>
+            {if condition="$vo['is_admin']"}
+                <a href="{:U('AuthManager/public_count?uid='.$vo['uid'])}">公众号设置</a>
+                <a href="{:U('Menu/lists',array('uid'=>$vo['uid']))}">导航管理</a>
+            {/if}
+                <a href="{:U('changeStatus?method=deleteUser&id='.$vo['uid'])}" class="confirm ajax-get">删除</a>
+                </td>
+		</tr>
+		{/volist}
+		{else/}
+		<td colspan="11" class="text-center"> aOh! 暂时还没有内容! </td>
+		{/notempty}
+	</tbody>
+    </table>
+	</div>
+    <div class="page">
+        {$_page|raw}
+    </div>
+
+    <!-- 用户分组弹框 -->
+    <div class="group_html" style="display:none">
+    	<div class="manage_group normal_dialog">
+            <h6>设置用户分组</h6>
+            <a class="close" href="javascript:;" onClick="$('.thinkbox-modal-blackout-default,.thinkbox-default').hide()">关闭</a>
+            <div class="content">
+            <select name="type" id="select_type" style="width:25%">
+                    <option value="0">移入</option>
+                    <option value="1">移出</option>
+            </select>
+            <select name="group" id="select_group" style="width:70%">
+                {volist name="auth_group" id="vo"}
+                    <option value="{$vo.id}">{$vo.title}</option>
+                {/volist}
+            </select>
+            <div class="btn_wrap"><button class="btn setting_group" url="{:U('changeGroup')}" target-form="ids">确定</button></div>
+            </div>
+        </div>
+    </div>
+    <!-- 用户角色弹框 -->
+    <div class="tag_html" style="display:none">
+    	<div class="manage_group normal_dialog">
+            <h6>设置用户角色</h6>
+            <a class="close" href="javascript:;" onClick="$('.thinkbox-modal-blackout-default,.thinkbox-default').hide()">关闭</a>
+            <div class="content">
+            <select name="type" id="tag_type" style="width:25%">
+                    <option value="0">移入</option>
+                    <option value="1">移出</option>
+            </select>
+            <select name="group" id="select_Tag" style="width:70%">
+                {volist name="tags" id="vo"}
+                    <option value="{$vo.id}">{$vo.title}</option>
+                {/volist}
+            </select>
+            <div class="btn_wrap"><button class="btn setting_Tag" url="{:U('rules/changeTag')}" target-form="ids">确定</button></div>
+            </div>
+        </div>
+    </div>
+{/block}
+
+{block name="script"}
+	<script src="__STATIC__/thinkbox/jquery.thinkbox.js?v={:SITE_VERSION}"></script>
+
+	<script type="text/javascript">
+	//设置分组
+	$('.setting_Tag').click(function(){
+		var html = $($('.tag_html').html());
+		query = $('.ids').serialize();
+		if(query==""){
+			alert('请选择用户');
+			return;
+		}
+		$.thinkbox(html);
+		$('button',html).click(function(){
+			that = this;
+			target = $(that).attr('url');
+			query = query + "&tag_id="+$('#select_Tag', html).val() + "&type="+$('#tag_type', html).val();
+			$(that).addClass('disabled').attr('autocomplete','off').prop('disabled',true);
+            $.post(target,query).success(function(data){
+				location.reload();
+				$('.thinkbox-modal-blackout-default,.thinkbox-default').hide();
+            });
+		})
+	})
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+        var query  = $('.search-form').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+		url = change_search_url(url);
+		window.location.href = url;
+	});
+	//回车搜索
+	$(".search-input").keyup(function(e){
+		if(e.keyCode === 13){
+			$("#search").click();
+			return false;
+		}
+	});
+	$('select[name=group]').change(function(){
+		location.href = this.value;
+	});
+	//设置分组
+	$('.setting_group').click(function(){
+		var html = $($('.group_html').html());
+		query = $('.ids').serialize();
+		if(query==""){
+			alert('请选择用户');
+			return;
+		}
+		$.thinkbox(html);
+		$('button',html).click(function(){
+			that = this;
+			target = $(that).attr('url');
+			query = query + "&group_id="+$('#select_group', html).val() + "&type="+$('#select_type', html).val();
+			$(that).addClass('disabled').attr('autocomplete','off').prop('disabled',true);
+            $.post(target,query).success(function(data){
+				location.reload();
+				$('.thinkbox-modal-blackout-default,.thinkbox-default').hide();
+            });
+		})
+	})
+	</script>
+{/block}

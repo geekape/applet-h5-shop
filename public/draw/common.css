@@ -1,0 +1,236 @@
+@charset "utf-8";
+/* CSS Document by jacy use in 抽奖活动 */
+html,body{ background:#fbf4c1;}
+.prize_content{ margin:15px;}
+.content_item{ background:#fed524; border-radius:5px; margin:30px 0 20px;}
+.content_item .title{ text-align:center; position:relative; top:-10px;}
+.content_item .title span{ padding:8px 30px; color:#fff; background:url(title.png) no-repeat; background-size:100% 100%;}
+.content_item .content{ padding:10px; color:#f6600e; font-size:14px;}
+.prizes{ overflow:hidden;}
+.prizes li{ width:33.333%; text-align:center; margin:0 0 15px; float:left;}
+.prizes li p{ line-height:16px; font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.prizes li .p_title{ font-size:14px; color:#F30}
+.prizes li .count{ color:#888}
+.prizes li img{ width:70px; height:70px; margin:5px auto; display:block;}
+.content_item .log_btn,.content_item .log_btn:visited{ display:block; padding:3px ; text-align:center; background:#F60; color:#fff; border-radius:5px; margin:15px 0;}
+.tips_div{ text-align:center;}
+.tips_div .unget_btn{ padding:4px 30px;background:#d43b06; color:#fff; border-radius:20px; }
+.tips_div .left_count{ line-height:30px; font-size:12px;}
+.prize_log li{ overflow:hidden; padding:5px 0; border-bottom:1px dotted #FF9}
+.prize_log li:last-child{ border:none}
+.prize_log span{ display:inline-block; text-align:center}
+.prize_log .head{ width:10%;}
+.prize_log .head img{ width:100%; border-radius:100%; vertical-align:middle;}
+.prize_log .name{ width:20%;}
+.prize_log .award{ width:20%;}
+.prize_log .award_name{ width:40%;}
+/* 领取奖品 */
+.my_prizes{ margin:15px; font-size:12px;}
+.my_prizes li{background:#fff; border-radius:5px; margin-bottom:15px; position:relative; min-height:90px; padding:10px 10px 10px 110px; border:1px solid #ddd;}
+.my_prizes li img{ position:absolute; top:10px; left:10px; width:90px; height:90px;}
+.my_prizes li p{ line-height:15px; margin:0 0 5px;}
+.my_prizes li .btn_p{ margin-top:5px;}
+.my_prizes li .get_btn,.my_prizes li .get_btn:visited{ margin-top:5px; padding:5px 15px; color:#fff; font-size:12px;background:#F60; border-radius:5px; }
+.get_info{ margin:15px;}
+.goods_get{ margin-bottom:10px; background:#FFF; border:1px solid #ddd; border-radius:5px; overflow:hidden;}
+.goods_get .addr_t{ overflow:hidden; padding:7px; border-bottom:1px dotted #ddd;}
+.goods_get .addr_t a{ color:#888; font-size:12px;}
+.goods_get .addr_t a img{ vertical-align:-2px;}
+.goods_get ul{ margin-bottom:15px;}
+.address_list label{ display:block; line-height:20px; padding:10px 10px 10px 30px; position:relative; border-bottom:1px solid #ddd; margin:0}
+.address_list label input{ position:absolute; left:10px; top:50%; margin-top:-8px;}
+/* 大转盘 */
+.dzp {
+	width: 280px;
+	height: 280px;
+	position: relative;
+	margin: 50px auto
+}
+.disk {
+	width: 280px;
+	height: 280px;
+	background: url(zpbg.png) no-repeat 1px 1px;
+	background-size:100% 100%;
+	padding:20px;
+}
+#outer-cont {
+	top: 16px;
+	width: 100%;
+	margin-bottom: 50px;
+	position: relative;
+}
+#inner-cont {
+	top:90px;
+	width: 100%;
+	position: absolute;
+}
+#outer {
+	margin: 0px auto;
+	width: 250px;
+	height: 250px;
+	max-width: 247px;
+}
+#inner {
+	margin: 0px auto;
+	width: 80px;
+	height: 110px;
+	cursor: pointer;
+	max-width: 90px;
+}
+#outer img {
+	margin: 0px auto;
+	display: block;
+}
+#inner img {
+	margin: 0px auto;
+	display: block;
+}
+/* 刮刮乐 */
+.guagua_area{ margin:15px auto;position: relative;}
+.guagua_area span{width: 300px;height: 62px; display: block;position: absolute;top: 0;left: 0;background: url(gua_pic_top.png) no-repeat;background-size: 100%;}
+/* 砸金蛋 */
+#zjd{ background:#9fd2ed}
+#zjd .prize_content .content_item{ background:#fff}
+.zjd_top{width: 100%;
+-webkit-perspective:400;
+-webkit-perspective-origin:50% 35%;
+perspective:400;
+perspective-origin:50% 35%;
+position:relative;
+}
+.zjd_top>img{ width:100%;}
+.cube{
+  width:0px;
+  height:0px;
+  border-radius:300px;
+  margin:auto;
+  position:absolute;
+  left:50%;
+  bottom:30%;
+  z-index:100;
+  -webkit-transform-style: preserve-3d;
+  -webkit-backface-visibility:visible;
+  -webkit-transform: rotateX(0deg) rotateZ(0deg);
+  transform-style: preserve-3d;
+  backface-visibility:visible;
+  transform: rotateX(0deg) rotateZ(0deg);
+}
+
+.plane{
+  width:0px;
+  height:0px;
+  position: absolute;
+  z-index:200;
+  left:50%;
+  top:50%;
+  -webkit-transform-style: preserve-3d;
+  -webkit-backface-visibility:visible;
+   transform-style: preserve-3d;
+  backface-visibility:visible;
+}
+
+.plane>span{
+  position: relative;
+  width: 75px;
+  height: 120px;
+  margin-left:-35px;
+  margin-top:-86px;
+  display:block;
+}
+/* on 金蛋未中奖，yes中奖*/
+.plane>span.yes{
+
+  background: url(gift.png) no-repeat center 28px;
+  -webkit-background-size: 70% auto;
+  -webkit-transition:background-position .5s ease-in;
+  background-size: 70% auto;
+  transition:background-position .5s ease-in;
+}
+.plane>span.yes{ background-position:center -5px;}
+.plane>span>figure{
+  width: 100%;
+  height: 100%;
+  display:block;
+  background:url(egg.png) no-repeat center -8px;
+  -webkit-background-size: 160% auto;
+  background-size: 160% auto;
+  pointer-events:none;
+}
+
+.cube.on, .cube.on .plane>span{-webkit-animation: spin 10s infinite linear;animation: spin 10s infinite linear; }
+.plane>span.on.luck{
+  background-position: center 3px;
+}
+.plane>span:after{
+  content: "";
+  position: absolute;
+  z-index:360;
+  display: block;
+  width:100px;
+  height:100px;
+  bottom:30px;
+  left:-10px;
+  background:url(hua.png) no-repeat center center;
+  -webkit-background-size:10px auto;
+  -webkit-transition:-webkit-background-size .3s ease-in;
+  background-size:10px auto;
+  transition:-webkit-background-size .3s ease-in;
+  position-events:none;
+}
+.plane>span.on:after,.plane>span.yes:after{
+  -webkit-background-size: 120px auto;
+  background-size: 120px auto;
+}
+.plane>span.on>figure,.plane>span.yes>figure{
+  background-position: center -121px;
+}
+.cube.pause, .cube.pause span{
+  -webkit-animation-play-state:paused!important;
+  animation-play-state:paused!important;
+}
+
+
+.plane.one{-webkit-transform:rotateZ(90deg) translateX(80px) rotateX(-90deg);transform:rotateZ(90deg) translateX(80px) rotateX(-90deg);}
+.plane.two{-webkit-transform:rotateZ(162deg) translateX(80px) rotateX(-90deg);transform:rotateZ(162deg) translateX(80px) rotateX(-90deg);}
+.plane.three{-webkit-transform:rotateZ(234deg) translateX(80px) rotateX(-90deg);transform:rotateZ(234deg) translateX(80px) rotateX(-90deg);}
+.plane.four{-webkit-transform:rotateZ(306deg) translateX(80px) rotateX(-90deg);transform:rotateZ(306deg) translateX(80px) rotateX(-90deg);}
+.plane.five{-webkit-transform:rotateZ(378deg) translateX(80px) rotateX(-90deg);transform:rotateZ(378deg) translateX(80px) rotateX(-90deg);}
+
+.cube.on>.one>span,.cube.yes>.one>span {-webkit-animation-name:spin1;-webkit-transform:rotateY(90deg);animation-name:spin1;transform:rotateY(90deg);z-index:203;}
+.cube.on>.two>span,.cube.yes>.two>span {-webkit-animation-name:spin2;-webkit-transform:rotateY(160deg);animation-name:spin2;transform:rotateY(160deg);}
+.cube.on>.three>span,.cube.yes>.three>span {-webkit-animation-name:spin3;-webkit-transform:rotateY(234deg);animation-name:spin3;transform:rotateY(234deg);}
+.cube.on>.four>span,.cube.yes>.four>span {-webkit-animation-name:spin4;-webkit-transform:rotateY(306deg);animation-name:spin4;transform:rotateY(306deg);}
+.cube.on>.five>span,.cube.yes>.five>span {-webkit-animation-name:spin5;-webkit-transform:rotateY(378deg);animation-name:spin5;transform:rotateY(378deg);}
+@-webkit-keyframes spin5 {
+  0% { -webkit-transform:rotateY(378deg); transform:rotateY(378deg);}
+  100% { -webkit-transform: rotateY(738deg);transform: rotateY(738deg);}
+}
+@-webkit-keyframes spin4 {
+  0% { -webkit-transform:rotateY(306deg);transform:rotateY(306deg);}
+  100% { -webkit-transform: rotateY(666deg);transform: rotateY(666deg);}
+}
+@-webkit-keyframes spin3 {
+  0% { -webkit-transform:rotateY(234deg);transform:rotateY(234deg);}
+  100% { -webkit-transform: rotateY(594deg);transform: rotateY(594deg);}
+}
+@-webkit-keyframes spin2 {
+  0% {-webkit-transform:rotateY(162deg);transform:rotateY(162deg);}
+  100% {-webkit-transform:rotateY(522deg);transform:rotateY(522deg);}
+}
+@-webkit-keyframes spin1 {
+  0% { -webkit-transform:rotateY(90deg);transform:rotateY(90deg);}
+  100% { -webkit-transform:rotateY(450deg);transform:rotateY(450deg);}
+}
+@-webkit-keyframes spin{
+  0% {-webkit-transform: rotateX(90deg) rotateZ(0deg);transform: rotateX(90deg) rotateZ(0deg); }
+  100% { -webkit-transform: rotateX(90deg) rotateZ(360deg);transform: rotateX(90deg) rotateZ(360deg);}
+}
+/* 九宫格 */
+.get_prize{ margin:30px 20px;}
+.get_prize .prize_list{ position:relative; height:210px;}
+.get_prize .prize_list .item{ position:absolute; top:0; left:0; background:#fff; border-radius:5px; box-shadow:0 3px #da6303; text-align:center; -webkit- transition:all 200ms; transition:all 200ms; border:2px solid #da6303}
+.get_prize .prize_list img{ width:80%; height:80%; margin-top:10%;}
+.get_prize .prize_list .geted_item{ background:#ffea00}
+.get_prize .prize_list .geted_item{ -webkit-transform:scale(1.1,1.1);transform:scale(1.1,1.1)}
+.get_prize .get_prize_btn{ position:absolute; background:#f42d30; border-radius:10px; box-shadow:0 3px #a71e21; color:#fff; font-size:15px; text-align:center;}
+.get_prize .get_prize_btn img{ width:30px; height:30px; margin-top:auto; vertical-align:middle; margin-left:3px;}

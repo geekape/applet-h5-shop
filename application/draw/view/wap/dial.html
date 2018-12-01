@@ -1,0 +1,49 @@
+{extend name="draw@wap/common_file" /} {block name="common_body"}
+
+
+<script type="text/javascript" src="__STATIC__/default/lib/awardRotate.js"></script>
+<script type="text/javascript" src="__STATIC__/default/js/dial.js"></script>
+
+
+
+
+<!-- 圆形转盘 -->
+<div class="wrap activity">
+
+    <div class="dial">
+          
+         
+        <div class="circle-dial">
+          <div class="turnplate" style="background-image:url(__STATIC__/default/img/activity/dial.png);background-size:100% 100%;">
+            <canvas class="item" id="wheelcanvas" width="430px" height="430px"></canvas>
+            <img class="pointer" src="__STATIC__/default/img/activity/draw_btn_bg.png"/>
+          </div>
+        </div>
+    </div>
+   <!-- 共用内容 -->
+  {include file='wap/common_index' /}
+  
+
+</div>
+<script>
+var str='{$jplist|raw}';
+var prize_arr = eval( str );;
+// console.log(prize_arr);
+
+
+//分享
+$.WeiPHP.initWxShare({
+	title:'{$shareData.title}',
+	desc:'{$shareData.desc}',
+	link:'{$shareData.link}',
+	imgUrl:'{$shareData.imgUrl}'
+});
+var has_subscribe = "{$has_subscribe}";
+var qrcode='{$qrcode}';
+var err_msg="{$err_msg}";
+var join_url = "{$joinurl}";
+
+
+</script>
+   
+{/block}

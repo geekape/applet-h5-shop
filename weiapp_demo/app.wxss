@@ -1,0 +1,27 @@
+/**app.wxss**/
+
+.container {
+  padding: 20rpx;
+  box-sizing: border-box;
+}
+
+.weishop_title {
+  font-size: 28rpx;
+  margin-bottom: 20rpx;
+}
+
+.weishop_title::before {
+  content: "";
+  display: inline-block;
+  width: 4rpx;
+  height: 32rpx;
+  vertical-align: top;
+  background: #2fb7f7;
+  margin-right: 8rpx;
+}
+
+.help {
+  margin: 40rpx;
+  font-size: 24rpx;
+  color: darkgoldenrod;
+}

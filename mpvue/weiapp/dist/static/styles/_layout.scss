@@ -1,0 +1,17 @@
+// 布局
+.g-flex {
+    display: flex;
+    // 列
+    &__column {
+        flex-direction: column
+    }
+    &__updown-center {
+        align-items: center
+    }
+    &__item {
+        flex: 1
+    }
+    &__space {
+        justify-content: space-around
+    }
+}

@@ -1,0 +1,43 @@
+<div>
+	<!--页面标题设置-->
+	<div class="app_editor" ng-controller="picListController">
+		<em class="arrow-left"></em>
+		
+        <!--<div class="form_item">
+			<label>显示设置</label>
+			<div class="iput pt_8">
+            	<input type="checkbox" checked name="show_title" ng-model="activeItem.params.show_title"/>显示标题&nbsp;&nbsp;&nbsp;               
+			</div>
+		</div>-->
+        <!--<div class="form_item">
+			<label>样式设置</label>
+			<div class="iput pt_8">
+				<input type="radio" checked name="align" value="1" ng-model="activeItem.params.list_style"/>一列&nbsp;&nbsp;&nbsp;
+                <input type="radio" name="align" value="2" ng-model="activeItem.params.list_style"/>两列&nbsp;&nbsp;&nbsp;
+                 <input type="radio" name="align" value="3" ng-model="activeItem.params.list_style"/>三列&nbsp;&nbsp;&nbsp;
+                <input type="radio" name="align" value="4" ng-model="activeItem.params.list_style"/>四列
+			</div>
+		</div>-->
+		<div class="row ml-3">
+			<div class="iput wput">
+				<a href="javascript:;" class="btn" ng-click="addPicList()">添加图片</a>
+               
+                <div class="sub_edit_item" ng-repeat="b in activeItem.params.pic_list">
+                    <a class="add_pic_btn" href="javascript:;" ng-click="addPicListPic(b)"><img ng-show="b.pic" src="{{b.pic}}" rel="{{b.rel}}" id="cover_id_{{b.rel}}" data-callback="callbackimg" data-max=1 /></a>
+                    <div class="s_i_p">
+                        <input type="text" placeholder="填写标题" ng-model="b.title"/><br/>
+                        <input type="text" placeholder="填写链接" ng-model="b.url"/>
+                    </div>
+                    <a class="del_pic_btn" href="javascript:;" ng-click="deletePicListPic(b)">&nbsp;</a>
+                </div>
+			</div>
+        </div>
+            <p class="edit_tips">
+            	<b class="fa fa-info-circle"></b> 配置说明：（为了美观，请确保所有图片的宽高一致，比如都是300*150）<br/>
+            	一列:图片宽度640 高度自定义<br/>
+                <!--二列:图片宽度320 高度自定义<br/>
+                三列:图片宽度210 高度自定义<br/>
+                四列:图片宽度160 高度自定义<br/>-->
+            </p>
+	</div>
+</div>

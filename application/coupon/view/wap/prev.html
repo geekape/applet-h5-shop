@@ -1,0 +1,70 @@
+{include file="common@base/mobile_head"/}
+<link href="__CSS__/Coupon.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+<body id="scratch">
+	<div class="container body" style="position:relative; background:#fff;">
+    	<div class="head_box">
+    		<img src="{:ADDON_PUBLIC_PATH}/head_bg_default.jpg" width="100%"/>
+            <div class="title_layer">{$data.title}</div>
+            <div class="style"></div>
+        </div>
+  		{notempty name="my_sn_list"}
+        <div class="box">
+            <h6>已获得的优惠券</h6>
+            <p class="list">
+                {volist name="my_sn_list" id="sn"}
+                	<span class="item">
+                    SN码&nbsp;&nbsp;：{$sn.sn}<br/>
+                    状 态&nbsp;&nbsp;：{eq name="sn.is_use" value="1"}已使用{else/}未使用{/eq}<br/>
+                    
+                    {if condition="!empty($data['start_time']) && !empty($data['end_time'])"}
+                    有效期：{$data.start_time|time_format} 至 {$data.end_time|time_format}
+                    {/if}
+            
+                    {if condition="!empty($data['start_time']) && empty($data['end_time'])"}
+                    开始时间：{$data.start_time|time_format}
+                    {/if}
+                    {if condition="empty($data['start_time']) && !empty($data['end_time'])"}
+                    截止时间：{$data.end_time|time_format}
+                    {/if}  
+                    <br/>                
+                    </span>
+                 {/volist}    
+            </p>
+        </div>
+        {/notempty}
+         {if condition="!isset($_GET['only_get'])"}
+            <div class="box">
+                <h6>简介</h6>
+                <p>{$data.intro}</p>
+            </div>                
+            
+            <div class="box">
+                <h6>领取条件</h6>
+                <p class="list">
+                    {volist name="condition" id="vo"}
+                    <span class="num">{$key+1}</span>{$vo} <br/>
+                    {/volist}    
+                        
+                </p>
+            </div>
+            
+            <div class="box">
+                <h6>使用说明</h6>
+                <div>{$data.use_tips}</div>
+            </div>                
+            {notempty name="error"}
+                <div class="btn_wrap">
+                    <span class="gray_btn">{$error}</span>
+                </div>
+            {else/}
+            	<div class="btn_wrap">
+                	<a class="get_btn" href="{:U('set_sn_code',array('id'=>$data['id']))}">马上领取</a>
+                </div>
+            {/notempty}
+            
+        {/if}
+    	<p class="copyright">{$system_copy_right|raw}{$tongji_code|raw}</p>
+        </div>
+    </div>
+</body>
+</html>

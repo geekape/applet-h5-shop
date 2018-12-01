@@ -1,0 +1,50 @@
+{extend name="shop@wap/common_file" /} {block name="common_body"}
+<!-- 头部导航 -->
+<div class="top-nav">
+    <div class="flex">
+        <i class="iconfont icon-back" id="go-back"></i>
+        <slot>
+            <span class="title">评价</span>
+        </slot>
+    </div>
+</div>
+<div class="wrap">
+    
+    
+    
+    <div class="comment">
+{volist name="lists" id="vo"}
+        <div class="m-item">
+            <!-- 评价人 -->
+            <div class="flex m-user">
+                <div class="flex-item flex">
+                    <div class="m-user-head">
+                        <img src="{$myinfo.headimgurl}">
+                    </div>
+                    <p>{$myinfo.nickname}</p>
+                </div>
+                <p class="gray">{$vo.cTime|day_format}</p>
+            </div>
+
+            <!-- 评语 -->
+            <p class="comment-text">{$vo.content|raw}</p>
+
+            <div class="m-goods2">
+                <div class="m-goods2-img">
+                    <img src="{$vo.goods_img}">
+                </div>
+
+                <div class="m-goods2-text">
+                    <p>{$vo.goods_title}</p>
+                    <p><small>¥</small>{$vo.sale_price}</p>
+                </div>
+            </div>
+        </div>
+{/volist}
+    </div>
+    
+</div>
+<script type="text/javascript">
+    
+</script>
+{/block}

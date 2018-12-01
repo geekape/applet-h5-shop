@@ -1,0 +1,95 @@
+{extend name="common@base/common" /}
+{block name="body"}
+        <style>
+            .left{
+                text-align: center;
+                width:15%;
+                height:40px;
+                background-color:#3376b5;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+            }
+            .right{
+                padding-left: 10px;
+                width:35%;
+                height:40px;
+                border-bottom:1px solid rgba(51, 118, 181,0.3);
+            }
+
+            td font{
+                color:white;
+            }
+            .right-right{
+                border-right: 1px solid rgba(51, 118, 181,0.3);
+            }
+        </style>
+  <div class="span9 page_message">
+    <section id="contents">
+    {include file="common@base/_nav" /}
+    <div class='table-bar'>
+    	<div class="fl">
+          <div class="tools">
+	          <a href="javascript:;" onClick="javascript:history.back(-1);" class="btn">返回</a> &nbsp;
+          </div>
+        </div>
+    </div>
+      <div class="tab-content">
+        <!-- 表单 -->
+        <form id="form" class="form-horizontal">
+          <ul id="tab" class="tab-pane in" style="width: 90%;min-height: 500px;box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.36);margin: 3% 5%;padding:3% 0 5%;border-radius:5px">
+          		<li  class="form-item cf"  style="width:10%;margin:0 45%;text-align: center">
+                                <img width="100" height="100" style="border-radius: 50%" src="{$info.headimgurl}"/>
+                  </li>
+              <li class="form-item cf" style="width:6%;margin:2% 47%;text-align: center">
+              <span>{$info.nickname}</span>
+                  </li>
+              <li class="form-item cf" style="width:100%">
+              <table width="80%" style="margin-left: 10%;border-collapse:separate; border-spacing:0;">
+                  <tr>
+                      <td class="left"><font>昵称</font></td>
+                      <td class="right" style="border-top: 1px solid rgba(51, 118, 181,0.3);">{$info.nickname}</td>
+                      <td class="left"><font>关注时长</font></td>
+                      <td class="right right-right" style="border-top: 1px solid rgba(51, 118, 181,0.3);">{$info.reg_time}</td>
+                  </tr>
+                  <tr>
+                      <td class="left"><font>性别</font></td>
+                      <td class="right">{$info.sex_name}</td>
+                      <td class="left"><font>所在分组</font></td>
+                      <td class="right right-right">{$info.groupstr}</td>
+                  </tr>
+                  <tr>
+                      <td class="left"><font>地区</font></td>
+                      <td class="right">{$info.country}-{$info.province}-{$info.city}</td>
+                      <td class="left"><font>备注</font></td>
+                      <td class="right right-right">{$info.remark}</td>
+                  </tr>
+                  <tr>
+                      <td class="left"><font>登录次数</font></font></td>
+                      <td class="right">{$info.login_count}</td>
+                      <td class="left"><font>积分</font></font></td>
+                      <td class="right right-right">{$info.score}</td>
+                  </tr>
+                  <tr>
+                      <td class="left"><font>登录IP</font></td>
+                      <td class="right">{$info.last_login_ip|long2ip}</td>
+                      <td class="left"><font>真实姓名</font></td>
+                      <td class="right right-right">{$info.truename}</td>
+                  </tr>
+                  <tr>
+                      <td class="left"><font>关注时间</font></td>
+                      <td class="right">{$info.subscribe_time|time_format}</td>
+                      <td class="left"><font>手机号</font></td>
+                      <td class="right right-right">{$info.mobile}</td>
+                  </tr>
+                  <tr>
+                      <td class="left" style="border-bottom: none;"><font>最近互动时间</font></td>
+                      <td class="right">{$info.last_login_time|time_format}</td>
+                      <td class="left" style="border-bottom:none;"><font>OpenID</font></td>
+                      <td class="right right-right">{$info.openid}</td>
+                  </tr>
+              </table>
+              </li>
+              </ul>
+         </form>
+    </section>
+  </div>
+{/block}

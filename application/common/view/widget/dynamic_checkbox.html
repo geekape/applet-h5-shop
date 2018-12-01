@@ -1,0 +1,6 @@
+<div id="dynamic_checkbox_{$name}"></div>
+{volist name="list" id="vo"}
+      <input type="checkbox" class="regular-checkbox toggle-data" value="{$key}" id="{$name}_{$key}" name="{$name}[]" toggle-data="{$vo|get_hide_attr}"
+      {in name="key" value="$default_value" }checked="checked"{/in} >
+      <label for="{$name}_{$key}"></label>{$vo|clean_hide_attr}
+{/volist}                              

@@ -1,0 +1,36 @@
+<div>
+	<!--页面标题设置-->
+	<div class="app_editor"  ng-controller="mutipicBannerController">
+		<em class="arrow-left"></em>
+		
+        <div class="form_item">
+			<label>显示设置</label>
+			<div class="iput pt_8">
+            	<input type="checkbox" name="show_title" value="1" ng-model="activeItem.params.show_title"/>显示标题&nbsp;&nbsp;&nbsp;
+			</div>
+		</div>
+		<div class="form_item">
+			<label>样式设置</label>
+			<div class="iput pt_8">
+                <input type="radio" checked="" name="align" value="2" ng-model="activeItem.params.col" class="ng-valid ng-dirty" ng-click="changeCol($event)">两列&nbsp;&nbsp;&nbsp;
+                 <input type="radio" name="align" value="3" ng-model="activeItem.params.col" class="ng-valid ng-dirty" ng-click="changeCol($event)">三列&nbsp;&nbsp;&nbsp;
+                <input type="radio" name="align" value="4" ng-model="activeItem.params.col" class="ng-valid ng-dirty" ng-click="changeCol($event)">四列
+			</div>
+		</div>
+		<div class="form_item">
+			<div class="iput wput">
+				&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" class="btn" ng-click="addMutiBanner()">添加图片</a>
+               
+                <div class="sub_edit_item" ng-repeat="b in activeItem.params.banner_list">
+                    <a class="add_pic_btn" href="javascript:;" ng-click="addBannerPic(b)"><img ng-show="b.pic" src="{{b.pic}}" rel="{{b.rel}}" id="cover_id_{{b.rel}}" data-callback="callbackimg" data-max=1 /></a>
+                    <div class="s_i_p">
+                        <input type="text" placeholder="填写标题" ng-model="b.title"/><br/>
+                        <input type="text" placeholder="填写链接" ng-model="b.url"/>
+                    </div>
+                    <a class="del_pic_btn" href="javascript:;" ng-click="deleteMutiBanner(b)">&nbsp;</a>
+                </div>
+			</div>
+            <p class="edit_tips"><b class="fa fa-info-circle"></b> 幻灯片图片尺寸建议为640*640（为了美观，请确保所有图片的高度一致)</p>
+		</div>
+	</div>
+</div>

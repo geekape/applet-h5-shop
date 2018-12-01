@@ -1,0 +1,19 @@
+{php} if(is_array($nav) && count($nav)>1) { {/php}
+<ul class="tab-nav nav">
+  {volist name='nav' id='vo'}
+    <li class="{$vo.class}"><a href="{:isset($vo.url) ? $vo.url :''}">{$vo.title}<span class="arrow fa fa-sort-up"></span></a></li>
+  {/volist}
+</ul>
+{php} } {/php}
+{if condition="!empty($sub_nav)"}
+<div class="sub-tab-nav">
+       <ul class="sub_tab">
+       {volist name="sub_nav" id="vo"}
+          <li><a class="{$vo.class}" href="{$vo.url}">{$vo.title}<span class="arrow fa fa-sort-up"></span></a></li>
+       {/volist}
+      </ul>
+</div> 
+{/if}
+{if condition="!empty($normal_tips)"}
+	<p class="normal_tips"><b class="fa fa-info-circle"></b> {$normal_tips|raw}</p>
+{/if}

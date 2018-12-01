@@ -1,0 +1,23 @@
+<!--pages/sms/sms.wxml-->
+<view class="section mt10">
+  <view class="section_item">
+    <view class="section_left">手机号码</view>
+    <view class="section_right">
+      <view class="item">
+        <input type="number" value="{{mobile}}" placeholder="请输入手机号码" bindinput="bindMobile" />
+      </view>
+    </view>
+    <view wx:if="{{sendCode==false}}" class="code" bindtap="getCode">{{infoCode}}</view>
+    <view wx:else class="code">{{infoCode}}</view>
+  </view>
+  <view class="section_item">
+    <view class="section_left">验证码</view>
+    <view class="section_right">
+      <view class="item">
+        <input type="number" value="{{code}}" placeholder="请输入验证码" bindinput="bindCode" />
+      </view>
+    </view>
+    <view wx:if="{{errorCode}}" class="error">{{errorMsg}}</view>
+  </view>
+</view>
+<button id="btn" type="primary" bindtap="submit">确认绑定</button>

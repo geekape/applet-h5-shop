@@ -1,0 +1,113 @@
+{extend name="common@base/common" /}
+
+{block name="body"}
+<style>
+#tips {
+	margin-bottom: 2em;
+	max-width: 40em;
+}
+
+
+.form-group label,
+.form-group span {
+	font-size: 14px;
+}
+
+</style>
+<div class="span9 page_message">
+	<section id="contents">
+		{include file="common@base/_nav" /}
+		<div class="tab-content">
+			
+			  
+			<form action="{:U('config')}" class="form-horizontal" method="post">
+				{empty name="custom_config"} {foreach name="fields" item="form" key="o_key"}
+				<div class="form-group row">
+					{if condition="$form['type']!='hidden'"} <label
+						class="col-sm-2"> {$form.title|default=''} {present name="form.tip"} <span class="check-tips">{$form.tip}</span> {/present}
+					</label> {/if}
+					{switch name="form.type"} {case value="hidden"} <input type="hidden" name="{$o_key}" value="{$form.value}">
+					{/case} {case value="radio"}
+					<div class="col-sm-8">
+
+						
+						{foreach name="form.options" item="opt" key="opt_k"}
+
+	
+                        <div class="check-item"> <input type="radio" id="auto-{$opt_k}"  class="regular-radio" name="{$o_key}" value="{$opt_k}" {eq name="form.value" value="$opt_k"} checked{/eq}>
+
+                        	<label for="auto-{$opt_k}"></label>
+                        	<span>{$opt}</span>
+						</div> 
+
+
+						{/foreach}
+					</div>
+					{/case} {case value="material"}
+					<div id="material_{$o_key}"></div>
+                   <div class="col-sm-8">
+                   	{:W('common/material/material', array('name'=>$o_key,'value'=>$form['value'],'extra'=>isset($field['extra'])?$field['extra']:''))}
+                   </div>
+
+					{/case} {/switch}
+
+				</div>
+				{/foreach} {/empty}
+				<div id="tips" class="offset-sm-2">
+					<p class="alert alert-warning">
+						微信多客服系统地址：<a href="https://mpkf.weixin.qq.com">https://mpkf.weixin.qq.com</a>
+					</p>
+					<p class="alert alert-warning">
+						具体使用教程：<a href="http://kf.qq.com/product/weixinmp.html#hid=121">http://kf.qq.com/product/weixinmp.html#hid=121</a>
+					</p>
+				</div>
+				<input type="hidden" name="id" value="{$data.id|default=0}" readonly>
+				<div class="row">
+					<div class="offset-sm-2 col-sm-4"><button type="submit" class="btn submit-btn ajax-post"
+					target-form="form-horizontal">确 定</button></div>
+				</div>
+
+			</form>
+		</div>
+	</section>
+</div>
+{/block}
+
+{block name="script"} 
+<script type="text/javascript" charset="utf-8">
+	$(function() {
+		var val = $("input[name='data_type']:checked").val();
+		switchTap(val);
+		$("input[name='data_type']").click(function() {
+			var val = $(this).val();
+			switchTap(val);
+		})
+		console.log(val)
+	})
+	function switchTap(val) {
+		if (val == 0) {
+			$('.material-block').show();
+			$('#tips').hide();
+		} else {
+			$('.material-block').hide();
+			$('#tips').show();
+		}
+	}
+    function playSound(id,obj){
+        var audio = document.getElementById(id);
+        if(audio.paused){
+            audio.play();
+            $(obj).find('img').attr('src','__STATIC__/base/images/icon_sound_play.gif');
+            audio.addEventListener('ended', function () {
+// 			alert('over');
+                $(obj).find('img').attr('src','__STATIC__/base/images/icon_sound.png');
+            }, false);
+            return;
+        }else{
+            audio.pause();
+            $(obj).find('img').attr('src','__STATIC__/base/images/icon_sound.png');
+        }
+
+
+    }
+</script> {/block}

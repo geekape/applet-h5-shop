@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	{include file="common@base/head"/}
+    {block name="style"}{/block}
+</head>
+<body>
+	<!-- 头部 -->
+	{include file="common@base/nav_store"/}
+	<!-- /头部 -->
+	
+	<!-- 主体 -->
+{block name="header"}{/block}
+{php} //验证登录
+  if(!is_login() && empty(cookie( '__forward__'))){
+  $forward = cookie('__forward__');
+            empty( $forward ) && cookie('__forward__', $_SERVER['REQUEST_URI']);
+  //return redirect(U('home/user/login',array('from'=>4)));
+  } {/php}
+<div id="main-container" class="admin_container">
+  {notempty name="core_side_menu"}
+    <div class="sidebar">
+      <ul class="sidenav">
+        <li>
+          {notempty name="now_top_menu_name"}<a class="sidenav_parent" href="javascript:;"> 
+            <!--<img src="__STATIC__/base/images/left_icon_{$core_side_category.left_icon}.png"/>--> 
+            {$now_top_menu_name}</a>{/notempty}
+          <ul class="sidenav_sub">
+            {volist name='core_side_menu' id='vo'}
+              <li class="{$vo.class}" data-id="{$vo.id}"> <a href="{$vo.url}"> {$vo.title} </a><b class="active_arrow"></b></li>
+            {/volist}
+          </ul>
+        </li>
+      </ul>
+    </div>
+  {/notempty}
+  <div class="main_body">
+    {block name="body"}{/block}
+  </div>
+</div>
+
+	<!-- /主体 -->
+
+	<!-- 底部 -->
+	{include file="common@base/footer"/}
+    {block name="script"}{/block} <!-- 用于加载js代码 -->
+    <div class="hidden"><!-- 用于加载统计代码等隐藏元素 -->
+        {block name="hidden"}{/block}
+    </div>    
+	<!-- /底部 -->
+</body>
+</html>

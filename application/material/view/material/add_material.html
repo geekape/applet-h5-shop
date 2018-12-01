@@ -1,0 +1,327 @@
+{extend name="common@base/common" /}
+{block name="body"}
+<style type="text/css">
+  .material_form .edit_area {
+    width: auto;
+  }
+  .textarea textarea {
+    max-width: 800px;
+    font-size: 14px;
+  }
+
+  @media (max-width: 1485px) {
+    .material_form .edit_area {
+      margin: 1em 1px;
+      width: 80%;
+    }
+  }
+  .textarea textarea,
+  .edui-editor {
+    min-width: auto;
+  }
+
+  #editor_id_p_content, .textarea textarea {
+    width: 800px!important;
+  }
+
+
+
+</style>
+  <div class="span9 page_message">
+  <section id="contents"> {include file="common@base/_nav" /}
+    <div class="tab-content">
+      <h3>新建图文消息</h3>
+      <!-- 表单 -->
+      <div id="form" action="{$post_url}" class="form-horizontal form-center">
+        <div class="material_form">
+       		<div class="preview_area">
+            {if condition="empty($main)"}
+            	<form data-index='0' class="appmsg_item edit_item editing" >
+                    <p class="time">时间</p>
+                    <div class="main_img">
+                        <img src="__STATIC__/base/images/no_cover_pic.png" data-coverid="0"/>
+                        <h6 class="title">这是标题</h6>
+                    </div>
+                    <p class="intro"></p>
+                     <input type="hidden" name="title" placeholder="这是标题" />
+                      <input type="hidden" name="cover_id" value="0"/>
+                    <input type="hidden" name="intro" placeholder="这是摘要描述"/>
+                    <input type="hidden" name="author" placeholder="作者"/>
+                    <input type="hidden" name="link" placeholder="外链"/>
+                    <textarea style="display:none" name="content"></textarea>
+                    <div class="hover_area"><a href="javascript:;" onClick="editItem(this)">编辑</a></div>
+                </form>
+                {else/}
+                  <form data-index='0' class="appmsg_item edit_item editing" >
+                    <p class="time">{$main.cTime|time_format}</p>
+                    <div class="main_img">
+                        <img src="{$main.cover_id|get_cover_url}" data-coverid="{$main.cover_id|intval}"/>
+                        <h6 class="title">{$main.title}</h6>
+                    </div>
+                    <p class="intro">{$main.intro}</p>
+                    <input type="hidden" name="id" value="{$main.id}"/>
+                     <input type="hidden" name="title" value="{$main.title}" />
+                      <input type="hidden" name="cover_id" value="{$main.cover_id}"/>
+                    <input type="hidden" name="intro" value="{$main.intro}"/>
+                    <input type="hidden" name="author" value="{$main.author}"/>
+                    <input type="hidden" name="link" value="{$main.link}"/>
+                    <textarea style="display:none" name="content">{$main.content|raw}</textarea>
+                    <div class="hover_area"><a href="javascript:;" onClick="editItem(this)">编辑</a></div>
+                </form>
+                {volist name="others" id="vo"}
+                <form data-index='{$key}' class="appmsg_sub_item edit_item" >
+                    <p class="title">{$vo.title}</p>
+                    <div class="main_img">
+                        <img src="{$vo.cover_id|get_cover_url}" data-coverid="{$vo.cover_id|get_cover_url}"/>
+                    </div>
+                    <input type="hidden" name="id" value="{$vo.id}"/>
+                     <input type="hidden" name="title" value="{$vo.title}"/>
+                    <input type="hidden" name="cover_id" value="{$vo.cover_id}"/>
+                    <input type="hidden" name="intro" value="{$vo.intro}"/>
+                    <input type="hidden" name="author" value="{$vo.author}"/>
+                    <input type="hidden" name="link" value="{$vo.link}"/>
+                    <textarea style="display:none" name="content">{$vo.content|raw}</textarea>
+                    <div class="hover_area"><a href="javascript:;" onClick="editItem(this)">编辑</a><a href="javascript:;" onClick="deleteItem(this)">删除</a></div>
+                </form>
+                {/volist}
+                {/if}
+                <div class="appmsg_edit_action">
+                    <a href="javascript:;" onClick="addMsg();">添加</a>
+                </div>
+            </div>
+            <div class="edit_area">
+            	<em class="area_arrow"></em>
+            	<div>
+                	<ul class="tab-pane in appmsg_edit_group">
+                        <li class="form-item cf">
+                            <label class="item-label"><span class="need_flag">*</span> 标题</label>
+                            <div class="controls">
+                              <input type="text" class="form-control" name="p_title" value="">
+                            </div>
+                          </li>
+                          <li class="form-item cf">
+                            <label class="item-label">作者</label>
+                            <div class="controls">
+                              <input type="text" class="form-control" name="p_author" value="">
+                            </div>
+                          </li>
+                          <li class="form-item cf">
+                                <label class="item-label"><span class="need_flag">*</span> 封面图片</label>
+                                <div class="controls uploadrow2" data-max="1" title="点击修改图片" rel="p_cover">
+                                    <input type="file" id="upload_picture_p_cover">
+                                    <input type="hidden" name="p_cover" id="cover_id_p_cover" data-callback="uploadImgCallback" value=""/>
+                                    <div class="upload-img-box" rel="img" style="display:none">
+                                      <div class="upload-pre-item2"><img width="100" height="100" src=""/></div>
+                                        <em class="edit_img_icon">&nbsp;</em>
+                                    </div>
+                              </div>
+                              <span class="form-text text-muted">图片<span class="picSize">900X500</span></span>
+                          </li>
+                          <li class="form-item cf">
+                                <label class="item-label">摘要</label>
+                                <div class="controls">
+                                  <label class="textarea input-large">
+                                  <textarea class="form-control" name="p_intro" ></textarea>
+                                  </label>
+                                </div>
+                           </li>
+                           <li class="form-item cf">
+                                <label class="item-label">正文<span class="text-muted">（图片命名不能有特殊符号）</span></label>
+                                <div class="controls">
+                                  <label class="textarea">
+                                  <textarea style="width:405px; height:200px;" name="p_content" ></textarea>
+                                  {:W('common/editor/adminArticleEdit', array('name'=>'p_content','value'=>isset($field['value'])?$field['value']:'','extra'=>isset($field['extra'])?$field['extra']:''))}
+                                  <!-- {://widget('home/EditorForAdminAddon/adminArticleEdit',array('data'=>array('name'=>'p_content','value'=>'')))}-->
+                                  </label>
+                                  </label>
+                                </div>
+                               
+                           </li>
+                            <li class="form-item cf">
+                            <label class="item-label">外链<span class="text-muted">（有正文时，优先跑到正文里，没有正文时，直接跳转到外链）</span></label>
+                            <div class="controls">
+                              <input type="text" class="form-control" name="p_link" value="">
+                            </div>
+                            
+                          </li>
+                  </ul>
+                </div>
+            </div>
+        </div>
+        <div class="form-item form_bh" style="text-align: center;">
+          <button class="btn submit-btn" id="submit" type="button">{$submit_name|default='确 定'}</button>
+        </div>
+      </div>
+    </div>
+
+
+  </section>
+  </div>
+{/block}
+{block name="script"}
+  <script type="text/javascript">
+
+$('#submit').click(function(){
+    var postUrl = $('#form').attr('action');
+	   var dataJson = [];
+	$('.edit_item').each(function(index, element) {
+      dataJson.push($(this).serializeArray());
+      console.log($(this).serializeArray());
+      
+    });
+
+	$(this).addClass('disabled').attr('autocomplete','off').prop('disabled',true);
+	// console.log(dataJson);
+	console.log(JSON.stringify(dataJson));
+	//return false;
+	//提交数组字符串 php解析后进行保存
+	$.post(postUrl,{'dataStr':JSON.stringify(dataJson)},function(data){		
+		if(data.code==1){
+			updateAlert(data.msg,'success');
+			setTimeout(function(){
+				  location.href=data.url;
+			},1500);
+		}else{
+			$('#submit').removeClass('disabled').prop('disabled',false);
+			updateAlert(data.msg);
+		}
+	})
+	return false;
+});
+$(function(){
+	//初始化上传图片插件
+	initUploadImg();
+
+    showTab();
+
+	$('.toggle-data').each(function(){
+		var data = $(this).attr('toggle-data');
+		if(data=='') return true;
+
+	     if($(this).is(":selected") || $(this).is(":checked")){
+			 change_event(this)
+		 }
+	});
+
+	$('select').change(function(){
+		$('.toggle-data').each(function(){
+			var data = $(this).attr('toggle-data');
+			if(data=='') return true;
+
+			 if($(this).is(":selected") || $(this).is(":checked")){
+				 change_event(this)
+			 }
+		});
+	});
+
+	//动态预览
+	$('input[name="p_title"]').keyup(function(){
+		$('.editing').find('.title').text($(this).val());
+		$('.editing').find('input[name="title"]').val($(this).val());
+	});
+	$('input[name="p_author"]').keyup(function(){
+		$('.editing').find('.author').text($(this).val());
+		$('.editing').find('input[name="author"]').val($(this).val());
+	});
+	$('input[name="p_link"]').keyup(function(){
+		$('.editing').find('.link').text($(this).val());
+		$('.editing').find('input[name="link"]').val($(this).val());
+	});
+	$('textarea[name="p_intro"]').keyup(function(){
+		$('.editing').find('.intro').text($(this).val());
+		$('.editing').find('input[name="intro"]').val($(this).val());
+	});
+ imageEditor.addListener("contentChange",function(){
+		$('.editing').find('textarea[name="content"]').val(imageEditor.getContent());
+	});
+	imageEditor.addListener("ready", function () {
+       initForm($('.edit_item').eq(0));
+ 	});
+
+
+});
+function addMsg(){
+	var curCount = $('.edit_item').length;
+	if(curCount>=8){
+		updateAlert('你最多只可以增加8条图文信息');
+		return false;
+	}
+	$('.picSize').text('200X200');
+	//console.log(curCount);
+	var addHtml = $('<form data-index="'+curCount+'" class="appmsg_sub_item edit_item">'+
+                    '<p class="title"></p>'+
+                    '<div class="main_img">'+
+                        '<img src="__STATIC__/base/images/no_cover_pic_s.png" data-coverid="0"/>'+
+                    '</div>'+
+                    '<input type="hidden" name="title" placeholder="这是标题"/>'+
+                    '<input type="hidden" name="cover_id" value="0"/>'+
+                    '<input type="hidden" name="intro" placeholder="这是摘要描述"/>'+
+                    '<input type="hidden" name="author" placeholder="作者"/>'+
+                    '<input type="hidden" name="link" placeholder="外链"/>'+
+                    '<textarea style="display:none" name="content"></textarea>'+
+                    '<div class="hover_area"><a href="javascript:;" onClick="editItem(this)">编辑</a><a href="javascript:;" onClick="deleteItem(this)">删除</a></div>'+
+                '</form>');
+	addHtml.insertBefore($('.appmsg_edit_action'));
+}
+function editItem(_this){
+	$(_this).parents('.edit_item').addClass('editing');
+	$(_this).parents('.edit_item').siblings().removeClass('editing');
+	var index = $(_this).parents('.edit_item').data('index');
+  console.log(index);
+	if(index==0){
+		$('.picSize').text('900X500');
+		$('.edit_area').css('margin-top', '1em');
+	}else{
+		$('.picSize').text('200X200');
+		// $('.edit_area').css('margin-top',index*110+120);
+	}
+
+  $('.text-danger.ml-2').remove();
+
+  $('.tab-pane li:eq(0) .item-label').append('<span class="text-danger ml-2">(正在编辑第' + (index+1) +'篇文章)</span>');
+
+
+
+
+	initForm($(_this).parents('.edit_item'));
+}
+function deleteItem(_this){
+	if(!confirm('确认删除？')) return false;
+
+	var item_id = $(_this).parents('.edit_item').find('input[name="id"]').val();
+	if(item_id){
+		$.post("{:U('del_material_by_id')}",{id:item_id});
+	}
+
+	$(_this).parents('.edit_item').remove();
+	var curCount = $('.edit_item').length;
+	if(curCount==1){
+		$('.edit_area').css('margin-top',0);
+	}else{
+		$('.edit_area').css('margin-top',(curCount-1)*110+120);
+	}
+	initForm($('.edit_item').eq(curCount-1));
+}
+function uploadImgCallback(name,id,src){
+	$('.editing img').attr('src',src);
+	$('.editing input[name="cover_id"]').val(id);
+}
+function initForm(_item){
+	var title = $(_item).find('input[name="title"]').val();
+	var author = $(_item).find('input[name="author"]').val();
+	var link = $(_item).find('input[name="link"]').val();
+	var intro = $(_item).find('input[name="intro"]').val();
+	var content = $(_item).find('textarea[name="content"]').val();
+	var src = $(_item).find('img').attr('src');
+	$('input[name="p_title"]').val(title);
+	$('input[name="p_author"]').val(author);
+	$('input[name="p_link"]').val(link);
+	$('textarea[name="p_intro"]').val(intro);
+	if(!content)content=" ";
+	if(content){
+		imageEditor.setContent(content);
+	}
+	$('.upload-img-box').show().find('img').attr('src',src);
+}
+</script>
+{/block}

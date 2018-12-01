@@ -1,0 +1,109 @@
+body, div, p, ul, ol, li, dl, dt, dd, h1, h2, h3, h4, h5, h6, pre, form, input, select, button, textarea, table, th, td {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    position: relative;
+    font: 12px "Microsoft Yahei", "Arial", sans-serif;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+img {
+    border: none;
+    vertical-align:top;
+}
+
+a {
+    outline: none;
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+input {
+    outline: none;
+}
+
+button {
+    cursor: pointer;
+}
+
+.block {
+    display: block;
+}
+
+.none {
+    display: none;
+}
+
+.r {
+    position: relative;
+}
+
+.a {
+    position: absolute;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.clearfix:after {
+    content: "";
+    clear: both;
+    display: block;
+    visibility: hidden;
+    height: 0;
+}
+
+/*字体大小*/
+.f-siz14 {
+    font-size: 14px;
+}
+
+.f-siz16 {
+    font-size: 16px;
+}
+
+.f-siz18 {
+    font-size: 18px;
+}
+
+.f-siz20 {
+    font-size: 20px;
+}
+
+.f-siz22 {
+    font-size: 22px;
+}
+
+.f-siz24 {
+    font-size: 24px;
+}
+
+.f-siz26 {
+    font-size: 26px;
+}
+
+.f-siz28 {
+    font-size: 28px;
+}
+
+.f-siz30 {
+    font-size: 30px;
+}
+
+.bor-none {
+    border: none !important;
+}

@@ -1,0 +1,104 @@
+<style>
+
+.text_goods {
+    display: block;
+    border: 1px dashed #ddd;
+    width: 308px;
+    height: auto;
+    background: #eee;
+    text-align: center;
+    color: #333;
+    display: block;
+    float: left;
+    position: relative;
+}
+.text_goods .select_text {
+    line-height: 196px;
+    display: block;
+    height: 200px;
+}
+.text_goods .delete {
+    position: absolute;
+    top: 1px;
+    white-space: nowrap;
+    display: none;
+}
+
+
+</style>
+<div id="goods_{$name}"></div>
+<input type="hidden" value="{$default_value}" name="{$name}" id="goods_res_{$name}" data-type='{$default_type}' data-id='{$default_id}' />
+<div class="form-item cf">
+
+    <div class="form-item cf show showtext text_area" id="text_area">
+        <input type="hidden" name="goods_{$name}_text_id" value="{:isset($text_id)?$text_id:''}" />
+        <div class='text_goods' id='text_goods' style="width:100px;height:100px">
+            <a class="select_text" href="javascript:;" onClick="$.WeiPHP.openSelectGoods('{:U('Shop/Goods/lists',array('isAjax'=>'ajax','isRadio'=>1))}',selectTextCallback)" style="line-height: 100px">选择商品</a>
+            <div class="text_wrap" style="height:auto;padding:15px 0;"></div>
+            <a class="delete" href="javascript:;" style="left: 310px;">删除</a>
+        </div>
+    </div>
+    
+</div>
+
+<script type="text/javascript">
+function changeOption() {
+    var val = $("input[name='goods_{$name}_type']:checked").val();
+    $("#goods_{$name}").attr('data-type', val);
+
+    
+        var text_id = $("input[name='goods_{$name}_text_id']").val();
+        var text_html = '';
+        $.post("{:U('goods/Material/ajax_text_by_id')}", { 'text_id': text_id }, function(content) {
+            if (content) {
+                text_html = content;
+                $('.text_wrap').html(text_html).show();
+                $('.select_text').hide();
+                $('.showtext .delete').show();
+
+            }
+        });
+    
+
+
+    setRes();
+}
+$(function() {
+    var type = '{$default_value}';
+    var arrType = type.split(":");
+    if (arrType[0] == "")
+        arrType[0] = 'text';
+    $("input[name='goods_{$name}_type'][value=" + arrType[0] + "]").attr("checked", true);
+    changeOption();
+
+    $('.showtext .delete').click(function() {
+        $('.text_wrap').html('').hide();
+        $('.select_text').show();
+        $('.showtext .delete').hide();
+        $('input[name="goods_{$name}_text_id"]').val(0);
+    })
+
+})
+
+
+
+function selectTextCallback(_this) {
+    console.log(_this);
+    $('.text_wrap').html(_this['content']).show();
+    $('.select_text').hide();
+    $('.showtext .delete').show();
+    $('input[name="goods_{$name}_text_id"]').val(_this['id']);
+    $.Dialog.close();
+    setRes();
+}
+
+
+
+function setRes() {
+    var id = $('input[name="goods_{$name}_text_id"]').val();
+
+    var res = type + ':' + id;
+    /*console.log(res);*/
+    $('#goods_res_{$name}').val(res);
+}
+</script>

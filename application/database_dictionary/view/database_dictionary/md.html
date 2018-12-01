@@ -1,0 +1,33 @@
+{extend name="common@base/common" /}
+{block name="body"}
+  <div class="span9 page_message">
+    <section id="contents"> {include file="common@base/_nav" /} 
+      
+      <!-- 数据列表 -->
+      <div class="data-table">
+      	{volist name="tree" id="arr"}
+      	# {$key}<br/>
+        {volist name="arr" id="table"}
+## {$key}&nbsp;&nbsp;&nbsp;{php}if(isset($tables[$key])) echo $tables[$key];{/php}<br/>
+|字段名|数据类型|默认值|允许非空|备注|<br/>
+|---|---|---|---|---|<br/>
+{volist name="table" id="field"}
+|{$field.COLUMN_NAME}|{$field.COLUMN_TYPE}|{$field.COLUMN_DEFAULT}|{$field.IS_NULLABLE}|{$field.COLUMN_COMMENT}|<br/>
+{/volist}
+&nbsp;<br/>
+        {/volist}
+        {/volist}
+      </div>
+    </section>
+  </div>
+  <script type="text/javascript">
+    $(function() {
+		//满屏
+		$('.admin-body').css({
+			'margin-left': '1.5em',
+			'margin-right': '0',
+		})
+		$('#contents').css('padding-top', '1em')
+    })
+</script>
+{/block}

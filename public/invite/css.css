@@ -1,0 +1,17 @@
+@charset "utf-8";
+/* CSS Document */
+html{ height:100%;}
+body{ min-height:100%; background:url(content.png) repeat;}
+.invite_content{ padding:0 0 20px 0;}
+.invite_content h6{ border-left:5px solid #009944; font-size:18px; line-height:30px; padding:0 5px; margin:10px 0; background-color:#eee;}
+.invite_content .content p{ text-indent:2em; color:#666; padding:0 15px;}
+.invite_content .content_li p{ padding:7px 15px; color:#333}
+.invite_content h5{ text-align:center; margin:15px 30px; border-bottom:1px solid #DDD; font-size:18px; color:#888; font-weight:normal; line-height:30px;}
+
+.finish_content{ padding:15px;}
+.finish_content h5{ color:#009944; font-weight:normal; font-size:18px; text-align:center; line-height:50px;}
+.finish_content p{ padding:10px 20px; color:#666; text-align:center}
+.finish_content .share_btn_wrap{ margin:10px 40px; }
+
+.content{ background:#fff; margin:15px 30px 20px; padding:15px; border-radius:10px; color:#777}
+.content h4{ padding-bottom:10px; text-align:center; color:#864a45}

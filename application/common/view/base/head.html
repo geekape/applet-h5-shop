@@ -1,0 +1,55 @@
+<meta charset="UTF-8" />
+<meta content="{:config('WEB_SITE_KEYWORD')}" name="keywords"/>
+<meta content="{:config('WEB_SITE_DESCRIPTION')}" name="description"/>
+<link rel="shortcut icon" href="{:SITE_URL}/favicon.ico">
+<title>{$page_title|default='weiphp'}</title>
+<link href="__STATIC__/font-awesome/css/font-awesome.min.css?v={:SITE_VERSION}" rel="stylesheet">
+<link rel="stylesheet" href="__STATIC__/ymyui/css/ymyui.css">
+<!-- <link rel="stylesheet" href="__STATIC__/bootstrap/css/bootstrap.css"> -->
+<link href="__STATIC__/base/css/base.css?v={:SITE_VERSION}" rel="stylesheet">
+<link href="__STATIC__/base/css/module.css?v={:SITE_VERSION}" rel="stylesheet">
+<link href="__STATIC__/base/css/weiphp.css?v={:SITE_VERSION}" rel="stylesheet">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_727459_zyp88ew3c6.css"></link>
+
+<!-- <link rel="stylesheet" src="__STATIC__/ymyui/css/ymyui.css"> -->
+<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+<script src="__STATIC__/bootstrap/js/html5shiv.js?v={:SITE_VERSION}"></script>
+<![endif]-->
+<!--[if lt IE 9]>
+<script type="text/javascript" src="__STATIC__/jquery-1.10.2.min.js"></script>
+<![endif]-->
+<!--[if gte IE 9]><!-->
+<script type="text/javascript" src="__STATIC__/jquery-2.0.3.min.js"></script>
+<!--<![endif]-->
+<!-- <script type="text/javascript" src="__STATIC__/bootstrap/js/bootstrap.min.js"></script> -->
+<!-- 菜单下拉 -->
+<script src="//cdn.bootcss.com/popper.js/1.12.5/umd/popper.min.js"></script>
+<script type="text/javascript" src="__STATIC__/ymyui/js/ymyui.min.js"></script>
+
+
+
+<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+<script type="text/javascript" src="__STATIC__/base/js/dialog.js?v={:SITE_VERSION}"></script>
+
+<script type="text/javascript" src="__STATIC__/webuploader-0.1.5/webuploader.min.js"></script>
+
+<script type="text/javascript" src="__STATIC__/base/js/admin_common.js?v={:SITE_VERSION}"></script>
+<script type="text/javascript" src="__STATIC__/base/js/admin_image.js?v={:SITE_VERSION}"></script>
+<script type="text/javascript" src="__STATIC__/masonry/masonry.pkgd.min.js"></script>
+<script type="text/javascript" src="__STATIC__/jquery.dragsort-0.5.2.min.js"></script> 
+<script src="//cdn.bootcss.com/limonte-sweetalert2/7.21.1/sweetalert2.all.min.js"></script>
+<!-- 封装的jquery表单验证插件，依赖sweetalert2 -->
+<script src="__STATIC__/default/lib/formverfiy.js"></script>
+<script type="text/javascript">
+var  IMG_PATH = "__STATIC__/base/images";
+var  STATIC = "__STATIC__";
+var  ROOT = "__ROOT__";
+var  UPLOAD_PICTURE = "{:U('home/File/upload_picture',array('session_id'=>session_id()))}";
+var  UPLOAD_FILE = "{:U('home/File/upload',array('session_id'=>session_id()))}";
+var  UPLOAD_DIALOG_URL = "{:U('home/File/upload_dialog',array('session_id'=>session_id()))}";
+var COPY_PAGE_URL = "{:U('home/index/copy')}";
+</script>
+<!-- 页面header钩子，一般用于加载插件CSS文件和代码 -->
+{:hook('pageHeader')}

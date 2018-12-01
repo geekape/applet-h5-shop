@@ -1,0 +1,82 @@
+{include file="common@base/mobile_head"/}	
+<style type="text/css">
+.banner{ width:100%; overflow:hidden; position:relative;}
+.banner ul{ position:absolute; left:0; top:0; z-index:10; -webkit-animation:}
+.banner ul li{ float:left; display:table-cell; position:relative}
+.banner li a{ width:100%; height:100%; display:block;}
+.banner li .title{background-color:RGBA(0,0,0,.5); height:30px; color:#fff; line-height:30px; padding-left:10px; position:absolute; left:0; bottom:0; width:100%; z-index:1000;}
+.identify{text-align:right; position:absolute; bottom:0; right:0; z-index:100; height:30px;}
+.identify em{ display:inline-block; margin:10px 5px;-webkit-border-radius: 6px;-moz-border-radius: 6px;
+border-radius: 6px;margin-left: 5px;width: 12px;height: 12px;background: #fff;}
+.identify em.cur{ background-color:#090}
+.big_pic_list{}
+.big_pic_list li{ padding:10px; margin-bottom:15px; background-color:#fff;}
+.big_pic_list img{ width:100%;}
+.big_pic_list a{ display:block; color:#666}
+</style>
+<body id="weisite">
+<div class="container">
+    <section class="banner">
+<!--     	<ul> -->
+<!--         {php}foreach($list_data as $k=>$vo){ if($k>2) continue; {/php} -->
+<!--         	<li> -->
+<!--             	<a href="{:U('detail', 'id='.$vo['id'])}"><img src="{$vo.cover|get_cover_url}"/></a> -->
+<!--             	<span class="title">{$vo.title}</span> -->
+<!--             </li> -->
+<!--          {php}$img_count += 1 ;unset($list_data[$k]); } {/php} -->
+<!--         </ul> -->
+<!--         <div class="identify"> -->
+<!--         	{php}for($i=0; $i<$img_count; $i++){ {/php} -->
+<!--                 <em></em> -->
+<!--              {php} } {/php} -->
+<!--         </div> -->
+<ul>
+        {volist name="slide_data" id="vo"}
+        	<li>
+            	<a href="{$vo.url}"><img src="{$vo.cover|get_cover_url}"/></a>
+            	<span class="title">{$vo.title}</span>
+            </li>
+         {/volist}
+        </ul>
+        <span class="identify">
+            <span class="pointer">
+            {volist name="slide_data" id="vo"}
+                <em></em>
+             {/volist} 
+             </span>       
+        </span>
+    </section>
+    <ul class="big_pic_list">
+    {volist name="lists" id="vo"}
+    	<li>
+        	<a href="{$vo.url}">
+            	{notempty name="vo.cover"}<img src="{$vo.cover|get_cover_url}"/>{/notempty}
+                <h6>{$vo.title}</h6>
+                <span class="colorless">{$vo.cTime|time_format}</span>
+            </a>
+        </li>
+        {/volist}
+    </ul>
+    <!-- 分页 -->
+    <div class="page"> {$_page|raw|default=''} </div>
+</div>
+<!-- 底部导航 -->
+{$footer_html|raw}
+<!-- 统计代码 -->
+{notempty name="config.code"}
+<p class="hide bdtongji">
+{$config.code}
+</p>
+{else/}
+<p class="hide bdtongji">
+{$tongji_code|raw}
+</p>
+{/notempty}
+</body>
+<script type="text/javascript">
+$(function(){
+	$.WeiPHP.initBanner(true,5000);
+})
+
+</script>
+</html>

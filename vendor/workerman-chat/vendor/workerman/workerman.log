@@ -1,0 +1,32 @@
+2018-07-09 09:48:06 pid:1 Exception: $message_data['room_id'] not set. client_ip:127.0.0.1 $message:{"type":"login","client_name":"dktest002"} in E:\htdocs\shengxun\vendor\workerman-chat\Applications\Chat\Events.php:59
+Stack trace:
+#0 [internal function]: Events::onMessage('7f00000108fc000...', '{"type":"login"...')
+#1 E:\htdocs\shengxun\vendor\workerman-chat\vendor\workerman\gateway-worker\src\BusinessWorker.php(395): call_user_func('Events::onMessa...', '7f00000108fc000...', '{"type":"login"...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 E:\htdocs\shengxun\vendor\workerman-chat\vendor\workerman\workerman\Connection\TcpConnection.php(645): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 E:\htdocs\shengxun\vendor\workerman-chat\vendor\workerman\workerman\Events\Select.php(289): call_user_func_array(Array, Array)
+#6 E:\htdocs\shengxun\vendor\workerman-chat\vendor\workerman\workerman\Worker.php(2231): Workerman\Events\Select->loop()
+#7 E:\htdocs\shengxun\vendor\workerman-chat\vendor\workerman\gateway-worker\src\BusinessWorker.php(197): Workerman\Worker->run()
+#8 E:\htdocs\shengxun\vendor\workerman-chat\vendor\workerman\workerman\Worker.php(1221): GatewayWorker\BusinessWorker->run()
+#9 E:\htdocs\shengxun\vendor\workerman-chat\vendor\workerman\workerman\Worker.php(1164): Workerman\Worker::forkWorkersForWindows()
+#10 E:\htdocs\shengxun\vendor\workerman-chat\vendor\workerman\workerman\Worker.php(478): Workerman\Worker::forkWorkers()
+#11 E:\htdocs\shengxun\vendor\workerman-chat\Applications\Chat\start_businessworker.php(32): Workerman\Worker::runAll()
+#12 {main}
+2018-07-09 09:48:06 pid:1 Worker process terminated
+2018-07-09 10:06:09 pid:1 Exception: $message_data['room_id'] not set. client_ip:127.0.0.1 $message:{"type":"login","client_name":"dktest002","client_head":"http://localhost/shengxun//public/static/face/default_head_50.png","client_uid":"73"} in E:\htdocs\shengxun\vendor\workerman-chat\Applications\Chat\Events.php:59
+Stack trace:
+#0 [internal function]: Events::onMessage('7f00000108fc000...', '{"type":"login"...')
+#1 E:\htdocs\shengxun\vendor\workerman-chat\vendor\workerman\gateway-worker\src\BusinessWorker.php(395): call_user_func('Events::onMessa...', '7f00000108fc000...', '{"type":"login"...')
+#2 [internal function]: GatewayWorker\BusinessWorker->onGatewayMessage(Object(Workerman\Connection\AsyncTcpConnection), Array)
+#3 E:\htdocs\shengxun\vendor\workerman-chat\vendor\workerman\workerman\Connection\TcpConnection.php(645): call_user_func(Array, Object(Workerman\Connection\AsyncTcpConnection), Array)
+#4 [internal function]: Workerman\Connection\TcpConnection->baseRead(Resource id #26)
+#5 E:\htdocs\shengxun\vendor\workerman-chat\vendor\workerman\workerman\Events\Select.php(289): call_user_func_array(Array, Array)
+#6 E:\htdocs\shengxun\vendor\workerman-chat\vendor\workerman\workerman\Worker.php(2231): Workerman\Events\Select->loop()
+#7 E:\htdocs\shengxun\vendor\workerman-chat\vendor\workerman\gateway-worker\src\BusinessWorker.php(197): Workerman\Worker->run()
+#8 E:\htdocs\shengxun\vendor\workerman-chat\vendor\workerman\workerman\Worker.php(1221): GatewayWorker\BusinessWorker->run()
+#9 E:\htdocs\shengxun\vendor\workerman-chat\vendor\workerman\workerman\Worker.php(1164): Workerman\Worker::forkWorkersForWindows()
+#10 E:\htdocs\shengxun\vendor\workerman-chat\vendor\workerman\workerman\Worker.php(478): Workerman\Worker::forkWorkers()
+#11 E:\htdocs\shengxun\vendor\workerman-chat\Applications\Chat\start_businessworker.php(32): Workerman\Worker::runAll()
+#12 {main}
+2018-07-09 10:06:09 pid:1 Worker process terminated
