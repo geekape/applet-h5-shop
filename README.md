@@ -166,4 +166,6 @@ window.localStorage.setItem("openid", -3);
 ![](https://user-gold-cdn.xitu.io/2018/12/1/167689444c4caf44?w=400&h=400&f=png&s=10824)
 
 - [Github商城源码](https://github.com/geekape/applet-h5-shop)，欢迎star！
-- 前端交流的QQ群：361979424，有兴趣可以加
+- 前端交流的QQ群，福利多多，QQ扫码加入
+
+![](https://user-gold-cdn.xitu.io/2018/12/1/1676907f9209b932?w=302&h=302&f=png&s=7282)
