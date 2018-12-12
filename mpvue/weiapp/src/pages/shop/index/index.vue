@@ -76,9 +76,7 @@ export default {
       this.categorys = res.category
       this.goods = res.goods
     })
-  },
-  onShow () {
-    // 设置购物车数量
+
     get("shop/api/cart/PHPSESSID/" + wx.getStorageSync("PHPSESSID"))
     .then(res => {
       let num = res.lists.length;
@@ -89,6 +87,7 @@ export default {
     .catch(err => {
       console.log("失败：" + err);
     });
+
   },
   onShareAppMessage () {
     // 分享

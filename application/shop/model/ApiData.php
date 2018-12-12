@@ -380,7 +380,7 @@ class ApiData extends Base
         $goods_id = input('goods_id', 0);
         $shop_order_id = input('shop_order_id/d', 0);
         $confirm_order_from = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : U('shop/wap/index');
-        if (IS_POST || !empty($goods_id)) {
+        if ((IS_POST || !empty($goods_id)) && $shop_order_id<=0) {
             session('confirm_order_from', $confirm_order_from);
             $data['event_type'] = $event_type = input('event_type/d', 0);
             $data['event_type_title'] = D('shop/Order')->from_type($event_type);
@@ -464,11 +464,19 @@ class ApiData extends Base
             $data['event_id'] = input('event_id/d', 0);
             $data['shop_order_id'] = $shop_order_id;
 
-            $send_type = strpos($data['extra'], ',') === false ? $data['send_type'] : 3;
 
             $goods = json_decode($data['goods_datas'], true);
 
             $data['goods_id'] = isset($goods['id']) ? $goods['id'] : 0; // 给单个商品回传商品ID
+            
+//             $send_type = strpos($data['extra'], ',') === false ? $data['send_type'] : 3;
+            $send_type = explode(',', $data['extra']);
+            if (count($send_type) == 2) {
+            	$send_type = 3;
+            } else {
+            	$send_type = $data['send_type'];
+            }
+            
             $data['lists'][$send_type] = $goods;
 
             $total_price = $data['total_price'];
@@ -644,6 +652,7 @@ class ApiData extends Base
         if ($data['pay_type'] == 90) {
             $data['my_score'] = D('common/User')->where('uid', $this->mid)->value('score'); // 实时从数据库取，不走缓存
         }
+        
 
         return $data;
     }
@@ -703,6 +712,11 @@ class ApiData extends Base
         } else {
             $res['store_lists'] = D('shop/Stores')->getList();
         }
+        foreach ($res['store_lists'] as &$vo){
+        	if (empty($vo['img_url']) && isset($vo['img']) && $vo['img']>0){
+        		$vo['img_url']=get_cover_url($vo['img']);
+        	}
+        }
 
         return $res;
     }
@@ -750,15 +764,35 @@ class ApiData extends Base
     public function add_order()
     {
         $openid = get_openid();
-        addWeixinLog($openid,'addorder_'.PBID);
         if (empty($openid) || $openid == -1) {
             return $this->error('获取openid失败,请在微信里打开!');
         }
         $info = session('confirm_order');
+        //判断商品是否下架
+        $dao = D('ShopGoods');
+        foreach ($info['lists'] as $lists) {
+        	foreach ($lists as $g) {
+        		$gg = $dao->getInfo($g['shop_goods_id']);
+        		if ($gg['stock_active'] < $g['num']) {
+        			return $this->error('抱歉，' . $gg['title'] . ' 库存不足！');
+        		} elseif ($gg['stock_active'] <= 0) {
+        			return $this->error('抱歉，' . $gg['title'] . ' 已售罄！');
+        		} elseif ($gg['is_delete'] == 1) {
+        			return $this->error('抱歉，' . $gg['title'] . ' 商品已删除！');
+        		} elseif ($gg['is_show'] == 0) {
+        			return $this->error('抱歉，' . $gg['title'] . ' 商品已下架！');
+        		}
+        		
+        	}
+        }
+        
         $sendType = input('send_type');
         $stores_id = input('stores_id');
         if ($sendType == 2 && empty($stores_id)) {
             return $this->error('请先选择门店');
+        }
+        if (empty($this->mid)){
+        	return $this->error('获取不到当前用户，请在微信里打开!');
         }
 
         $goods_ids = $ids = [];
@@ -767,12 +801,12 @@ class ApiData extends Base
         try {
             $stockDao = D('Shop/Stock');
             foreach ($info['lists'] as $lists) {
-                foreach ($lists as $goods) {
-                    if ($info['event_type'] != SECKILL_EVENT_TYPE) { // 秒杀活动已经在下单前锁定库存
-                        $stockDao->beforeOrder($goods['num'], $goods['id'], $info['event_type']);
-                    }
-                    $goods_ids[] = $goods['id'];
-                }
+            	foreach ($lists as $goods) {
+            		if ($info['event_type'] != SECKILL_EVENT_TYPE) { // 秒杀活动已经在下单前锁定库存
+            			$stockDao->beforeOrder($goods['num'], $goods['id'], $info['event_type']);
+            		}
+            		$goods_ids[] = $goods['id'];
+            	}
             }
 
             // 邮寄商品一个订单，提取出自提的商品组成一个新订单
@@ -1105,6 +1139,9 @@ class ApiData extends Base
         $data['store_info'] = [];
         if ($orderInfo['stores_id']) {
             $data['store_info'] = M('stores')->where('id', $orderInfo['stores_id'])->find();
+            if (empty($data['store_info']['img_url']) && $data['store_info']['img']>0){
+            	$data['store_info']['img_url']=get_cover_url($data['store_info']['img']);
+            }
         }
         $address_id = $orderInfo['address_id'];
         $data['addressInfo'] = D('Shop/Address')->getInfo($address_id);
@@ -1300,6 +1337,62 @@ class ApiData extends Base
         $userInfo = getUserInfo($uid);
         $data['user_info'] = $userInfo;
         return $data;
+    }
+    /**
+     * 获取活动列表
+     */
+    function getEventLists(){
+		$type = input ( 'event_type/d', 0 );
+		$notStart = [ ]; // 未开始
+		$onGoing = [ ]; // 进行中
+		$end = [ ]; // 结束
+		$wpid = get_wpid ();
+		$table = '';
+		$picLab = '';
+		switch ($type) {
+			case 1 :
+				// 拼团 collage
+				$table = 'collage';
+				$picLab = 'cover';
+				break;
+			case 2 :
+				// 秒杀 seckill
+				$table = 'seckill';
+				$picLab = 'cover';
+				break;
+			case 3 :
+				// 砍价 haggle
+				$table = 'haggle';
+				$picLab = 'share_cover';
+				break;
+			case 4 :
+				// 优惠券 coupon
+				$table = 'coupon';
+				$picLab = 'background';
+				break;
+			default :
+				break;
+		}
+		if ($table != '') {
+			$lists = M ( $table )->where ( 'wpid', $wpid )->order ( 'id desc' )->select ();
+			foreach ( $lists as $vo ) {
+				$vo ['cover_img'] = isset ( $vo [$picLab] ) && $vo [$picLab] > 0 ? get_cover_url ( $vo [$picLab] ) : '';
+				if ($vo ['start_time'] > NOW_TIME) {
+					// 未开始
+					$notStart [] = $vo;
+				} elseif ($vo ['start_time'] <= NOW_TIME && $vo ['end_time'] > NOW_TIME) {
+					// 进行中
+					$onGoing [] = $vo;
+				} elseif ($vo ['end_time'] <= NOW_TIME) {
+					$end = $vo;
+				}
+			}
+		}
+		$data ['event_type'] = $type;
+		$data ['not_start'] = $notStart;
+		$data ['on_going'] = $onGoing;
+		$data ['end'] = $end;
+		return $data;
     }
 
 }

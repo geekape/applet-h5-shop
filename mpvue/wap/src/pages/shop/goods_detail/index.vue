@@ -1,7 +1,7 @@
 <template>
-  <div class="goods-detail">
+  <div class="goods-detail" ref="top_div">
     <navbar :text="goods.title"></navbar>
-
+    <div>
     <!-- 商品图 -->
     <div class="slide">
       <van-swipe show-indicators @change="toggleSwiper">
@@ -12,7 +12,7 @@
             </lazy-component>
           </a>
         </van-swipe-item>
-        <div class="custom-indicator" slot="indicator">{{ current + 1 }}/{{slides.length}}</div>
+        <div class="custom-indicator" slot="indicator">{{ current + 1 }}/{{totalSwiperNum}}</div>
       </van-swipe>
     </div>
 
@@ -36,7 +36,7 @@
     </div>
 
     <!-- switch卡片 -->
-    <div class="switch-card" v-if="goods.goods_param">
+    <div class="switch-card" v-if="goodsParam">
       <div class="switch-card__hd">
         <p class="switch-card__tt">产品参数</p>
         <p class="switch-card__icon iconfont icon-fanhui" :class="arrowDir" @click="toggleArrow"></p>
@@ -44,7 +44,7 @@
       <div class="switch-card__bd" v-show="arrowDir == 'top'">
         <div
           class="switch-card__item"
-          v-for="(param, paramIdx) in goods.goods_param"
+          v-for="(param, paramIdx) in goodsParam"
           :key="paramIdx"
         >
           <p class="switch-card__param overflow-dot_row">{{param.title}}</p>
@@ -62,7 +62,6 @@
           <i class="iconfont icon-fanhui right" v-show="goods.comment_count>10"></i>
         </div>
         <div class="goods-comment__bd">
-
           <div
             class="goods-comment__item"
             v-for="(comment, commentIdx) in goods.comments"
@@ -70,7 +69,7 @@
           >
             <div class="goods-comment__left">
               <div class="g-flex g-flex__updown-center">
-                <img class="u-head__img">
+                <img class="u-head__img" :src="comment.headimgurl">
                 <p class="goods-comment__name">{{comment.username}}</p>
               </div>
               <p class="goods-comment__text">{{comment.content}}</p>
@@ -79,16 +78,17 @@
             <div class="goods-comment__right">
               <img class="u-goods__img" :src="slides[0]">
             </div>
+
           </div>
         </div>
-        
       </div>
     
 
     <!-- 详情图片 -->
     <div v-html="goods.content" class="goods-detail__pic" v-if="goods.content"></div>
-    <!--自定义页面富文本-->
-    <div v-html="goods.diypage_richtext" class="goods-detail__pic" v-if="goods.diypage_richtext"></div>
+    <!--自定义页面-->
+    </div>
+    
 
     <!-- 底部栏 -->
     <div class="bottom-bar">
@@ -132,7 +132,8 @@ export default {
       selfSwiperNum: 1,
       isCartDot: false,
       detailPic: "",
-      diypage:[]
+      diypage:[],
+      goodsParam: []
 
     };
   },
@@ -225,72 +226,179 @@ export default {
   created() {
     const _this = this;
     const id = this.$route.params.id;
+    // 清空活动信息
+    this.$store.commit("saveData", {key: "activeOrderParams",value: "" });
     post("shop/api/goods_detail", {
       id: id
     }).then(res => {
       // 商品图
       _this.slides = res.goods.imgs_url;
       _this.goods = res.goods;
-      let head_data = JSON.parse(decodeURIComponent(_this.goods.diyData.config));
-      console.log(head_data);
-      for(var i=0;i<head_data.length;i++){
-        switch(head_data[i]['id']){
-          case 'header':
-            if(head_data[i]['params']['title'] !=''){
-              //微页面标题
-              _this.diypage.title=head_data[i]['params']['title'];
-            }
-            if(head_data[i]['params']['bgColor'] !=''){
-              //自定义页面背景颜色
-              _this.diypage.bgColor=head_data[i]['params']['bgColor'];
-            }
-          break;
-          case 'richtext':
-            if(head_data[i]['params']['content'] !=''){
-              //富文本
-              _this.diypage.richtext=head_data[i]['params']['content'];
-            }
-          break;
-          case 'goods':
-            //商品
-            _this.diypage.goods=[];
-            if(head_data[i]['params']['goods_list']){
-              //商品列表信息 [id,img,market_price,stock,title,url]
-              _this.diypage.goods.goods_list=head_data[i]['params']['goods_list'];
-            }
-            if(head_data[i]['params']['list_style']){
-              //样式 1:大图 2:小图 3:一大两小 4:详细列表
-              _this.diypage.goods.list_style=head_data[i]['params']['list_style'];
-            }
-            if(head_data[i]['params']['show_btn']){
-              //为1时显示购买按钮
-              _this.diypage.goods.show_btn=head_data[i]['params']['show_btn'];
-            }
-            if(head_data[i]['params']['show_price']){
-              //为1时显示价格
-              _this.diypage.goods.show_price=head_data[i]['params']['show_price'];
-            }
-          break;
-          case 'banner':
-            //幻灯片
-            _this.diypage.banner=[];
-             if(head_data[i]['params']['banner_list']){
-              //图片数组[pic图片地址,picId,rel,title,url点击图片跳转链接]
-              _this.diypage.banner.banner_list=head_data[i]['params']['banner_list'];
-            }
-            if(head_data[i]['params']['show_title']){
-              //为1显示标题 
-              _this.diypage.banner.show_title=head_data[i]['params']['show_title'];
-            }
-          break;
-          default:
-          break;
-        }
-      }
+      _this.goodsParam = res.goods.goods_param;
+
+      // if(_this.goods.diyData.config !='' && _this.goods.diyData.config != "null"){
+      //   _this.diypage = JSON.parse(decodeURIComponent(_this.goods.diyData.config));
+      //   console.log(_this.diypage);
+      //   if( _this.diypage [0]['params']['title'] !=''){
+      //     //微页面标题
+      //     _this.goods.title=_this.diypage [0]['params']['title'] ;
+      //   }
+      //   if( _this.diypage[0]['params']['bgColor'] !=''){
+      //     //自定义页面背景颜色
+      //     _this.$refs.top_div.style.background=_this.diypage[0]['params']['bgColor'] ;
+      //   }
+      // }
+      // for(var i=0;i<head_data.length;i++){
+      //   switch(head_data[i]['id']){
+      //     case 'header':
+      //       let arr=[];
+      //       arr['id']='header';
+      //        _this.diypage.header=[];
+      //       if(head_data[i]['params']['title'] !=''){
+      //         //微页面标题
+      //         _this.diypage.header.title=head_data[i]['params']['title'];
+      //          arr['title']=head_data[i]['params']['title'];
+      //       }
+            
+      //       if(head_data[i]['params']['bgColor'] !=''){
+      //         //自定义页面背景颜色
+      //         _this.diypage.header.bgColor=head_data[i]['params']['bgColor'];
+      //          arr['bgColor']=head_data[i]['params']['bgColor'];
+      //       }
+      //       _this.diypage.push(arr);
+      //     break;
+      //     case 'richtext':
+      //       if(head_data[i]['params']['content'] !=''){
+      //         //富文本
+      //         _this.diypage.richtext=head_data[i]['params']['content'];
+      //       }
+      //     break;
+      //     case 'goods':
+      //       //商品
+      //       _this.diypage.goods=[];
+      //       if(head_data[i]['params']['goods_list']){
+      //         //商品列表信息 [id,img,market_price,stock,title,url]
+      //         _this.diypage.goods.goods_list=head_data[i]['params']['goods_list'];
+      //       }
+      //       if(head_data[i]['params']['list_style']){
+      //         //样式 1:大图 2:小图 3:一大两小 4:详细列表
+      //         _this.diypage.goods.list_style=head_data[i]['params']['list_style'];
+      //       }
+      //       if(head_data[i]['params']['show_btn']){
+      //         //为1时显示购买按钮
+      //         _this.diypage.goods.show_btn=head_data[i]['params']['show_btn'];
+      //       }
+      //       if(head_data[i]['params']['show_price']){
+      //         //为1时显示价格
+      //         _this.diypage.goods.show_price=head_data[i]['params']['show_price'];
+      //       }
+      //     break;
+      //     case 'mutipic_goods':
+      //       //多图商品
+      //       _this.diypage.mutipic_goods=[];
+      //        if(head_data[i]['params']['colGoods']){
+      //         //显示样式 2两列 3：三列  4：四列
+      //         _this.diypage.mutipic_goods.colGoods=head_data[i]['params']['colGoods'];
+      //       }
+      //        if(head_data[i]['params']['goods_list']){
+      //         //商品列表信息 [id,img,market_price,stock,title,url]
+      //         _this.diypage.mutipic_goods.goods_list=head_data[i]['params']['goods_list'];
+      //       }
+      //       if(head_data[i]['params']['show_btn']){
+      //         //为1时显示购买按钮
+      //         _this.diypage.mutipic_goods.show_btn=head_data[i]['params']['show_btn'];
+      //       }
+      //       if(head_data[i]['params']['show_price']){
+      //         //为1时显示价格
+      //         _this.diypage.mutipic_goods.show_price=head_data[i]['params']['show_price'];
+      //       }
+
+      //     break;
+      //     case 'piclist':
+      //       //图片
+      //       _this.diypage.piclist=[];
+      //       if(head_data[i]['params']['show_title']){
+      //         //为1显示标题
+      //         _this.diypage.piclist.show_title=head_data[i]['params']['show_title'];
+      //       }
+      //       if(head_data[i]['params']['pic_list']){
+      //         //图片数组[pic图片地址,picId,rel,title,url点击图片跳转链接]
+      //         _this.diypage.piclist.pic_list=head_data[i]['params']['pic_list'];
+      //       }
+      //     break;
+      //     case 'banner':
+      //       //幻灯片
+      //       _this.diypage.banner=[];
+      //        if(head_data[i]['params']['banner_list']){
+      //         //图片数组[pic图片地址,picId,rel,title,url点击图片跳转链接]
+      //         _this.diypage.banner.banner_list=head_data[i]['params']['banner_list'];
+      //       }
+      //       if(head_data[i]['params']['show_title']){
+      //         //为1显示标题
+      //         _this.diypage.banner.show_title=head_data[i]['params']['show_title'];
+      //       }
+      //     break;
+      //     case 'blank':
+      //       //辅助空白
+      //       _this.diypage.blank=[];
+      //       if(head_data[i]['params']['height']>0){
+      //         //空白高度
+      //         _this.diypage.blank.height=head_data[i]['params']['height'];
+      //       }
+      //     break;
+      //     case 'title':
+      //       //标题
+      //       _this.diypage.title=[];
+      //       if(head_data[i]['params']['align']){
+      //         //对齐 left  center  right
+      //         _this.diypage.title.align=head_data[i]['params']['align'];
+      //       }
+      //       if(head_data[i]['params']['bgColor'] !=''){
+      //         //背景颜色
+      //         _this.diypage.title.bgColor=head_data[i]['params']['bgColor'];
+      //       }
+      //       if(head_data[i]['params']['maincolor'] !=''){
+      //         //主标题颜色
+      //         _this.diypage.title.maincolor=head_data[i]['params']['maincolor'];
+      //       }
+      //       if(head_data[i]['params']['subcolor'] !=''){
+      //         //副标题颜色
+      //         _this.diypage.title.subcolor=head_data[i]['params']['subcolor'];
+      //       }
+      //       if(head_data[i]['params']['title'] !=''){
+      //         //主标题文字
+      //         _this.diypage.title.title=head_data[i]['params']['title'];
+      //       }
+      //       if(head_data[i]['params']['subtitle'] !=''){
+      //         //副标题文字
+      //         _this.diypage.title.subtitle=head_data[i]['params']['subtitle'];
+      //       }
+      //     break;
+      //     case 'blankline':
+      //       //辅助线
+      //       _this.diypage.blankline=[];
+      //       if(head_data[i]['params']['borderColor']){
+      //         //线条颜色
+      //         _this.diypage.blankline.borderColor=head_data[i]['params']['borderColor'];
+      //       }
+      //       if(head_data[i]['params']['borderWidth']){
+      //         //线条宽度
+      //         _this.diypage.blankline.borderWidth=head_data[i]['params']['borderWidth'];
+      //       }
+      //       if(head_data[i]['params']['borderStyle']){
+      //         //线条样式
+      //         _this.diypage.blankline.borderStyle=head_data[i]['params']['borderStyle'];
+      //       }
+      //     break;
+      //     default:
+      //     break;
+      //   }
+      // }
       
      
-      console.log('----config---');
-       console.log(_this.diypage);
+      // console.log('----config---');
+      // // _this.diypage={title:'開外挂看',bgColor:'#fdfdfsf'}
+      //  console.log(_this.diypage);
 
       if (res.goods.is_collect == 0) {
         _this.isCollect = false;
@@ -307,12 +415,12 @@ export default {
 .navbar {
   background: $body-bg;
 }
-
 .goods-detail {
   padding-top: 45px;
   padding-bottom: 55px;
   overflow: hidden;
-
+  height: auto!important;
+  /deep/ ._v-container > ._v-content {padding-bottom: 90px;}
   
   .van-swipe {
     position: relative;
@@ -508,5 +616,18 @@ export default {
   bottom: 0;
   padding: 1rem;
   overflow: hidden;
+}
+
+.mutipic_banner_title {
+    background-color: RGBA(0, 0, 0, .5);
+    height: 30px;
+    color: #fff;
+    line-height: 30px;
+    padding-left: 10px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
 }
 </style>

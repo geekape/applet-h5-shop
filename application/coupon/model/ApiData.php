@@ -141,7 +141,7 @@ class ApiData extends Base
     function show_error($error, $info = [])
     {
         $data ['info'] = $info;
-        
+        $data ['code']=0;
         $data ['error'] = $error;
         S('set_sn_code_lock', 0); // 解锁
         $data ['templateFile'] = 'over';
@@ -272,7 +272,9 @@ class ApiData extends Base
             $param ['publicid'] = I('publicid');
             $param ['rand'] = NOW_TIME . rand(10, 99);
             
-            return $this->error('排队领取中', U('set_sn_code', $param));
+//             return $this->error('排队领取中', U('set_sn_code', $param));
+
+            return $this->show_error('排队领取中',[]);
         } else {
             S('set_sn_code_lock', 1, 30);
         }
@@ -286,7 +288,7 @@ class ApiData extends Base
                 $forward = cookie('__forward__');
                 empty($forward) && cookie('__forward__', $_SERVER ['REQUEST_URI']);
                 S('set_sn_code_lock', 0); // 解锁
-                return redirect(U('weixin/Wap/bind_prize_info'));
+//                 return redirect(U('weixin/Wap/bind_prize_info'));
             }
         }
         $info = D('Coupon')->getInfo($id);
@@ -322,24 +324,25 @@ class ApiData extends Base
         if (! empty($error)) {
             S('set_sn_code_lock', 0); // 解锁
             $data ['error'] = $error;
+            $data ['code'] =0;
             $data ['templateFile'] = 'over';
             return $data;
         }
         
         // 判断用户是否有领取会员卡
-        $cardId = D('card/CardMember')->checkHasMemberCard($this->mid);
+       /*  $cardId = D('card/CardMember')->checkHasMemberCard($this->mid);
         if (empty($cardId)) {
             $msg = '您还未领取会员卡，还不能领取该优惠券！';
             $info ['need_card'] = 1;
             return $this->show_error($msg, $info);
-        }
+        } */
         
         $data ['target_id'] = $id;
         $data ['uid'] = $this->mid;
         $data ['sn'] = uniqid();
         $data ['cTime'] = NOW_TIME;
         $data ['wpid'] = $info ['wpid'];
-        $data ['openid'] = $param ['openid'];
+        $data ['openid'] = empty($param ['openid'])?get_openid():$param ['openid'];
         // 金额
         $data ['prize_title'] = $info ['money'];
         
@@ -352,13 +355,16 @@ class ApiData extends Base
             add_credit('coupon_credit_bug', $credit, 5);
         }
         if (isset($_GET ['is_stree'])) {
-            return false;
+        	$data ['error'] = '请在微信打开';
+        	$data ['code'] =0;
+        	return $data;
+//             return false;
         }
         
         unset($param);
         $param ['id'] = $id;
         $param ['sn_id'] = $sn_id;
-        return redirect(U('show', $param));
+        return $this->success('',U('show', $param));
     }
     function coupon_detail()
     {
@@ -395,12 +401,16 @@ class ApiData extends Base
     function index()
     {
         $param ['id'] = $id = I('id');
-        
+        $uid = intval($this->mid);
         // 已领取的直接进入详情页面，不需要再领取（TODO：仅为不需要多次领取的客户使用）
-        $mylist = D('common/SnCode')->getMyList($this->mid, $id);
+        $log['input']=input();
+        $log['session']=$_SESSION;
+        addWeixinLog($log,'coupon_data_'.$uid.'_'.session_id());
+        
+        $mylist = D('common/SnCode')->getMyList($uid, $id);
         if (! empty($mylist [0])) {
             $param ['sn_id'] = $mylist [0] ['id'];
-            return redirect(U('show', $param));
+            return $this->success('',U('show', $param));
         }
         $info = $public_info = get_pbid_appinfo();
         
@@ -416,6 +426,7 @@ class ApiData extends Base
         }
         
         $info = D('Coupon')->getInfo($id);
+        
         $data ['info'] = $info;
         $data ['public_info'] = $public_info;
         

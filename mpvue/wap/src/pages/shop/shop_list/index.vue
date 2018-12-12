@@ -1,9 +1,11 @@
 <template>
   <div class="shop-list">
     <navbar text="门店列表"></navbar>
+    <scroller>
     <div class="shop-list__item" v-for="(item, index) in shops" :key="index">
       <div class="shop-list__bd g-flex">
-        <img class="u-goods__img" :src="item.img_url"/>
+        <img v-if="item.img_url" class="u-goods__img" :src="item.img_url"/>
+        <img v-else class="u-goods__img" src="~images/pic-shop.jpg"/>
         <div class="g-flex__flex">
           <p class="shop-list__name">{{item.name}}</p>
           <p class="shop-list__address" v-if="item.address"><span class="iconfont icon-dingwei"></span>{{item.address}}</p>
@@ -11,10 +13,11 @@
         </div>
       </div>
       <div class="shop-list__ft g-flex">
-        <p class="g-flex__item"><span class="iconfont icon-phone"></span>电话</p>
-        <p class="g-flex__item"><span class="iconfont icon-daohang"></span>导航</p>
+        <p class="g-flex__item" v-if="item.phone"><span class="iconfont icon-phone"></span><a :href="'tel:' + item.phone">电话</a></p>
+        <button @click="goUrl(item.address)" class="g-flex__item" v-if="item.address"><span class="iconfont icon-daohang"></span>导航</button>
       </div>
     </div>
+    </scroller>
   </div>
 </template>
 
@@ -32,7 +35,9 @@ export default {
   },
 
   methods: {
-
+    goUrl(id) {
+      window.location.href = '//map.baidu.com/mobile/webapp/search/search/qt=s&wd=' + encodeURI(id) + '/&vt=map'
+    }
   },
   created () {
     const ids = this.$route.params.id;

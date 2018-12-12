@@ -29,12 +29,18 @@
         border: 1px solid $red;
         background: transparent;
     }
-    // 禁用状态按钮
+    // 订单禁用按钮
     &--disable {
         opacity: .5;
         background: transparent;
         color: #999;
     }
+    &--disable2 {
+        @extend .u-button--primary;
+        &,&:active {opacity: .3;}
+    }
+
+
     // 大按钮
     &--primary.u-button--big {
         height: 45px;
@@ -42,4 +48,32 @@
         width: 92%;
         margin: 15px;
     }
+
+    // 100% 宽度的方形按钮
+    &--square {
+        @extend .u-button--primary;
+        width: 100%;
+        border-radius: 0;
+        height: 45PX;
+        background: $red;
+    }
+
+    // 固定在底部的button
+    &__bar {
+        display: flex;
+        align-items: center;
+        box-shadow: 1px 0 10px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 45PX;
+        background: #fff;
+        max-width: 750px;
+        .u-button {
+            height: 45PX;
+            line-height: 45PX;
+        }
+    }
 }
+
+

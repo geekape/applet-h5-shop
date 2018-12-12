@@ -3,8 +3,6 @@
         <a :href="'../logistics/main?order_id=' + orderId" class="m-list link log" v-if="steps && info.send_type == 1">
         <div class="m-list__l">
         <p>{{info.status_code_name}}</p>
-        <!-- <p v-else-if="info.pay_status == 0">等待付款中...</p>
-        <p v-else>等待卖家发货</p> -->
         <p>物流信息：{{steps.remark}}</p>
         <small class="log-time">{{steps.cTime}}</small>
       </div>
@@ -32,23 +30,10 @@
         </div>
       </div>
       <div class="shop-list__ft g-flex">
-        <p class="g-flex__item"><span class="iconfont icon-phone"></span>电话</p>
-        <p class="g-flex__item"><span class="iconfont icon-daohang"></span>导航</p>
+        <p v-if="shops.phone != ''" @click="callPhone(shops.phone)" class="g-flex__item"><span class="iconfont icon-phone"></span>电话</p>
+        <p v-if="shops.address != ''" @click="callMap(shops.address)" class="g-flex__item"><span class="iconfont icon-daohang"></span>导航</p>
       </div>
     </div>
-
-
-    <div class="m-list__group">
-      <div class="m-list">
-        <div class="m-list__l">买家留言：{{info.remark ? info.remark : '无'}}</div>
-      </div>
-      <div class="m-list">
-        <div class="m-list__l">配送方式：{{info.send_type == 2 ? '自提' : '邮寄'}}</div>
-      </div>
-    </div>
-
-    
-
 
     <div class="order-detail__item">
       <a :href="'../goods_detail/main?id=' + item.id"
@@ -67,6 +52,30 @@
             </div>
           </div>
         </a>
+    </div>
+
+    <div class="weui-form-preview">
+        <div class="weui-form-preview__hd">
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">付款金额</label>
+                <em class="weui-form-preview__value">¥{{totalPrice}}</em>
+            </div>
+        </div>
+        <div class="weui-form-preview__bd">
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">买家留言</label>
+                <span class="weui-form-preview__value">{{info.remark ? info.remark : '无'}}</span>
+            </div>
+            <div class="weui-form-preview__item" v-if="info.send_type != 2">
+                <label class="weui-form-preview__label">邮费：</label>
+                <span class="weui-form-preview__value">¥{{info.mail_money}}</span>
+            </div>
+
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">配送方式：</label>
+                <span class="weui-form-preview__value">{{info.send_type == 2 ? '自提' : '邮寄'}}</span>
+            </div>
+        </div>
     </div>
 
 
@@ -117,18 +126,9 @@ export default {
     }
   },
   computed: {
-   // logs () {
-   //    let log = this.steps
-   //    let arr = []
-   //    log.forEach((item,idx) => {
-   //      let obj = {
-   //        text: item.remark,
-   //        desc: timeChange(item.cTime)
-   //      }
-   //      arr.push(obj)
-   //    })
-   //    return arr
-   //  }
+    totalPrice () {
+      return parseFloat(this.info.total_price) + parseFloat(this.info.mail_money)
+    }
   },
 
   components: {
@@ -142,11 +142,18 @@ export default {
     goReceiving(id) {
       goReceiving(id)
     },
+    // 打电话
+    callPhone(phone) {
+      wx.makePhoneCall({phoneNumber: phone})
+    },
+    // 打开地图
+    callMap(map) {
+      
+    }
   },
 
   onLoad () {
     Object.assign(this, this.$options.data());
-
     this.orderId = this.$root.$mp.query.order_id || 0
     const _this = this
     post('shop/api/order_detail', {
@@ -177,12 +184,19 @@ export default {
   padding-bottom: 80px;
 }
 .order-detail {
+  .weui-form-preview {
+    margin-top: 10px;
+    &:before,&:after {border: 0}
+  }
+  /deep/ .weui-form-preview__hd {
+    line-height: 1.5em;
+  }
   // 我的地址
 	.order-line {
 		padding: 25px 15px;
     background: #FFFDF4;
     align-items: baseline;
-    background-image: url(~images/stripe-bg.png);
+    background-image: url(https://leyao.tv/yi/images/stripe-bg.png);
     background-repeat: no-repeat;
     background-size: 100%;
     margin-top: 10px;

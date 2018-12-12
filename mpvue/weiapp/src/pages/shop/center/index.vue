@@ -10,22 +10,22 @@
     <div class="icon-area">
         <div class="icon-area__hd">
           <a href="../my_order/main?active=0" class="icon-area__item">
-            <img src='../../../../static/img/new_icon/center-icon-lg4.png' class="icon-area__img"/>
+            <img src='https://leyao.tv/yi/images/new_icon/center-icon-lg4.png' class="icon-area__img"/>
             <p class="icon-area__txt">全部订单</p>
           </a>
           <a href="../my_order/main?active=1" class="icon-area__item">
             <span class="weui-badge" v-if="waitPayNum>0">{{waitPayNum}}</span>
-            <img src='../../../../static/img/new_icon/center-icon-lg1.png' class="icon-area__img"/>
+            <img src='https://leyao.tv/yi/images/new_icon/center-icon-lg1.png' class="icon-area__img"/>
             <p class="icon-area__txt">待支付</p>
           </a>
           <a href="../my_order/main?active=2" class="icon-area__item">
             <span class="weui-badge" v-if="waitCollectNum>0">{{waitCollectNum}}</span>
-            <img src='../../../../static/img/new_icon/center-icon-lg2.png' class="icon-area__img"/>
+            <img src='https://leyao.tv/yi/images/new_icon/center-icon-lg2.png' class="icon-area__img"/>
             <p class="icon-area__txt">待收货</p>
           </a>
           <a href="../my_order/main?active=3" class="icon-area__item">
             <span class="weui-badge" v-if="waitCommentNum>0">{{waitCommentNum}}</span>
-            <img src='../../../../static/img/new_icon/center-icon-lg3.png' class="icon-area__img"/>
+            <img src='https://leyao.tv/yi/images/new_icon/center-icon-lg3.png' class="icon-area__img"/>
             <p class="icon-area__txt">待评价</p>
           </a>
           
@@ -36,7 +36,7 @@
             <p class="icon-area__txt">{{item.text}}</p>
           </a>
           <button open-type="contact" class="icon-area__item contact-btn">
-            <img class="icon-area__img" src="../../../../static/img/new_icon/center-icon-md7.png" alt="">
+            <img class="icon-area__img" src="https://leyao.tv/yi/images/new_icon/center-icon-md7.png" alt="">
              <p class="icon-area__txt">联系客服</p>
           </button>
         </div>
@@ -52,61 +52,80 @@ import { mapMutations } from 'vuex'
 export default {
   data () {
     return {
-      userData: [],
+      userData: {},
       icons: [
         {
-          img: '../../../static/img/new_icon/center-icon-lg1.png',
+          img: 'https://leyao.tv/yi/images/new_icon/center-icon-lg1.png',
           text: '待支付',
           url: '../my_order/main?active=1'
         },
         {
-          img: '../../../static/img/new_icon/center-icon-lg2.png',
+          img: 'https://leyao.tv/yi/images/new_icon/center-icon-lg2.png',
           text: '待收货',
           url: '../my_order/main?active=2'
         },
         {
-          img: '../../../static/img/new_icon/center-icon-lg3.png',
+          img: 'https://leyao.tv/yi/images/new_icon/center-icon-lg3.png',
           text: '待评价',
           url: '../my_order/main?active=3'
         },
         {
-          img: '../../../static/img/new_icon/center-icon-lg4.png',
+          img: 'https://leyao.tv/yi/images/new_icon/center-icon-lg4.png',
           text: '全部订单',
           url: '../my_order/main?active=0'
         }
       ],
       smallIcons: [
         {
-          img: '../../../static/img/new_icon/center-icon-md1.png',
+          img: 'https://leyao.tv/yi/images/new_icon/center-icon-md1.png',
           text: '优惠劵',
-          url: '../coupon/main'
+          url: '../../coupon/lists/main'
         },
         {
-          img: '../../../static/img/new_icon/center-icon-md2.png',
+          img: 'https://leyao.tv/yi/images/new_icon/center-icon-md2.png',
           text: '会员卡',
           url: '#'
         },
         {
-          img: '../../../static/img/new_icon/center-icon-md3.png',
+          img: 'https://leyao.tv/yi/images/new_icon/center-icon-md3.png',
           text: '我的收藏',
           url: '../collect/main'
         },
         {
-          img: '../../../static/img/new_icon/center-icon-md4.png',
+          img: 'https://leyao.tv/yi/images/new_icon/center-icon-md4.png',
           text: '我的足迹',
           url: '../track/main'
         },
         {
-          img: '../../../static/img/new_icon/center-icon-md5.png',
+          img: 'https://leyao.tv/yi/images/new_icon/center-icon-md5.png',
           text: '我的地址',
           url: '../add_address/main'
         },
         {
-          img: '../../../static/img/new_icon/center-icon-md6.png',
+          img: 'https://leyao.tv/yi/images/new_icon/center-icon-md6.png',
           text: '我的评价',
           url: '../my_comment/main'
+        },
+        {
+          img: 'https://leyao.tv/yi/images/new_icon/center-icon-md8.png',
+          text: '我的拼团',
+          url: '../../collage/lists/main'
+        },
+        {
+          img: 'https://leyao.tv/yi/images/new_icon/center-icon-md9.png',
+          text: '我的秒杀',
+          url: '../../seckill/lists/main'
+        },
+        {
+          img: 'https://leyao.tv/yi/images/new_icon/center-icon-md10.png',
+          text: '我的砍价',
+          url: '../../haggle/lists/main'
+        },
+        {
+          img: 'https://leyao.tv/yi/images/new_icon/center-icon-md11.png',
+          text: '领卷中心',
+          url: '../../coupon/center/main'
         }
-
       ]
     }
   },
@@ -132,18 +151,7 @@ export default {
 
   },
   onLoad () {
-    this.userData = login()
-    // 设置购物车数量
-    get("shop/api/cart/PHPSESSID/" + wx.getStorageSync("PHPSESSID"))
-    .then(res => {
-      let num = res.lists.length;
-      this.$store.commit("getCartShopNum", {
-        num: num
-      });
-    })
-    .catch(err => {
-      console.log("失败：" + err);
-    });
+    this.userData = wx.getStorageSync('userInfo')
   },
 
   onShow () {
@@ -236,6 +244,7 @@ export default {
         margin: 0 auto;
         display: inline-block;
       }
+      /deep/ button {line-height: 1.5;}
     }
 
   }

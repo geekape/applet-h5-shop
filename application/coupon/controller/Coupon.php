@@ -50,7 +50,8 @@ class Coupon extends WebBase
         foreach ($list_data['list_data'] as $d) {
             $coupon = $dao->getInfo($d['id']);
             $useMap['target_id'] = $snMap['target_id'] = $d['id'];
-            $snMap['can_use'] = 1;
+            //$snMap['can_use'] = 1;
+            $snMap['wpid']=get_wpid();
             $coupon['collect_count'] = $snDao->where(wp_where($snMap))->count();
             
             $useMap['is_use'] = 1;
@@ -163,7 +164,7 @@ class Coupon extends WebBase
             $data = I('post.');
             $this->checkPostData();
             
-            $data['wpid'] = input('post.wpid');
+            $data['wpid'] = get_wpid();
             $this->save_shop($id, input('post.wpid'));
             D('Coupon')->getInfo($id, true);
             // $data['update_time'] = NOW_TIME;
@@ -314,10 +315,11 @@ class Coupon extends WebBase
         $info = $public_info = get_pbid_appinfo();
         
         $id = I('id/d', 0);
-        $url = U('coupon/wap/index', array(
-            'id' => $id,
-            'publicid' => $info['id']
-        ));
+//         $url = U('', array(
+//             'id' => $id,
+//             'publicid' => $info['id']
+//         ));
+        $url=WAP_URL.'?pbid='.$info['id'].'#/coupon/get/'.$id;
         
         $this->assign('url', $url);
         return $this->fetch('common@base/preview');

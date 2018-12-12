@@ -1,12 +1,14 @@
 <template>
   <div class="address white-bg">
     <navbar text="我的地址"></navbar>
+    <scroller >
     <van-address-edit
       :area-list="areaList"
       show-search-result
       :address-info="addressInfo"
       @save="saveAddress"
     />
+    </scroller>
   </div>
 </template>
 
@@ -49,12 +51,13 @@ export default {
         Toast('保存地址成功')
         // 从订单页进来的
         if(this.type == 1) {
-          this.$router.go(-1)
+          window.history.go(-1)
           
         } else {
          this.$router.push({path:'/center'})
         }
         obj.areaCode = e.areaCode
+				
         window.localStorage.setItem('address', JSON.stringify(obj))
       })
       }

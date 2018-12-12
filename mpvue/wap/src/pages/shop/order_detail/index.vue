@@ -1,6 +1,7 @@
 <template>
   <div class="order-detail" :class="{'pb80': info.status_code == 3 || info.pay_status === 0}" v-cloak>
     <navbar text="订单详情"></navbar>
+    <scroller >
     <!-- 物流信息 -->
     <router-link :to="'/logistics/' + orderId" class="m-list link log" v-if="steps && info.send_type == 1">
       <div class="m-list__l">
@@ -33,24 +34,13 @@
           <p class="shop-list__dist" v-if="shops.shop_code"><span class="iconfont icon-daohang"></span></p>
         </div>
       </div>
-      <div class="shop-list__ft g-flex" v-if="shops.phone !='' && shops.address !=''">
-        <p class="g-flex__item"><span class="iconfont icon-phone"></span>电话</p>
-        <p class="g-flex__item"><span class="iconfont icon-daohang"></span>导航</p>
+      <div class="shop-list__ft g-flex">
+        <p v-if="shops.phone != ''" class="g-flex__item"><span class="iconfont icon-phone"></span><a :href="'tel:' + shops.phone">电话</a></p>
+        <button v-if="shops.address != ''" @click="goUrl(shops.address)" class="g-flex__item"><span class="iconfont icon-daohang"></span>导航</button>
       </div>
     </div>
-
-    <div class="m-list__group">
-      <div class="m-list">
-        <div class="m-list__l">买家留言：{{info.remark ? info.remark : '无'}}</div>
-      </div>
-      <div class="m-list">
-        <div class="m-list__l">配送方式：{{info.send_type == 2 ? '自提' : '邮寄'}}</div>
-      </div>
-    </div>
-
 
     <div class="order-detail__item">
-			
       <router-link :to="'/goods_detail/' + item.id"
       class="goods-line" 
       v-for="(item,index) in goods"
@@ -67,6 +57,30 @@
             </div>
           </div>
         </router-link>
+    </div>
+
+    <div class="weui-form-preview">
+        <div class="weui-form-preview__hd">
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">付款金额</label>
+                <em class="weui-form-preview__value">¥{{parseFloat(info.total_price) + parseFloat(info.mail_money)}}</em>
+            </div>
+        </div>
+        <div class="weui-form-preview__bd">
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">买家留言</label>
+                <span class="weui-form-preview__value">{{info.remark ? info.remark : '无'}}</span>
+            </div>
+            <div class="weui-form-preview__item" v-if="info.send_type != 2">
+                <label class="weui-form-preview__label">邮费：</label>
+                <span class="weui-form-preview__value">¥{{info.mail_money}}</span>
+            </div>
+
+            <div class="weui-form-preview__item">
+                <label class="weui-form-preview__label">配送方式：</label>
+                <span class="weui-form-preview__value">{{info.send_type == 2 ? '自提' : '邮寄'}}</span>
+            </div>
+        </div>
     </div>
 
 
@@ -91,6 +105,7 @@
 
       <router-link :to="'/refund/' + info.id" v-if="info.status_code == 3 || info.refund == 0" class="u-button u-button--border">申请退款</router-link>
     </div>
+    </scroller>
 
     <div class="u-fixed">
       <button class="u-button u-button--primary u-button--big" v-if="info.status_code == 3" @click="goReceiving(orderId)">确认收货</button>
@@ -137,6 +152,9 @@ export default {
     goReceiving(id) {
       goReceiving(id)
     },
+    goUrl(id) {
+      window.location.href = '//map.baidu.com/mobile/webapp/search/search/qt=s&wd=' + encodeURI(id) + '/&vt=map'
+    }
   },
 
   created () {
@@ -168,11 +186,14 @@ export default {
 
 
 <style lang="scss" scoped>
+._v-container {padding-bottom: 60px;}
 .order-detail.pb80 {
   padding-bottom: 80px;
 }
 .order-detail {
   padding-top: 45px;
+
+  
 	// 我的地址
 	.order-line {
 		padding: 25px 15px;

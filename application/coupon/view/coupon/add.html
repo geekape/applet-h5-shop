@@ -52,7 +52,7 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2"> 优惠券金额</label>
-                        <div class="col-sm-8 coupon-num">
+                        <div class="col-sm-8 coupon-num coupon-money">
                             <input type="number" name="money" class="form-control" value="0" />
                             <span class="form-text text-muted">可用于商城下单时抵扣订单金额，为0时表示仅用于线下场景使用</span>
                         </div>
@@ -136,10 +136,9 @@
 $(function() {
     initUploadImg();
     // 优惠卷提示
-    $(".coupon-num input").bind("input propertychange",function(){
+    $(".coupon-money input").bind("input propertychange",function(){
         //获取input输入的值
-
-        $(this).next().text('(你设置了' + $(this).val() + '张)');
+        $(this).next().text('(你设置了' + $(this).val() + '元)');
     });
 
 

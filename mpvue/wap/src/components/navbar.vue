@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar">
+  <div class="navbar" :class="{clear: isClear == true}">
     <p class="navbar-icon_left iconfont icon-fanhui" @click="goBack"></p>
     <p class="navbar-title overflow-dot_row">{{text}}</p>
   </div>
@@ -7,13 +7,24 @@
 
 <script>
 export default {
-  props: ['text'],
+  props: {
+    text: String,
+    isClear: {
+      type: [Boolean,String],
+      default: false
+    },
+    jumpUrl: String
+  },
   data() {
     return {};
   },
   methods: {
     goBack () {
-      this.$router.go(-1)
+      if(this.jumpUrl) {
+        this.$router.push(this.jumpUrl)
+      } else {
+        this.$router.go(-1)
+      }
     }
   }
 }
@@ -33,6 +44,12 @@ export default {
   position: fixed;
   top: 0;
   width: 100%;
+  // 透明
+  &.clear {
+    background: transparent;
+    border: 0;
+    .iconfont {color: #fff}
+  }
 }
 .navbar-title {
   flex: 1;
@@ -43,5 +60,6 @@ export default {
   font-size: 20px;
   position: absolute;
   left: 10px;
+  
 }
 </style>

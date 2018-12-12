@@ -132,7 +132,7 @@ class SnCode extends Base
         return intval($count);
     }
 
-    public function getMyList($uid, $target_id = '', $update = false, $cache_id = '')
+    public function getMyList($uid, $target_id = '', $update = true, $cache_id = '')
     {
         $map['uid'] = $uid;
         $map['target_id'] = $target_id;

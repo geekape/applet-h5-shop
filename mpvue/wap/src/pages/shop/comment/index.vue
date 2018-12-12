@@ -1,6 +1,7 @@
 <template>
   <div class="comment">
     <navbar text="评价"></navbar>
+    <scroller >
     <div  class="goods-line" v-for="(item,index) in goodsList" :key="index">
       <img class="u-goods__img" :src="item.cover" />
       <div class="goods-line__right">
@@ -15,6 +16,7 @@
     
     <textarea class="comment-box" name="" maxlength="999" placeholder="至少5个字哦~" v-model="text" @blur="setText"></textarea>
     <button class="u-button u-button--big u-button--primary" @click="submitFrom">评价</button>
+    </scroller>
   </div>
 </template>
 

@@ -1,0 +1,524 @@
+
+
+/*
+* 重置
+* ---------------------------
+ */
+ html, body {
+  position: relative;
+  color: #000;
+  width: 100%;
+  min-height: 100%;
+  
+  overflow: hidden;
+}
+html, body,
+.wrap {
+  -webkit-overflow-scrolling:touch;
+}
+
+img {
+  max-width: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: $black;
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+body {
+  background: #f9f9f9;
+  font-family: inherit, Helvetica Neue, Helvetica, Arial, sans-serif!important;
+  font-size: 14px;
+  color:#000;
+  max-width: $max-w;
+  margin: 0 auto!important;
+  height: 100vh;
+  
+  .wrap {
+    background: $body-bg;
+    width:100%;
+    position: fixed;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    top:45px;
+    bottom: 0;
+    max-width: 540px;
+  }
+}
+// 定义字体
+// @font-face {
+//   font-family: thinFont;
+//   src: url('../fonts/mian-sm.TTF')
+// }
+// @font-face {
+//   font-family: jiage;
+//   src: url('../fonts/jiage.OTF')
+// }
+.icon-moreunfold,
+.icon-more {
+  font-size: 20px;
+}
+.iconfont {
+  transition: all .3s;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+del {
+  color: $gray;
+
+}
+p {
+  font-size: 14px;
+}
+small,del {
+  font-size: 12px;
+}
+h2 {
+  font-size: 20px;
+}
+h3 {
+  font-size: 18px!important;
+}
+h4 {
+  font-size: 16px!important;
+}
+h2,h3,h4,h5,strong {
+  font-weight: 500;
+}
+
+table {
+  width: 100%!important;
+}
+
+/*
+* 重置weui样式
+ */
+.weui-agree {
+  font-size: 14px;
+}
+.weui-btn_plain-primary:not(.weui-btn_plain-disabled):active {
+  color: $primary-color;
+  border-color: $primary-color;
+  opacity: .6;
+}
+.weui-btn,
+.btn {
+  transition: all .3s;
+}
+
+// tab
+.weui-navbar {
+  background-color: $body-bg;
+}
+.weui-navbar__item,
+.weui-navbar {
+  &:after {border: 0}
+}
+
+.weui-navbar__item {
+  position: relative;
+  color: $gray;
+  &.weui-bar__item--on {
+    background-color: transparent;
+    color: $black;
+    &:before{position: absolute;}
+  }
+  &:before {
+    position: static;
+    content: '';
+    width: 20px;
+    height: 2px;
+    background: #ffb506;
+    left: calc(50% - 10px);
+    bottom: 10px;
+  }
+}
+// 九宫格重置
+.weui-grid,
+.weui-grids {
+  &:before,
+  &:after {
+    border: 0;
+  }
+}
+
+
+// 小按钮
+.weui-btn.weui-btn_mini.weui-btn_plain-primary {
+  padding: 0;
+  margin: 0;
+  height: 0.7rem;
+  line-height: 0.7rem;
+  border-radius: 0.8rem;
+  width: 1.8rem;
+  font-size: 12px
+}
+
+.weui-navbar+.weui-tab__bd {
+  padding-top: 0;
+}
+.weui-navbar {
+  position: sticky;
+}
+.weui-tab {
+  height: auto;
+}
+// 底部导航
+.weui-tabbar {
+ position: fixed;
+ background: $white;
+ height: 55px;
+ max-width: $max-w;
+ -webkit-transform: translateZ(0);
+ &:before {border-color: #eee}
+
+ .weui-tabbar__item {
+   padding-top: 0.133333rem;
+
+   &.active p{color: $primary-color;}
+ }
+
+
+}
+
+i.icon-more {
+  color: $black;
+}
+.btn-group {
+  padding: 0.433333rem;
+  padding-bottom: 0.133333rem;
+  margin-top: 0.266667rem;
+  padding-right: 0;
+  text-align: right;
+  font-size: 16px;
+  a {
+    cursor: pointer;
+  }
+  a.btn {
+    background: $primary-color;
+    border: 0;
+   @include u-border($primary-color);
+    color: #fff;
+    display: inline-block;
+    text-align: center;
+    &:hover,
+    &:active {
+      background: darken($primary-color, 5%);
+    }
+    margin-left: 0.133333rem;
+  }
+a.border-btn {
+    background: transparent;
+    color: #fff;
+    display: inline-block;
+    text-align: center;
+    color: $black;
+    @include u-border(#000);
+    
+  }
+}
+
+a.border-btn2 {
+  @extend a.border-btn;
+  color: #aaa!important;
+  &:before {border:0!important}
+}
+
+// 单选框
+.weui-cells_radio {
+  &:after,
+  &:before {
+    border: 0;
+  }
+
+  .weui-cell {
+    padding: 2px 15px;
+    padding-left: 0;
+  }
+
+  // 单选框颜色
+   .weui-check:checked+.weui-icon-checked:before {
+    color: $black;
+  }
+}
+.weui-check__label:active {
+  background-color: transparent;
+}
+.weui-cells .weui-cells_radio{
+  display: flex;
+  >label.weui-cell {
+      padding-right: 0.133333rem!important;
+  }
+  .weui-cell__hd {
+    margin-right: 0.133333rem;
+  }
+  .weui-icon-checked {
+    color: #fff !important;
+    border: 1px solid #000;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+
+  }
+  .weui-icon-checked:before{
+    color: #fff !important;
+      background: #000;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 2px;
+  }
+}
+// 去边框
+.weui-cells,
+.weui-cell {
+  font-size: 16px;
+  &:before,
+  &:after {
+    border:0;
+  }
+}
+
+
+// 复选框
+.weui-agree__checkbox:checked:before {
+  color: $black;
+}
+.weui-agree__checkbox {
+  border-radius: 0;
+}
+.weui-picker-modal .weui-cells_radio .weui-cell {
+  padding: 10px 15px;
+}
+
+
+
+// 大按钮
+.weui-btn:after {
+  border: 0;
+}
+button.weui-btn_primary,
+a.weui-btn_primary {
+  background-color: $primary-color;
+  border-color: transparent;
+  border-radius: 0;
+  margin: 0 .4rem;
+  margin-top: 0.666667rem;
+  @include f-height(45px);
+  &:hover,
+  &:active {
+    background-color: darken($primary-color, 5%)!important;
+  }
+}
+form .weui-btn {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+// 主色
+.weui-btn_primary,
+ {
+  background-color: $primary-color;
+}
+.weui-btn_disabled.weui-btn_primary,
+.weui-btn.weui-btn_disabled,
+.weui-btn.weui-btn_loading {
+  
+  &,&:active,&:hover {background-color: #ffd46e!important;}
+}
+
+// 小按钮
+
+.m-md-btn {
+  margin-right: 0!important;
+  margin-left: 0!important;
+    margin-top: 0.133333rem!important;
+}
+
+// 黑色按钮
+.s-black-bg.weui-btn {
+  &:hover,
+  &:active {
+    background: darken($black, 5%)!important
+  }
+}
+
+// 灰色不可用按钮
+.weui-btn.btn-disable {
+  background-color: $gray!important;
+  &:hover,
+  &:active {
+    background-color: darken($gray, 5%)!important;
+  }
+}
+
+// 全屏btn
+a.btn-lg {
+  margin: 0;
+}
+
+.weui-btn,
+.btn {
+  &:hover,
+  &:active {
+    opacity: .9;
+  }
+}
+
+
+// panel
+.weui-media-box {
+
+  &___appmsg {
+      align-items: flex-start;
+  }
+  &__desc {
+    padding-top: 0.533333rem;
+    font-size: 16px;
+
+    small {
+      color: $black;
+    }
+  }
+
+  &__hd {
+    width: 100px!important;
+    height: 100px!important;
+  }
+  &__title {
+      white-space: initial;
+  }
+
+}
+.weui-panel__hd {
+  color: $black;
+  font-size: 16px;
+  &:after {
+    left: 0;
+  }
+}
+
+
+.weui-panel .weui-panel__bd:last-child >a{
+  border: 0;
+}
+
+.weui-cell__bd p{ font-size: 16px; }
+// 默认input的文字提示颜色
+input[type="text"],
+input[type="number"],
+textarea {
+  @include inputDefaultColor();
+}
+.weui-cell_access .weui-cell__ft:after {
+  border-width: 1px 1px 0 0;
+  height: 8px;
+  width: 8px;
+}
+.weui-cell_access:active {
+  border: 0;
+  outline: none;
+}
+
+.weui-media-box__hd {
+  @include f-xy-center();
+}
+
+// weui弹窗提示
+.weui-toast {
+  width: 10em;
+  min-height: auto;
+  padding: 0 10px 10px;
+
+}
+.weui-toast--text {
+  padding: 8px 16px;
+  width: auto;
+}
+
+
+
+// 下拉刷新
+.weui-pull-to-refresh__layer {
+  z-index: 1;
+}
+
+
+// 日历组件
+i.icon.icon-next, i.icon.icon-prev {
+  width: .5rem;
+  height: .5rem;
+}
+.picker-calendar-month-picker a.icon-only,
+ .picker-calendar-year-picker a.icon-only {
+  line-height: 50px;
+ }
+ .weui-picker-calendar {
+  height: 10rem;
+ }
+ .picker-calendar-row {
+  height: calc(100% / 8);
+ }
+
+  // 安卓日期组件弹出和原生键盘重突
+ .weui-picker-modal {
+  position: fixed;
+ }
+
+ .weui-picker {
+   font-size: 16px;
+ }
+.weui-mask.weui-animate-fade-in {
+  opacity: 1;
+  visibility: visible;
+}
+/*
+* end 重置weui样式
+ */
+
+img:not([src]) {
+   visibility: hidden;
+}
+
+
+// 动画重置
+.animated {
+  animation-duration: .3s;
+}
+
+
+// swiper重置
+.swiper-pagination-bullet-active {
+  background: $primary-color!important;
+}
+.swiper-pagination-bullet {
+  width: 16px;
+  height: 2px;
+  border-radius: 0;
+  background: rgba(255,255,255,0.4);
+}
+.swiper-container-horizontal>.swiper-pagination-bullets,
+ .swiper-pagination-custom, .swiper-pagination-fraction {
+    bottom: 5px;
+ }
+
+
+
+
+#ascrail2000 {
+  right: 0!important;
+  left: auto!important;
+}
+/*
+* end 重置样式
+* ---------------------------
+ */

@@ -346,6 +346,313 @@ swiper-item image.data-v-928c635e {
   min-width: 110rpx;
   color: #aaa;
 }
+.active.data-v-928c635e,
+.active_detail.data-v-928c635e {
+  font-size: 28rpx;
+}
+.active .active_bg.data-v-928c635e,
+.active_detail .active_bg.data-v-928c635e {
+  width: 100%;
+  height: 400rpx;
+}
+.active .active_banner.data-v-928c635e {
+  text-align: center;
+  overflow: hidden;
+}
+.active .active_goods.data-v-928c635e {
+  width: 100%;
+  padding-bottom: 100rpx;
+}
+.active .active_goods .goods.data-v-928c635e {
+  margin: 40rpx;
+  box-shadow: 0 10rpx 36rpx #ddd;
+  background: #fff;
+  border-radius: 20rpx;
+  position: relative;
+}
+.active .active_goods .goods .collage_tag.data-v-928c635e {
+  margin-left: 40rpx;
+  padding: 6rpx;
+  color: white;
+  background: #ff0204;
+  border-radius: 0 0 16rpx 16rpx;
+  box-shadow: 0 6rpx 10rpx #ddd;
+}
+.active .active_goods .goods .active_img.data-v-928c635e {
+  height: 400rpx;
+}
+.active .active_goods .goods .active_img .good_img.data-v-928c635e {
+  width: 90%;
+  height: 100%;
+  margin: 0 5%;
+}
+.active .active_goods .goods .active_time.data-v-928c635e {
+  background: #feedd6;
+  text-align: center;
+  height: 60rpx;
+  line-height: 60rpx;
+}
+.active .active_goods .goods .active_good_detail.data-v-928c635e {
+  display: flex;
+  margin: 20rpx;
+  padding-bottom: 20rpx;
+}
+.active .active_goods .goods .active_good_detail .good_detail.data-v-928c635e {
+  width: 70%;
+}
+.active .active_goods .goods .active_good_detail .good_detail .title.data-v-928c635e {
+  margin: 10rpx 0;
+}
+.active .active_goods .goods .active_good_detail .good_detail .red.data-v-928c635e {
+  display: flex;
+  color: #ff0204;
+  animation: twinkle-data-v-928c635e 1.5s infinite;
+}
+.active .active_goods .goods .active_good_detail .good_detail .tag.data-v-928c635e {
+  background: #ff0204;
+  color: white;
+  margin: 6rpx 10rpx;
+  padding: 0 10rpx;
+  font-size: 20rpx;
+  line-height: 32rpx;
+  animation: twinkle1-data-v-928c635e 1.5s infinite;
+  border-radius: 20rpx;
+}
+.active .active_goods .goods .active_good_detail .good_detail .market_price.data-v-928c635e {
+  text-decoration: line-through;
+}
+.active .active_goods .goods .active_good_detail .active-btn.data-v-928c635e {
+  width: auto;
+  text-align: center;
+  line-height: 50rpx;
+  margin: auto;
+  padding: 0 30rpx;
+  color: white;
+  background: linear-gradient(90deg, #ff0204 60%, #ffb3b3);
+  border-radius: 25rpx;
+}
+.active .active_null.data-v-928c635e {
+  margin: 100rpx 0;
+  text-align: center;
+}
+@keyframes twinkle-data-v-928c635e {
+0% {
+    color: #ff0204;
+    opacity: 1;
+}
+50% {
+    color: #8b0000;
+    opacity: .7;
+}
+100% {
+    color: #ff0204;
+    opacity: 1;
+}
+}
+.active_end.data-v-928c635e {
+  text-align: center;
+  font-size: 32rpx;
+  margin: 80rpx 0;
+}
+.active_end ._img.data-v-928c635e {
+  width: 70%;
+}
+.active_detail.data-v-928c635e,
+.bargain_help.data-v-928c635e {
+}
+.active_detail .active_name.data-v-928c635e,
+.bargain_help .active_name.data-v-928c635e {
+  text-align: center;
+  padding: 20rpx 0 0;
+}
+.active_detail .active_img.data-v-928c635e,
+.bargain_help .active_img.data-v-928c635e {
+  height: 400rpx;
+}
+.active_detail .active_time.data-v-928c635e,
+.active_detail .invite_bargain.data-v-928c635e,
+.bargain_help .active_time.data-v-928c635e,
+.bargain_help .invite_bargain.data-v-928c635e {
+  background: #feedd6;
+  text-align: center;
+  width: 90%;
+  height: 60rpx;
+  line-height: 60rpx;
+  margin: 10rpx auto;
+  font-size: 24rpx;
+}
+.active_detail .active_time .active_price.data-v-928c635e,
+.active_detail .invite_bargain .active_price.data-v-928c635e,
+.bargain_help .active_time .active_price.data-v-928c635e,
+.bargain_help .invite_bargain .active_price.data-v-928c635e {
+  float: left;
+  margin-left: 10rpx;
+}
+.active_detail .active_time .countdown.data-v-928c635e,
+.active_detail .active_time .active_timeout.data-v-928c635e,
+.active_detail .active_time .active_not_begin.data-v-928c635e,
+.active_detail .invite_bargain .countdown.data-v-928c635e,
+.active_detail .invite_bargain .active_timeout.data-v-928c635e,
+.active_detail .invite_bargain .active_not_begin.data-v-928c635e,
+.bargain_help .active_time .countdown.data-v-928c635e,
+.bargain_help .active_time .active_timeout.data-v-928c635e,
+.bargain_help .active_time .active_not_begin.data-v-928c635e,
+.bargain_help .invite_bargain .countdown.data-v-928c635e,
+.bargain_help .invite_bargain .active_timeout.data-v-928c635e,
+.bargain_help .invite_bargain .active_not_begin.data-v-928c635e {
+  float: right;
+  color: #aaa;
+  margin-right: 10rpx;
+}
+.active_detail .slide.data-v-928c635e,
+.bargain_help .slide.data-v-928c635e {
+  height: 100%;
+}
+.active_detail .slide .swiper.data-v-928c635e,
+.bargain_help .slide .swiper.data-v-928c635e {
+  height: 100%;
+}
+.active_detail .slide .swiper .swiper-item.data-v-928c635e,
+.bargain_help .slide .swiper .swiper-item.data-v-928c635e {
+  height: 100%;
+}
+.active_detail .slide .swiper .swiper-item .slide-url.data-v-928c635e,
+.bargain_help .slide .swiper .swiper-item .slide-url.data-v-928c635e {
+  height: 100%;
+}
+.active_detail .slide .swiper .swiper-item .slide-url .slide-image.data-v-928c635e,
+.bargain_help .slide .swiper .swiper-item .slide-url .slide-image.data-v-928c635e {
+  width: 90%;
+  height: 90%;
+  margin: 5%;
+  box-shadow: 0 10rpx 40rpx #aaa;
+}
+.active_detail .good_detail.data-v-928c635e,
+.bargain_help .good_detail.data-v-928c635e {
+  width: 90%;
+  margin: 20rpx 5%;
+  text-align: center;
+  background: white;
+  padding: 10rpx 0;
+  box-shadow: 0 0 20rpx #eee;
+}
+.active_detail .good_detail .active_price.data-v-928c635e,
+.bargain_help .good_detail .active_price.data-v-928c635e {
+  font-size: 32rpx !important;
+}
+.active_detail .good_detail .good_name.data-v-928c635e,
+.bargain_help .good_detail .good_name.data-v-928c635e {
+  font-size: 32rpx;
+  margin: 4rpx 0;
+}
+.active_detail .good_detail .price-icon.data-v-928c635e,
+.bargain_help .good_detail .price-icon.data-v-928c635e {
+  display: inline-flex;
+}
+.active_detail .good_detail .cost_price .market_price.data-v-928c635e,
+.bargain_help .good_detail .cost_price .market_price.data-v-928c635e {
+  text-decoration: line-through;
+}
+.active_detail .good_detail .tag.data-v-928c635e,
+.bargain_help .good_detail .tag.data-v-928c635e {
+  width: auto;
+  display: inline-flex;
+  padding: 0 20rpx;
+  margin: 16rpx auto;
+  border-radius: 20rpx;
+  color: white;
+  background-color: #ff0204;
+  font-size: 24rpx;
+  animation: twinkle1-data-v-928c635e 1.5s infinite;
+}
+.active_detail .good_detail .red.data-v-928c635e,
+.bargain_help .good_detail .red.data-v-928c635e {
+  color: #ff0204;
+  text-align: center;
+  display: inline-flex;
+  font-size: 28rpx;
+}
+.active_detail .parameter.data-v-928c635e,
+.bargain_help .parameter.data-v-928c635e {
+  width: 94%;
+  margin: 20rpx 3%;
+}
+.active_detail .iconfont.data-v-928c635e,
+.bargain_help .iconfont.data-v-928c635e {
+  float: right;
+  padding-top: 6rpx;
+}
+.active_detail .switch-card.data-v-928c635e,
+.bargain_help .switch-card.data-v-928c635e {
+  padding: 20rpx;
+}
+.active_detail .switch-card-list-item.data-v-928c635e,
+.bargain_help .switch-card-list-item.data-v-928c635e {
+  width: 100%;
+  display: inline-flex;
+  border-bottom: 2rpx solid #ddd;
+  line-height: 60rpx;
+}
+.active_detail .gray.data-v-928c635e,
+.bargain_help .gray.data-v-928c635e {
+  width: 25%;
+  color: #aaa;
+}
+.active_detail .detail_estimate.data-v-928c635e,
+.bargain_help .detail_estimate.data-v-928c635e {
+  width: 100%;
+}
+.active_detail .van_tab.data-v-928c635e,
+.bargain_help .van_tab.data-v-928c635e {
+  padding-bottom: 100rpx;
+}
+.active_detail .detail.data-v-928c635e,
+.bargain_help .detail.data-v-928c635e {
+  padding: 10rpx 20rpx 100rpx;
+}
+.active_detail .estimate.data-v-928c635e,
+.bargain_help .estimate.data-v-928c635e {
+  text-align: center;
+  padding: 10rpx 20rpx 100rpx;
+}
+.active_detail .null_img.data-v-928c635e,
+.bargain_help .null_img.data-v-928c635e {
+  width: 80%;
+  height: 600rpx;
+  margin: auto;
+}
+.active_detail .bottom-btn.data-v-928c635e,
+.bargain_help .bottom-btn.data-v-928c635e {
+  text-align: center;
+  color: white;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  display: inline-flex;
+  z-index: 2;
+}
+@keyframes twinkle1-data-v-928c635e {
+0% {
+    background: #ff0204;
+    opacity: 1;
+}
+50% {
+    background: white;
+    opacity: .7;
+}
+100% {
+    background: #ff0204;
+    opacity: 1;
+}
+}
+.instruction.data-v-928c635e {
+  margin: 20rpx;
+}
+.instruction .null_instruction.data-v-928c635e {
+  text-align: center;
+  font-size: 32rpx;
+  margin: 40rpx 0;
+}
 .coupon-item.data-v-928c635e {
   background: linear-gradient(90deg, #ff0204, #ffb3b3);
   height: 200rpx;

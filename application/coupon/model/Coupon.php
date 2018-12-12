@@ -29,6 +29,10 @@ class Coupon extends Base
             
             S($key, $info, 86400);
         }
+        if (!empty($info)){
+        	$info['background_img']=empty($info['background'])?'':get_cover_url($info['background']);
+        }
+        
         // dump($info);exit;
         return $info;
     }

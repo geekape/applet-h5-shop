@@ -45,7 +45,11 @@
           <img class="u-goods__img" :src="item.cover"/>
 
           <div class="goods-line__right">
-            <p class="u-goods__tt overflow-dot">{{item.title}}</p>
+            <p class="u-goods__tt overflow-dot">
+              <span class="s-red" v-if="datas.event_type == 1">【拼团】</span>
+              <span class="s-red" v-else-if="datas.event_type == 2">【秒杀】</span>
+              <span class="s-red" v-else-if="datas.event_type == 3">【砍价】</span>
+              {{item.title}}</p>
             <div class="goods-line__ft">
               <div class="goods-line__price">
                 <span>¥{{item.sale_price}}</span>
@@ -104,7 +108,7 @@
     <!-- 固定底部栏 -->
     <div class="bottom-bar g-flex">
       <div class="g-flex__item g-flex">
-        <p>实付款：<p class="s-red">¥{{totalPrice}}</p></p>
+        <p>实付款：<p class="s-red">¥{{totalPrices}}</p></p>
         <p class="f-font-sm">含运费</p>
       </div>
 
@@ -174,6 +178,7 @@ export default {
       totalPrice: 0,
       isTcp: true,
       tcp: '',
+      activeOrderParams: {},
       isTcpPopup: false,
       isPopup: false,
       couponNum: 0,
@@ -196,7 +201,27 @@ export default {
     wxParse
   },
 
-  computed: {},
+  computed: {
+    totalPrices () {
+      console.log(this.goodsList)
+      let totalMoeny = 0
+      this.goodsList.forEach((item,index) => {
+    
+        totalMoeny = parseFloat(totalMoeny) + (parseFloat(item.sale_price) * parseInt(item.num)) + parseFloat(item.express)
+
+        if(item.type == 2) {
+          // 选中门店
+          console.log('选中门店')
+          totalMoeny = (parseFloat(totalMoeny) - parseFloat(item.express)).toFixed(2)
+        } else {
+          if(item.type != 1) totalMoeny = (parseFloat(totalMoeny) + parseFloat(item.express)).toFixed(2)
+        }
+      })
+      console.log('我是计算属性')
+      this.totalPrice = totalMoeny
+      return totalMoeny
+    }
+  },
 
   methods: {
     // 查看协议
@@ -330,11 +355,6 @@ export default {
 
       if (lists[idx].type != selfChecked) {
         lists[idx].type = selfChecked;
-        if (lists[idx].type == 2) {
-          this.totalPrice -= parseFloat(lists[idx].express); // 减掉运费
-        } else {
-          this.totalPrice += parseFloat(lists[idx].express); // 减掉运费
-        }
       }
       // 遍历商品
       let arr = [];
@@ -363,6 +383,13 @@ export default {
       for (let [key, value] of entries(data)) {
         value.forEach((item, idx) => {
           item.arrowDir = "top";
+
+           // 从活动中进来，改变价格
+          if(_this.activeOrderParams) {
+            let price = JSON.parse(_this.activeOrderParams).activePrice
+            item.sale_price = price
+          }
+
           if (key != 3) {
             item.type = key;
           } else {
@@ -382,33 +409,11 @@ export default {
 
       this.goodsList = arr;
     },
-
-    // 返回计算后的价格
-    countPrice(num1, num2) {
-      let arr = [];
-      let arr2 = [];
-      let price = 0;
-      let express = 0;
-      for (let i in num1) {
-        arr.push(num1[i]);
-      }
-      arr.forEach((item, index) => {
-        price += parseFloat(item);
-      });
-
-      for (let i in num2) {
-        arr2.push(num2[i]);
-      }
-      arr2.forEach((item, index) => {
-        express += parseFloat(item);
-      });
-
-      return price + express;
-    },
     sendRequest(opt) {
       const _this = this;
       post("shop/api/confirm_order", opt)
         .then(res => {
+          console.log('执行了请求')
           // 有商品错误
           if (res.code == 0) {
             wx.reLaunch({ url: "../msg/main?msg=" + res.msg + "&type=warn" });
@@ -416,10 +421,10 @@ export default {
           _this.datas = res;
           _this.address = _this.datas.address;
           _this.couponNum = parseInt(_this.datas.coupon_num);
-          _this.totalPrice = _this.countPrice(
-            _this.datas.total_price,
-            _this.datas.total_express
-          );
+          // _this.totalPrice = _this.countPrice(
+          //   _this.datas.total_price,
+          //   _this.datas.total_express
+          // );
           _this.shopListArr(_this.datas.lists);
         })
         .catch(err => {
@@ -429,24 +434,22 @@ export default {
 
     getData(type) {
       const _this = this;
-
       if (type == 1) {
         // 购物车进来的
-        let opt = wx.getStorageSync("cartsOpt");
-        this.goodsId = opt.goodsIds;
+        this.goodsId = this.$root.$mp.query.goodsIds;
         let opts = {
-          goods_ids: opt.goodsIds,
-          PHPSESSID: wx.getStorageSync("PHPSESSID"),
-          buyCount: opt.count,
-          cart_ids: opt.cartIds
+          goods_ids: this.$root.$mp.query.goodsIds,
+          buyCount: this.$root.$mp.query.count,
+          cart_ids: this.$root.$mp.query.cartIds,
+          PHPSESSID: wx.getStorageSync('PHPSESSID')
         };
         _this.sendRequest(opts);
-      } else {
+      }  else {
         let id = this.$root.$mp.query.goodsId;
         this.goodsId = id;
         let opts = {
           goods_id: id,
-          PHPSESSID: wx.getStorageSync("PHPSESSID")
+          PHPSESSID: wx.getStorageSync('PHPSESSID')
         };
         _this.sendRequest(opts);
       }
@@ -455,7 +458,15 @@ export default {
   onLoad() {
     Object.assign(this, this.$options.data());
     let type = this.$root.$mp.query.type || 0;
-    this.getData(type);
+     this.activeOrderParams = this.$store.state.activeOrderParams
+    if(this.activeOrderParams) {
+      let opt = JSON.parse(this.$store.state.activeOrderParams)
+      // 活动
+      this.sendRequest(opt);
+    } else {
+      this.getData(type);
+    }
+    
   },
 
   onShow() {

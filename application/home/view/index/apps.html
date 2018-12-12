@@ -41,9 +41,9 @@
                     <h4 class="card-title">{$vo.title}</h4>
                     <p>{$vo.intro|raw}</p>
                     <div class="price">
-                        {empty name="vo.sale_price"}<span>免费下载</span>
+                        {if condition="$vo['sale_price']=='0.00'"}<span>免费</span>
                         {else /}<span>{$vo.sale_price}元</span>
-                        {if condition="$vo['market_price'] > $vo['sale_price'] "}<del>{$vo.market_price}元</del>{/if}{/empty}
+                        {if condition="$vo['market_price'] > $vo['sale_price'] "}<del>{$vo.market_price}元</del>{/if}{/if}
                     </div>
                     <a class="btn" href="{:U('apps_detail',['id'=>$vo['id']])}">查看详情</a>
                 </div>

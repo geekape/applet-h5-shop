@@ -1,6 +1,6 @@
 {extend name="publics/base" /}
 
-<block name="body">
+{block name="body"}
 	<script type="text/javascript" src="__STATIC__/uploadify/jquery.uploadify.min.js"></script>
 	<div class="main-title cf">
 		<h2>应用配置 [ {$data.title} ]</h2>
@@ -273,9 +273,9 @@
 		<button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button>
 		<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
 	</form>
-</block>
+{/block}
 
-<block name="script">
+{block name="script"}
 <script type="text/javascript" charset="utf-8">
 	if($('ul.tab-nav').length){
 		//当有tab时，返回按钮不显示
@@ -286,4 +286,4 @@
 		showTab();
 	})
 </script>
-</block>
+{/block}

@@ -1,0 +1,38 @@
+{include file="common@base/mobile_head"/}	
+<link href="{:CUSTOM_TEMPLATE_PATH}_detail/V4/detail.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+{if condition="$info['id'] eq 82"}
+<style type="text/css">
+body{ background:#010e1f url(__STATIC__/football/bg1.jpg) no-repeat center bottom; background-size:100% auto;}
+.detail{ margin:20px; background:RGBA(255,255,255,.6); border-radius:10px;}
+.detail .content{ font-size:13px;}
+.detail_back_btn{ display:block; margin:0 auto 20px; width:150px; text-align:center; line-height:44px; height:44px; font-size:16px; background:#09C; border-radius:22px; color:#fff;}
+</style>
+{/if}
+<body id="weisite">
+<div class="container">
+	<div class="detail top_line">
+    	<h6 class="title">{$info.title}</h6>
+        <section class="content">
+                {notempty name="info.cover"}<p><img src="{$info.cover|get_cover_url}"/></p>{/notempty}
+                {$info.content|raw|htmlspecialchars_decode}
+        </section>
+        <a class="detail_back_btn" href="javascript:;" onClick="window.history.back()">返回</a>
+    </div>
+</div>
+<!-- 底部导航 -->
+{$footer_html|raw}
+<!-- 统计代码 -->
+{notempty name="config.code"}
+<p class="hide bdtongji">
+{$config.code}
+</p>
+{else/}
+<p class="hide bdtongji">
+{$tongji_code|raw}
+</p>
+{/notempty}
+</body>
+<script type="text/javascript">
+$('.container').css('min-height',$(window).height());
+</script>
+</html>

@@ -1,5 +1,7 @@
 <?php
-set_time_limit(0);
+if(function_exists('set_time_limit')){
+	set_time_limit(0);
+}
 if (isset($_GET ['dir'])) { // 设置文件目录
     $basedir = $_GET ['dir'];
 } else {

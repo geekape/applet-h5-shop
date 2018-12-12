@@ -2,8 +2,8 @@
   <div class="cart">
     <i class="iconfont icon-shanchu" @click="delGoods" v-show="carts.length>0"></i>
     <div class="cart-goods" v-if="carts.length>0">
-      <a :href="'../goods_detail/main?id=' + item.goods.id" hover-class="none" class="cart-goods__item g-flex" v-for="(item,index) in carts" :key="item.id">
-        <van-checkbox catchtap="" :value="item.isCheck" @change="isCheckSingle" :data-index="index"></van-checkbox>
+      <div hover-class="none" class="cart-goods__item g-flex" v-for="(item,index) in carts" :key="item.id">
+        <van-checkbox :value="item.isCheck" @change="isCheckSingle" :data-index="index"></van-checkbox>
         <img class="cart-goods__img u-goods__img" :src="item.goods.cover" />
         <div class="cart-goods__info">
           <p class="u-goods__tt overflow-dot">{{item.goods_name}}</p>
@@ -11,15 +11,15 @@
           <div class="g-flex cart-goods__ft">
             <div class="cart-goods__price">¥ {{item.price}}</div>
             <div class="cart-goods__count">
-              <van-stepper catchtap="" :value="item.num" integer @change="toggleNum" :data-index="index" />
+              <van-stepper :value="item.num" integer @change="toggleNum" :data-index="index" />
             </div>
           </div>
         </div>
-      </a>
+      </div>
 
     </div> 
     <div class="hint-page" v-else>
-      <img src="../../../../static/img/null.png" alt="">
+      <img src="https://leyao.tv/yi/images/null.png" alt="">
       <p class="hint-page__text">购物车空空如也</p>
       <a href="../index/main" open-type="switchTab" class="u-button u-button--primary">随便逛逛</a>
     </div>
@@ -154,6 +154,10 @@ export default {
             }).then(res => {
               that.carts = left;
             });
+            that.totalPrice = 0;
+            that.totalCount = 0;
+            that.freight = 0;
+            
             let delLen = cartIds.split(",").length;
             let num = that.$store.state.cartShopNum;
             let lastCartNum = num - delLen;
@@ -189,14 +193,8 @@ export default {
       if (checkedId == "") {
         Toast("请选择购买的商品");
       } else {
-        let opt = {
-          goodsIds: checkedId,
-          cartIds: cartId,
-          count: goodsCount
-        };
-        wx.setStorageSync("cartsOpt", opt);
         wx.navigateTo({
-          url: "../confirm_order/main?type=1"
+          url: `../confirm_order/main?type=1&goodsIds=${checkedId}&cartIds=${cartId}&count=${goodsCount}`
         });
       }
     },
@@ -225,11 +223,10 @@ export default {
   },
   onShow() {
     this.getData();
-    this.totalPrice = 0;
-    this.totalCount = 0;
   },
   onLoad () {
-    this.getData();
+    // 清空活动信息
+    this.$store.commit("saveData", {key: "activeOrderParams",value: "" });
   }
 };
 </script>

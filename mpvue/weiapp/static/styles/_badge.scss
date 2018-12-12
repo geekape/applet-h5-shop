@@ -1,0 +1,22 @@
+// 徽章and标签
+
+.u-badge {
+    font-size: 12px;
+    background: #ff0204;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    // 超小
+    &--xs {padding: 0 5px;}
+
+    // 小
+    &--sm {padding: 2px 5px;}
+
+    // 中
+    &--md {padding: 1px 5px;}
+
+    // 大
+    &--lg {padding: 1px 5px;}
+}

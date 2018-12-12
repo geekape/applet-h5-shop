@@ -1,10 +1,10 @@
 <script>
 const common = require('@/utils/common')
+import {host} from '@/utils'
 export default {
 
   data () {
     return {
-      url: 'https://leyao.tv/yi/public/index.php?pbid=72&s=/',
       PHPSESSID: '',
       common: common,
     }
@@ -16,7 +16,7 @@ export default {
       wx.setStorageSync("from_uid", from_uid)
     }
 
-    common.initApp(this.url + 'weiapp/Api/', true)
+    common.initApp(host + 'weiapp/Api/', true)
   }
 
 }
@@ -32,8 +32,5 @@ export default {
   -webkit-transition: width 2s;
   -o-transition: width 2s;
 }
-
-
-
 
 </style>

@@ -1,9 +1,6 @@
 <template>
   <div class="goods-detail" v-if="goods">
-    <!-- <div class="navbar">
-      <p class="navbar-icon_left iconfont">&#xe697;</p>
-      <p class="navbar-title overflow-dot_row">标题</p>
-    </div> -->
+
 
     <!-- 商品图 -->
     <div class="slide">
@@ -222,7 +219,9 @@ export default {
 
   onLoad () {
     Object.assign(this, this.$options.data());
-
+    // 清空活动信息
+    this.$store.commit("saveData", {key: "activeOrderParams",value: "" });
+    
     const _this = this
     const id = this.$root.$mp.query.id
     post('shop/api/goods_detail', {

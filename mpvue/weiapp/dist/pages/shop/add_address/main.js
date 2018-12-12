@@ -1,15 +1,15 @@
 require("../../../common/manifest.js");
 require("../../../common/vendor.js");
-global.webpackJsonp([3],{
+global.webpackJsonp([8],{
 
-/***/ 113:
+/***/ 267:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index__ = __webpack_require__(114);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index__ = __webpack_require__(268);
 
 
 
@@ -18,17 +18,17 @@ app.$mount();
 
 /***/ }),
 
-/***/ 114:
+/***/ 268:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_1_1_2_mpvue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(117);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_1_1_2_mpvue_loader_lib_template_compiler_index_id_data_v_31071161_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_1_1_2_mpvue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(126);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_1_1_2_mpvue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(271);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_1_1_2_mpvue_loader_lib_template_compiler_index_id_data_v_31071161_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_1_1_2_mpvue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(272);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(115)
-  __webpack_require__(116)
+  __webpack_require__(269)
+  __webpack_require__(270)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -73,27 +73,28 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 115:
+/***/ 269:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 116:
+/***/ 270:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 117:
+/***/ 271:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__static_vant_toast_toast__ = __webpack_require__(13);
 
 //
 //
@@ -124,9 +125,6 @@ if (false) {(function () {
 //
 
 
-
-var _require = __webpack_require__(125),
-    $Toast = _require.$Toast;
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   data: function data() {
@@ -164,10 +162,7 @@ var _require = __webpack_require__(125),
 
       var _this = this;
       if (this.name == '' || this.moblie == '' || this.addressArea == '' || this.addressInfo == '') {
-        $Toast({
-          content: '还有表单没有填',
-          type: 'error'
-        });
+        Object(__WEBPACK_IMPORTED_MODULE_2__static_vant_toast_toast__["a" /* default */])('还有表单没有填');
         return falseaddress_detail;
       }
 
@@ -184,10 +179,7 @@ var _require = __webpack_require__(125),
         is_choose: 1
       };
       Object(__WEBPACK_IMPORTED_MODULE_1__utils__["g" /* post */])("/shop/api/add_address", obj).then(function (res) {
-        $Toast({
-          content: '保存地址成功',
-          type: 'success'
-        });
+        Object(__WEBPACK_IMPORTED_MODULE_2__static_vant_toast_toast__["a" /* default */])('保存地址成功');
         // 从订单页进来的
         if (_this2.type == 1) {
           wx.navigateBack({
@@ -219,50 +211,7 @@ var _require = __webpack_require__(125),
 
 /***/ }),
 
-/***/ 125:
-/***/ (function(module, exports) {
-
-function getCtx (selector) {
-    const pages = getCurrentPages();
-    const ctx = pages[pages.length - 1];
-
-    const componentCtx = ctx.selectComponent(selector);
-
-    if (!componentCtx) {
-        console.error('无法找到对应的组件，请按文档说明使用组件');
-        return null;
-    }
-    return componentCtx;
-}
-
-function Toast(options) {
-    const { selector = '#toast' } = options;
-    const ctx = getCtx(selector);
-
-    ctx.handleShow(options);
-}
-
-Toast.hide = function (selector = '#toast') {
-    const ctx = getCtx(selector);
-
-    ctx.handleHide();
-};
-
-function Message(options) {
-    const { selector = '#message' } = options;
-    const ctx = getCtx(selector);
-
-    ctx.handleShow(options);
-}
-
-module.exports = {
-    $Toast: Toast,
-    $Message: Message
-};
-
-/***/ }),
-
-/***/ 126:
+/***/ 272:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -360,9 +309,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     on: {
       "click": _vm.saveAddress
     }
-  }, [_vm._v("保存")]), _vm._v(" "), _c('i-toast', {
+  }, [_vm._v("保存")]), _vm._v(" "), _c('van-toast', {
     attrs: {
-      "id": "toast",
+      "id": "van-toast",
       "mpcomid": '1'
     }
   })], 1)
@@ -380,5 +329,5 @@ if (false) {
 
 /***/ })
 
-},[113]);
+},[267]);
 //# sourceMappingURL=main.js.map

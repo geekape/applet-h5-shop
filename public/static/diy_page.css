@@ -1,0 +1,1107 @@
+@charset "utf-8";
+
+/* 
+	CSS diy css  argular样式
+  	@author jacy 
+  	mail:51daxigua@gmail.com 
+*/
+
+.goods_list {
+    min-height: 150px;
+}
+
+.default_div {
+    background: #39C;
+    height: 150px;
+    text-align: center;
+    line-height: 150px;
+    color: #fff
+}
+
+.shot_div img {
+    width: 100%;
+}
+
+
+/* richtext */
+
+.diy_richtext {
+    min-height: 100px;
+    padding: 10px;
+}
+
+
+/* 大图列表 */
+
+.big_list li {
+    margin: 10px;
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+.big_list li img {
+    width: 100%;
+    min-height: 200px;
+    display: block;
+}
+
+.big_list li .title {
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 5;
+    background: RGBA(0, 0, 0, .5);
+    color: #fff;
+    padding: 10px 10px;
+    font-size: 12px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.big_list li .btn {
+    position: absolute;
+    width: auto;
+    bottom: 7px;
+    right: 7px;
+    display: inline;
+    font-size: 12px;
+    background: #F60;
+    color: #fff;
+    padding: 2px 5px;
+    z-index: 10;
+}
+
+.big_list li a .price {
+    position: absolute;
+    bottom: 45px;
+    right: 10px;
+    z-index: 10;
+    font-size: 16px;
+    color: #F60
+}
+
+
+/* 普通样式 */
+
+.common_list li {
+    margin: 0 0 10px;
+}
+
+.common_list li a {
+    background: #fff;
+    display: block;
+    min-height: 70px;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 10px 10px 90px;
+    position: relative;
+    color: #333
+}
+
+.common_list li a img {
+    width: 70px;
+    height: 50px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.common_list li a .price {
+    font-size: 16px;
+    color: #F60
+}
+
+.common_list li a .btn {
+    position: absolute;
+    width: auto;
+    bottom: 10px;
+    right: 10px;
+    display: inline;
+    font-size: 12px;
+    background: #F60;
+    color: #fff;
+    padding: 2px 5px;
+}
+
+
+/* 小tu样式 */
+
+.small_list {
+    overflow: hidden;
+    zoom: 1;
+    margin-bottom: 5px;
+}
+
+.small_list li {
+    position: relative;
+    overflow: hidden;
+    float: left;
+    width: 50%;
+    margin-bottom: 10px;
+}
+
+.small_list li a {
+    display: block;
+    background: #fff;
+    color: #333;
+}
+
+
+.small_list li:nth-child(odd) a {
+    margin: 0 5px 0 10px;
+}
+
+.small_list li:nth-child(even) a {
+    margin: 0 10px 0 5px;
+}
+
+.small_list li img{ width:100%; display:block; height:150px;}
+
+.small_list li .info {
+    padding: 8px;
+}
+
+.small_list li .title {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 12px;
+}
+
+.small_list li .btn_p {
+    text-align: right;
+}
+
+.small_list li .btn {
+    display: inline;
+    width: auto;
+    font-size: 12px;
+    background: #F60;
+    color: #fff;
+    padding: 2px 5px;
+}
+
+.small_list li a .price {
+    0font-size: 16px;
+    color: #F60
+}
+
+
+/* 一大两小样式 */
+
+.list_1_2 {
+    overflow: hidden;
+    zoom: 1;
+    margin-bottom: 5px;
+}
+
+.list_1_2 li {
+    position: relative;
+    overflow: hidden;
+    float: left;
+    width: 50%;
+}
+
+.list_1_2 li:first-child {
+    width: 100%;
+}
+
+.list_1_2 li a {
+    margin: 5px;
+    display: block;
+    background: #fff;
+    color: #333;
+}
+
+.list_1_2 li img {
+    width: 100%;
+    display: block;
+    height: 150px;
+}
+
+.list_1_2 li:first-child img {
+    height: auto;
+}
+
+.list_1_2 li .info {
+    padding: 8px;
+    position: relative;
+}
+
+.list_1_2 li .title {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 12px;
+}
+
+.list_1_2 li .btn_p {
+    position: absolute;
+    right: .2em;
+    bottom: 1em;
+}
+
+.list_1_2 li .btn {
+    display: inline;
+    width: auto;
+    font-size: 12px;
+    background: #F60;
+    color: #fff;
+    padding: 2px 5px;
+}
+
+.list_1_2 li a .price {
+    0font-size: 16px;
+    color: #F60
+}
+
+
+/* banner  -部分重用 多图轮播 多图商品*/
+
+.banner,
+.mutipic_banner,
+.mutipic_goods {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.banner ul {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 10;
+    margin: 0;
+}
+
+.banner ul li {
+    float: left;
+    display: table-cell;
+    position: relative
+}
+
+.banner li a,
+.mutipic_banner li a,
+.mutipic_goods li a {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.banner li a img,
+.mutipic_banner li a img {
+    width: 100%;
+}
+
+.banner li .title,
+.mutipic_banner li .title {
+    background-color: RGBA(0, 0, 0, .5);
+    height: 30px;
+    color: #fff;
+    line-height: 30px;
+    padding-left: 10px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.identify {
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    width: 100%;
+    height: 30px;
+}
+
+.identify em {
+    display: inline-block;
+    margin: 10px 3px;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    border-radius: 6px;
+    margin-left: 5px;
+    width: 8px;
+    height: 8px;
+    background: #fff;
+}
+
+.identify em.cur {
+    background-color: #e32f0c
+}
+
+.identify span.pointer {
+    float: right;
+    margin-right: 10px;
+}
+
+
+/* 图片列表 */
+
+.one_colum_list {}
+
+.one_colum_list li {}
+
+.one_colum_list li a {
+    display: block;
+    position: relative;
+    min-height: auto;
+}
+
+.one_colum_list li img {
+    display: block;
+    width: 100%
+}
+
+.one_colum_list .title {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    padding: 6px 10px;
+    color: #fff;
+    background: RGBA(0, 0, 0, .6);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.two_colum_list {
+    overflow: hidden;
+    zoom: 1;
+}
+
+.two_colum_list li {
+    overflow: hidden;
+    float: left;
+    width: 50%;
+}
+
+.two_colum_list li a {
+    display: block;
+    background: #fff;
+    color: #333;
+    position: relative;
+}
+
+.two_colum_list li:nth-child(odd) a {}
+
+.two_colum_list li:nth-child(even) a {}
+
+.two_colum_list li img {
+    width: 100%;
+    display: block;
+    height: auto;
+}
+
+.two_colum_list .title {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    padding: 6px 10px;
+    color: #fff;
+    background: RGBA(0, 0, 0, .6);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 12px;
+}
+
+.three_colum_list {
+    overflow: hidden;
+    zoom: 1;
+}
+
+.three_colum_list li {
+    overflow: hidden;
+    float: left;
+    width: 33.3333%;
+}
+
+.three_colum_list li a {
+    display: block;
+    background: #fff;
+    color: #333;
+    position: relative;
+}
+
+.three_colum_list li img {
+    width: 100%;
+    display: block;
+    height: auto;
+}
+
+.three_colum_list .title {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    padding: 3px 5px;
+    color: #fff;
+    background: RGBA(0, 0, 0, .6);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 12px;
+}
+
+.four_colum_list {
+    overflow: hidden;
+    zoom: 1;
+}
+
+.four_colum_list li {
+    overflow: hidden;
+    float: left;
+    width: 25%;
+}
+
+.four_colum_list li a {
+    display: block;
+    background: #fff;
+    color: #333;
+    position: relative;
+}
+
+.four_colum_list li img {
+    width: 100%;
+    display: block;
+    height: auto;
+}
+
+.four_colum_list .title {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    padding: 2px 3px;
+    color: #fff;
+    background: RGBA(0, 0, 0, .6);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 12px;
+}
+
+
+/* 标题 */
+
+.diy_title {
+    padding: 10px;
+}
+
+.diy_title .title {
+    font-size: 18px;
+    line-height: 22px;
+    margin: 10px 0 5px;
+}
+
+.diy_title .subtitle {
+    font-size: 12px;
+    color: #888;
+}
+
+
+/* 文本导航 */
+
+
+/*.text_nav_list{  border-top:1px solid #ddd; }*/
+
+.text_nav_list li a {
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    display: block;
+    padding: 12px 40px 12px 10px;
+    position: relative;
+    font-size: 14px;
+    color: #333;
+    background: #fff;
+}
+
+.text_nav_list li a em {
+    width: 20px;
+    height: 20px;
+    background: url(arrow_right.png) no-repeat;
+    background-size: 100% 100%;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    margin-top: -10px;
+}
+
+.two_text_nav_list,
+.three_text_nav_list,
+.four_text_nav_list {
+    padding: 0 0.78125% 0 1.5625%;
+    overflow: hidden;
+}
+
+.two_text_nav_list li,
+.three_text_nav_list li,
+.four_text_nav_list li {
+    float: left;
+    margin: 5px 0.78125% 0 0;
+    width: 49.2%;
+    height: 23px;
+}
+
+.two_text_nav_list li a,
+.three_text_nav_list li a,
+.four_text_nav_list li a {
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.three_text_nav_list li {
+    width: 32.5%;
+}
+
+.four_text_nav_list li {
+    width: 24.22%;
+}
+
+
+/* 图片导航 */
+
+.two_nav_list {
+    overflow: hidden;
+    zoom: 1;
+    margin: 5px 0;
+}
+
+.two_nav_list li {
+    overflow: hidden;
+    float: left;
+    width: 50%;
+}
+
+.two_nav_list li a {
+    display: block;
+    background: #fff;
+    color: #333;
+    position: relative;
+}
+
+.two_nav_list li:nth-child(odd) a {
+    margin: 5px 5px 5px 10px;
+}
+
+.two_nav_list li:nth-child(even) a {
+    margin: 5px 10px 5px 5px;
+}
+
+.two_nav_list li img {
+    width: 100%;
+    display: block;
+}
+
+.two_nav_list .title {
+    padding: 3px 5px;
+    color: #666;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 12px;
+}
+
+.three_nav_list {
+    overflow: hidden;
+    zoom: 1;
+    margin: 5px 5px;
+}
+
+.three_nav_list li {
+    overflow: hidden;
+    float: left;
+    width: 33.3333%;
+}
+
+.three_nav_list li a {
+    display: block;
+    background: #fff;
+    color: #333;
+    margin: 5px;
+    position: relative;
+}
+
+.three_nav_list li img {
+    width: 100%;
+    display: block;
+}
+
+.three_nav_list .title {
+    padding: 3px 5px;
+    color: #666;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 12px;
+}
+
+.four_nav_list {
+    overflow: hidden;
+    zoom: 1;
+    margin: 3px 3px;
+}
+
+.four_nav_list li {
+    overflow: hidden;
+    float: left;
+    width: 25%;
+}
+
+.four_nav_list li a {
+    display: block;
+    background: #fff;
+    color: #333;
+    margin: 2px;
+    position: relative;
+}
+
+.four_nav_list li img {
+    width: 100%;
+    display: block;
+}
+
+.four_nav_list .title {
+    padding: 3px 5px;
+    color: #666;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 12px;
+}
+
+
+/* search goods */
+
+.diy_search_goods {
+    margin: 10px;
+    position: relative
+}
+
+.diy_search_goods input[type="text"] {
+    border-radius: 5px;
+    width: 100%;
+    margin: 0;
+    padding: 0 2%;
+    height: 36px;
+    line-height: 36px;
+}
+
+.diy_search_goods button {
+    position: absolute;
+    top: 1px;
+    right: 0;
+    border: none;
+    border-left: 1px solid #ccc;
+    width: 50px;
+    height: 36px;
+    background: url(search.png) no-repeat center center;
+    background-size: 15px 15px;
+}
+
+
+/* 辅助线 */
+
+.blank_line_div {
+    border-width: 0;
+    height: 0;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+
+/* 橱窗  */
+
+.case_box {
+    background: #fff;
+    padding: 10px 0;
+}
+
+.case_box .case_title {
+    font-size: 18px;
+    text-align: center;
+}
+
+.case_box .case_content_title {
+    font-size: 14px;
+    text-align: center;
+    line-height: 30px;
+}
+
+.case_box .case_content {
+    font-size: 12px;
+    color: #888;
+    padding: 0 10px;
+}
+
+.case_default_list {
+    overflow: hidden;
+    zoom: 1;
+    margin: 5px 0;
+}
+
+.case_default_list li {
+    overflow: hidden;
+    float: left;
+}
+
+.case_default_list li a {
+    display: block;
+    background: #fff;
+    color: #333;
+    position: relative;
+}
+
+.case_default_list li:nth-child(1) {
+    width: 67%;
+}
+
+.case_default_list li:nth-child(2) {
+    width: 33%
+}
+
+.case_default_list li:nth-child(3) {
+    width: 33%
+}
+
+.case_default_list li:nth-child(1) a {
+    margin: 0 2px 0 0;
+}
+
+.case_default_list li:nth-child(2) a {
+    margin: 0 0 5px 2px;
+}
+
+.case_default_list li:nth-child(3) a {
+    margin: 0 0 0 2px;
+}
+
+.case_default_list li img {
+    width: 100%;
+    display: block;
+}
+
+.case_default_list .title {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    padding: 6px 10px;
+    color: #fff;
+    background: RGBA(0, 0, 0, .6);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 12px;
+}
+
+.case_three_list {
+    overflow: hidden;
+    zoom: 1;
+    margin: 5px 5px;
+}
+
+.case_three_list li {
+    overflow: hidden;
+    float: left;
+    width: 33.3333%;
+}
+
+.case_three_list li a {
+    display: block;
+    background: #fff;
+    color: #333;
+    margin: 5px;
+    position: relative;
+}
+
+.case_three_list li img {
+    width: 100%;
+    display: block;
+}
+
+.case_three_list .title {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    padding: 3px 5px;
+    color: #fff;
+    background: RGBA(0, 0, 0, .6);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 12px;
+}
+
+
+/* 橱窗2*/
+
+.case_box2 {
+    background: #fff;
+}
+
+.case_box2 .case_title {
+    font-size: 18px;
+    text-align: center;
+}
+
+.case_box2 .case_content_title {
+    font-size: 14px;
+    text-align: center;
+    line-height: 30px;
+}
+
+.case_box2 .case_content {
+    font-size: 12px;
+    color: #888;
+    padding: 0 10px;
+}
+
+.case_default_list2 {
+    overflow: hidden;
+    zoom: 1;
+}
+
+.case_default_list2 li {
+    overflow: hidden;
+    float: left;
+    width: 50%
+}
+
+.case_default_list2 li a {
+    display: block;
+    background: #fff;
+    color: #333;
+    position: relative;
+    width: 100%;
+    height: 0;
+}
+
+.case_default_list2 li:nth-child(1) a {
+    padding-bottom: 166.5%;
+}
+
+.case_default_list2 li:nth-child(2) a {
+    padding-bottom: 83.25%;
+}
+
+.case_default_list2 li:nth-child(3) a {
+    padding-bottom: 83.25%;
+}
+
+.case_default_list2 li img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.case_default_list2 .title {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    padding: 0 6px;
+    color: #fff;
+    background: RGBA(0, 0, 0, .6);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 12px;
+}
+
+.case_three_list2 {
+    overflow: hidden;
+    zoom: 1;
+}
+
+.case_three_list2 li {
+    overflow: hidden;
+    float: left;
+    width: 50%;
+}
+
+.case_three_list2 li a {
+    display: block;
+    background: #fff;
+    color: #333;
+    position: relative;
+    width: 100%;
+    height: 0;
+}
+
+.case_three_list2 li:nth-child(1) a {
+    padding-bottom: 166.5%;
+}
+
+.case_three_list2 li:nth-child(2) a {
+    padding-bottom: 55.5%;
+}
+
+.case_three_list2 li:nth-child(3) a {
+    padding-bottom: 55.5%;
+}
+
+.case_three_list2 li:nth-child(4) a {
+    padding-bottom: 55.5%;
+}
+
+.case_three_list2 li img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.case_three_list2 .title {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    padding: 0 6px;
+    color: #fff;
+    background: RGBA(0, 0, 0, .6);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 12px;
+}
+
+
+/* 公告 */
+
+.notice_box {
+    width: 100%;
+    height: 40px;
+    overflow: hidden;
+    background: #ffc;
+    color: #f90;
+    font-size: 12px;
+    position: relative;
+}
+
+.notice_box .scrollNotice {
+    width: 100%;
+    position: absolute;
+    right: 0;
+    line-height: 40px;
+    padding: 0 10px;
+    text-align: right;
+}
+
+
+/* 多图滑动 */
+
+.mutipic_banner ul,
+.mutipic_goods ul {
+    position: relative;
+    left: 0;
+    top: 0;
+    z-index: 10;
+    margin: 0;
+}
+
+.mutipic_banner ul li,
+.mutipic_goods ul li {
+    float: left;
+    display: table-cell;
+    position: relative;
+}
+
+.mutipic_banner li .title {
+    height: 24px;
+    line-height: 24px;
+}
+
+.mutipic_banner li a img,
+.mutipic_goods li a img {
+    display: block;
+    width: 100%
+}
+
+.mutipic_banner_identify {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    -webkit-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+    z-index: 100;
+    height: 16px;
+}
+
+.mutipic_banner_identify em {
+    float: left;
+    display: inline-block;
+    margin: 2px;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    border-radius: 6px;
+    width: 6px;
+    height: 6px;
+    background: #fff;
+    border: 1px solid #ccc;
+}
+
+.mutipic_banner_identify em.cur {
+    background-color: #e32f0c;
+}
+
+
+/* 多图商品 */
+
+.mutipic_goods {
+    margin-top: 10px;
+}
+
+.mutipic_goods li .title {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 12px;
+}
+
+.mutipic_goods li .btn {
+    position: absolute;
+    width: auto;
+    bottom: 0;
+    right: 7px;
+    display: inline;
+    font-size: 12px;
+    background: #F60;
+    color: #fff;
+    padding: 2px 5px;
+    z-index: 10;
+}
+
+.mutipic_goods .price {
+    color: #F60;
+}
+
+.mutipic_goods .mutipic_banner_identify em.cur {
+    background-color: #666;
+}
+
+
+/* 商品多列处理 */
+.mutipic_goods[data-colgoods="4"] li .btn,
+.mutipic_goods[data-colgoods="3"] li .btn{
+	position: static;
+}
+.mutipic_goods .ng-scope .goods-img {
+	height: 150px;
+	overflow: hidden;
+}

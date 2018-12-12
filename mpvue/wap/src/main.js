@@ -24,6 +24,10 @@ Vue.use(Lazyload, {
     preLoad: 1.3
 })
 
+import VueScroller from 'vue-scroller'
+Vue.use(VueScroller)
+
+
 
 
 Vue.prototype.$store = store

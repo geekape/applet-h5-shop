@@ -27,16 +27,8 @@
         </view>
       </view>
       <view class="_div data-v-48ecece6 shop-list__ft g-flex">
-        <view class="_p data-v-48ecece6 g-flex__item"><label class="_span data-v-48ecece6 iconfont icon-phone"></label>电话</view>
-        <view class="_p data-v-48ecece6 g-flex__item"><label class="_span data-v-48ecece6 iconfont icon-daohang"></label>导航</view>
-      </view>
-    </view>
-    <view class="_div data-v-48ecece6 m-list__group">
-      <view class="_div data-v-48ecece6 m-list">
-        <view class="_div data-v-48ecece6 m-list__l">买家留言：{{info.remark ? info.remark : '无'}}</view>
-      </view>
-      <view class="_div data-v-48ecece6 m-list">
-        <view class="_div data-v-48ecece6 m-list__l">配送方式：{{info.send_type == 2 ? '自提' : '邮寄'}}</view>
+        <view wx:if="{{shops.phone != ''}}" bindtap="handleProxy" class="_p data-v-48ecece6 g-flex__item" data-eventid="{{'0'}}" data-comkey="{{$k}}"><label class="_span data-v-48ecece6 iconfont icon-phone"></label>电话</view>
+        <view wx:if="{{shops.address != ''}}" bindtap="handleProxy" class="_p data-v-48ecece6 g-flex__item" data-eventid="{{'1'}}" data-comkey="{{$k}}"><label class="_span data-v-48ecece6 iconfont icon-daohang"></label>导航</view>
       </view>
     </view>
     <view class="_div data-v-48ecece6 order-detail__item">
@@ -50,6 +42,18 @@
           </view>
         </view>
       </navigator>
+    </view>
+    <view class="_div data-v-48ecece6 weui-form-preview">
+      <view class="_div data-v-48ecece6 weui-form-preview__hd">
+        <view class="_div data-v-48ecece6 weui-form-preview__item"><label class="_label data-v-48ecece6 weui-form-preview__label">付款金额</label>
+          <view class="_em data-v-48ecece6 weui-form-preview__value">¥{{totalPrice}}</view>
+        </view>
+      </view>
+      <view class="_div data-v-48ecece6 weui-form-preview__bd">
+        <view class="_div data-v-48ecece6 weui-form-preview__item"><label class="_label data-v-48ecece6 weui-form-preview__label">买家留言</label> <label class="_span data-v-48ecece6 weui-form-preview__value">{{info.remark ? info.remark : '无'}}</label></view>
+        <view class="_div data-v-48ecece6 weui-form-preview__item" wx:if="{{info.send_type != 2}}"><label class="_label data-v-48ecece6 weui-form-preview__label">邮费：</label> <label class="_span data-v-48ecece6 weui-form-preview__value">¥{{info.mail_money}}</label></view>
+        <view class="_div data-v-48ecece6 weui-form-preview__item"><label class="_label data-v-48ecece6 weui-form-preview__label">配送方式：</label> <label class="_span data-v-48ecece6 weui-form-preview__value">{{info.send_type == 2 ? '自提' : '邮寄'}}</label></view>
+      </view>
     </view>
     <view class="_div data-v-48ecece6 m-card order-detail__item" wx:if="{{info.pay_status != 0}}">
       <view class="_div data-v-48ecece6 m-card__tt">
@@ -67,7 +71,7 @@
       </view>
       <navigator url="{{'../refund/main?order_id=' + info.id}}" wx:if="{{info.status_code == 3 || info.refund == 0}}" class="_a data-v-48ecece6 u-button u-button--border">申请退款</navigator>
     </view>
-    <view class="_div data-v-48ecece6 u-fixed"><button class="_button data-v-48ecece6 u-button u-button--primary u-button--big" wx:if="{{info.status_code == 3}}" bindtap="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}">确认收货</button> <button class="_button data-v-48ecece6 u-button u-button--primary u-button--big" wx:if="{{info.pay_status == 0}}" bindtap="handleProxy" data-eventid="{{'1'}}" data-comkey="{{$k}}">立即付款</button></view>
+    <view class="_div data-v-48ecece6 u-fixed"><button class="_button data-v-48ecece6 u-button u-button--primary u-button--big" wx:if="{{info.status_code == 3}}" bindtap="handleProxy" data-eventid="{{'2'}}" data-comkey="{{$k}}">确认收货</button> <button class="_button data-v-48ecece6 u-button u-button--primary u-button--big" wx:if="{{info.pay_status == 0}}" bindtap="handleProxy" data-eventid="{{'3'}}" data-comkey="{{$k}}">立即付款</button></view>
     <van-toast id="van-toast" class="_van-toast data-v-48ecece6"></van-toast>
     <van-dialog id="van-dialog" class="_van-dialog data-v-48ecece6"></van-dialog>
   </view>

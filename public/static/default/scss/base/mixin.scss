@@ -1,0 +1,391 @@
+// 输入框提示文字颜色
+@mixin inputDefaultColor($color:$gray) {
+  &::-webkit-input-placeholder {
+    color: $color
+  }
+}
+
+// 1px
+@mixin ui-border-set($top:null, $right:null, $bottom:null, $left:null) {
+  content: '';
+  position: absolute;
+  @if($top) {
+    top: $top;
+  }
+  @if($right) {
+    right: $right;
+  }
+  @if($bottom) {
+    bottom: $bottom;
+  }
+
+  @if($left) {
+    left: $left;
+  }
+
+  display: block;
+
+  width: 100%;
+
+  
+
+  @media screen and (-webkit-min-device-pixel-ratio: 2) {
+      -webkit-transform:scaleY(.5);
+  }
+  @media screen and (-webkit-min-device-pixel-ratio: 3) {
+      -webkit-transform:scaleY(.3333);
+  }
+
+}
+
+
+// 1px边框问题
+@mixin u-border($color:#eee, $top:null, $right: null, $bottom: null, $left: null) {
+  position: relative;
+  &:before {
+    content:"";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 1px solid $color;
+    -webkit-transform-origin: 0 0;
+    padding: 1px;
+    -webkit-box-sizing: border-box;
+    pointer-events: none;
+    z-index: 99;
+    pointer-events: none;
+    @media screen and (-webkit-min-device-pixel-ratio: 2) {
+        width: 200%;
+        height: 200%;
+        -webkit-transform:scale(.5);
+    }
+    @media screen and (-webkit-min-device-pixel-ratio: 3) {
+        width: 300%;
+        height: 300%;
+        -webkit-transform:scale(.3333);
+    }
+  }
+}
+
+// 宽高背景
+@mixin f-wh-bg($w, $h:$w, $bg:#fff) {
+  width: $w;
+  height: $h;
+  background: $bg;
+}
+
+// 高度和行高
+@mixin f-height($h) {
+  height: $h;
+  line-height: $h;
+}
+
+@mixin f-bg($bg) {
+  background: url($bg) no-repeat;
+  width: 100%;
+  height: 6.666667rem;
+  background-size: 100% 6.8rem;
+}
+
+@mixin f-overflow-hidden($w:100%, $h:$w) {
+  height: $h;
+  width: $w;
+  overflow: hidden;
+}
+
+// 文字溢出隐藏
+@mixin f-text-hidden($line:2) {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $line
+}
+
+// 水平垂直居中
+@mixin f-xy-center($direction: column) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: center;
+  align-items: center;
+}
+.f-xy-center {
+  @include f-xy-center();
+}
+
+// 设置背景
+@mixin set-bg($w, $h, $url, $size, $xy) {
+  @if($w) {
+    width: $w;
+  }
+  @if($h) {
+    height: $h;
+  }
+  
+  background: url($url) no-repeat;
+  @if($size) {
+    background-size: $size;
+  }
+
+  @if($xy) {
+    background-position: $xy;
+  }
+}
+
+// 定位
+@mixin set-position($type, $top:null, $right:null, $bottom:null, $left:null, $w:null, $h:$w) {
+  position: $type;
+
+  @if($top) {
+    top: $top;
+  }
+  @if($right) {
+    right: $right;
+  }
+  @if($bottom) {
+    bottom: $bottom;
+  }
+
+  @if($left) {
+    left: $left;
+  }
+
+  @if($w) {
+    width: $w;
+  }
+
+  @if($h) {
+    height: $h;
+  }
+
+}
+
+
+@mixin f-small-border($margin: 15px) {
+  padding-left: 0!important;
+  padding-right: 0!important;
+  margin-left: $margin;
+  margin-right: $margin;
+}
+
+
+// 背景
+.white-bg {
+	background: $white!important;
+}
+.yellow {
+  color: $primary-color;
+}
+.red {
+  color: $red;
+}
+.gray {
+  color: $gray!important;
+}
+.f12 {
+  font-size: 12px;
+}
+.t-right {
+  text-align: right;
+}
+.fr {
+  float: right;
+}
+.green {
+  color: $green;
+}
+.mt-base {
+  margin-top: $box-sm;
+}
+.m0 {
+  margin: 0;
+}
+.f-border-b {
+  border-bottom: 1px solid #eee;
+}
+.flex {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  .flex-item {
+    flex: 1;
+    position: relative;
+  }
+}
+
+
+.f-small-border {
+  padding-left: 0!important;
+  padding-right: 0!important;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+.f-mt-base {
+  margin-top: .4rem;
+}
+.f-ml-base {
+  margin-left: $box-xs;
+}
+.f-mr-base {
+  margin-right: $box-xs;
+}
+.f-mr-md {
+  margin-right: .4rem;
+}
+.f-pt-base {
+   margin-top: $box-xs;
+}
+.f-pb-base {
+   margin-bottom: $box-sm;
+}
+.f-pb0 {
+  padding-bottom: 0!important;
+}
+.f-ml-md {
+  margin-left: $box-sm;
+}
+.f-ml-lg {
+  margin-left: $box-md;
+}
+.f-mb-base {
+  margin-bottom: $box-sm;
+}
+.f-mb15 {
+  margin-bottom: 15px;
+}
+.f-m-base {
+  margin: $box-md;
+}
+.f-mx-base {
+  margin: 0.066667rem;
+}
+.f-pr-base {
+  padding-right: $box-sm;
+}
+.f-pl-base {
+  padding-left: $box-sm!important;
+}
+.f-pl0 {
+  padding-left: 0!important;
+}
+
+.f-p0 {
+  padding: 0!important;
+}
+.f-pb-lg {
+  bottom: 1.333333rem;
+}
+
+// 水平对齐
+.f-item-c {
+  align-items: center;
+}
+
+.f-p-md {
+  padding: $box-sm
+}
+.f-pl-lg {
+  padding-left: $box-lg;
+}
+.f-px-base {
+  padding: 0 15px;
+}
+.f-py0 {
+  padding-bottom: 0!important;
+  padding-top: 0!important;
+}
+
+.f-opcity {
+  opacity: .6;
+}
+.f-t-hidden {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+// 单行文字截断
+.f-nowrap-flex {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  -webkit-box-flex: 1;
+  height: inherit;
+}
+
+
+.f-min-head {
+  @include f-wh-bg(1.2rem,1.2rem,#ccc);
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+
+
+// 字体
+.f-font-base {
+  font-size: 14px;
+}
+.f-font-md {
+  font-size: 16px;
+}
+.f-font-lg {
+  font-size: 20px;
+}
+// 布局
+.f-lh-xs {
+  line-height: 1!important;
+}
+.f-lh-md {
+  line-height: 2!important;
+}
+.f-lh-lg {
+  line-height: 3!important;
+}
+.f-text-r {
+  text-align: right;
+}
+.f-text-l {
+  text-align: left;
+}
+.f-text-c {
+  text-align: center;
+}
+
+
+// 皮肤
+.s-blue {
+  color:$link-color;
+}
+.s-black {
+  color:$black!important;
+}
+.s-white {
+  color:$white
+}
+.s-light-gray{
+  color:$light-gray;
+}
+.s-drak-gray {
+  color: $dary-gray
+}
+.s-black-bg {
+  background: $black!important;
+}
+.s-yellow-bg {
+  background: $primary-color!important;
+}
+
+
+
+.u-border-b {
+  border-bottom: 1px solid #eee;
+}

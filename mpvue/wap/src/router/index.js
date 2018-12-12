@@ -1,14 +1,13 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
-// 引入组件
+// 商城
 import center from "@/pages/shop/center/index.vue";
 import lists from "@/pages/shop/lists/index.vue";
 import cart from "@/pages/shop/cart/index.vue";
 import index from "@/pages/shop/index/index.vue";
 import goodsDetail from "@/pages/shop/goods_detail/index.vue";
 import order from "@/pages/shop/my_order/index.vue";
-import coupon from "@/pages/shop/coupon/index.vue";
 import collect from "@/pages/shop/collect/index.vue";
 import track from "@/pages/shop/track/index.vue";
 import address from "@/pages/shop/add_address/index.vue";
@@ -53,23 +52,21 @@ const routes = [
     path: '/',
     name: 'index',
     component: index,
+    meta: {keepAlive: true}
   },
 
   {
     path: '/goods_detail/:id',
     name: 'goods_detail',
-    component: goodsDetail
+    component: goodsDetail,
+
   },
   {
     path: '/order',
     name: 'order',
     component: order
   },
-  {
-    path: '/coupon',
-    name: 'coupon',
-    component: coupon
-  },
+  
   {
     path: '/collect',
     name: 'collect',
@@ -98,7 +95,8 @@ const routes = [
   {
     path: '/confirm_order/:id',
     name: 'confirm_order',
-    component: confirm_order
+    component: confirm_order,
+
   },
   {
     path: '/order_detail/:id',
@@ -137,4 +135,16 @@ var router = new VueRouter({
   // mode: 'history',
   routes
 })
+router.beforeEach((to, from, next) => {
+  console.log('从:', from)
+  console.log('到:', to)
+  next();
+
+  // 返回不刷新
+  if(from.name == "coupon_lists" || from.name == "confirm_order") {
+    to.meta.isBack = true
+  }
+
+})
+
 export default router;

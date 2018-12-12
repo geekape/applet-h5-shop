@@ -94,6 +94,7 @@ class Stock extends Base
         // dump($goods_id);dump($event_type);
         $goods = $this->getInfoByGoodsId($goods_id, $event_type);
         // dump($goods);
+        $goods['del_at'] = isset($goods['del_at'] )?$goods['del_at'] :0;
         if (empty($goods) || $goods['del_at'] > 0) {
             exception('商品已经下架');
         }
@@ -159,7 +160,8 @@ class Stock extends Base
      */
     function canelUnPayOrder($need_stock, $goods_id, $event_type = SHOP_EVENT_TYPE)
     {
-        $res = $this->reBackEventStockByDel($need_stock, $goods_id, $event_type);
+    	
+        $res = $this->reBackEventStockByDel($need_stock, $goods_id, $event_type,1);
         if (! $res) {
             $save['lock_count'] = Db::raw('lock_count-' . $need_stock); // 物理库存增加
             $res = $this->where('goods_id', $goods_id)
@@ -170,14 +172,15 @@ class Stock extends Base
         return $res;
     }
 
-    private function reBackEventStockByDel($need_stock, $goods_id, $event_type)
+    private function reBackEventStockByDel($need_stock, $goods_id, $event_type,$isUnPay=0)
     {
         $del_at = 0;
         if ($event_type != SHOP_EVENT_TYPE) {
             $event_goods = $this->getInfoByGoodsId($goods_id, $event_type);
-            $del_at = $event_goods['del_at'];
+            $del_at = isset($event_goods['del_at'])?$event_goods['del_at']:0;
         }
-        if ($del_at > 0) {
+        
+        if (($del_at > 0|| $isUnPay) && $event_type != SHOP_EVENT_TYPE) {
             // 活动商品扣除
             $save['lock_count'] = Db::raw('lock_count-' . $need_stock); // 锁定库存扣除
             $res = $this->where('goods_id', $goods_id)
@@ -185,7 +188,7 @@ class Stock extends Base
                 ->where('lock_count', '>=', $need_stock)
                 ->update($save);
             if (! $res) {
-                exception('活动商品库存扣除失败');
+                exception('活动商品库存扣除失败'.M()->getLastSql());
             }
             
             // 退回库存给商城
@@ -481,7 +484,7 @@ class Stock extends Base
         $list = D('shop/Order')->where(wp_where($map))
             ->limit(5)
             ->field('id,event_type,goods_datas,cTime')
-            ->order('id desc')
+            ->order('id asc')
             ->select();
         
         if (empty($list)) {

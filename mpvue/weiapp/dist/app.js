@@ -1,14 +1,14 @@
-require("common/manifest.js");
-require("common/vendor.js");
-global.webpackJsonp([2],{
+require("./common/manifest.js");
+require("./common/vendor.js");
+global.webpackJsonp([3],{
 
-/***/ 110:
+/***/ 120:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(83);
 
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
@@ -17,25 +17,23 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
     state: {
         cartShopNum: 0,
         allOrder: [],
-        waitPayNum: 0
+        waitPayNum: 0,
+        activeOrderParams: '' // 活动订单参数
     },
     mutations: {
         getCartShopNum: function getCartShopNum(state, opt) {
             state.cartShopNum = opt.num;
-
-            if (state.cartShopNum > 0) {
-                wx.setTabBarBadge({
-                    index: 2,
-                    text: state.cartShopNum + ''
-                });
-            } else {
-                wx.hideTabBarRedDot({ index: 2 });
-            }
         },
 
         // 保存订单
         saveOrder: function saveOrder(state, opt) {
             state.allOrder = opt.order;
+        },
+        saveData: function saveData(state, opt) {
+            var key = opt.key;
+            var value = opt.value;
+            state[key] = value;
+            // console.log(`键是：${opt.key},值是${state.activeOrderParams}-----${value}`)
         }
     },
     getters: {
@@ -65,7 +63,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
         waitComment: function waitComment(state) {
             var arr = [];
             state.allOrder.forEach(function (item) {
-                if (item.status_code > 3 && item.status_code != 7) {
+                if (item.status_code > 3 && item.status_code != 7 && item.refund == 0) {
                     arr.push(item);
                 }
             });
@@ -78,7 +76,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
 
 /***/ }),
 
-/***/ 111:
+/***/ 121:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -97,24 +95,24 @@ var app = {
 
 /***/ }),
 
-/***/ 112:
+/***/ 122:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 86:
+/***/ 89:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__App__ = __webpack_require__(88);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__store__ = __webpack_require__(110);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_global__ = __webpack_require__(111);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__static_styles_weui_wxss__ = __webpack_require__(112);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__App__ = __webpack_require__(91);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__store__ = __webpack_require__(120);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_global__ = __webpack_require__(121);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__static_styles_weui_wxss__ = __webpack_require__(122);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__static_styles_weui_wxss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__static_styles_weui_wxss__);
 
 
@@ -131,7 +129,7 @@ __WEBPACK_IMPORTED_MODULE_1__App__["a" /* default */].mpType = 'app';
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.prototype.$store = __WEBPACK_IMPORTED_MODULE_2__store__["a" /* default */];
 
 // 使用flyio http请求库
-var Fly = __webpack_require__(72);
+var Fly = __webpack_require__(82);
 var fly = new Fly();
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.prototype.$http = fly;
 
@@ -142,15 +140,15 @@ app.$mount();
 
 /***/ }),
 
-/***/ 88:
+/***/ 91:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_1_1_2_mpvue_loader_lib_selector_type_script_index_0_App_vue__ = __webpack_require__(90);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_1_1_2_mpvue_loader_lib_selector_type_script_index_0_App_vue__ = __webpack_require__(93);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(89)
+  __webpack_require__(92)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -194,23 +192,24 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 89:
+/***/ 92:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 90:
+/***/ 93:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils__ = __webpack_require__(2);
 
-var common = __webpack_require__(91);
+var common = __webpack_require__(94);
+
 /* harmony default export */ __webpack_exports__["a"] = ({
   data: function data() {
     return {
-      url: 'https://leyao.tv/yi/public/index.php?pbid=72&s=/',
       PHPSESSID: '',
       common: common
     };
@@ -222,20 +221,20 @@ var common = __webpack_require__(91);
       wx.setStorageSync("from_uid", from_uid);
     }
 
-    common.initApp(this.url + 'weiapp/Api/', true);
+    common.initApp(__WEBPACK_IMPORTED_MODULE_0__utils__["e" /* host */] + 'weiapp/Api/', true);
   }
 });
 
 /***/ }),
 
-/***/ 91:
+/***/ 94:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initApp", function() { return initApp; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "shareUrl", function() { return shareUrl; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof__);
 
 var app = getApp();
@@ -380,5 +379,5 @@ var urlEncode = function urlEncode(param, key, encode) {
 
 /***/ })
 
-},[86]);
+},[89]);
 //# sourceMappingURL=app.js.map

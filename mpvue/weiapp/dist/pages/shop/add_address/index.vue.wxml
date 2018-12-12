@@ -10,6 +10,6 @@
       </view>
       <view class="_div data-v-31071161 m-from__input"><label for="addressInfo" class="_label data-v-31071161 m-from__label">详细地址</label> <input id="addressInfo" bindinput="handleProxy" type="text" placeholder="街道、小区门牌等详细地址" placeholder-style="color: #aaa" value="{{addressInfo}}" data-eventid="{{'3'}}" data-comkey="{{$k}}" class="_input data-v-31071161" /></view>
     </from> <button bindtap="handleProxy" class="_button data-v-31071161 u-button u-button--primary u-button--big" data-eventid="{{'4'}}" data-comkey="{{$k}}">保存</button>
-    <i-toast id="toast" class="_i-toast data-v-31071161"></i-toast>
+    <van-toast id="van-toast" class="_van-toast data-v-31071161"></van-toast>
   </view>
 </template>

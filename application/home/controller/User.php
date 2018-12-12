@@ -260,7 +260,8 @@ class User extends Home
                     } else {
                         $url = U('weixin/publics/lists');
                     }
-                    //D('common/User')->autoLogin($user);
+                    $user = getUserInfo($uid);
+                    D('common/User')->autoLogin($user);
                     $return['status'] = 1;
                     $return['url'] = $url;
                     $this->ajaxReturn($return, 'JSON');

@@ -1,0 +1,5 @@
+<template name="40d474fc">
+  <view class="_div data-v-01933c36 active-banner">
+    <image src="{{activeInfo.cover}}" alt="{{activeInfo.title}}" class="_img data-v-01933c36"></image>
+  </view>
+</template>

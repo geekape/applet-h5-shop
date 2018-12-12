@@ -1681,7 +1681,6 @@ function GetCurUrl()
 function get_openid($openid = null)
 {
     $pbid = get_pbid();
-    session('openid_' . $pbid, null);
     $request_openid = input('openid');
     if ($openid !== null && $openid != '-1' && $openid != '-2') {
         session('openid_' . $pbid, $openid);
@@ -1920,8 +1919,8 @@ function OAuthWeixin($callback, $pbid = '', $is_return = false)
         return $is_return ? -2 : redirect($callback . 'openid=-2');
     }
     $param['appid'] = $info['appid'];
-    $_GET['state'] = I('state');
-    if ($_GET['state'] != 'weiphp') {
+    $_GET['state'] = I('state','');
+    if (!isset($_GET['state']) || $_GET['state'] != 'weiphp') {
         $param['redirect_uri'] = $callback;
         $param['response_type'] = 'code';
         $param['scope'] = 'snsapi_base';
@@ -1931,7 +1930,7 @@ function OAuthWeixin($callback, $pbid = '', $is_return = false)
         // return redirect($url);
         header('Location: ' . $url);
         exit();
-    } elseif ($_GET['state'] == 'weiphp') {
+    } elseif (isset($_GET['state']) && $_GET['state'] == 'weiphp') {
         if (empty($_GET['code'])) {
             exit('code获取失败');
         }
@@ -3089,7 +3088,7 @@ function copydir($strSrcDir, $strDstDir)
         }
     }
     while (false !== ($file = readdir($dir))) {
-        if ($file == '.' || $file == '..' || $file == '.svn' || $file == '.DS_Store' || $file == '__MACOSX' || $file == 'Thumbs.db' || $file == 'Thumbs.db' || $file == 'info.php') {
+        if ($file == '.' || $file == '..' || $file == '.svn' || $file == '.DS_Store' || $file == '__MACOSX' || $file == 'Thumbs.db' || $file == 'info.php') {
             continue;
         }
         if (is_dir($strSrcDir . '/' . $file)) {

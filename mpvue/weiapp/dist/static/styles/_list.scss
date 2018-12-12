@@ -1,7 +1,7 @@
 .m-list {
     display: flex;
     background: #fff;
-    font-size: 16px;
+    font-size: 14px;
     height: 45px;
     align-items: center;
     // 小字列表
@@ -16,7 +16,6 @@
     }
     &.link &__c {
         color: $gray;
-        font-size: 12px;
         text-align: right;
     }
     &__l {

@@ -2,6 +2,6 @@
   "navigationBarTitleText": "编辑地址",
   "usingComponents": {
     "van-area": "/static/vant/area/index",
-    "i-toast": "/static/iview/toast/index"
+    "van-toast": "/static/vant/toast/index"
   }
 }

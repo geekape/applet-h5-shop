@@ -1,0 +1,45 @@
+@charset "utf-8";
+/* CSS Document */
+html{ height:100%;background:#fff}
+body{ min-height:100%; background:#fff;}
+.bind_box{ margin:20px;}
+.bind_box h6{color:#666;text-align:center;font-size:16px; line-height:50px; border-bottom:1px dashed #ccc;}
+input[type='text'],input[type='tel'],select,textarea{ border:1px solid #c3c3c3; border-radius:3px;}
+.check-tips{ color:#c7210b}
+.controls{ position:relative; z-index:0;}
+input[name="nickname"],input[name="mobile"]{ padding-left:30px; position:relative; z-index:10; width:100%;}
+.icon_user_s,.icon_phone_s{ padding:6px 15px; background-repeat:no-repeat; background-position: center center; position:absolute; top:3px; z-index:100;}
+.form_tips{ font-size:12px; color:#888; margin:10px 20px;}
+.quote{ padding:5px 5px 5px 35px; background:url(q.png) no-repeat 0 center; background-size:28px auto; font-size:30px; font-style:italic; color:#c15208; font-weight:bold; font-family: "Franklin Gothic Bold", "Arial Black", sans-serif}
+.a_title{ font-size:15px; font-weight:normal; color:#f16609; padding-top:5px;}
+.lead_content{padding:40px 30px 15px 30px; border-bottom:1px dashed #ccc;}
+.answer_form .form-item{ position:relative; padding-left:40px; margin-bottom:15px;}
+.answer_form .textarea-item{ padding:0}
+.form-item input[type="radio"],.form-item input[type="checkbox"]{ display:none}
+.li_style{ position:absolute; top:50%; margin-top:-16px; left:0; width:30px; height:30px; line-height:30px; text-align:center; border-radius:15px; color:#fff; font-size:20px; background:#c15208; z-index:1;}
+.radio,.checkbox{ display:block; margin:0; text-align:left;background:#c15208; color:#fff; border-radius:5px;}
+.checked{ position:absolute; height:32px; width:32px; top:50%; margin-top:-17px; left:-1px;border-radius:16px; background:url(checked.png) no-repeat; background-size:32px 32px; z-index:10; display:none}
+.form-item input[type="radio"]:checked + span.checked{ display:block}
+.form-item input[type="checkbox"]:checked + span.checked{ display:block}
+#form{ margin-top:20px;}
+
+
+.lead_btn{ border-radius:5px; background-color:#a40000; padding:12px; color:#fff;margin:20px; display:block; text-align:center; font-size:16px; border:none}
+.next_btn{ margin:15px 50px;}
+.lead_btn:active,.next_btn:active{ background-color:#de250c}
+
+
+.lead_box .do h6{ border:none; text-shadow:none; color:#76190d; margin-bottom:10px}
+.do .form-item{}
+.w_tips{color:#c7210b; font-size:13px; line-height:30px;}
+span.next_arr{ height:45px; width:20px; overflow:hidden; position:absolute; top:0; right:-16px;}
+span.next_arr em{ height:26px; width:26px; background:#b62613; -webkit-transform:rotate(45deg);-moz-transform:rotate(45deg);transform:rotate(45deg); position:absolute; left:-12px; top:8px; -moz-box-shadow:1px 1px 1px #991f0f;-webkit-box-shadow:1px 1px 1px #991f0f;box-shadow:1px 1px 1px #991f0f;}
+.lead_over{ padding:60px 30px; font-size:16px; text-align:center}
+.share_btn{ border-radius:24px; height:40px; width:200px; 
+line-height:40px; border:2px solid #090; color:#060; text-align:center; display:block; margin:20px auto;}
+
+
+.lead_box{ margin:20px 25px; position:relative;}
+.h_t .mail{ padding:5px 15px; background:url(mail.png) no-repeat center center; background-size:auto 20px;}
+.m_t{ font-size:24px; line-height:34px; padding:10px 0; font-weight:200;}
+.lead_btn,.lead_btn:visited{ border-radius:5px; background:#a40000; color:#fff; font-size:16px; padding:12px; display:block; text-align:center; margin:20px auto; width:100px;/*animation:leadBtnAnim 3s infinite;-webkit-animation:leadBtnAnim 3s infinite;transform:rotate(-5deg);-webkit-transform:rotate(-5deg);*/}

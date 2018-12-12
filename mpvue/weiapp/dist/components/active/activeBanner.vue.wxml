@@ -1,0 +1,6 @@
+<template name="861d9730">
+  <view class="_div data-v-023d2710 active_banner">
+    <image class="_img data-v-023d2710 active_bg" wx:if="{{eventinfo.cover == null || eventinfo.cover == ''}}" src="{{active.img}}"></image>
+    <image class="_img data-v-023d2710 active_bg" wx:else src="{{eventinfo.cover}}"></image>
+  </view>
+</template>

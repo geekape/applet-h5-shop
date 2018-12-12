@@ -13,7 +13,7 @@
         <div class="no_side_main_body">
               <div class="top_content">
                   <div class="log_wrap">
-                      <section class="login_box" >
+                      <section class="login_box" style="width:520px;">
                   {php} if(config('IS_QRCODE_LOGIN')){ {/php}
                         <div class=login_code style="text-align: center;">
                             <p style="color: #0a8cd2">微信扫码登录</p>
@@ -43,8 +43,8 @@
                                           <div class="control-group">
                                             <div class="controls pl-2" style="padding: 0 !important;">
                                               <input class="align-middle" type="checkbox" id="remember" name="remember" value="1" style="height:14px;width:14px;margin-top:3px;margin-left:100px;"/><label class="ml-1 align-middle" for="remember" style="margin-bottom: 0;color:black;">下次自动登录</label>
-                                                {php} if(config('IS_QRCODE_LOGIN')){ {/php}
-                                                <a href='javascript:;' onclick='code_login()' style="position:absolute;top:2px;left:150px;">扫码登录</a>
+
+                                                <a href='javascript:;' onclick='code_login()' style="position:absolute;top:2px;margin-left:100px;">扫码登录</a>
                                             </div>
                                           </div>
                                           {php}if(config('WEB_SITE_VERIFY')) { {/php}
@@ -53,7 +53,7 @@
                                             <div class="controls">
                                                <span class="fa fa-keyboard-o"></span>
                                               <input type="text" id="verify" class="span3" placeholder="请输入验证码"  errormsg="请填写5位验证码" nullmsg="请填写验证码" datatype="*5-5" name="verify">
-                                              <a href="javascript:;" class="reloadverify_a">换一张?</a>
+                                              <a href="javascript:;" class="reloadverify_a" style="right:0;">换一张?</a>
                                             </div>
                                           </div>
 
@@ -64,15 +64,10 @@
                                       <div class="control-group">
                                         <label class="control-label"></label>
                                         <div class="controls" style="margin-top:10px">
-                                            <img class="verifyimg reloadverify" alt="点击切换" src="{:U('verify')}" style="cursor:pointer;">
+                                            <img class="verifyimg reloadverify" alt="点击切换" src="{:captcha_src()}" style="width:300px;cursor:pointer;">
                                         </div>
                                       </div>
                                       {php} } {/php}
-
-
-
-                                      <!--<a href='javascript:;' onclick='code_login()'>扫码登录</a>-->
-                        {php} } {/php}
 
                                       <div class="control-group">
                                         <div class="controls">

@@ -19,7 +19,7 @@ class Index extends Home
     // 系统首页
     public function index()
     {
-        if(!HAS_INDEX){
+        if (!HAS_INDEX) {
             $this->redirect('user/login');
         }
         $newsFields = 'id,title,content,cTime';
@@ -67,20 +67,20 @@ class Index extends Home
     }
 
     // 插件详情
-     public function apps_detail()
-     {
-         $id = input('id');
-         if(empty($id)){
-             return $this->error('非法参数');
-         }
-         $info = M('solution')->where('id', $id)->find();
-         if(!$info){
+    public function apps_detail()
+    {
+        $id = input('id');
+        if (empty($id)) {
+            return $this->error('非法参数');
+        }
+        $info = M('solution')->where('id', $id)->find();
+        if (!$info) {
             return $this->error('非法参数!');
-         }
-         $this->assign('info', $info);
+        }
+        $this->assign('info', $info);
 
-         return $this->fetch();
-     }
+        return $this->fetch();
+    }
 
     function chat()
     {
@@ -818,5 +818,25 @@ class Index extends Home
         }
 
         echo json_url($res);
+    }
+
+    function trigger()
+    {
+        //增加触发器
+        $dbconfig = config('database.');
+        $dbms = 'mysql';     //数据库类型
+        $host = $dbconfig['hostname']; //数据库主机名
+        $dbName = $dbconfig['database'];    //使用的数据库
+        $dbport = $dbconfig['hostport'];
+        $dsn = "$dbms:host=$host;port=$dbport;dbname=$dbName";
+        $new_db = new \PDO($dsn, $dbconfig['username'], $dbconfig['password']);
+        $new_db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        dump($host);
+        dump($dbName);
+
+        dump($new_db->exec('DROP TRIGGER IF EXISTS `add`'));
+        dump($new_db->exec("CREATE TRIGGER `add` BEFORE INSERT ON `wp_shop_goods_stock` FOR EACH ROW set new.stock_active = new.stock - new.lock_count"));
+        dump($new_db->exec('DROP TRIGGER IF EXISTS `save`'));
+        dump($new_db->exec("CREATE TRIGGER `save` BEFORE UPDATE ON `wp_shop_goods_stock` FOR EACH ROW set new.stock_active = new.stock - new.lock_count"));
     }
 }

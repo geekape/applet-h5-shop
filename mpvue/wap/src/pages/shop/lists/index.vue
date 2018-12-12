@@ -1,6 +1,7 @@
 <template>
   <div class="lists">
-    <div class="g-flex">
+    <scroller >
+      <div class="g-flex">
       <div class="search">
         <input type="text" class="search-input" placeholder="输入关键字搜索商品" placeholder-style="color:#aaa" v-model="key" @keyup.13="startSearch">
       </div>
@@ -38,6 +39,8 @@
         </div>
       </from>
     </van-popup>
+    </scroller>
+    
 
     <tabbar :checkedIndex="2"></tabbar>
   </div>

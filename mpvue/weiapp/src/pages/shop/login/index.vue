@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <img src="../../../../static/img/head.png" class="login-logo">
+    <img src="https://leyao.tv/yi/images/head.png" class="login-logo">
     <p class="login-name">圆梦云商城</p>
 
     <p class="login-hint__tt">圆梦云商城 - 品质生活，极速到家</p>
@@ -54,7 +54,7 @@ export default {
         PHPSESSID: wx.getStorageSync('PHPSESSID')
       }).then(res => {
          console.log('success')
-          wx.switchTab({ url: '/pages/shop/index/index' })
+          wx.switchTab({ url: '/pages/shop/index/main' })
       })
       
     }

@@ -1,0 +1,27 @@
+{include file="common@base/mobile_head"/}	
+<link href="{:CUSTOM_TEMPLATE_PATH}_detail/V2/detail.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+<body id="weisite">
+<div class="container">
+	<div class="detail">
+    	<h6 class="title">{$info.title}</h6>
+        <p class="info"><span class="colorless">{$info.cTime|time_format}</span></p>
+        <section class="content">
+                {notempty name="info.cover"}<p><img src="{$info.cover|get_cover_url}"/></p>{/notempty}
+                {$info.content|raw|htmlspecialchars_decode}
+        </section>
+    </div>
+</div>
+<!-- 底部导航 -->
+{$footer_html|raw}
+<!-- 统计代码 -->
+{notempty name="config.code"}
+<p class="hide bdtongji">
+{$config.code}
+</p>
+{else/}
+<p class="hide bdtongji">
+{$tongji_code|raw}
+</p>
+{/notempty}
+</body>
+</html>

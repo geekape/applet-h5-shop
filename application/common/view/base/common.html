@@ -74,6 +74,16 @@
     <div class="hidden"><!-- 用于加载统计代码等隐藏元素 -->
         {block name="hidden"}{/block}
     </div>
-	<!-- /底部 -->
+  <!-- /底部 -->
+  
+  <script>
+    // 判断一下侧边栏是否存在 
+    $(function() {
+      if(!$('.user-info-name').length > 0) {
+        // 不存在
+        $('.main_body').removeClass('admin-body')
+      }
+    })
+  </script>
 </body>
 </html>

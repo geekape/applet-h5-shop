@@ -1,7 +1,7 @@
 //app.js
 var common = require('utils/common.js')
 App({
-  url: 'http://localhost/index.php?pbid=72&s=/',//'https://leyao.tv/yi/public/index.php?pbid=72&s=/',//
+  url: 'http://localhost/index.php?pbid=72&s=/',
   PHPSESSID: '',
   common: common,
   onLaunch: function (options) {

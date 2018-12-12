@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>AAPcdPicker - 省市区选择</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+      <link rel="stylesheet" href="./css/tachyons.css">
+    <link rel="stylesheet" href="./css/pikaddress.css"/>
+    <script src="./js/vendor/jquery.js"></script>
+    <script src="./js/vendor/pikaddress.js"></script>
+</head>
+<body class="phm">
+<div>
+  <h1 class="f2 black"> 省-市-区(县)选择框</h1>
+  <p class="f5 gray">中国地址选择框, 依赖 jQuery.</p>
+</div>
+<!--  ===控件掩饰=== 开始 -->
+<div class="mtl">
+  <p class="b">出发地址:</p>
+  <form action="" class="mtm">
+  <input type="text" id="input1" />
+</form>
+</div>
+<!--  ===控件掩饰=== 结束 -->
+
+<!--  ===控件参数说明=== 开始 -->
+
+<!--  ===控件参数说明=== 结束 -->
+<script>
+    $(function () {
+        // get districs data
+        $.ajax('data/distric.json')
+                .done(function (data) {
+                    var districs = data;
+                    aaPcdPicker1 = new AAPcdPicker({
+                        field: document.getElementById('input1'),
+                        districtsData: districs,
+                        districtsOften: ["北京-北京", "江苏-南京", "天津-天津", "江苏-常州"],
+                        onSelectDone: function () {
+                            $('#input1').val(aaPcdPicker1._o.district);
+                            aaPcdPicker1.hide();
+                        }
+                    });
+
+                });
+    });
+</script>
+</body>
+</html>

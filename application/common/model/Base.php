@@ -28,7 +28,7 @@ class Base extends Model
 
     function setMid($mid)
     {
-        $this->mid = $mid;
+        $this->mid = intval($mid);
     }
 
     function error($msg)

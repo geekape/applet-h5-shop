@@ -1,18 +1,18 @@
 {
-    "name": "topthink/think",
-    "description": "the new thinkphp framework",
+    "name": "weiphpdev/weiphp5",
+    "description": "the new wechat framework",
     "type": "project",
     "keywords": [
-        "framework",
-        "thinkphp",
-        "ORM"
+        "weiphp",
+        "wechat",
+        "miniapp"
     ],
-    "homepage": "http://thinkphp.cn/",
+    "homepage": "https://www.weiphp.cn/",
     "license": "Apache-2.0",
     "authors": [
         {
-            "name": "liu21st",
-            "email": "liu21st@gmail.com"
+            "name": "weiphp",
+            "email": "weiphp@weiphp.cn"
         }
     ],
     "require": {
@@ -20,16 +20,12 @@
         "topthink/framework": "5.1.*",
         "topthink/think-captcha": "^2.0",
         "topthink/think-image": "^1.0",
-        "mumbaicat/makeapidoc": "1.6",
         "topthink/think-migration": "^2.0"
     },
     "autoload": {
         "psr-4": {
             "app\\": "application"
         }
-    },
-    "extra": {
-        "think-path": "thinkphp"
     },
     "config": {
         "preferred-install": "dist"

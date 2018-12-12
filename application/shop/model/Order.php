@@ -708,7 +708,8 @@ class Order extends Base
         $param['data']['remark']['value'] = '欢迎再次光临！！！';
         $param['data']['remark']['color'] = "#173177";
         
-        $jumpUrl = U('shop/wap/my_order?wpid=' . $wpid);
+//         $jumpUrl = U('shop/wap/my_order?wpid=' . $wpid);
+        $jumpUrl = WAP_URL.'?pbid='.$pbid;
         addWeixinLog($param,'sendsuccesstempmsg_'.$uid);
         $rrr= D('common/TemplateMessage')->replyData($uid, $param, $info['order_payok_messageid'], $jumpUrl);
         addWeixinLog($rrr,'sendsuccesstempmsg_res_'.$info['order_payok_messageid']);
@@ -767,8 +768,10 @@ class Order extends Base
             ];
             return add_credit('payment', $credit);
         } else { // 微信退款
-            $appid = get_pbid_appinfo('', 'appid');//get_pbid_appinfo($order['wpid'], 'appid');
-            $total_fee = 1; // TODO 测试期间实际只支付1分，因此退款也只能退一分
+        	//获取当前订单支付的公众号或小程序
+        	$pbid = M('public_follow')->where('uid',$order['uid'])->value('pbid');
+            $appid = get_pbid_appinfo($pbid, 'appid');//get_pbid_appinfo($order['wpid'], 'appid');
+            //$total_fee = 1; // TODO 测试期间实际只支付1分，因此退款也只能退一分
             return D('weixin/Payment')->refund($appid, $order['out_trade_no'], $total_fee, $refund_desc);
         }
     }

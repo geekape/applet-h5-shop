@@ -1,0 +1,20 @@
+<template name="3f3b1520">
+  <view class="_div data-v-a0497ea6 active-goods">
+    <view class="_div data-v-a0497ea6 active-goods__item" wx:key="index" key="{{index}}" wx:for="{{activeData}}" wx:for-index="index" wx:for-item="item">
+      <view class="_div data-v-a0497ea6 active-goods__img">
+        <image src="{{item.cover}}" alt class="_img data-v-a0497ea6"></image>
+        <view class="_div data-v-a0497ea6 u-time-bar" wx:if="{{activeTime}}">剩余时间{{activeTime}}</view>
+        <view class="_div data-v-a0497ea6 u-time-bar due" wx:else>活动已到期</view>
+      </view>
+      <view class="_div data-v-a0497ea6 active-goods__content">
+        <view class="_div data-v-a0497ea6 active-goods__left">
+          <view class="_p data-v-a0497ea6 active-goods__tt overflow-dot">{{item.title}}</view>
+          <view class="_p data-v-a0497ea6 active-goods__price s-red"><label class="_span data-v-a0497ea6 f-mr-xs">¥</label>{{item.sale_price}}
+            <label class="_span data-v-a0497ea6 u-badge u-badge--sm">{{activeType}}</label></view>
+          <view class="_p data-v-a0497ea6 active-goods__price_cost"><label class="_span data-v-a0497ea6 f-mr-xs">¥</label>{{item.market_price}}</view>
+        </view>
+        <navigator url="{{'../detail/main?id='+item.id}}" class="_a data-v-a0497ea6 u-button u-button--primary" wx:if="{{activeTime}}">{{activeType}}</navigator><button class="_button data-v-a0497ea6 u-button u-button--disable2" wx:else>{{activeType}}</button>
+      </view>
+    </view>
+  </view>
+</template>

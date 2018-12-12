@@ -14,14 +14,7 @@ define('WPID', 1);
 //是否显示官网首页
 define('HAS_INDEX', false);
 
-define('IS_CGI', (0 === strpos(PHP_SAPI, 'cgi') || false !== strpos(PHP_SAPI, 'fcgi')) ? 1 : 0);
-if (IS_CGI) {
-    // CGI/FASTCGI模式下
-    $_temp = explode('.php', $_SERVER['PHP_SELF']);
-    define('_PHP_FILE_', rtrim(str_replace($_SERVER['HTTP_HOST'], '', $_temp[0] . '.php'), DIRECTORY_SEPARATOR));
-} else {
-    define('_PHP_FILE_', rtrim($_SERVER['SCRIPT_NAME'], DIRECTORY_SEPARATOR));
-}
+define('_PHP_FILE_', rtrim($_SERVER['SCRIPT_NAME'], DIRECTORY_SEPARATOR));
 $_root = dirname(_PHP_FILE_);
 define('__ROOT__', (($_root == '/' || $_root == '\\' || $_root == '\/') ? '' : $_root));
 if (! defined('HTTP_PREFIX')) {

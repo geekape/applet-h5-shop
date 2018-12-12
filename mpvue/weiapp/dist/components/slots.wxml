@@ -1,7 +1,11 @@
+<import src="/components/activeBanner.vue.wxml" />
+<import src="/components/activeGoods.vue.wxml" />
+<import src="/components/activeLists.vue.wxml" />
+<import src="/components/active/activeBanner.vue.wxml" />
 <import src="/components/shop/search.vue.wxml" />
-<import src="/components/slide.vue.wxml" />
 <import src="/components/shop/goodsList.vue.wxml" />
 <import src="/components/shop/search.vue.wxml" />
+<import src="/components/slide.vue.wxml" />
 <import src="/components/shop/goodsList.vue.wxml" />
 <import src="/modules/mpvue-wxparse/src/wxParse.vue.wxml" />
 <import src="/modules/mpvue-wxparse/src/components/wxParseTemplate0.vue.wxml" />

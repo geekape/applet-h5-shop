@@ -2,7 +2,8 @@
 const host = 'https://localhost/index.php?pbid=72&s=/'
 
 var Fly = require("flyio/dist/npm/wx")
-var fly = new Fly
+var fly = new Fly()
+
 
 
 // -------------------------------
@@ -22,6 +23,9 @@ function request(url, method, data, header = {}) {
         .then(function (res) {
           wx.hideLoading()
           console.log(res)
+          if(res.code == 0) {
+            alert(res.msg)
+          }
           resolve(res.data)
         })
         .catch(function (error) {
@@ -87,15 +91,21 @@ function login() {
 ** 时间戳转换时间
 */
 
-function timeChange(time) {
+function timeChange(time, isHsm) {
   var date = new Date(time * 1000);
-  var Y = date.getFullYear() + '-';
-  var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+  var Y = date.getFullYear() + '.';
+  var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '.';
   var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' ';
   var h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
   var m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + ':';
   var s = (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds());
-  return Y + M + D + h + m + s
+  // 只传日期
+  if(isHsm) {
+      return Y + M + D
+  } else {
+      return Y + M + D + h + m + s
+  }
+  
 }
 
 
@@ -213,7 +223,7 @@ function goReceiving(id) {
               title: '收货成功',
               icon: 'none'
             });
-            wx.reLaunch({ url: "../msg/main?msg=" + "收货成功" });
+            wx.switchTab({ url: "../center/main" });
           } else {
             wx.showToast({
               title: '收货失败',

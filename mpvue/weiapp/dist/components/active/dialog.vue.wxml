@@ -1,0 +1,7 @@
+<template name="a13d9a2a">
+  <view class="_div data-v-0839d924 dialog">
+    <view class="_div data-v-0839d924 dialog_title">标题</view>
+    <view class="_div data-v-0839d924 dialog_content">内容</view>
+    <view class="_div data-v-0839d924 dialog_btn">按钮</view>
+  </view>
+</template>

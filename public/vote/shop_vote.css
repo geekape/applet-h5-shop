@@ -1,0 +1,38 @@
+@charset "utf-8";
+/*商城的投票*/
+.fixed_bg{ position:fixed; z-index:0; left:0; right:0; top:0; bottom:0; background:url(bg2.jpg) no-repeat; background-size:100% 100%;}
+.vote_wrap{ position:relative; z-index:10; margin-bottom:20px;}
+.vote_content{ padding:10px;}
+.vote_title{ color:#da1484; font-size:14px; font-weight:bold; padding:7px; border-radius:5px; text-align:center;}
+.vote_remark{ background:RGBA(255,255,255,.3); font-size:12px; color:#999; border-radius:5px; margin:10px 0 0; padding:7px 30px 7px 7px; height:22px; overflow:hidden; position:relative}
+.vote_remark .open{ background:url(item_arrow.png) no-repeat; -webkit-transform:rotate(90deg);transform:rotate(90deg); background-size:100% 100%; width:20px; height:20px; position:absolute; top:10px; right:10px;}
+.vote_remark_open .open{  -webkit-transform:rotate(-90deg);transform:rotate(-90deg);}
+.vote_remark_open{ height:auto;}
+.option_list{ margin:0 5px; overflow:hidden;}
+.option_list li{ width:50%; float:left;}
+.list_content{ margin:5px; background:#fff; box-shadow:0 0 2px RGBA(226,7,131,.3); position:relative;}
+.list_content img{ width:100%; display:block}
+.list_content .name{ background:#f6daea; color:#da1484; text-align:center; padding:5px; font-size:12px;}
+.list_content .opt_count{ position:absolute; top:5px; right:5px; font-size:12px; background:RGBA(226,7,131,.7); padding:5px 5px; border-radius:100%; color:#fff;}
+.list_info{ display:-webkit-box;}
+.detail_btn,.detail_btn:visited,.detail_btn:active{ background:#d7569f; color:#fff; padding:3px 5px; font-size:12px; -webkit-box-flex:1; display:block; border-radius:5px; margin:5px 3px; text-align:center; white-space:nowrap;}
+.detail_btn .zan{ display:inline-block; width:12px; height:12px; background:url(zan.png) no-repeat; background-size:100% 100%; vertical-align:-1px; margin-right:2px;}
+.has_vote { background:#333; }
+.over_btn{ background:#999}
+.common_header{ background:#d7569f}
+.common_header .back{ border-right:1px solid #F69}
+.option_user{ margin:10px; overflow:hidden; position:relative;}
+.option_user img{ float:left; width:50%; margin-right:10px;}
+.option_user .detail_btn{ position:absolute; left:52%; bottom:0; margin:0;}
+.option_content{ margin:10px;}
+.option_content h6{ border-bottom:1px dashed #db52af; color:#db52af; padding-bottom:5px;}
+.option_content p{ padding:5px; font-size:12px; color:#db52af}
+.option_content h6 img{ width:24px; vertical-align:-6px; margin-right:4px;}
+.verify_content{ background:#fff; border-radius:5px; padding:10px; margin:15px;}
+#change{ color:#39C}
+
+
+
+
+
+

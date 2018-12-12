@@ -1,28 +1,19 @@
 {
   "pages": [
-    "pages/shop/index/main",
-
     "pages/shop/center/main",
-    "pages/shop/my_order/main",
-    "pages/shop/msg/main",
-    "pages/shop/add_address/main",
-    "pages/shop/refund/main",
-    "pages/shop/order_detail/main",
-    "pages/shop/web_view/main",
-    "pages/shop/lists/main",
-    "pages/shop/comment/main",
-    "pages/shop/my_comment/main",
-    "pages/shop/login/main",
-    "pages/shop/cart/main",
-    "pages/shop/logistics/main",
-    "pages/shop/confirm_order/main",
+    "pages/shop/index/main",
     "pages/shop/shop_list/main",
     "pages/shop/my_address/main",
+    "pages/shop/cart/main",
     "pages/shop/track/main",
+    "pages/shop/login/main",
     "pages/shop/goods_detail/main",
     "pages/shop/collect/main",
-    "pages/shop/coupon/main",
+    "pages/shop/my_order/main",
+    "pages/shop/my_comment/main",
+    "pages/shop/confirm_order/main",
     "pages/shop/done_pay/main",
+    "pages/shop/lists/main",
     "pages/shop/service/main"
   ],
   "window": {
@@ -60,6 +51,4 @@
       }
     ]
   }
-
-
 }

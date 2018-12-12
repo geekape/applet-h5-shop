@@ -14,8 +14,8 @@ module.exports = {
     baseUrl: process.env.NODE_ENV == "development" ? '/' : './',
     outputDir: '../../public/wap',
     chainWebpack: config => {
-        config.resolve.alias
-            .set('images', resolve('static/img/'))
+        config.resolve.alias.set('images', resolve('static/img/'))
+        config.resolve.alias.set('styles', resolve('static/styles/'))
     },
     css: {
         loaderOptions: {

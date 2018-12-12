@@ -2,14 +2,14 @@ require("../../../common/manifest.js");
 require("../../../common/vendor.js");
 global.webpackJsonp([22],{
 
-/***/ 170:
+/***/ 311:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index__ = __webpack_require__(171);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index__ = __webpack_require__(312);
 
 
 
@@ -18,16 +18,16 @@ app.$mount();
 
 /***/ }),
 
-/***/ 171:
+/***/ 312:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_1_1_2_mpvue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(173);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_1_1_2_mpvue_loader_lib_template_compiler_index_id_data_v_a5d44e4c_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_1_1_2_mpvue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(237);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_mpvue_loader_1_1_2_mpvue_loader_lib_selector_type_script_index_0_index_vue__ = __webpack_require__(314);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_mpvue_loader_1_1_2_mpvue_loader_lib_template_compiler_index_id_data_v_a5d44e4c_hasScoped_true_transformToRequire_video_src_source_src_img_src_image_xlink_href_node_modules_mpvue_loader_1_1_2_mpvue_loader_lib_selector_type_template_index_0_index_vue__ = __webpack_require__(315);
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(172)
+  __webpack_require__(313)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -72,34 +72,34 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 172:
+/***/ 313:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 173:
+/***/ 314:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_assign__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_assign__ = __webpack_require__(32);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_assign___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_assign__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_get_iterator__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_get_iterator__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_get_iterator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_get_iterator__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_slicedToArray__ = __webpack_require__(60);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_slicedToArray__ = __webpack_require__(39);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_slicedToArray___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_slicedToArray__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_core_js_object_entries__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_core_js_object_entries__ = __webpack_require__(40);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_core_js_object_entries___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_babel_runtime_core_js_object_entries__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_core_js_object_values__ = __webpack_require__(62);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_core_js_object_values__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_core_js_object_values___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_babel_runtime_core_js_object_values__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_babel_runtime_core_js_object_keys__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_babel_runtime_core_js_object_keys__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_babel_runtime_core_js_object_keys___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_babel_runtime_core_js_object_keys__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_babel_runtime_core_js_json_stringify__ = __webpack_require__(58);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_babel_runtime_core_js_json_stringify__ = __webpack_require__(38);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_babel_runtime_core_js_json_stringify___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_babel_runtime_core_js_json_stringify__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__utils__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__static_vant_toast_toast__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_mpvue_wxparse__ = __webpack_require__(82);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__static_vant_toast_toast__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_mpvue_wxparse__ = __webpack_require__(65);
 
 
 
@@ -107,6 +107,10 @@ if (false) {(function () {
 
 
 
+//
+//
+//
+//
 //
 //
 //
@@ -283,6 +287,7 @@ if (false) {(function () {
       totalPrice: 0,
       isTcp: true,
       tcp: '',
+      activeOrderParams: {},
       isTcpPopup: false,
       isPopup: false,
       couponNum: 0,
@@ -306,7 +311,27 @@ if (false) {(function () {
     wxParse: __WEBPACK_IMPORTED_MODULE_9_mpvue_wxparse__["a" /* default */]
   },
 
-  computed: {},
+  computed: {
+    totalPrices: function totalPrices() {
+      console.log(this.goodsList);
+      var totalMoeny = 0;
+      this.goodsList.forEach(function (item, index) {
+
+        totalMoeny = parseFloat(totalMoeny) + parseFloat(item.sale_price) * parseInt(item.num) + parseFloat(item.express);
+
+        if (item.type == 2) {
+          // 选中门店
+          console.log('选中门店');
+          totalMoeny = (parseFloat(totalMoeny) - parseFloat(item.express)).toFixed(2);
+        } else {
+          if (item.type != 1) totalMoeny = (parseFloat(totalMoeny) + parseFloat(item.express)).toFixed(2);
+        }
+      });
+      console.log('我是计算属性');
+      this.totalPrice = totalMoeny;
+      return totalMoeny;
+    }
+  },
 
   methods: {
     // 查看协议
@@ -445,11 +470,6 @@ if (false) {(function () {
 
       if (lists[idx].type != selfChecked) {
         lists[idx].type = selfChecked;
-        if (lists[idx].type == 2) {
-          this.totalPrice -= parseFloat(lists[idx].express); // 减掉运费
-        } else {
-          this.totalPrice += parseFloat(lists[idx].express); // 减掉运费
-        }
       }
       // 遍历商品
       var arr = [];
@@ -482,6 +502,13 @@ if (false) {(function () {
       var _loop = function _loop(key, value) {
         value.forEach(function (item, idx) {
           item.arrowDir = "top";
+
+          // 从活动中进来，改变价格
+          if (_this.activeOrderParams) {
+            var price = JSON.parse(_this.activeOrderParams).activePrice;
+            item.sale_price = price;
+          }
+
           if (key != 3) {
             item.type = key;
           } else {
@@ -532,33 +559,10 @@ if (false) {(function () {
 
       this.goodsList = arr;
     },
-
-
-    // 返回计算后的价格
-    countPrice: function countPrice(num1, num2) {
-      var arr = [];
-      var arr2 = [];
-      var price = 0;
-      var express = 0;
-      for (var i in num1) {
-        arr.push(num1[i]);
-      }
-      arr.forEach(function (item, index) {
-        price += parseFloat(item);
-      });
-
-      for (var _i in num2) {
-        arr2.push(num2[_i]);
-      }
-      arr2.forEach(function (item, index) {
-        express += parseFloat(item);
-      });
-
-      return price + express;
-    },
     sendRequest: function sendRequest(opt) {
       var _this = this;
       Object(__WEBPACK_IMPORTED_MODULE_7__utils__["g" /* post */])("shop/api/confirm_order", opt).then(function (res) {
+        console.log('执行了请求');
         // 有商品错误
         if (res.code == 0) {
           wx.reLaunch({ url: "../msg/main?msg=" + res.msg + "&type=warn" });
@@ -566,7 +570,10 @@ if (false) {(function () {
         _this.datas = res;
         _this.address = _this.datas.address;
         _this.couponNum = parseInt(_this.datas.coupon_num);
-        _this.totalPrice = _this.countPrice(_this.datas.total_price, _this.datas.total_express);
+        // _this.totalPrice = _this.countPrice(
+        //   _this.datas.total_price,
+        //   _this.datas.total_express
+        // );
         _this.shopListArr(_this.datas.lists);
       }).catch(function (err) {
         console.log("错误信息：" + err);
@@ -574,16 +581,15 @@ if (false) {(function () {
     },
     getData: function getData(type) {
       var _this = this;
-
       if (type == 1) {
         // 购物车进来的
         var opt = wx.getStorageSync("cartsOpt");
         this.goodsId = opt.goodsIds;
         var opts = {
           goods_ids: opt.goodsIds,
-          PHPSESSID: wx.getStorageSync("PHPSESSID"),
           buyCount: opt.count,
-          cart_ids: opt.cartIds
+          cart_ids: opt.cartIds,
+          PHPSESSID: wx.getStorageSync('PHPSESSID')
         };
         _this.sendRequest(opts);
       } else {
@@ -591,7 +597,7 @@ if (false) {(function () {
         this.goodsId = id;
         var _opts = {
           goods_id: id,
-          PHPSESSID: wx.getStorageSync("PHPSESSID")
+          PHPSESSID: wx.getStorageSync('PHPSESSID')
         };
         _this.sendRequest(_opts);
       }
@@ -600,7 +606,14 @@ if (false) {(function () {
   onLoad: function onLoad() {
     __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_object_assign___default()(this, this.$options.data());
     var type = this.$root.$mp.query.type || 0;
-    this.getData(type);
+    this.activeOrderParams = this.$store.state.activeOrderParams;
+    if (this.activeOrderParams) {
+      var opt = JSON.parse(this.$store.state.activeOrderParams);
+      // 活动
+      this.sendRequest(opt);
+    } else {
+      this.getData(type);
+    }
   },
   onShow: function onShow() {
     // 优惠劵被选择重新计算
@@ -615,7 +628,7 @@ if (false) {(function () {
 
 /***/ }),
 
-/***/ 237:
+/***/ 315:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -748,7 +761,13 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       staticClass: "goods-line__right"
     }, [_c('p', {
       staticClass: "u-goods__tt overflow-dot"
-    }, [_vm._v(_vm._s(item.title))]), _vm._v(" "), _c('div', {
+    }, [(_vm.datas.event_type == 1) ? _c('span', {
+      staticClass: "s-red"
+    }, [_vm._v("【拼团】")]) : (_vm.datas.event_type == 2) ? _c('span', {
+      staticClass: "s-red"
+    }, [_vm._v("【秒杀】")]) : (_vm.datas.event_type == 3) ? _c('span', {
+      staticClass: "s-red"
+    }, [_vm._v("【砍价】")]) : _vm._e(), _vm._v("\n            " + _vm._s(item.title))]), _vm._v(" "), _c('div', {
       staticClass: "goods-line__ft"
     }, [_c('div', {
       staticClass: "goods-line__price"
@@ -859,7 +878,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
     staticClass: "g-flex__item g-flex"
   }, [_c('p', [_vm._v("实付款：")]), _c('p', {
     staticClass: "s-red"
-  }, [_vm._v("¥" + _vm._s(_vm.totalPrice))]), _c('p'), _vm._v(" "), _c('p', {
+  }, [_vm._v("¥" + _vm._s(_vm.totalPrices))]), _c('p'), _vm._v(" "), _c('p', {
     staticClass: "f-font-sm"
   }, [_vm._v("含运费")])], 1), _vm._v(" "), _c('button', {
     staticClass: "u-button u-button--primary",
@@ -971,5 +990,5 @@ if (false) {
 
 /***/ })
 
-},[170]);
+},[311]);
 //# sourceMappingURL=main.js.map

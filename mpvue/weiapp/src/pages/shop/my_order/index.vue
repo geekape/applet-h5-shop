@@ -1,10 +1,6 @@
 <template>
   <div class="my-order">
 
-    <!-- <div class="navbar">
-      <p class="navbar-icon_left iconfont">&#xe697;</p>
-      <p class="navbar-title overflow-dot_row">商品详情</p>
-    </div> -->
 
     <van-tabs :active="tabActive" @change="toggleTab" swipeable border="false" swipe-threshold="6">
       <van-tab title="全部">

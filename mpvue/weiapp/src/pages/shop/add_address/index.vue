@@ -21,13 +21,13 @@
       </div>
     </from>
     <button @click="saveAddress" class="u-button u-button--primary u-button--big">保存</button>
-    <i-toast id="toast" />
+    <van-toast id="van-toast" />
   </div>
 </template>
 
 <script>
 import {post, get} from '@/utils'
-const { $Toast } = require('@/../static/iview/base/index')
+import Toast from "@/../static/vant/toast/toast";
 export default {
   data () {
     return {
@@ -62,10 +62,7 @@ export default {
     saveAddress () {
       var _this = this
       if(this.name == '' || this.moblie == '' || this.addressArea == '' || this.addressInfo == '') {
-        $Toast({
-          content: '还有表单没有填',
-          type: 'error'
-        })
+        Toast('还有表单没有填')
         return falseaddress_detail
       }
 
@@ -83,10 +80,7 @@ export default {
       }
       post("/shop/api/add_address", obj)
       .then((res) => {
-        $Toast({
-          content: '保存地址成功',
-          type: 'success'
-        })
+        Toast('保存地址成功')
         // 从订单页进来的
         if(this.type == 1) {
           wx.navigateBack({
@@ -99,7 +93,6 @@ export default {
           })
         }
         wx.setStorageSync('address', obj)
-        
       })
       }
   },

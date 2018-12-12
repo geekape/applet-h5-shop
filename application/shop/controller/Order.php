@@ -428,6 +428,10 @@ class Order extends Base
 				// 退款
 				$rrrr = $orderDao->rebackPay($order);
 				addWeixinLog($rrrr,'rebackPaymoney_'.$id);
+				if (isset($rrrr['status']) && $rrrr['status']==0 && !empty($rrrr['msg'])){
+					exception($rrrr['msg']);
+				}
+				
             }
             
             $res = D('shop/Order')->updateId($id, $save);

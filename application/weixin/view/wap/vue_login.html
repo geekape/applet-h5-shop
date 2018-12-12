@@ -41,7 +41,7 @@
         window.localStorage.setItem('PHPSESSID', sid)
         window.localStorage.setItem('public_name', public_name)
         setTimeout(function() {
-            window.location.href = "{:SITE_URL}/wap/index.html?pbid=" + pbid 
+            window.location.href = window.localStorage.getItem("prevUrl") ||"{:SITE_URL}/wap/index.html?pbid=" + pbid 
         }, 3000)
     }
 </script>

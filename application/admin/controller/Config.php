@@ -57,7 +57,6 @@ class Config extends Admin
 
         $list = $this->lists_data('config', $map, 'id');
         // 记录当前列表页的cookie
-        $forward = cookie('__forward__');
         empty($forward) && cookie('__forward__', $_SERVER['REQUEST_URI']);
 
         $this->assign('group', config('CONFIG_GROUP_LIST'));

@@ -1,10 +1,12 @@
 <template>
   <div class="refund comment">
     <navbar text="退款"></navbar>
+    <scroller >
     <div>
       <textarea class="comment-box" name="" maxlength="999" placeholder="退款原因" v-model="text"></textarea>
     </div>
       <button class="u-button u-button--big u-button--primary" @click="formSubmit">提交</button>
+    </scroller>
   </div>
 </template>
 

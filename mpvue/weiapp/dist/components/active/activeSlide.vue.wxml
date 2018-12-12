@@ -1,0 +1,12 @@
+<template name="0345c190">
+  <view class="_div data-v-77921895 slide">
+    <swiper class="_swiper data-v-77921895 swiper" autoplay="{{true}}" interval="{{2500}}" bindchange="handleProxy" data-eventid="{{'1'}}" data-comkey="{{$k}}">
+      <swiper-item class="_swiper-item data-v-77921895 swiper-item" wx:key="index" key="{{index}}" wx:for="{{imgsurl}}" wx:for-index="index" wx:for-item="item">
+        <view class="_a data-v-77921895 slide-url" bindtap="handleProxy" data-eventid="{{'0-'+index}}" data-comkey="{{$k}}">
+          <image src="{{item}}" class="_image data-v-77921895 slide-image" mode="aspectFill"></image>
+        </view>
+      </swiper-item>
+    </swiper>
+    <view class="_p data-v-77921895 padding"><label class="_span data-v-77921895 currentslide">{{currentnum}}</label>/<label class="_span data-v-77921895 totalslide">{{imgsurl.length}}</label></view>
+  </view>
+</template>

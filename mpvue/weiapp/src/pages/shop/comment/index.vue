@@ -67,8 +67,9 @@ export default {
             Toast(res.msg)
             _this.is_first_action = true
           } else {
-            wx.reLaunch({ url: "../msg/main?msg=" + "评价成功" });
             _this.is_first_action = true
+            wx.switchTab({ url: "../center/main" });
+            
           }
         })
       }

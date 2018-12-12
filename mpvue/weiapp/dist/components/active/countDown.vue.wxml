@@ -1,0 +1,3 @@
+<template name="0b79257e">
+  <view class="_div data-v-4966d21b">剩余时间:{{cd.day}}天{{cd.hour}}小时{{cd.min}}分钟{{cd.sec}}秒</view>
+</template>

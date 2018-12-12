@@ -18,26 +18,33 @@ input,button,textarea {
   background: transparent;
 }
 a {color: #333}
-/**
-* 清除Vant UI样式
-*/
+
+html,body {height: 100%;}
+
+body,page {
+
+  /**
+  * 重置weui样式
+  */
+  .weui-form-preview {
+    margin-top: 10px;
+  }
+  .weui-form-preview__hd .weui-form-preview__value {
+    font-size: 1.2em;
+  }
 
 
-body {
-  font-size: 16px;
-  background: #f9f9f9;
-  .weui-badge {z-index:88;}
-
+  /**
+  * 重置vant样式
+  */
+  /deep/ .van-tabs__wrap{
+    position: sticky;
+    top: 0;
+  }
+  /deep/ .van-tabs--line {
+    padding-top: 0;
+  }
 }
-
-
-
-  
-
-
-/**
-* 清除微信小程序原生组件样式
-*/
 
 // 轮播
 swiper-item image {

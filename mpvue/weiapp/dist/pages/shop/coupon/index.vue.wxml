@@ -1,4 +1,4 @@
-<template name="2d83e254">
+<template name="0225cdb2">
   <view class="_div data-v-928c635e coupon">
     <van-tabs active="{{tabActive}}" bind:change="onChange" swipeable border="false" class="_van-tabs data-v-928c635e">
       <van-tab title="未使用" class="_van-tab data-v-928c635e">

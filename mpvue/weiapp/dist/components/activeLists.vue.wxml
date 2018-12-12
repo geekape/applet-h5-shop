@@ -1,0 +1,17 @@
+<template name="45580a2f">
+  <view class="_div data-v-14d0d56c active-lists">
+    <view class="_div data-v-14d0d56c goods-list">
+      <view bindtap="handleProxy" class="_div data-v-14d0d56c goods-list__item g-flex" wx:key="item.id" key="{{item.id}}" data-eventid="{{'0-'+index}}" data-comkey="{{$k}}" wx:for="{{activeData}}" wx:for-index="index" wx:for-item="item">
+        <image class="_img data-v-14d0d56c goods-list__img u-goods__img" wx:if="{{item.cover_img !=''}}" src="{{item.cover_img}}"></image>
+        <image class="_img data-v-14d0d56c goods-list__img u-goods__img" wx:else src></image>
+        <view class="_div data-v-14d0d56c goods-list__info">
+          <view class="_p data-v-14d0d56c u-goods__tt overflow-dot">{{item.title}}</view>
+          <view class="_p data-v-14d0d56c goods-list__des overflow-dot"></view>
+          <view class="_div data-v-14d0d56c g-flex goods-list__ft"><button class="_button data-v-14d0d56c u-button u-button--primary" wx:if="{{activeType!=4}}">
+              {{activeData[0].status == 1 || null ? "立即围观" : "默默等待"}}
+            </button><button class="_button data-v-14d0d56c u-button u-button--primary" wx:else>立即抢卷</button></view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>

@@ -1,6 +1,10 @@
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// install a JSONP callback for chunk loading
 /******/ 	var parentJsonpFunction = global["webpackJsonp"];
+/******/ 	if (parentJsonpFunction) {
+/******/ 		if (parentJsonpFunction.isMpvueLoaderInit) return;
+/******/ 		parentJsonpFunction.isMpvueLoaderInit = true;
+/******/ 	}
 /******/ 	global["webpackJsonp"] = function webpackJsonpCallback(chunkIds, moreModules, executeModules) {
 /******/ 		// add "moreModules" to the modules object,
 /******/ 		// then flag all "chunkIds" as loaded and fire callback
@@ -34,7 +38,7 @@
 /******/
 /******/ 	// objects to store loaded and loading chunks
 /******/ 	var installedChunks = {
-/******/ 		25: 0
+/******/ 		35: 0
 /******/ 	};
 /******/
 /******/ 	// The require function

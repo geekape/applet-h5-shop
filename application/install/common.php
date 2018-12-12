@@ -49,7 +49,7 @@ function check_env()
         ),
         'disk' => array(
             '磁盘空间',
-            '5M',
+            '100M',
             '不限制',
             '未知',
             'success'

@@ -1,0 +1,26 @@
+<template name="3a865240">
+  <view class="_div data-v-3a62685d active_goods" wx:if="{{goodslists.length > 0}}">
+    <view class="_div data-v-3a62685d goods" wx:key="index" key="{{index}}" wx:for="{{goodslists}}" wx:for-index="index" wx:for-item="goodslist"><label wx:if="{{active.name === '拼团'}}" class="_span data-v-3a62685d collage_tag">{{eventinfo.member_limit}}人团</label>
+      <view class="_div data-v-3a62685d active_img">
+        <image class="_img data-v-3a62685d good_img" src="{{goodslist.cover}}"></image>
+      </view>
+      <view class="_div data-v-3a62685d active_time hide" wx:if="{{cd.endtime > cd.nowtime && cd.nowtime > cd.starttime}}">剩余时间:{{cd.day}}天{{cd.hour}}小时{{cd.min}}分钟{{cd.sec}}秒</view>
+      <view class="_div data-v-3a62685d active_time active_timeout" wx:elif="{{cd.nowtime > cd.endtime}}">活动已结束</view>
+      <view class="_div data-v-3a62685d active_time active_not_begin" wx:else>活动未开始</view>
+      <view class="_div data-v-3a62685d active_good_detail">
+        <view class="_div data-v-3a62685d good_detail">
+          <view class="_p data-v-3a62685d title">{{goodslist.title}}</view>
+          <view class="_p data-v-3a62685d red active_price"><label class="_span data-v-3a62685d price-icon">¥</label>
+            <view class="_strong data-v-3a62685d">{{goodslist.sale_price}}</view>
+            <view class="_small data-v-3a62685d tag">{{active.name}}</view>
+          </view>
+          <view class="_p data-v-3a62685d market_price">
+            <view class="_del data-v-3a62685d"><label class="_span data-v-3a62685d prize-icon">¥</label>{{goodslist.market_price}}</view>
+          </view>
+        </view>
+        <navigator class="_a data-v-3a62685d active-btn" url="{{active.url + goodslist.id}}">{{active.name}}</navigator>
+      </view>
+    </view>
+  </view>
+  <view class="_div data-v-3a62685d active_null" wx:else><label class="_span data-v-3a62685d">活动商品为空</label></view>
+</template>

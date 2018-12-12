@@ -22,15 +22,15 @@
         <h3 class="apps_name">{$info.title}</h3>
         <div class='card'>{$info.content|raw}</div>
         <div class="buttons">
-            {notempty name="info.sale_price"}
+            {if condition="$info['sale_price']!='0.00'"}
             <button class="btn" data-toggle="modal" data-target="#myModal">联系购买</button>
-            <button class="btn" href="https://www.kancloud.cn/fanxing/weiphp5/853624">安装教程</button>
+            <a class="btn" href="https://www.weiphp.cn/doc/payment_plug_in_installation.html" target="_blank">安装教程</a>
             {else /}
             <button class="btn" href="{$info.down_url}">免费下载</button>
-            <button class="btn" href="https://www.kancloud.cn/fanxing/weiphp5/853623">安装教程</button>
-            {/notempty}
+            <a class="btn" href="https://www.weiphp.cn/doc/free_plug_in_installation.html" target="_blank">安装教程</a>
+            {/if}
         </div>
-        <div class="apps_price"><span>{$info.sale_price}元</span>/<del>{$info.market_price}元</del></div>
+        <div class="apps_price"><span>{if condition="$info['sale_price']!='0.00'"}{$info.sale_price}元</span>/<del>{$info.market_price}元</del>{/if}</div>
         <div class="clear:both"></div>
     </div>
 </div>

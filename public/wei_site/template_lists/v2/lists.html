@@ -1,0 +1,40 @@
+{include file="common@base/mobile_head"/}	
+<style type="text/css">
+.identify .fl{ float:left}
+.identify .fr{ float:right}
+.pic_list{ width:100%; text-align:center; margin:10px 0;}
+.pic_list a{ display:inline-block;width:100px; height:100px; margin:2px;}
+.pic_list a img{ width:100%; height:100px;}
+</style>
+<body id="weisite">
+<div class="container">
+   	<div class="pic_list">
+    {volist name="lists" id="vo"}
+        	<a href="{$vo.url}">
+            	{notempty name="vo.cover"}<img src="{$vo.cover|get_square_url=300}"/>{/notempty}
+            </a>
+        {/volist}
+    </div>
+    <!-- 分页 -->
+    <div class="page"> {$_page|raw|default=''} </div>
+</div>
+<!-- 底部导航 -->
+{$footer_html|raw}
+<!-- 统计代码 -->
+{notempty name="config.code"}
+<p class="hide bdtongji">
+{$config.code}
+</p>
+{else/}
+<p class="hide bdtongji">
+{$tongji_code|raw}
+</p>
+{/notempty}
+</body>
+<script type="text/javascript">
+$(function(){
+	$.WeiPHP.initBanner(true,5000);
+})
+
+</script>
+</html>

@@ -39,7 +39,8 @@
         <navigator url="{{'../goods_detail/main?id=' + item.id}}" open-type="redirect" class="_a data-v-a5d44e4c goods-line">
           <image class="_img data-v-a5d44e4c u-goods__img" src="{{item.cover}}"></image>
           <view class="_div data-v-a5d44e4c goods-line__right">
-            <view class="_p data-v-a5d44e4c u-goods__tt overflow-dot">{{item.title}}</view>
+            <view class="_p data-v-a5d44e4c u-goods__tt overflow-dot"><label class="_span data-v-a5d44e4c s-red" wx:if="{{datas.event_type == 1}}">【拼团】</label><label class="_span data-v-a5d44e4c s-red" wx:elif="{{datas.event_type == 2}}">【秒杀】</label><label class="_span data-v-a5d44e4c s-red" wx:elif="{{datas.event_type == 3}}">【砍价】</label>
+              {{item.title}}</view>
             <view class="_div data-v-a5d44e4c goods-line__ft">
               <view class="_div data-v-a5d44e4c goods-line__price"><label class="_span data-v-a5d44e4c">¥{{item.sale_price}}</label> <label class="_span data-v-a5d44e4c goods__price-cost f-font-sm">¥{{item.market_price}}</label></view>
               <view class="_p data-v-a5d44e4c f-font-sm">x{{item.num}}</view>
@@ -73,7 +74,7 @@
     <view class="_div data-v-a5d44e4c bottom-bar g-flex">
       <view class="_div data-v-a5d44e4c g-flex__item g-flex">
         <view class="_p data-v-a5d44e4c">实付款：</view>
-        <view class="_p data-v-a5d44e4c s-red">¥{{totalPrice}}</view>
+        <view class="_p data-v-a5d44e4c s-red">¥{{totalPrices}}</view>
         <view class="_p data-v-a5d44e4c"></view>
         <view class="_p data-v-a5d44e4c f-font-sm">含运费</view>
       </view> <button bindtap="handleProxy" class="_button data-v-a5d44e4c u-button u-button--primary" data-eventid="{{'9'}}" data-comkey="{{$k}}">提交订单</button>

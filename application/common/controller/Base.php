@@ -47,10 +47,11 @@ class Base extends Controller
         $requestData = input();
         $requestData = empty($requestData) ? [] : $requestData;
         $_REQUEST = array_merge($_REQUEST, $requestData);
-        //add_debug_log($_REQUEST, 'testvistisf_'.get_mid());
+//         add_debug_log($_REQUEST, 'testvistisf_'.get_mid());
         if (isset($_REQUEST['PHPSESSID']) && !empty($_REQUEST['PHPSESSID'])) {
             session_id($_REQUEST['PHPSESSID']);
         }
+//         add_debug_log($_SESSION, 'testvistisf11_'.get_mid());
 
         // 不用记录定时任务的日志
         if (ACTION_NAME != 'cron' && CONTROLLER_NAME != 'Canal') {

@@ -1,0 +1,16 @@
+<template name="3baa281a">
+  <view class="_div data-v-25e51bd0 payment">
+    <view class="_div data-v-25e51bd0">
+      <view class="_div data-v-25e51bd0 pay_card">
+        <view class="_div data-v-25e51bd0 card_content">
+          <view class="_i data-v-25e51bd0 iconfont icon-success"></view> <label class="_span data-v-25e51bd0">已支付</label>
+          <view class="_br data-v-25e51bd0"></view> <label class="_span data-v-25e51bd0">¥999</label>
+        </view>
+        <view class="_div data-v-25e51bd0 card_footer"><label class="_span data-v-25e51bd0">支付方式</label><label class="_span data-v-25e51bd0 pay_method">微信支付</label></view>
+      </view>
+    </view>
+    <view class="_div data-v-25e51bd0 back_to_main">
+      <navigator url="{{activeurl}}" class="_a data-v-25e51bd0">返回首页</navigator>
+    </view>
+  </view>
+</template>

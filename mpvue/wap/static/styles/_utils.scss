@@ -17,7 +17,7 @@
 // 防止闪烁
 [v-cloak],
 .hide {
-    display: none!important;
+    display: none !important;
 }
 
 // 图片垂直居中
@@ -36,13 +36,13 @@
 .s-red {
     color: #ff0204;
 }
+
 .s-link {
     color: $link-color;
 }
-// 背景色
-.s-bg-white {
-    background: #fff!important;
-}
+
+
+
 .s-bg-gray {
     background: #f9f9f9;
 }
@@ -50,6 +50,16 @@
 // 字体
 .f-font-sm {
     font-size: 12px
+}
+
+// margin
+.f-mr-xs {
+    margin-right: 3px;
+}
+
+// 浮动
+.u-float-r {
+    float: right;
 }
 
 // 用户头像
@@ -180,4 +190,108 @@
         min-width: 55px;
         color: #aaa;
     }
+}
+
+// icon
+.icon-fanhui {
+    transition: all .3s
+}
+
+.icon-fanhui.right {
+    transform: rotate(180deg);
+}
+
+.icon-fanhui.bottom {
+    transform: rotate(180deg);
+}
+
+.icon-fanhui.top {
+    transform: rotate(270deg);
+}
+
+// 活动
+// 时间bar
+.u-time-bar {
+    background: #feedd6;
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+    font-size: 12px;
+    position: absolute;
+    bottom: 0;
+    width: 100%; // 过期
+    &.due {
+        background: rgba(0, 0, 0, .1);
+        color: #fff;
+    }
+}
+
+// 优惠卷
+@mixin xy-center() {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.coupon {
+    &-item {
+        box-shadow: -1px -1px 20px rgba(255, 0, 0, 0.1);
+        background: linear-gradient(90deg, #ff0204, #ffb3b3);
+        height: 100px;
+        margin: 15px;
+        margin-bottom: 0;
+        color: #fff;
+        opacity: 0.8;
+        font-size: 16px;
+        @include xy-center; // 按钮
+        &__btn {
+            width: 52px;
+            height: 22px;
+            color: $red;
+            font-size: 12px;
+            padding: 0;
+            border-radius: 3px;
+            background: #fff;
+            @include xy-center;
+        }
+        &__r {
+            flex: 1;
+            height: 100px;
+            max-width: 70px;
+            @include xy-center;
+        }
+        &__c {
+            flex: 2;
+        }
+        &__c,
+        &__l {
+            padding-left: 20px;
+        }
+        &__price {
+            font-size: 32px;
+        }
+        &__time {
+            margin-top: 5px;
+            font-size: 11px;
+        }
+    } // 已使用
+    &-done &-item {
+        background: linear-gradient(90deg, #dddddd, #f5f5f5);
+    }
+    &-done &-item,
+    &-done &-item__btn {
+        color: #aaa;
+    }
+}
+
+.page {
+    position: fixed;
+    top: 50px;
+    bottom: 50px;
+    overflow-y: scroll;
+}
+
+// 占位符
+%h100 {
+    height: 100%;
 }

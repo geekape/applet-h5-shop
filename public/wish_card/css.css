@@ -1,0 +1,20 @@
+@charset "utf-8";
+/* CSS Document */
+html{ height:100%;}
+.body{ background:#fff}
+.empty_tips{ padding:50px 0; text-align:center; color:#888;}
+.head_div{ position:relative;}
+.head_div .u_info{ position:absolute; width:100%; bottom:15px; text-align:center; color:#fff; text-shadow:0 1px #999;}
+.head_div .head{ width:54px; height:54px; border-radius:30px; display:block; margin:5px auto; border:3px solid #fff}
+.card_type_list{ overflow:hidden; zoom:1; padding:15px 0;}
+.card_type_list li{ width:50%; float:left; margin-bottom:10px;}
+.card_type_list li a{ width:100%; display:block; text-align:center; font-size:13px; color:#999}
+.card_type_list li img{ width:80%; height:100px;}
+.card_template li img{ height:200px;}
+.wish_list li a{ display:block; font-size:13px; color:#666; margin:15px; padding:10px; border:1px solid #ddd; background:#fff;}
+#form label{ display:block; margin:0; margin-bottom:10px;}
+#form input[type="text"],#form textarea{ width:100%;}
+
+.template_cate{ padding:10px;}
+.template_cate a{ padding:5px 10px; border:1px solid #ddd; margin:0 10px 10px 0; color:#555}
+.template_cate a.current{ background:#555; color:#fff}
