@@ -1,6 +1,7 @@
 <template>
   <div class="logistics">
     <navbar text="物流信息"></navbar>
+    <scroller v-if="info.id">
     <div class="logistics-head">
       <p>物流公司：{{info.send_code_name ? info.send_code_name : '空'}}</p>
       <p>物流单号：{{info.send_number ? info.send_number : '空'}}</p>
@@ -11,6 +12,7 @@
         <p class="time">{{item.desc}}</p>
       </van-step>
     </van-steps>
+    </scroller>
   </div>
 </template>
 
@@ -67,7 +69,7 @@ export default {
     background: #fff;
     padding: 15px;
     margin: 10px 0;
-    font-size: 16px;
+    font-size: 14px;
     border-top: 10px solid #f9f9f9;
     border-bottom: 10px solid #f9f9f9;
   }

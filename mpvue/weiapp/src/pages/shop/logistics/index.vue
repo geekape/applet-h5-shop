@@ -17,6 +17,7 @@
 <script>
 import {post, timeChange} from "@/utils"
 export default {
+    mpType: 'page',
   data() {
     return {
       active: 2,

@@ -18,6 +18,17 @@ class File extends Home
     /* 文件上传 */
     public function upload()
     {
+    	//用户登录检测
+    	if (!is_login()){
+    		$return = array(
+    				'status' => 0,
+    				'code'=>0,
+    				'info' => '上传失败，请先登录',
+    				'msg' => '上传失败，请先登录',
+    				'data' => ''
+    		);
+    		return json_encode($return);
+    	}
         $return = array(
             'status' => 1,
             'info' => '上传成功',
@@ -29,11 +40,11 @@ class File extends Home
         $info = $File->upload(config('download_upload'), config('picture_upload_driver'), config("upload_{$file_driver}_config"));
         /* 记录附件信息 */
         if ($info) {
-            $return['status'] = 1;
+            $return['code'] = $return['status'] = 1;
             $return = array_merge($info['download'], $return);
         } else {
-            $return['status'] = 0;
-            $return['info'] = $File->getError();
+            $return['code'] = $return['status'] = 0;
+            $return['msg'] = $return['info'] = $File->getError();
         }
         /* 返回JSON数据 */
         return json_encode($return);
@@ -60,6 +71,14 @@ class File extends Home
     public function upload_picture()
     {
         // TODO: 用户登录检测
+        if (!is_login()){
+        	$return = array(
+	            'status' => 0,
+	            'info' => '上传失败，请先登录',
+	            'data' => ''
+        	);
+        	return json($return);
+        }
         /* 返回标准数据 */
         $return = array(
             'status' => 1,
@@ -76,7 +95,7 @@ class File extends Home
             $return = array_merge($info['download'], $return);
         } else {
             $return['status'] = 0;
-            $return['msg'] = $Picture->getError();
+            $return['info'] = $Picture->getError();
         }
         /* 返回JSON数据 */
         return json($return);

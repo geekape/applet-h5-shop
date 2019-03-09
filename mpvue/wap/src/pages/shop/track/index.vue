@@ -1,31 +1,30 @@
 <template>
   <div class="track">
     <navbar text="我的足迹"></navbar>
-    <div class="card-list">
-      <div class="card-list__item" v-for="(item,index) in datas" :key="index">
-        <div class="card-list__hd">
-          <p class="card-list__tt">{{item[0]}}</p>
-        </div>
+    <scroller>
+      <div class="card-list">
+        <div class="card-list__item" v-for="(item,index) in datas" :key="index">
+          <div class="card-list__hd">
+            <p class="card-list__tt">{{item[0]}}</p>
+          </div>
 
-        <div class="card-list__bd">
-          <div :href="'../goods_detail/main?id=' + goods.id" class="goods-line" v-for="(goods, idx) in item[1]" :key="idx">
-            <lazy-component><img class="u-goods__img" mode="aspectFill" v-lazy="goods.cover"/></lazy-component>
+          <div class="card-list__bd">
+            <a :href="'../goods_detail/main?id=' + goods.id" class="goods-line" v-for="(goods, idx) in item[1]" :key="idx">
+              <lazy-component><img class="u-goods__img" mode="aspectFill" v-lazy="goods.cover"/></lazy-component>
 
-            <div class="goods-line__right">
-              <p class="u-goods__tt overflow-dot">{{goods.title}}</p>
-              <div class="goods-line__ft">
-                <div class="goods-line__price u-goods__price"><span class="icon_prize">¥</span>{{goods.sale_price}}</div>
-                <div class="f-font-sm">浏览{{goods.view_count}}次</div>
+              <div class="goods-line__right">
+                <p class="u-goods__tt overflow-dot">{{goods.title}}</p>
+                <div class="goods-line__ft">
+                  <div class="goods-line__price u-goods__price"><span class="icon_prize">¥</span>{{goods.sale_price}}</div>
+                  <div class="f-font-sm">浏览{{goods.view_count}}次</div>
                 </div>
               </div>
-            </div>
+            </a>
+          
           </div>
-        
+          </div>
         </div>
-
-      </div>
-    </div>
-    
+    </scroller>
   </div>
 </template>
 

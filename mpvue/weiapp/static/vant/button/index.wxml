@@ -1,17 +1,16 @@
+<wxs src="../wxs/utils.wxs" module="utils" />
+
 <button
   id="{{ id }}"
   lang="{{ lang }}"
-  class="custom-class van-button {{ classes }}"
+  class="custom-class {{ utils.bem('button', [type, size, { block, round, plain, square, loading, disabled, unclickable: disabled || loading }]) }}"
   open-type="{{ openType }}"
-  app-parameter="{{ appParameter }}"
-  hover-stay-time="{{ hoverStayTime }}"
-  hover-start-time="{{ hoverStartTime }}"
-  hover-stop-propagation="{{ hoverStopPropagation }}"
   session-from="{{ sessionFrom }}"
-  send-message-title="{{ sendMessageTitle }}"
-  send-message-path="{{ sendMessagePath }}"
+  app-parameter="{{ appParameter }}"
   send-message-img="{{ sendMessageImg }}"
+  send-message-path="{{ sendMessagePath }}"
   show-message-card="{{ showMessageCard }}"
+  send-message-title="{{ sendMessageTitle }}"
   bind:tap="onClick"
   binderror="bindError"
   bindcontact="bindContact"

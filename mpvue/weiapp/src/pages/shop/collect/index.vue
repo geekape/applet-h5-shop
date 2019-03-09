@@ -1,7 +1,7 @@
 <template>
   <div class="collect">
     <div class="collect_list" v-for="(item,index) in collectList" :key="index">
-      <a :href="'../goods_detail/main?id=' + item.id" hover-class="none" class="goods-line">
+      <a :href="'../goods_detail/index?id=' + item.id" hover-class="none" class="goods-line">
         <image class="u-goods__img" :src="item.cover"></image>
 
         <div class="goods-line__right">
@@ -21,6 +21,7 @@
 import {post} from "@/utils"
 import Toast from "@/../static/vant/toast/toast";
 export default {
+  mpType: 'page',
   data () {
     return {
       collectList: []

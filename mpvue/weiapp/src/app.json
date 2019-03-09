@@ -1,29 +1,127 @@
 {
   "pages": [
-    "pages/shop/index/main",
-
-    "pages/shop/center/main",
-    "pages/shop/my_order/main",
-    "pages/shop/msg/main",
-    "pages/shop/add_address/main",
-    "pages/shop/refund/main",
-    "pages/shop/order_detail/main",
-    "pages/shop/web_view/main",
-    "pages/shop/lists/main",
-    "pages/shop/comment/main",
-    "pages/shop/my_comment/main",
-    "pages/shop/login/main",
-    "pages/shop/cart/main",
-    "pages/shop/logistics/main",
-    "pages/shop/confirm_order/main",
-    "pages/shop/shop_list/main",
-    "pages/shop/my_address/main",
-    "pages/shop/track/main",
-    "pages/shop/goods_detail/main",
-    "pages/shop/collect/main",
-    "pages/shop/coupon/main",
-    "pages/shop/done_pay/main",
-    "pages/shop/service/main"
+		{
+		  "path": "pages/shop/center/index",
+		  "config": {
+		    "navigationBarTitleText": "个人中心"
+		  }
+		},
+    {
+      "path": "pages/shop/index/index",
+      "config": {
+        "navigationBarTitleText": "首页"
+      }
+    },
+    {
+      "path": "pages/shop/lists/index",
+      "config": {
+        "navigationBarTitleText": "商品页"
+      }
+    },
+    {
+      "path": "pages/shop/cart/index",
+      "config": {
+        "navigationBarTitleText": "购物车"
+      }
+    },
+    
+    {
+      "path": "pages/shop/add_address/index",
+      "config": {
+        "navigationBarTitleText": "编辑地址"
+      }
+    },
+    {
+      "path": "pages/shop/collect/index",
+      "config": {
+        "navigationBarTitleText": "我的收藏"
+      }
+    },
+    {
+      "path": "pages/shop/comment/index",
+      "config": {
+        "navigationBarTitleText": "评价"
+      }
+    },
+    {
+      "path": "pages/shop/confirm_order/index",
+      "config": {
+        "navigationBarTitleText": "提交订单"
+      }
+    },
+    {
+      "path": "pages/shop/done_pay/index",
+      "config": {
+        "navigationBarTitleText": "支付完成"
+      }
+    },
+    {
+      "path": "pages/shop/goods_detail/index",
+      "config": {
+        "navigationBarTitleText": "商品详情"
+      }
+    },
+    {
+      "path": "pages/shop/login/index",
+      "config": {
+        "navigationBarTitleText": "登录"
+      }
+    },
+    {
+      "path": "pages/shop/logistics/index",
+      "config": {
+        "navigationBarTitleText": "物流信息"
+      }
+    },
+    {
+      "path": "pages/shop/msg/index",
+      "config": {
+        "navigationBarTitleText": "提示"
+      }
+    },
+    {
+      "path": "pages/shop/my_comment/index",
+      "config": {
+        "navigationBarTitleText": "我的评价"
+      }
+    },
+    {
+      "path": "pages/shop/my_order/index",
+      "config": {
+        "navigationBarTitleText": "我的订单"
+      }
+    },
+    {
+      "path": "pages/shop/order_detail/index",
+      "config": {
+        "navigationBarTitleText": "订单详情"
+      }
+    },
+    {
+      "path": "pages/shop/refund/index",
+      "config": {
+        "navigationBarTitleText": "退款"
+      }
+    },
+    {
+      "path": "pages/shop/service/index",
+      "config": {
+        "navigationBarTitleText": "客服"
+      }
+    },
+    {
+      "path": "pages/shop/track/index",
+      "config": {
+        "navigationBarTitleText": "我的足迹"
+      }
+    },
+    {
+      "path": "pages/shop/web_view/index",
+      "config": {
+        "navigationBarTitleText": "查看外链"
+      }
+    }
+    
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -35,31 +133,50 @@
     "selectedColor": "#ff0204",
     "list": [
       {
-        "pagePath": "pages/shop/index/main",
+        "pagePath": "pages/shop/index/index",
         "text": "首页",
         "iconPath": "./static/img/new_icon/icon_home.png",
         "selectedIconPath": "./static/img/new_icon/icon_home_red.png"
       },
       {
-        "pagePath": "pages/shop/lists/main",
+        "pagePath": "pages/shop/lists/index",
         "text": "商品",
         "iconPath": "./static/img/new_icon/icon_goods.png",
         "selectedIconPath": "./static/img/new_icon/icon_goods_red.png"
       },
       {
-        "pagePath": "pages/shop/cart/main",
+        "pagePath": "pages/shop/cart/index",
         "text": "购物车",
         "iconPath": "./static/img/new_icon/icon_cart.png",
         "selectedIconPath": "./static/img/new_icon/icon_cart_red.png"
       },
       {
-        "pagePath": "pages/shop/center/main",
+        "pagePath": "pages/shop/center/index",
         "text": "个人中心",
         "iconPath": "./static/img/new_icon/icon_center.png",
         "selectedIconPath": "./static/img/new_icon/icon_center_red.png"
       }
+      
     ]
-  }
-
-
+  },
+  "usingComponents": {
+    "van-stepper": "static/vant/stepper/index",
+    "van-icon": "static/vant/icon/index",
+    "van-popup": "static/vant/popup/index",
+    "van-checkbox": "static/vant/checkbox/index",
+    "van-checkbox-group": "static/vant/checkbox-group/index",
+    "van-radio": "static/vant/radio/index",
+    "van-radio-group": "static/vant/radio-group/index",
+    "van-dialog": "static/vant/dialog/index",
+    "van-loading": "static/vant/loading/index",
+    "van-toast": "static/vant/toast/index",
+    "van-tab": "static/vant/tab/index",
+    "van-tabs": "static/vant/tabs/index",
+    "van-cell": "static/vant/cell/index",
+    "van-cell-group": "static/vant/cell-group/index",
+    "van-collapse": "static/vant/collapse/index",
+    "van-collapse-item": "static/vant/collapse-item/index",
+    "van-area": "static/vant/area/index",
+    "van-datetime-picker": "static/vant/datetime-picker/index"
+  } 
 }

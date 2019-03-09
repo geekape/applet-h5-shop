@@ -9,7 +9,7 @@
 export default {
   data () {
     return {
-     url: 'https://leyao.tv/yi/public/index.php'
+			url: ''
     }
   },
   computed: {

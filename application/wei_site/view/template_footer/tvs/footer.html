@@ -6,10 +6,10 @@
 <div class="nav" id="nav">
 {volist name="footer" id="vo"}
 {if condition="empty($vo['child'])"}
-    <a class="item" href="{$vo.url}">{$vo.icon}{$vo.title}</a>
+    <a class="item" href="{$vo.url}">{$vo.icon|raw}{$vo.title}</a>
 {else/}
     <div class="item has_nav" href="javascript:;" onClick="$(this).find('#more_nav_{$vo.id}').toggle();">
-    	{$vo.icon}{$vo.title}
+    	{$vo.icon|raw}{$vo.title}
     	<div class="more_nav" id="more_nav_{$vo.id}">
         	<em></em>
         	{volist name="vo.child" id="vv"}

@@ -5,7 +5,7 @@ VantComponent({
     name: 'badge-group'
   },
   props: {
-    info: Number,
+    info: null,
     title: String
   },
   methods: {
@@ -17,7 +17,7 @@ VantComponent({
       }
     },
     setActive: function setActive(active) {
-      this.setData({
+      this.set({
         active: active
       });
     }

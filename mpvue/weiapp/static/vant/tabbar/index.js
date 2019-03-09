@@ -1,5 +1,7 @@
 import { VantComponent } from '../common/component';
+import { iphonex } from '../mixins/iphonex';
 VantComponent({
+  mixins: [iphonex],
   relation: {
     name: 'tabbar-item',
     type: 'descendant',
@@ -24,6 +26,7 @@ VantComponent({
   },
   props: {
     active: Number,
+    activeColor: String,
     fixed: {
       type: Boolean,
       value: true
@@ -39,14 +42,14 @@ VantComponent({
   },
   watch: {
     active: function active(_active) {
-      this.setData({
+      this.set({
         currentActive: _active
       });
       this.setActiveItem();
     }
   },
   created: function created() {
-    this.setData({
+    this.set({
       currentActive: this.data.active
     });
   },
@@ -55,7 +58,10 @@ VantComponent({
       var _this3 = this;
 
       this.data.items.forEach(function (item, index) {
-        item.setActive(index === _this3.data.currentActive);
+        item.setActive({
+          active: index === _this3.data.currentActive,
+          color: _this3.data.activeColor
+        });
       });
     },
     onChange: function onChange(child) {
@@ -63,7 +69,7 @@ VantComponent({
 
       if (active !== this.data.currentActive && active !== -1) {
         this.$emit('change', active);
-        this.setData({
+        this.set({
           currentActive: active
         });
         this.setActiveItem();

@@ -10,9 +10,8 @@
 	},
 	"miniprogramRoot": "dist/",
 	"compileType": "miniprogram",
-	"appid": "wxac0115dddad4d9af",
-	"projectname": "mpvue-shop",
-	"cloudfunctionRoot": "functions/",
+	"appid": "touristappid",
+	"projectname": "weiapp",
 	"condition": {
 		"search": {
 			"current": -1,
@@ -31,12 +30,36 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": 4,
 			"list": [
 				{
 					"id": -1,
-					"name": "add_address",
-					"pathName": "pages/shop/add_address/main"
+					"name": "订单详情",
+					"pathName": "pages/shop/order_detail/index",
+					"query": "order_id=2859"
+				},
+				{
+					"id": -1,
+					"name": "member-center",
+					"pathName": "pages/members/index/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "member-exchange",
+					"pathName": "pages/members/score_exchange/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "member-write_info",
+					"pathName": "pages/members/write_info/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "member-get_card",
+					"pathName": "pages/members/get_card/index"
 				}
 			]
 		}

@@ -43,7 +43,7 @@
             <td>{$vo.create_time|time_format}</td>
 			<td>
             	<a href="{:U('Notice/edit?id='.$vo['id'])}">编辑</a>
-				<a href="{:U('Notice/del?id='.$vo['id'])}" class="confirm ajax-get">删除</a>
+				<a href="{:U('Notice/del?id='.$vo['id'])}" class="confirm">删除</a>
                 </td>
 		</tr>
 		{/volist}

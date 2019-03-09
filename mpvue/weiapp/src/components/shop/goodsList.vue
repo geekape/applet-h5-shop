@@ -1,7 +1,7 @@
 <template>
   <div class="goods-list">
-    <a :href="'../goods_detail/main?id='+item.id"  hover-class="none" class="goods-list__item" v-for="(item, index) in goodsData" :key="item.id">
-        <img class="goods-list__img" :src="item.cover" lazy-load/>
+    <a :href="'../goods_detail/index?id='+item.id"  hover-class="none" class="goods-list__item" v-for="(item, index) in goodsData" :key="item.id">
+        <img lazy-load class="goods-list__img" :src="item.cover" lazy-load/>
         <div class="goods-list__ft">
             <p class="goods-list__tt overflow-dot">{{item.title}}</p>
             <span class="goods-list__price s-red"><span class="icon-price">¥</span>{{item.sale_price == 0 ? item.market_price : item.sale_price}}</span>

@@ -545,7 +545,7 @@
 <a class="flyout-btn" href="javascript:;" title="Toggle"><span></span></a>
 <ul class="flyout flyout-init">
     {volist name="footer" id="vo"}
-    <li><a href="{$vo.url}">{$vo.icon}</li>
+    <li><a href="{$vo.url}">{$vo.icon|raw}</li>
   {/volist}
 </ul><!-- .flyout -->
 </div><!-- .flyout-wrap -->

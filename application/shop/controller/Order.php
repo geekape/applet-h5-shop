@@ -156,7 +156,7 @@ class Order extends Base
             
             $vo['action'] = '<a href="' . U('Shop/Order/detail', $param) . '">订单详情</a>';
             if ($vo['status_code'] == 1 && $vo['send_type'] == 1) {
-                $vo['action'] .= '<a class="border-btn btn-small ajax-get" data-ostate=' . $vo['order_state'] . ' href="' . U('Shop/Order/set_confirm', $param) . '">商家确认</a>';
+                $vo['action'] .= '<button class="border-btn btn-small ajax-get" data-ostate=' . $vo['order_state'] . ' data-href="' . U('Shop/Order/set_confirm', $param) . '">商家确认</button>';
             }
             if ($vo['refund'] == 1) {
                 $vo['action'] .= '<a class="border-btn audit_refund" href="javascript:;" rel="' . $vo['id'] . '" data-content="' . $vo['refund_content'] . '">审核退款</a>';
@@ -387,7 +387,6 @@ class Order extends Base
             $this->success('设置失败');
         }
     }
-
     function audit_refund()
     {
         $id = input('refund_id/d');
@@ -428,6 +427,10 @@ class Order extends Base
 				// 退款
 				$rrrr = $orderDao->rebackPay($order);
 				addWeixinLog($rrrr,'rebackPaymoney_'.$id);
+				if (isset($rrrr['status']) && $rrrr['status']==0 && !empty($rrrr['msg'])){
+					exception($rrrr['msg']);
+				}
+				
             }
             
             $res = D('shop/Order')->updateId($id, $save);

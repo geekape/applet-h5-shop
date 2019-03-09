@@ -1,3 +1,0 @@
-<template name="766d6b26">
-  <view class="_div data-v-00b951ba refund comment">
-    <form action bindsubmit="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}" class="_form data-v-00b951ba"><textarea class="_textarea data-v-00b951ba comment-box" name="text" maxlength="999" placeholder="退款原因" /> <button class="_button data-v-00b951ba u-button u-button--big u-button--primary" form-type="submit">提交</button></form> <van-toast id="van-toast" class="_van-toast data-v-00b951ba"></van-toast></view></template>

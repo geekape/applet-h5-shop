@@ -37,7 +37,7 @@
 						<td>
 							<a title="编辑" href="{:U('edit?id='.$channel['id'].'&pid='.$pid)}">编辑</a>
 							<a href="{:U('setStatus?ids='.$channel['id'].'&status='.abs(1-$channel['status']))}" class="ajax-get">{$channel.status|show_status_op}</a>
-							<a class="confirm ajax-get" title="删除" href="{:U('del?id='.$channel['id'])}">删除</a>
+							<a class="confirm" title="删除" href="{:U('del?id='.$channel['id'])}">删除</a>
 						</td>
 					</tr>
 				{/volist}

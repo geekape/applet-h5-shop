@@ -1,18 +1,19 @@
 {
-    "name": "topthink/think",
-    "description": "the new thinkphp framework",
+    "name": "weiphpdev/weiphp5",
+    "description": "the new wechat framework",
     "type": "project",
     "keywords": [
-        "framework",
-        "thinkphp",
-        "ORM"
+        "weiphp",
+        "wechat",
+        "miniapp"
     ],
-    "homepage": "http://thinkphp.cn/",
+    "homepage": "https://www.weiphp.cn/",
     "license": "Apache-2.0",
+    "minimum-stability": "dev",
     "authors": [
         {
-            "name": "liu21st",
-            "email": "liu21st@gmail.com"
+            "name": "weiphp",
+            "email": "weiphp@weiphp.cn"
         }
     ],
     "require": {
@@ -28,10 +29,13 @@
             "app\\": "application"
         }
     },
-    "extra": {
-        "think-path": "thinkphp"
-    },
     "config": {
         "preferred-install": "dist"
+    },
+    "repositories": [
+    {
+       "type": "vcs",
+       "url": "https://git.coding.net/weiphpdev/weiphp5.0.git" 
     }
+]
 }

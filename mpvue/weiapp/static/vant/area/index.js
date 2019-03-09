@@ -25,15 +25,6 @@ VantComponent({
     pickerValue: [0, 0, 0],
     columns: []
   },
-  computed: {
-    displayColumns: function displayColumns() {
-      var _this$data = this.data,
-          _this$data$columns = _this$data.columns,
-          columns = _this$data$columns === void 0 ? [] : _this$data$columns,
-          columnsNum = _this$data.columnsNum;
-      return columns.slice(0, +columnsNum);
-    }
-  },
   watch: {
     value: function value(_value) {
       this.code = _value;
@@ -45,20 +36,21 @@ VantComponent({
     onCancel: function onCancel() {
       this.$emit('cancel', {
         values: this.getValues(),
-        indexs: this.getIndexs()
+        indexs: this.getIndexs(),
+        detail: this.getDetail()
       });
     },
     onConfirm: function onConfirm() {
       this.$emit('confirm', {
         values: this.getValues(),
-        indexs: this.getIndexs()
+        indexs: this.getIndexs(),
+        detail: this.getDetail()
       });
     },
     onChange: function onChange(event) {
       var value = event.detail.value;
-      var _this$data2 = this.data,
-          pickerValue = _this$data2.pickerValue,
-          displayColumns = _this$data2.displayColumns;
+      var pickerValue = this.data.pickerValue;
+      var displayColumns = this.getDisplayColumns();
       var index = pickerValue.findIndex(function (item, index) {
         return item !== value[index];
       });
@@ -92,6 +84,11 @@ VantComponent({
       });
 
       if (code) {
+        // oversea code
+        if (code[0] === '9' && type === 'city') {
+          code = '9';
+        }
+
         result = result.filter(function (item) {
           return item.code.indexOf(code) === 0;
         });
@@ -101,7 +98,12 @@ VantComponent({
     },
     getIndex: function getIndex(type, code) {
       var compareNum = type === 'province' ? 2 : type === 'city' ? 4 : 6;
-      var list = this.getList(type, code.slice(0, compareNum - 2));
+      var list = this.getList(type, code.slice(0, compareNum - 2)); // oversea code
+
+      if (code[0] === '9' && type === 'province') {
+        compareNum = 1;
+      }
+
       code = code.slice(0, compareNum);
 
       for (var i = 0; i < list.length; i++) {
@@ -116,7 +118,7 @@ VantComponent({
       var code = this.code || this.data.areaList && Object.keys(this.data.areaList.county_list || {})[0] || '';
       var province = this.getList('province');
       var city = this.getList('city', code.slice(0, 2));
-      this.setData({
+      this.set({
         'columns[0]': province,
         'columns[1]': city
       });
@@ -125,30 +127,67 @@ VantComponent({
         code = city[0].code;
       }
 
-      this.setData({
+      this.set({
         'columns[2]': this.getList('county', code.slice(0, 4)),
         pickerValue: [this.getIndex('province', code), this.getIndex('city', code), this.getIndex('county', code)]
       });
     },
     getValues: function getValues() {
-      var _this$data3 = this.data,
-          _this$data3$displayCo = _this$data3.displayColumns,
-          displayColumns = _this$data3$displayCo === void 0 ? [] : _this$data3$displayCo,
-          _this$data3$pickerVal = _this$data3.pickerValue,
-          pickerValue = _this$data3$pickerVal === void 0 ? [] : _this$data3$pickerVal;
+      var _this$data$pickerValu = this.data.pickerValue,
+          pickerValue = _this$data$pickerValu === void 0 ? [] : _this$data$pickerValu;
+      var displayColumns = this.getDisplayColumns();
       return displayColumns.map(function (option, index) {
         return option[pickerValue[index]];
+      }).filter(function (value) {
+        return !!value;
       });
     },
     getIndexs: function getIndexs() {
-      var _this$data4 = this.data,
-          pickerValue = _this$data4.pickerValue,
-          columnsNum = _this$data4.columnsNum;
+      var _this$data = this.data,
+          pickerValue = _this$data.pickerValue,
+          columnsNum = _this$data.columnsNum;
       return pickerValue.slice(0, columnsNum);
+    },
+    getDetail: function getDetail() {
+      var values = this.getValues();
+      var area = {
+        code: '',
+        country: '',
+        province: '',
+        city: '',
+        county: ''
+      };
+
+      if (!values.length) {
+        return area;
+      }
+
+      var names = values.map(function (item) {
+        return item.name;
+      });
+      area.code = values[values.length - 1].code;
+
+      if (area.code[0] === '9') {
+        area.country = names[1] || '';
+        area.province = names[2] || '';
+      } else {
+        area.province = names[0] || '';
+        area.city = names[1] || '';
+        area.county = names[2] || '';
+      }
+
+      return area;
     },
     reset: function reset() {
       this.code = '';
       this.setValues();
+    },
+    getDisplayColumns: function getDisplayColumns() {
+      var _this$data2 = this.data,
+          _this$data2$columns = _this$data2.columns,
+          columns = _this$data2$columns === void 0 ? [] : _this$data2$columns,
+          columnsNum = _this$data2.columnsNum;
+      return columns.slice(0, +columnsNum);
     }
   }
 });

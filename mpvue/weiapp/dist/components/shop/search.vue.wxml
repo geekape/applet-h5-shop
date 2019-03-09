@@ -1,3 +1,0 @@
-<template name="995aa064">
-  <view class="_div data-v-56980f1e search"><input type="text" class="_input data-v-56980f1e search-input" placeholder="输入关键字搜索商品" confirm-type="search" placeholder-style="color:#aaa" bindconfirm="handleProxy" data-eventid="{{'0'}}" data-comkey="{{$k}}" /></view>
-</template>

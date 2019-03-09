@@ -30,7 +30,7 @@ export default {
         return false
       }
       wx.navigateTo({
-        url: '/pages/shop/web_view/main?url=' + url
+        url: '/pages/shop/web_view/index?url=' + url
       })
     }
   }

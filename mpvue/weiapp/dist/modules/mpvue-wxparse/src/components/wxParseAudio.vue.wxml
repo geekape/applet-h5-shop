@@ -1,1 +1,0 @@
-<template name="76ca46ba"><audio id="{{node.attr.id}}" src="{{node.attr.src}}" loop="{{node.attr.loop}}" poster="{{node.attr.poster}}" name="{{node.attr.name}}" author="{{node.attr.author}}" controls class="_audio data-v-e273d4de {{node.classStr}}" style=" {{node.styleStr}}"></audio></template>

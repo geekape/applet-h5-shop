@@ -559,7 +559,10 @@ class UserCenter extends WebBase
                     $tempArr = json_decode($tempArr, true);
                     // addWeixinLog($tempArr,'syc_userlistscount5');
                 }
-                $uid = intval($uids[$tempArr['openid']]);
+                if (empty($tempArr)){
+                	continue;
+                }
+                $uid = isset($uids[$tempArr['openid']])?intval($uids[$tempArr['openid']]):0;
                 if ($uid == 0) { // 新增加的用户
                     $tempArr['score'] = intval($config['score']);
                     $tempArr['reg_time'] = $tempArr['subscribe_time'];
@@ -742,23 +745,26 @@ class UserCenter extends WebBase
         $creditMap['wpid'] = $wpid;
         M('credit_data')->where(wp_where($creditMap))->delete();
         // 会员卡设置等级
-        $firstlevel = M('card_level')->where(wp_where($map))
-            ->whereIn('uid', $uidArr)
-            ->order('score asc')
-            ->value('id');
-        // 会员卡等级都设为体验卡
-        $cardMap1[] = array(
-            'uid',
-            'in',
-            $uidArr
-        );
-        $cardMap1[] = array(
-            'level',
-            'gt',
-            0
-        );
-        $savecardlev['level'] = intval($firstlevel);
-        M('card_member')->where(wp_where($cardMap1))->update($savecardlev);
+        if (is_install('card')){
+        	$firstlevel = M('card_level')->where(wp_where($map))
+        	->whereIn('uid', $uidArr)
+        	->order('score asc')
+        	->value('id');
+        	// 会员卡等级都设为体验卡
+        	$cardMap1[] = array(
+        			'uid',
+        			'in',
+        			$uidArr
+        	);
+        	$cardMap1[] = array(
+        			'level',
+        			'gt',
+        			0
+        	);
+        	$savecardlev['level'] = intval($firstlevel);
+        	M('card_member')->where(wp_where($cardMap1))->update($savecardlev);
+        }
+       
         echo 1;
     }
 

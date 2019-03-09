@@ -1,13 +1,13 @@
 <!-- 底部导航最多能添加4个选项 -->
-<link href="{:CUSTOM_TEMPLATE_PATH}_footer/V2/footer.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+<link href="{:CUSTOM_TEMPLATE_PATH}_footer/v2/footer.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
 {notempty name="footer"}
 <nav class="bottom_nav">
 {volist name="footer" id="vo"}
 {if condition="empty($vo['child'])"}
-    <a class="item" href="{$vo.url}">{$vo.icon}{$vo.title}</a>
+    <a class="item" href="{$vo.url}">{$vo.icon|raw}{$vo.title}</a>
 {else/}
     <div class="item has_nav" href="javascript:;" onClick="$(this).find('#more_nav_{$vo.id}').toggle();">
-    	{$vo.icon}{$vo.title}
+    	{$vo.icon|raw}{$vo.title}
     	<div class="more_nav" id="more_nav_{$vo.id}">
         	<em></em>
         	{volist name="vo.child" id="vv"}

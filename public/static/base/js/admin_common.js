@@ -613,7 +613,13 @@ function initUploadFile(callback) {
         var name = $(obj).find('input[type="hidden"]').attr('name');
         var uploadFileExts = $(obj).find('input[type="hidden"]').attr('data-fileexts');
         var maxSize = $(obj).find('input[type="hidden"]').attr('data-maxsize');
-
+        if(uploadFileExts!=''){
+        	UPLOAD_FILE+='/allow_file_ext/'+uploadFileExts;
+        }
+        if(parseFloat(maxSize) > 0){
+        	UPLOAD_FILE+='/allow_file_maxsize/'+maxSize;
+        }
+        
         var uploader = WebUploader.create({
 
             // 设置文件上传域的name

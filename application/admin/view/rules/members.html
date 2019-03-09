@@ -30,7 +30,7 @@
 			<td><a href="{:U('Rule/editRule?id='.$vo['id'])}">{$vo.truename?$vo.truename:$vo.nickname}</a> </td>
             <td>{$vo.mobile}</td>
 			<td>
-				<a href="{:U('deleteUserTag',array('id'=>$id,'ids'=>$vo['id']))}" class="confirm ajax-get">删除</a>
+				<a href="{:U('deleteUserTag',array('id'=>$id,'ids'=>$vo['id']))}" class="confirm">删除</a>
              </td>
 		</tr>
 		{/volist}

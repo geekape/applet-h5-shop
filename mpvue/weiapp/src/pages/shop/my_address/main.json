@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "我的地址",
-  "usingComponents": {
-    "van-checkbox": "/static/vant/checkbox/index",
-    "van-checkbox-group": "/static/vant/checkbox-group/index"
-  }
-}

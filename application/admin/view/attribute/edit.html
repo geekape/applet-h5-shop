@@ -152,6 +152,20 @@
 							</select>
 						</div>
 					</div>
+					<div id='file_check'>
+						<div class="form-item cf">
+							<label class="item-label">验证上传文件扩展名<span class="check-tips">（支持多个扩展名用','隔开）</span></label>
+							<div class="controls">
+								<input type="text" class="text input-large" name="validate_file_exts" value="{$info.validate_file_exts|default=''}">
+							</div>
+						</div>
+						<div class="form-item cf">
+							<label class="item-label">验证上传文件大小<span class="check-tips">（上传文件大小最大值，单位为字节）</span></label>
+							<div class="controls">
+								<input type="text" class="text input-large" name="validate_file_size" value="{$info.validate_file_size|default=''}">
+							</div>
+						</div>
+					</div>
 				</div>
 
 				<!-- 按钮 -->
@@ -179,11 +193,23 @@ Think.setValue('validate_type', "{$info.validate_type|default='regex'}");
 Think.setValue('auto_type', "{$info.auto_type|default='function'}");
 $(function(){
 	showTab();
+	var datatype = $('#data-type').find('option:selected').val();
+	if(datatype=='file'){
+		$('#file_check').show();
+	}else{
+		$('#file_check').hide();
+	}
 })
 {eq name="ACTION_NAME" value="add"}
 $(function(){
 	$('#data-type').change(function(){
 		$('#data-field').val($(this).find('option:selected').attr('rule'));
+		var datatype = $(this).find('option:selected').val();
+		if(datatype=='file'){
+			$('#file_check').show();
+		}else{
+			$('#file_check').hide();
+		}
 	});
 })
 {/eq}

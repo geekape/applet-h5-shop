@@ -1,7 +1,7 @@
 <template>
-  <div class="confirm-order">
+  <div class="confirm-order" v-if="datas.goods_id || datas.id">
     <!-- 地址 -->
-    <a href="../add_address/main?type=1" class="m-list order-line" v-if="address.truename">
+    <a href="../add_address/index?type=1" class="m-list order-line" v-if="address.truename">
       <div class="m-list__l">{{address.truename}}</div>
       <div class="m-list__c">
         <p class="">{{address.mobile}}</p>
@@ -12,7 +12,7 @@
       </div>
     </a>
     
-    <a href="../add_address/main?type=1" class="m-list link" v-else>
+    <a href="../add_address/index?type=1" class="m-list link" v-else>
       <div class="m-list__l">添加地址</div>
       <p class="m-list__c"></p>
       <i class="iconfont icon-fanhui right"></i>
@@ -41,11 +41,15 @@
         <i class="iconfont icon-fanhui iconfont" :class="item.arrowDir" @click="toggleArrow" :data-index="index"></i>
       </div>
       <div class="switch-card__bd" v-show="item.arrowDir == 'top'">
-        <a :href="'../goods_detail/main?id=' + item.id" open-type="redirect" class="goods-line">
-          <img class="u-goods__img" :src="item.cover"/>
+        <a :href="'../goods_detail/index?id=' + item.id" open-type="redirect" class="goods-line">
+          <img lazy-load class="u-goods__img" :src="item.cover"/>
 
           <div class="goods-line__right">
-            <p class="u-goods__tt overflow-dot">{{item.title}}</p>
+            <p class="u-goods__tt overflow-dot">
+              <span class="s-red" v-if="datas.event_type == 1">【拼团】</span>
+              <span class="s-red" v-else-if="datas.event_type == 2">【秒杀】</span>
+              <span class="s-red" v-else-if="datas.event_type == 3">【砍价】</span>
+              {{item.title}}</p>
             <div class="goods-line__ft">
               <div class="goods-line__price">
                 <span>¥{{item.sale_price}}</span>
@@ -73,12 +77,12 @@
     </div>
 
     <!-- 优惠券 -->
-    <!-- <div class="m-list link" v-if="couponNum > 0" @click="togglePopup">
+    <div class="m-list link" v-if="couponNum > 0" @click="togglePopup">
       <div class="m-list__l">优惠券</div>
       <p class="m-list__c" v-if="couponName==''">你有{{couponNum}}张优惠劵,点击使用</p>
       <p class="m-list__c" v-else>{{couponName}}</p>
       <i class="iconfont icon-fanhui right"></i>
-    </div> -->
+    </div>
 
     <!-- 门店 -->
     <div class="m-list link" v-if="isShop" @click="toggleShopPopup">
@@ -166,6 +170,7 @@ import wxParse from "mpvue-wxparse";
  */
 
 export default {
+  mpType: 'page',
   data() {
     return {
       datas: [],
@@ -174,6 +179,7 @@ export default {
       totalPrice: 0,
       isTcp: true,
       tcp: '',
+      activeOrderParams: {},
       isTcpPopup: false,
       isPopup: false,
       couponNum: 0,
@@ -183,20 +189,42 @@ export default {
       isShopPopup: false,
       isShop: false,
       shopList: [],
-      selfShopIdx: 0,
+      selfShopIdx: -1,
       shopName: "点击选择门店",
       remark: "", // 留言
       goodsId: 0, //商品id
       storesId: 0, // 门店id
       snId: 0, // 优惠劵Id
-      sendType: 1 // 配送类型-
+      sendType: 1, // 配送类型-
+      sendTypeObj: {}, // 配送商品对象
+      isClickShop:0//是否已经点击门店列表，获取门店列表信息
     };
   },
   components: {
     wxParse
   },
 
-  computed: {},
+  computed: {
+    totalPrices () {
+      console.log(this.goodsList)
+      let totalMoeny = 0;
+      const _this = this;
+      this.goodsList.forEach((item,index) => {
+    
+        totalMoeny = parseFloat(totalMoeny) + (parseFloat(item.sale_price) * parseInt(item.num)) + parseFloat(item.express)
+        _this.sendTypeObj[item.id] = item.type
+        if(item.type == 2) {
+          // 选中门店
+          console.log('选中门店')
+          totalMoeny = (parseFloat(totalMoeny) - parseFloat(item.express)).toFixed(2)
+        } else {
+          if(item.type != 1) totalMoeny = (parseFloat(totalMoeny) + parseFloat(item.express)).toFixed(2)
+        }
+      })
+      this.totalPrice = totalMoeny
+      return totalMoeny
+    }
+  },
 
   methods: {
     // 查看协议
@@ -211,7 +239,7 @@ export default {
     selectCoupon(e) {
       const idx = e.currentTarget.dataset.index;
       this.selfIdx = idx;
-      this.couponName = this.couponList[idx].money + "元优惠劵";
+      this.couponName = `-${this.couponList[idx].money}元`
       this.isPopup = !this.isPopup;
       // 重新计算价格
       this.totalPrice -= parseFloat(this.couponList[idx].money);
@@ -231,9 +259,11 @@ export default {
       this.isPopup = !this.isPopup;
       const _this = this;
       if (this.isPopup == true) {
-        get(
-          "coupon/api/personal/PHPSESSID/" + wx.getStorageSync("PHPSESSID")
-        ).then(res => {
+        post(
+          'coupon/api/personal',{
+            PHPSESSID: wx.getStorageSync("PHPSESSID"),
+            str_coupon_id: _this.datas.str_coupon_id
+          }).then(res => {
           console.log(res);
           _this.couponList = res.lists[0];
         });
@@ -249,6 +279,7 @@ export default {
           is_choose: 1,
           ids: id
         }).then(res => {
+          this.isClickShop=1;
           this.shopList = res.store_lists;
         });
       }
@@ -286,10 +317,17 @@ export default {
         }
       }
       if (type.includes("2")) {
+      
+        if( this.isClickShop==1 && (!this.shopList || this.shopList.length<=0) ){
+          Toast("商品没有共同的门店，请分开下单！");
+          return false;
+        }
+
         if (this.storesId == 0) {
           Toast("请选择配送门店");
           return false;
         }
+
       }
 
       // 同意协议
@@ -304,12 +342,13 @@ export default {
         sn_id: _this.snId, // 优惠卷id
         stores_id: _this.storesId, // 门店id
         send_type: _this.sendType, //送货类型
+        goods_send_type:_this.sendTypeObj,//各商品送货类型
         openid: wx.getStorageSync("openid"),
         is_weiapp: 1,
         PHPSESSID: wx.getStorageSync("PHPSESSID")
       }).then(res => {
         if (res.code == 0) {
-          Toast("支付失败");
+          Toast(res.msg);
         } else {
           goPay(res.out_trade_no);
           // 清购物车数量
@@ -330,11 +369,6 @@ export default {
 
       if (lists[idx].type != selfChecked) {
         lists[idx].type = selfChecked;
-        if (lists[idx].type == 2) {
-          this.totalPrice -= parseFloat(lists[idx].express); // 减掉运费
-        } else {
-          this.totalPrice += parseFloat(lists[idx].express); // 减掉运费
-        }
       }
       // 遍历商品
       let arr = [];
@@ -363,6 +397,13 @@ export default {
       for (let [key, value] of entries(data)) {
         value.forEach((item, idx) => {
           item.arrowDir = "top";
+
+           // 从活动中进来，改变价格
+          if(_this.activeOrderParams) {
+            let price = JSON.parse(_this.activeOrderParams).activePrice
+            item.sale_price = price
+          }
+
           if (key != 3) {
             item.type = key;
           } else {
@@ -382,44 +423,19 @@ export default {
 
       this.goodsList = arr;
     },
-
-    // 返回计算后的价格
-    countPrice(num1, num2) {
-      let arr = [];
-      let arr2 = [];
-      let price = 0;
-      let express = 0;
-      for (let i in num1) {
-        arr.push(num1[i]);
-      }
-      arr.forEach((item, index) => {
-        price += parseFloat(item);
-      });
-
-      for (let i in num2) {
-        arr2.push(num2[i]);
-      }
-      arr2.forEach((item, index) => {
-        express += parseFloat(item);
-      });
-
-      return price + express;
-    },
     sendRequest(opt) {
       const _this = this;
       post("shop/api/confirm_order", opt)
         .then(res => {
+          console.log('执行了请求')
           // 有商品错误
           if (res.code == 0) {
-            wx.reLaunch({ url: "../msg/main?msg=" + res.msg + "&type=warn" });
+            wx.reLaunch({ url: "../msg/index?msg=" + res.msg + "&type=warn" });
           }
           _this.datas = res;
           _this.address = _this.datas.address;
           _this.couponNum = parseInt(_this.datas.coupon_num);
-          _this.totalPrice = _this.countPrice(
-            _this.datas.total_price,
-            _this.datas.total_express
-          );
+     
           _this.shopListArr(_this.datas.lists);
         })
         .catch(err => {
@@ -429,24 +445,22 @@ export default {
 
     getData(type) {
       const _this = this;
-
       if (type == 1) {
         // 购物车进来的
-        let opt = wx.getStorageSync("cartsOpt");
-        this.goodsId = opt.goodsIds;
+        this.goodsId = this.$root.$mp.query.goodsIds;
         let opts = {
-          goods_ids: opt.goodsIds,
-          PHPSESSID: wx.getStorageSync("PHPSESSID"),
-          buyCount: opt.count,
-          cart_ids: opt.cartIds
+          goods_ids: this.$root.$mp.query.goodsIds,
+          buyCount: this.$root.$mp.query.count,
+          cart_ids: this.$root.$mp.query.cartIds,
+          PHPSESSID: wx.getStorageSync('PHPSESSID')
         };
         _this.sendRequest(opts);
-      } else {
+      }  else {
         let id = this.$root.$mp.query.goodsId;
         this.goodsId = id;
         let opts = {
           goods_id: id,
-          PHPSESSID: wx.getStorageSync("PHPSESSID")
+          PHPSESSID: wx.getStorageSync('PHPSESSID')
         };
         _this.sendRequest(opts);
       }
@@ -455,7 +469,15 @@ export default {
   onLoad() {
     Object.assign(this, this.$options.data());
     let type = this.$root.$mp.query.type || 0;
-    this.getData(type);
+     this.activeOrderParams = this.$store.state.activeOrderParams
+    if(this.activeOrderParams) {
+      let opt = JSON.parse(this.$store.state.activeOrderParams)
+      // 活动
+      this.sendRequest(opt);
+    } else {
+      this.getData(type);
+    }
+    
   },
 
   onShow() {

@@ -8,6 +8,7 @@ VantComponent({
     message: String,
     useSlot: Boolean,
     asyncClose: Boolean,
+    messageAlign: String,
     showCancelButton: Boolean,
     closeOnClickOverlay: Boolean,
     confirmButtonOpenType: String,
@@ -30,6 +31,10 @@ VantComponent({
     overlay: {
       type: Boolean,
       value: true
+    },
+    transition: {
+      type: String,
+      value: 'scale'
     }
   },
   data: {
@@ -40,14 +45,7 @@ VantComponent({
   },
   watch: {
     show: function show(_show) {
-      if (!_show) {
-        this.setData({
-          loading: {
-            confirm: false,
-            cancel: false
-          }
-        });
-      }
+      !_show && this.stopLoading();
     }
   },
   methods: {
@@ -62,7 +60,7 @@ VantComponent({
     },
     handleAction: function handleAction(action) {
       if (this.data.asyncClose) {
-        this.setData({
+        this.set({
           ["loading." + action]: true
         });
       }
@@ -70,8 +68,16 @@ VantComponent({
       this.onClose(action);
     },
     close: function close() {
-      this.setData({
+      this.set({
         show: false
+      });
+    },
+    stopLoading: function stopLoading() {
+      this.set({
+        loading: {
+          confirm: false,
+          cancel: false
+        }
       });
     },
     onClose: function onClose(action) {
@@ -79,8 +85,11 @@ VantComponent({
         this.close();
       }
 
-      this.$emit('close', action);
-      this.$emit(action);
+      this.$emit('close', action); //把 dialog 实例传递出去，可以通过 stopLoading() 在外部关闭按钮的 loading
+
+      this.$emit(action, {
+        dialog: this
+      });
       var callback = this.data[action === 'confirm' ? 'onConfirm' : 'onCancel'];
 
       if (callback) {

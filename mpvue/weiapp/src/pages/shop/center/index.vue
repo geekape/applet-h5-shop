@@ -2,41 +2,41 @@
   <div class="center">
     <!-- 头部 -->
     <div class="center-hd">
-      <img class="center-hd__img" :src='userData.avatarUrl'/>
+      <img lazy-load class="center-hd__img" :src='userData.avatarUrl'/>
       <p class="center-hd__name">{{userData.nickName}}</p>
     </div>
      
     <!-- icon区域 -->
     <div class="icon-area">
         <div class="icon-area__hd">
-          <a href="../my_order/main?active=0" class="icon-area__item">
-            <img src='../../../../static/img/new_icon/center-icon-lg4.png' class="icon-area__img"/>
+          <a href="../my_order/index?active=0" class="icon-area__item">
+            <img lazy-load :src="imgRoot+'new_icon/center-icon-lg4.png'" class="icon-area__img"/>
             <p class="icon-area__txt">全部订单</p>
           </a>
-          <a href="../my_order/main?active=1" class="icon-area__item">
+          <a href="../my_order/index?active=1" class="icon-area__item">
             <span class="weui-badge" v-if="waitPayNum>0">{{waitPayNum}}</span>
-            <img src='../../../../static/img/new_icon/center-icon-lg1.png' class="icon-area__img"/>
+            <img lazy-load :src="imgRoot+'new_icon/center-icon-lg1.png'" class="icon-area__img"/>
             <p class="icon-area__txt">待支付</p>
           </a>
-          <a href="../my_order/main?active=2" class="icon-area__item">
+          <a href="../my_order/index?active=2" class="icon-area__item">
             <span class="weui-badge" v-if="waitCollectNum>0">{{waitCollectNum}}</span>
-            <img src='../../../../static/img/new_icon/center-icon-lg2.png' class="icon-area__img"/>
+            <img lazy-load :src="imgRoot+'new_icon/center-icon-lg2.png'" class="icon-area__img"/>
             <p class="icon-area__txt">待收货</p>
           </a>
-          <a href="../my_order/main?active=3" class="icon-area__item">
+          <a href="../my_order/index?active=3" class="icon-area__item">
             <span class="weui-badge" v-if="waitCommentNum>0">{{waitCommentNum}}</span>
-            <img src='../../../../static/img/new_icon/center-icon-lg3.png' class="icon-area__img"/>
+            <img lazy-load :src="imgRoot+'new_icon/center-icon-lg3.png'" class="icon-area__img"/>
             <p class="icon-area__txt">待评价</p>
           </a>
           
         </div>
         <div class="icon-area__ct">
           <a :href="item.url" class="icon-area__item" v-for="(item,index) in smallIcons" :key="index">
-            <img :src='item.img' class="icon-area__img"/>
+            <img lazy-load :src='item.img' class="icon-area__img"/>
             <p class="icon-area__txt">{{item.text}}</p>
           </a>
           <button open-type="contact" class="icon-area__item contact-btn">
-            <img class="icon-area__img" src="../../../../static/img/new_icon/center-icon-md7.png" alt="">
+            <img lazy-load class="icon-area__img" :src="imgRoot+'new_icon/center-icon-md7.png'" alt="">
              <p class="icon-area__txt">联系客服</p>
           </button>
         </div>
@@ -50,73 +50,97 @@
 import { post, get, login } from "@/utils";
 import { mapMutations } from 'vuex'
 export default {
+ 
   data () {
     return {
-      userData: [],
+      userData: {},
+			imgRoot: this.imgRoot,
       icons: [
         {
-          img: '../../../static/img/new_icon/center-icon-lg1.png',
+          img: this.imgRoot+'new_icon/center-icon-lg1.png',
           text: '待支付',
-          url: '../my_order/main?active=1'
+          url: '../my_order/index?active=1'
         },
         {
-          img: '../../../static/img/new_icon/center-icon-lg2.png',
+          img: this.imgRoot+'new_icon/center-icon-lg2.png',
           text: '待收货',
-          url: '../my_order/main?active=2'
+          url: '../my_order/index?active=2'
         },
         {
-          img: '../../../static/img/new_icon/center-icon-lg3.png',
+          img: this.imgRoot+'new_icon/center-icon-lg3.png',
           text: '待评价',
-          url: '../my_order/main?active=3'
+          url: '../my_order/index?active=3'
         },
         {
-          img: '../../../static/img/new_icon/center-icon-lg4.png',
+          img: this.imgRoot+'new_icon/center-icon-lg4.png',
           text: '全部订单',
-          url: '../my_order/main?active=0'
+          url: '../my_order/index?active=0'
         }
       ],
       smallIcons: [
         {
-          img: '../../../static/img/new_icon/center-icon-md1.png',
+          img: this.imgRoot+'new_icon/center-icon-md1.png',
           text: '优惠劵',
-          url: '../coupon/main'
+          url: '../../coupon/lists/index'
         },
         {
-          img: '../../../static/img/new_icon/center-icon-md2.png',
+          img: this.imgRoot+'new_icon/center-icon-md2.png',
           text: '会员卡',
-          url: '#'
+          url: '../../members/index/index'
         },
         {
-          img: '../../../static/img/new_icon/center-icon-md3.png',
+          img: this.imgRoot+'new_icon/center-icon-md3.png',
           text: '我的收藏',
-          url: '../collect/main'
+          url: '../collect/index'
         },
         {
-          img: '../../../static/img/new_icon/center-icon-md4.png',
+          img: this.imgRoot+'new_icon/center-icon-md4.png',
           text: '我的足迹',
-          url: '../track/main'
+          url: '../track/index'
         },
         {
-          img: '../../../static/img/new_icon/center-icon-md5.png',
+          img: this.imgRoot+'new_icon/center-icon-md5.png',
           text: '我的地址',
-          url: '../add_address/main'
+          url: '../add_address/index'
         },
         {
-          img: '../../../static/img/new_icon/center-icon-md6.png',
+          img: this.imgRoot+'new_icon/center-icon-md6.png',
           text: '我的评价',
-          url: '../my_comment/main'
+          url: '../my_comment/index'
+        },
+        {
+          img: this.imgRoot+'new_icon/center-icon-md8.png',
+          text: '我的拼团',
+          url: '../../collage/lists/index'
+        },
+        {
+          img: this.imgRoot+'new_icon/center-icon-md9.png',
+          text: '我的秒杀',
+          url: '../../seckill/lists/index'
+        },
+        {
+          img: this.imgRoot+'new_icon/center-icon-md10.png',
+          text: '我的砍价',
+          url: '../../haggle/lists/index'
+        },
+        {
+          img: this.imgRoot+'new_icon/center-icon-md11.png',
+          text: '领卷中心',
+          url: '../../coupon/center/index'
         }
-
       ]
     }
   },
   methods: {
-    async getData () {
+    getData () {
+      const _this = this
       const sessId = wx.getStorageSync("PHPSESSID");
-      const data = await get("/shop/api/my_order/PHPSESSID/" + sessId)
-      this.$store.commit('saveOrder', {
-        order: data.orderList
+      get("shop/api/my_order/PHPSESSID/" + sessId).then(res => {
+        _this.$store.commit('saveOrder', {
+          order: res.orderList
+        })
       })
+      
     }
   },
   computed: {
@@ -132,28 +156,10 @@ export default {
 
   },
   onLoad () {
-    this.userData = login()
-    // 设置购物车数量
-    get("shop/api/cart/PHPSESSID/" + wx.getStorageSync("PHPSESSID"))
-    .then(res => {
-      let num = res.lists.length;
-      this.$store.commit("getCartShopNum", {
-        num: num
-      });
-    })
-    .catch(err => {
-      console.log("失败：" + err);
-    });
+    this.userData = wx.getStorageSync('userInfo')
   },
 
   onShow () {
-    /**
-     * 订单逻辑
-     * 1. 进入个人中心，请求订单接口，利用vuex存储所有订单
-     * 2. 在vuex中利用Getter筛选每个订单类型，并把数量记录在state中
-     * 3. 在我的订单页面，使用computed取vuex中各个类型的订单数据
-     * 4. 使用commit或才dispatch 显式提交每次更改，以便数据是响应式的
-     */
     this.getData()
   }
 
@@ -236,6 +242,7 @@ export default {
         margin: 0 auto;
         display: inline-block;
       }
+      /deep/ button {line-height: 1.5;}
     }
 
   }

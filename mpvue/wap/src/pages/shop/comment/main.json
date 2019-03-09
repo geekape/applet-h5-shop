@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "评价",
-  "usingComponents": {
-    "i-toast": "/static/iview/toast/index"
-  }
-}

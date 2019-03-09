@@ -367,7 +367,7 @@ class CustomMenu extends WebBase
             unset($data[$k]);
         }
         foreach ($data as $k => $d) {
-            $treeArr[$d['pid']]['sub_button'][] = $this->_deal_data($d);
+            $treeArr[$d['pid']]['sub_button'][] = $this->_deal_data($d,$d['pid']);
             unset($data[$k]);
         }
         $tree['button'] = [];

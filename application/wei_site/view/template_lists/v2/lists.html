@@ -9,11 +9,13 @@
 <body id="weisite">
 <div class="container">
    	<div class="pic_list">
+   	{notempty name="lists"}
     {volist name="lists" id="vo"}
         	<a href="{$vo.url}">
             	{notempty name="vo.cover"}<img src="{$vo.cover|get_square_url=300}"/>{/notempty}
             </a>
         {/volist}
+        {/notempty}
     </div>
     <!-- 分页 -->
     <div class="page"> {$_page|raw|default=''} </div>

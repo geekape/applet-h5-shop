@@ -132,7 +132,7 @@ class SnCode extends Base
         return intval($count);
     }
 
-    public function getMyList($uid, $target_id = '', $update = false, $cache_id = '')
+    public function getMyList($uid, $target_id = '', $update = true, $cache_id = '')
     {
         $map['uid'] = $uid;
         $map['target_id'] = $target_id;
@@ -144,7 +144,7 @@ class SnCode extends Base
             array_unshift($ids, $cache_id);
             S($key, $ids, 86400);
         } else if ($ids === false || $update) {
-            $ids = $this->where(wp_where($map))->column('id');
+            $ids = $this->where(wp_where($map))->order('id desc,is_use asc')->column('id');
             S($key, $ids, 86400);
         }
         

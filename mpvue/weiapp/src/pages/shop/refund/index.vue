@@ -12,6 +12,7 @@
 import {post, get} from "@/utils"
 import Toast from "@/../static/vant/toast/toast";
 export default {
+  mpType: 'page',
   data () {
     return {
      orderId: 0
@@ -41,7 +42,7 @@ export default {
         console.log(res)
         if(res.code == 1) {
           Toast(res.msg)
-          wx.switchTab({url: '../center/main'})
+          wx.switchTab({url: '../center/index'})
         } else {
           Toast(res.msg)
         }

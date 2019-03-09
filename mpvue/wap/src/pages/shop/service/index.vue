@@ -1,11 +1,7 @@
 <template>
   <div class="service">
     <navbar text="客服"></navbar>
-
-    
-
     <p class="login-hint__tt">请在公众号内发送消息</p>
-
     <button class="u-button u-button--primary u-button--big" @click="exit">去公众号发送消息</button>
   </div>
 </template>

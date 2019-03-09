@@ -1,5 +1,0 @@
-<import src="/modules/mpvue-wxparse/src/components/wxParseTemplate0.vue.wxml" /><template name="27e5e53c">
-  <view class="_div data-v-e4d12b34 wxParse {{className}}" wx:if="{{!loading}}">
-    <block wx:key="node.index" key="{{node.index}}" wx:for="{{nodes}}" wx:for-index="index" wx:for-item="node"><template data="{{...$root[$kk+'0-'+index], $root}}" is="764057da"></template></block>
-  </view>
-</template>

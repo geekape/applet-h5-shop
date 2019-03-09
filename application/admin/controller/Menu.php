@@ -203,6 +203,9 @@ class Menu extends Admin
         } else {
             $data ['addon_name'] = '';
         }
+        if($data['menu_type']==0){
+            $data['pid'] = 0;
+        }
         return $data;
     }
 }

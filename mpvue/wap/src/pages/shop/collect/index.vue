@@ -1,6 +1,7 @@
 <template>
   <div class="collect">
     <navbar text="我的收藏"></navbar>
+    <scroller >
     <div class="collect_list">
       <a  @click.prevent="jump(item.id)" class="goods-line" v-for="(item,index) in collectList" :key="index">
         <img class="u-goods__img" :src="item.cover" />
@@ -14,6 +15,7 @@
         </div>
       </a>
     </div>
+    </scroller>
   </div>
 </template>
 
@@ -63,14 +65,20 @@ export default {
       console.log(res.myCollect)
       this.collectList = res.myCollect
     })
+  },
+  beforeCreate() {
+    document.querySelector("body").className = "s-bg-white";
+  },
+  beforeDestroy: function() {
+    document.querySelector("body").removeAttribute("class", "s-bg-white");
   }
 }
 </script>
 
 <style lang="scss" scoped>
+
 .collect {
   padding-top: 45px;
-  height: 100vh;
   background: #fff;
 }
 .collect_list {

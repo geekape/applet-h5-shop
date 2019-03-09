@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import {post} from '@/utils'
 export default {
   props: ['checkedIndex'],
   data() {
@@ -41,11 +42,13 @@ export default {
       return this.$store.state.cartShopNum
     }
   }
+  
 };
 </script>
 
 <style lang="scss" scoped>
 .tabbar {
+  
   .weui-tabbar__item {position: relative;}
   .weui-bar__item_on {
     color: #333;
@@ -56,6 +59,7 @@ export default {
   .weui-tabbar {
     position: fixed;
     bottom: 0;
+		left: 0;
   }
 }
 </style>

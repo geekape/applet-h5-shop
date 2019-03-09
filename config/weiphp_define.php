@@ -14,14 +14,7 @@ define('WPID', 1);
 //是否显示官网首页
 define('HAS_INDEX', false);
 
-define('IS_CGI', (0 === strpos(PHP_SAPI, 'cgi') || false !== strpos(PHP_SAPI, 'fcgi')) ? 1 : 0);
-if (IS_CGI) {
-    // CGI/FASTCGI模式下
-    $_temp = explode('.php', $_SERVER['PHP_SELF']);
-    define('_PHP_FILE_', rtrim(str_replace($_SERVER['HTTP_HOST'], '', $_temp[0] . '.php'), DIRECTORY_SEPARATOR));
-} else {
-    define('_PHP_FILE_', rtrim($_SERVER['SCRIPT_NAME'], DIRECTORY_SEPARATOR));
-}
+define('_PHP_FILE_', rtrim($_SERVER['SCRIPT_NAME'], DIRECTORY_SEPARATOR));
 $_root = dirname(_PHP_FILE_);
 define('__ROOT__', (($_root == '/' || $_root == '\\' || $_root == '\/') ? '' : $_root));
 if (! defined('HTTP_PREFIX')) {
@@ -52,6 +45,7 @@ define('SHOP_EVENT_TYPE', 0);
 define('COLLAGE_EVENT_TYPE', 1);
 define('SECKILL_EVENT_TYPE', 2);
 define('HAGGLE_EVENT_TYPE', 3);
+define('AUCTION_EVENT_TYPE', 4);
 
 define('MODEL_INSERT', 1); // 插入模型数据
 define('MODEL_UPDATE', 2); // 更新模型数据

@@ -16,11 +16,11 @@ export default {
       // 在列表页搜索
       if(this.type == 2) {
         wx.reLaunch({
-          url: '/pages/shop/lists/main'
+          url: '/pages/shop/lists/index'
         })
       } else {
         wx.switchTab({
-          url: '/pages/shop/lists/main'
+          url: '/pages/shop/lists/index'
         })
       }
       

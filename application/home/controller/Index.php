@@ -19,7 +19,7 @@ class Index extends Home
     // 系统首页
     public function index()
     {
-        if(!HAS_INDEX){
+        if (!HAS_INDEX) {
             $this->redirect('user/login');
         }
         $newsFields = 'id,title,content,cTime';
@@ -67,20 +67,20 @@ class Index extends Home
     }
 
     // 插件详情
-     public function apps_detail()
-     {
-         $id = input('id');
-         if(empty($id)){
-             return $this->error('非法参数');
-         }
-         $info = M('solution')->where('id', $id)->find();
-         if(!$info){
+    public function apps_detail()
+    {
+        $id = input('id');
+        if (empty($id)) {
+            return $this->error('非法参数');
+        }
+        $info = M('solution')->where('id', $id)->find();
+        if (!$info) {
             return $this->error('非法参数!');
-         }
-         $this->assign('info', $info);
+        }
+        $this->assign('info', $info);
 
-         return $this->fetch();
-     }
+        return $this->fetch();
+    }
 
     function chat()
     {
@@ -491,13 +491,14 @@ class Index extends Home
         trace($time, 'debug');
 
         // 拼团失败发送模板消息,每分钟触发一次
-        if ($this->cron_lock('CollageGroup', 60)) {
-            D('collage/CollageGroup')->cronFreeGroup();
-        }
-
-        // 拼团中凑团机器人5秒触发一次
-        if ($this->cron_lock('CollageRobot', 5)) {
-            D('collage/CollageRobot')->auto_join();
+        if (is_install('collage')){
+        	if ($this->cron_lock('CollageGroup', 60)) {
+        		D('collage/CollageGroup')->cronFreeGroup();
+        	}
+        	// 拼团中凑团机器人5秒触发一次
+        	if ($this->cron_lock('CollageRobot', 5)) {
+        		D('collage/CollageRobot')->auto_join();
+        	}
         }
 
         // 超时订单库存处理，建议一分钟执行一次
@@ -505,22 +506,25 @@ class Index extends Home
             D('shop/Stock')->cronDealOrderStock();
         }
 
-        // 会员有礼（会员生日或节日）
-        if ($this->cron_lock('cronCardCustom', 120)) {
-            D('card/CardCustom')->do_send_crons();
-            // 会员有礼 模板消息通知
-            D('card/CardCustom')->cronsSendTplMessage();
+        if (is_install('card')){
+        	// 会员有礼（会员生日或节日）
+        	if ($this->cron_lock('cronCardCustom', 120)) {
+        		D('card/CardCustom')->do_send_crons();
+        		// 会员有礼 模板消息通知
+        		D('card/CardCustom')->cronsSendTplMessage();
+        	}
+        	 
         }
-
+       
         // 发现金红包
         if ($this->cron_lock('cronTransfer', 60)) {
             $this->cronTransfer();
         }
 
-        // 每次更新一个公众号的会员信息 和 用户积分
-        if ($this->cron_lock('cronUpdateMember', 20)) {
+        // 每次更新一个公众号的会员信息 和 用户积分 （对接erp）
+        /* if ($this->cron_lock('cronUpdateMember', 20)) {
             $this->cronUpdateMember();
-        }
+        } */
 
         // 系统自动完成15天后订单设置为已收货或已评价（不用整分是尽量避免太多任务同时执行）
         if ($this->cron_lock('autoSetFinish', 93)) {
@@ -818,5 +822,25 @@ class Index extends Home
         }
 
         echo json_url($res);
+    }
+
+    function trigger()
+    {
+        //增加触发器
+        $dbconfig = config('database.');
+        $dbms = 'mysql';     //数据库类型
+        $host = $dbconfig['hostname']; //数据库主机名
+        $dbName = $dbconfig['database'];    //使用的数据库
+        $dbport = $dbconfig['hostport'];
+        $dsn = "$dbms:host=$host;port=$dbport;dbname=$dbName";
+        $new_db = new \PDO($dsn, $dbconfig['username'], $dbconfig['password']);
+        $new_db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        dump($host);
+        dump($dbName);
+
+        dump($new_db->exec('DROP TRIGGER IF EXISTS `add`'));
+        dump($new_db->exec("CREATE TRIGGER `add` BEFORE INSERT ON `wp_shop_goods_stock` FOR EACH ROW set new.stock_active = new.stock - new.lock_count"));
+        dump($new_db->exec('DROP TRIGGER IF EXISTS `save`'));
+        dump($new_db->exec("CREATE TRIGGER `save` BEFORE UPDATE ON `wp_shop_goods_stock` FOR EACH ROW set new.stock_active = new.stock - new.lock_count"));
     }
 }

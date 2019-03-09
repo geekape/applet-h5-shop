@@ -31,6 +31,7 @@
     
                 <th>订单号</th>
                 <th>下单时间</th>
+                <th>配送方式</th>
                 <th>配送时间</th>
                 <th>支付方式</th>
                 <th>支付单号</th>
@@ -44,6 +45,7 @@
   
               <td>{$info.order_number}</td>
               <td>{$info.cTime|time_format}</td>
+              <td>{eq name="info.send_type" value="2"}自提{else/}邮寄{/eq}</td>
               <td>{$info.send_time|time_format}</td>
               {empty name="info.pay_status"}
               <td>未支付</td>
@@ -129,6 +131,7 @@
                   <li>邮费：{$info.mail_money}</li>
                   {/eq}
                   <li>优惠抵扣：{$info.dec_money}</li>
+                  <li>优惠后金额：{$info.total_price-$info.dec_money}</li>
                   <li>实际支付：{$info.pay_money}</li>
                 </ul>
                 </p>

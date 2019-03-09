@@ -47,10 +47,11 @@ class Base extends Controller
         $requestData = input();
         $requestData = empty($requestData) ? [] : $requestData;
         $_REQUEST = array_merge($_REQUEST, $requestData);
-        //add_debug_log($_REQUEST, 'testvistisf_'.get_mid());
+//         add_debug_log($_REQUEST, 'testvistisf_'.get_mid());
         if (isset($_REQUEST['PHPSESSID']) && !empty($_REQUEST['PHPSESSID'])) {
             session_id($_REQUEST['PHPSESSID']);
         }
+//         add_debug_log($_SESSION, 'testvistisf11_'.get_mid());
 
         // 不用记录定时任务的日志
         if (ACTION_NAME != 'cron' && CONTROLLER_NAME != 'Canal') {
@@ -286,7 +287,15 @@ class Base extends Controller
         !empty($ids) || $ids = array_filter(array_unique((array)I('ids', 0)));
         !empty($ids) || $this->error('请选择要操作的数据!');
 
-        $Model = D($model['name']);
+        try {
+        	$Model = D($model['name']);
+        }catch (\Exception $e) {
+        	if (strpos($e->getMessage(), 'not exists')){
+        		$Model = M($model['name']);
+        	}else {
+        		$this->error('找不到操作模型');
+        	}
+        }
         $map[] = array(
             'id',
             'in',
@@ -329,11 +338,20 @@ class Base extends Controller
         }
 
         if (request()->isPost()) {
-            $Model = D($model['name']);
+            try {
+            	$Model = D($model['name']);
+            }catch (\Exception $e) {
+            	if (strpos($e->getMessage(), 'not exists')){
+            		$Model = M($model['name']);
+            	}else {
+            		$this->error('找不到操作模型');
+            	}
+            }
             // 获取模型的字段信息
             $data = empty($post_data) ? input('post.') : $post_data;
             $data = $this->checkData($data, $model);
-            $res = $Model->isUpdate(true)->save($data);
+//             $res = $Model->isUpdate(true)->save($data);
+            $res = $Model->where('id',$id)->update($data);
             if ($res !== false) {
                 $this->_saveKeyword($model, $id);
 
@@ -359,8 +377,15 @@ class Base extends Controller
     {
         is_array($model) || $model = $this->getModel($model);
         if (request()->isPost()) {
-            $Model = D($model['name']);
-
+            try {
+            	$Model = D($model['name']);
+            }catch (\Exception $e) {
+            	if (strpos($e->getMessage(), 'not exists')){
+            		$Model = M($model['name']);
+            	}else {
+            		$this->error('找不到操作模型');
+            	}
+            }
             // 获取模型的字段信息
             $data = empty($post_data) ? input('post.') : $post_data;
             $data = $this->checkData($data, $model);
@@ -519,17 +544,25 @@ class Base extends Controller
                 }
             } elseif ('checkbox' == $attr['type'] || 'dynamic_checkbox' == $attr['type']) {
                 // 多选型
-                $data[$attr['name']] = isset($data[$attr['name']]) ? arr2str($data[$attr['name']]) : '';
+                if ( isset($data[$attr['name']]) ){
+                	$data[$attr['name']] = arr2str($data[$attr['name']]);
+                }
             } elseif ('datetime' == $attr['type'] || 'date' == $attr['type']) {
                 // 时间或者日期型
-                $data[$attr['name']] = isset($data[$attr['name']]) && !empty($data[$attr['name']]) ? strtotime($data[$attr['name']]) : '';
+                if ( isset($data[$attr['name']]) && !empty($data[$attr['name']]) ){
+                	//没有的不设置为空，以免覆盖新增保存的数据
+                	$data[$attr['name']] =strtotime($data[$attr['name']]) ;
+                }
+                
             } elseif ('mult_picture' == $attr['type']) {
                 // 多图
-                $data[$attr['name']] = isset($data[$attr['name']]) ? $data[$attr['name']] : '';
-                if (is_array($data[$attr['name']])) {
-                    $data[$attr['name']] = arr2str($data[$attr['name']]);
-                } else {
-                    $data[$attr['name']] = $data[$attr['name']];
+                if (isset($data[$attr['name']]) ){
+                	$data[$attr['name']] =$data[$attr['name']];
+                	if (is_array($data[$attr['name']])) {
+                		$data[$attr['name']] = arr2str($data[$attr['name']]);
+                	} else {
+                		$data[$attr['name']] = $data[$attr['name']];
+                	}
                 }
             }
         }
@@ -540,9 +573,9 @@ class Base extends Controller
             }
         }
         if (isset($data['start_time']) && isset($data['end_time'])) {
-            if ($data['end_time'] <= $data['start_time']) {
-                $this->error('结束时间不能早于开始时间');
-            }
+       		if ($data['end_time'] <= $data['start_time']) {
+       			$this->error('结束时间不能早于开始时间');
+       		}
         }
         return $data;
     }
@@ -739,6 +772,9 @@ class Base extends Controller
                         } elseif ($show == '复制链接') {
                             $paramArrs = $GLOBALS['get_param'];
                             unset($paramArrs['mdm']);
+                            if (!strpos($href, '#')){
+                            	$href = U($href);
+                            }
                             $valArr[] = '<a class="list_copy_link" id="copyLink_' . $original_data['id'] . '"   data-clipboard-text="' . urldecode($href) . '">' . $show . '</a>';
                         } elseif (!empty($show)) {
                             // 排除GET里的参数影响到已赋值的参数
@@ -776,7 +812,7 @@ class Base extends Controller
     public function _get_model_list($model = null, $order = 'id desc', $all_field = false)
     {
         if (empty($model)) {
-            $this->error('model不能为空');
+            $this->error('请先增加数据模型再试');
         }
 
         $dataTable = D('common/Models')->getFileInfo($model);

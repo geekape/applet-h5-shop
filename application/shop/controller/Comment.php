@@ -15,66 +15,83 @@ class Comment extends Base
         
         $from = input('from');
         if ($from == 'goods') {
-            $param['type'] = 0;
-            $res['title'] = '出售中';
-            $res['url'] = U('Shop/Goods/lists', $param);
-            $res['class'] = '';
-            $nav[] = $res;
-            
-            $param['type'] = 1;
-            $res['title'] = '已售罄';
-            $res['url'] = U('Shop/Goods/lists', $param);
-            $res['class'] = '';
-            $nav[] = $res;
-            
-            $param['type'] = 4;
-            $res['title'] = '上下架';
-            $res['url'] = U('Shop/Goods/lists_up', $param);
-            $res['class'] = '';
-            $nav[] = $res;
-            
-            $param['type'] = 5;
-            $res['title'] = '资料管理';
-            $res['url'] = U('Shop/Goods/lists_erp', $param);
-            $res['class'] = '';
-            $nav[] = $res;
-            
+			$param['type'] = 0;
+			$res['title'] = '出售中的商品';
+			$res['url'] = U('Shop/Goods/lists', $param);
+			$res['class'] = '';
+			$nav[] = $res;
+			
+			$param['type'] = 4;
+			$res['title'] = '待上架的商品';
+			$res['url'] = U('Shop/Goods/lists', $param);
+			$res['class'] = '';
+			$nav[] = $res;
+			
+			$param['type'] = 1;
+			$res['title'] = '已售罄的商品';
+			$res['url'] = U('Shop/Goods/lists', $param);
+			$res['class'] = '';
+			$nav[] = $res;
+			
+			$param['type'] = 2;
+			$res['title'] = '下架的商品';
+			$res['url'] = U('Shop/Goods/lists', $param);
+			$res['class'] = '';
+			$nav[] = $res;
+			
+			$param['type'] = 3;
+			$res['title'] = '商品回收站';
+			$res['url'] = U('Shop/Goods/lists', $param);
+			$res['class'] = '';
+			$nav[] = $res;
+
             $res['title'] = '商品评价';
             $res['url'] = U('Shop/Comment/lists?from=goods');
             $res['class'] = 'current';
             $nav[] = $res;
         } else {
-            
-            $param['status'] = 0;
-            $res['title'] = '全部';
-            $res['url'] = U('shop/Order/lists', $param);
-            $res['class'] = '';
-            $nav[] = $res;
-            
             $param['status'] = 1;
             $res['title'] = '待支付';
             $res['url'] = U('shop/Order/lists', $param);
             $res['class'] = '';
-            
             $nav[] = $res;
+
             $param['status'] = 2;
             $res['title'] = '已支付';
             $res['url'] = U('shop/Order/lists', $param);
             $res['class'] = '';
             $nav[] = $res;
-            
+
             $param['status'] = 3;
+            $res['title'] = '待确认';
+            $res['url'] = U('shop/Order/lists', $param);
+            $res['class'] = '';
+            $nav[] = $res;
+
+            $param['status'] = 4;
             $res['title'] = '已完成';
             $res['url'] = U('shop/Order/lists', $param);
             $res['class'] = '';
             $nav[] = $res;
-            
+
+            $param['status'] = 5;
+            $res['title'] = '退款';
+            $res['url'] = U('shop/Order/lists', $param);
+            $res['class'] = '';
+            $nav[] = $res;
+
+            $param['status'] = 0;
+            $res['title'] = '全部';
+            $res['url'] = U('shop/Order/lists', $param);
+            $res['class'] = '';
+            $nav[] = $res;
+
             $res['title'] = '商品评价';
             $res['url'] = U('lists');
             $res['class'] = 'current';
             $nav[] = $res;
         }
-        
+
         $this->assign('nav', $nav);
     }
 
@@ -87,11 +104,11 @@ class Comment extends Base
         $map = [];
         if ($search) {
             $this->assign('search', $search);
-            
+
             $gids = D('shop/ShopGoods')->where("title like '%{$search}%'")
                 ->where('wpid', WPID)
                 ->column('id');
-            if (! empty($gids)) {
+            if (!empty($gids)) {
                 $map['goods_id'] = [
                     'in',
                     $gids
@@ -99,24 +116,24 @@ class Comment extends Base
             } else {
                 $map['id'] = 0;
             }
-            
+
             unset($_REQUEST['title']);
         }
-        
+
         $model = $this->getModel('shop_goods_comment');
         session('common_condition', $map);
         $list_data = $this->_get_model_list($model, 'id desc', true);
-        
-        if (! empty($list_data['list_data'])) {
+
+        if (!empty($list_data['list_data'])) {
             $goods_ids = getSubByKey($list_data['list_data'], 'goods_id');
             $titleArr = M('shop_goods')->whereIn('id', $goods_ids)->column('title', 'id');
             foreach ($list_data['list_data'] as &$vo) {
                 $vo['goods_title'] = isset($titleArr[$vo['goods_id']]) ? $titleArr[$vo['goods_id']] : '';
             }
         }
-        
+
         $this->assign($list_data);
-        
+
         $this->assign('search_url', U('lists'));
         $this->assign('placeholder', '请输入商品名搜索');
         return $this->fetch();

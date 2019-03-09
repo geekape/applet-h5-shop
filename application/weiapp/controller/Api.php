@@ -406,6 +406,16 @@ class Api extends ApiBase
     function sendCode()
     {
         $mobile = I('mobile');
+        if (empty($mobile)) {
+            echo api_error('手机号码不能为空');
+            exit();
+        }
+        /* 测试手机号 */
+        if (!preg_match('/^[1][3578][0-9]{9}$/', $mobile)) {
+            echo api_error('手机格式不正确！');
+            exit();
+        }
+
         $res = D('Sms/Sms')->sendSms($mobile);
         $res ['uid'] = $this->mid;
         echo json_url($res);
@@ -432,7 +442,7 @@ class Api extends ApiBase
             if ($res) {
                 echo api_success();
             } else {
-                echo api_error('登录失败');
+                echo api_error('注册失败');
             }
         }
     }

@@ -1,4 +1,5 @@
 let path = require('path')
+
 let config = {
     '/yi': {
         target: 'https://leyao.tv',
@@ -13,10 +14,13 @@ function resolve(dir) {
 module.exports = {
     baseUrl: process.env.NODE_ENV == "development" ? '/' : './',
     outputDir: '../../public/wap',
+	productionSourceMap: false,	// 不生成map文件
     chainWebpack: config => {
-        config.resolve.alias
-            .set('images', resolve('static/img/'))
+        config.resolve.alias.set('images', resolve('static/img/'))
+        config.resolve.alias.set('styles', resolve('static/styles/'))
     },
+	
+
     css: {
         loaderOptions: {
             sass: {

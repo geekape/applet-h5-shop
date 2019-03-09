@@ -1,0 +1,18 @@
+{extend name="index/base"/}
+
+{block name="header"}
+    <li class="done"><a href="javascript:;"><span>&nbsp;&nbsp;</span>安装协议</a></li>
+    <li class="active"><a href="javascript:;"><span>2</span>环境检测</a></li>
+    <li><a href="javascript:;"><span>3</span>创建数据库</a></li>
+    <li><a href="javascript:;"><span>4</span>{eq name="Think.session.update" value="1"}升级{else/}安装{/eq}</a></li>
+    <li><a href="javascript:;"><span>5</span>完成</a></li>
+{/block}
+
+{block name="body"}
+    <h1>运行环境出错</h1>
+<p>您的环境不支持PATHINFO,请按以下教程配置好环境再试</p>
+<a class="btn btn-success" href="https://www.weiphp.cn/doc/pathinfo_to_configure.html" target="_blank">配置教程</a>
+
+
+
+{/block}

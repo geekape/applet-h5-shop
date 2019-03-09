@@ -15,7 +15,7 @@ class Index extends Base
     // 安装首页
     public function index()
     {
-        if (file_exists(SITE_PATH . '/uploads/install.lock')) {
+        if (file_exists(SITE_PATH . '/public/uploads/install.lock')) {
             $this->error('已经安装过，请删除uploads/install.lock再安装');
         }
         return $this->fetch();

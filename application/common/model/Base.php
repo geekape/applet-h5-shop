@@ -28,7 +28,7 @@ class Base extends Model
 
     function setMid($mid)
     {
-        $this->mid = $mid;
+        $this->mid = intval($mid);
     }
 
     function error($msg)
@@ -174,7 +174,7 @@ class Base extends Model
                 $info['public_name'] = D('Publics')->where('id', PBID)->value('public_name');
             }
         }
-        if ($is_member == 1) {
+        if ($is_member == 1 && is_install('card')) {
             $card_id = M('card_member')->where('uid', intval(session('mid_'.get_pbid())))
                 ->where('wpid', WPID)
                 ->value('id');

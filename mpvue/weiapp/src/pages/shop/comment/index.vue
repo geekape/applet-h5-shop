@@ -1,7 +1,7 @@
 <template>
   <div class="comment">
     <div  class="goods-line" v-for="(item,index) in goodsList" :key="index">
-      <img class="u-goods__img" :src="item.cover" />
+      <img lazy-load class="u-goods__img" :src="item.cover" />
       <div class="goods-line__right">
         <p class="u-goods__tt overflow-dot">{{item.title}}</p>
         <div class="goods-line__ft">
@@ -23,6 +23,7 @@ import {post, get} from "@/utils"
 import Toast from "@/../static/vant/toast/toast";
 
 export default {
+  mpType: 'page',
   data() {
     return {
       orderId: '',
@@ -67,8 +68,9 @@ export default {
             Toast(res.msg)
             _this.is_first_action = true
           } else {
-            wx.reLaunch({ url: "../msg/main?msg=" + "评价成功" });
             _this.is_first_action = true
+            wx.switchTab({ url: "../center/index" });
+            
           }
         })
       }

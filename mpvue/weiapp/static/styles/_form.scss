@@ -1,0 +1,40 @@
+.form {
+	&-item {
+		height: 50px;
+    line-height: 50px;
+    padding: 0 15px;
+		position: relative;
+		display: flex;
+		align-items:center;
+		&:before {
+			@include setBottomLine;
+			left: 15px;
+			right: 15px;
+		}
+		
+		&__label {
+			min-width: 75px;
+		}
+		
+		&__input {
+			flex: 1
+		}
+		
+		
+		&_verify {align-items: center;}
+		&__btn {
+			height: 30px;
+			line-height: 30px;
+			display: block;
+			font-size: 14px;
+			padding: 0 15px;
+			border-left: 1px solid #eee;
+		}
+
+		&__required {
+			color: $red;
+			vertical-align: sub;
+			margin-right: 2px;
+		}
+	}
+}

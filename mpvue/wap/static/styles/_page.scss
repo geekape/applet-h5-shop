@@ -1,0 +1,34 @@
+// 兼容ios滚动
+#app {
+    font-family: "Avenir", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #333;
+    font-size: 16px;
+    overflow-x: hidden;
+    max-width: 750PX;
+    margin: 0 auto;
+    &,
+    >div {
+        height: 100%;
+    }
+}
+
+._v-container {
+    padding-top: 45px;
+    box-sizing: border-box;
+    >._v-content {
+        padding-bottom: 45px;
+    }
+}
+
+.center,
+.cart,
+.lists,
+.active_index {
+    ._v-container {
+        padding-top: 0;
+    }
+}
+
+

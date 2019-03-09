@@ -1603,7 +1603,7 @@ function parse_field_attr($string)
         // 采用函数定义
         return eval(substr($string, 1) . ';');
     }
-    $array = array_filter(preg_split('/[;\r\n]+/', $string));
+    $array = array_filter(preg_split('/[ ;\r\n]+/', $string));
     // dump($array);
     if (strpos($string, ':')) {
         $value = [];
@@ -1681,7 +1681,6 @@ function GetCurUrl()
 function get_openid($openid = null)
 {
     $pbid = get_pbid();
-    session('openid_' . $pbid, null);
     $request_openid = input('openid');
     if ($openid !== null && $openid != '-1' && $openid != '-2') {
         session('openid_' . $pbid, $openid);
@@ -1920,8 +1919,8 @@ function OAuthWeixin($callback, $pbid = '', $is_return = false)
         return $is_return ? -2 : redirect($callback . 'openid=-2');
     }
     $param['appid'] = $info['appid'];
-    $_GET['state'] = I('state');
-    if ($_GET['state'] != 'weiphp') {
+    $_GET['state'] = I('state','');
+    if (!isset($_GET['state']) || $_GET['state'] != 'weiphp') {
         $param['redirect_uri'] = $callback;
         $param['response_type'] = 'code';
         $param['scope'] = 'snsapi_base';
@@ -1931,7 +1930,7 @@ function OAuthWeixin($callback, $pbid = '', $is_return = false)
         // return redirect($url);
         header('Location: ' . $url);
         exit();
-    } elseif ($_GET['state'] == 'weiphp') {
+    } elseif (isset($_GET['state']) && $_GET['state'] == 'weiphp') {
         if (empty($_GET['code'])) {
             exit('code获取失败');
         }
@@ -2287,6 +2286,9 @@ function add_money($uid, $money, $log = [])
     if (empty($uid) || empty($money)) {
         return false;
     }
+	if (!is_install('card')){
+		return false;
+	}
 
     return D('Card/Card')->addMoney($uid, $money, $log);
 }
@@ -3089,7 +3091,7 @@ function copydir($strSrcDir, $strDstDir)
         }
     }
     while (false !== ($file = readdir($dir))) {
-        if ($file == '.' || $file == '..' || $file == '.svn' || $file == '.DS_Store' || $file == '__MACOSX' || $file == 'Thumbs.db' || $file == 'Thumbs.db' || $file == 'info.php') {
+        if ($file == '.' || $file == '..' || $file == '.svn' || $file == '.DS_Store' || $file == '__MACOSX' || $file == 'Thumbs.db' || $file == 'info.php') {
             continue;
         }
         if (is_dir($strSrcDir . '/' . $file)) {
@@ -4535,8 +4537,33 @@ function upload_files($setting = '', $driver = '', $config = '', $type = 'pictur
         }
     }
     if (empty($return['msg'])) {
+    	//判断扩展名是不是php,不支持上传php文件
+    	$info =$file->getInfo();
+    	$info = pathinfo($info['name']);
+    	if (strtolower($info['extension']) == 'php'){
+    		$return['msg'] = '不支持上传该文件类型';
+    		$return['code'] = 0;
+    		$redata[$key] = $return;
+    		return $redata;
+    	}
+    	$checkRule=[];
+    	if ($type == 'picture'){
+    		//图片扩展名验证 ，图片大小不超过2M
+    		$checkRule['ext']='gif,jpg,jpeg,png,bmp';
+    		$checkRule['size']=2097152;
+    	}else {
+    		$allowExt =  input('allow_file_ext','');
+    		if ($allowExt != ''){
+	    		$checkRule['ext'] =$allowExt;
+    		}
+    		$allowSize = input('allow_file_maxsize','');
+    		if ($allowSize >0){
+	    		$checkRule['size'] = $allowSize;
+    		}
+    	}
         $info = $file->isTest(false)
             ->rule('uniqid')
+            ->validate($checkRule)
             ->move($rootpath, DIRECTORY_SEPARATOR . $saveName);
         if ($info) {
             $return['mime'] = $info->getMime();

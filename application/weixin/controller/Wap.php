@@ -14,7 +14,7 @@ class Wap extends WapBase
 
             if (!empty($openid) && !is_numeric($openid) && $this->mid > 0 && empty($GLOBALS['myinfo']['nickname'])) {
                 cookie('__forward__', $_SERVER ['REQUEST_URI']);
-                return redirect(U('bind'));
+                return $this->redirect(U('bind'));
             }
         } else { //预览的情况下
             $openid = '-3';
@@ -48,7 +48,8 @@ class Wap extends WapBase
         $info = get_pbid_appinfo();
         $param['appid'] = $info['appid'];
         $callback = U('bind');
-        if ($_GET['state'] != 'weiphp') {
+        $state = input('state','');
+        if ($state != 'weiphp') {
             $param['redirect_uri'] = $callback;
             $param['response_type'] = 'code';
             $param['scope'] = 'snsapi_userinfo';
@@ -57,7 +58,7 @@ class Wap extends WapBase
             $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?' . http_build_query($param) . '#wechat_redirect';
             header('Location: ' . $url);
             exit();
-        } elseif ($_GET['state'] == 'weiphp') {
+        } elseif ($state == 'weiphp') {
             if (empty($_GET['code'])) {
                 exit('code获取失败');
             }
@@ -83,10 +84,11 @@ class Wap extends WapBase
                 exit($content['errmsg']);
             }
 
-            $suburl = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token=' . get_access_token() . '&openid=' . $content['openid'] . '&lang=zh_CN';
+//             $suburl = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token=' . get_access_token() . '&openid=' . $content['openid'] . '&lang=zh_CN';
+            $suburl = 'https://api.weixin.qq.com/sns/userinfo?access_token=' . $content['access_token'] . '&openid=' . $content['openid'] . '&lang=zh_CN';
             $data = wp_file_get_contents($suburl);
             $data = json_decode($data, true);
-            $subscribe = $data['subscribe'];
+            $subscribe = isset($data['subscribe'])?$data['subscribe']:0;
 
             if (!empty($data['errmsg'])) {
                 exit($data['errmsg']);
@@ -110,6 +112,7 @@ class Wap extends WapBase
 
             return redirect($url);
         }
+        
     }
 
     // 绑定领奖信息

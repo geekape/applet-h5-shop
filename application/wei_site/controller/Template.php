@@ -73,7 +73,8 @@ class Template extends Base
     {
         $act = I('post.type');
         $config['template_' . $act] = I('post.template');
-        D('common/PublicConfig')->setConfig(MODULE_NAME, $config);
+
+        $flag = D('common/PublicConfig')->setConfig('wei_site_wei_site', $config);
         echo 1;
     }
 

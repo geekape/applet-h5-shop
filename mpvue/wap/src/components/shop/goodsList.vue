@@ -1,7 +1,7 @@
 <template>
   <div class="goods-list">
     <router-link :to="'/goods_detail/'+item.id"  hover-class="none" class="goods-list__item" v-for="(item, index) in goodsData" :key="item.id">
-        <lazy-component><img class="goods-list__img" v-lazy="item.cover"/></lazy-component>
+        <lazy-component class="goods-list__hd"><img class="goods-list__img" v-lazy="item.cover"/></lazy-component>
         <div class="goods-list__ft">
             <p class="goods-list__tt overflow-dot">{{item.title}}</p>
             <span class="goods-list__price s-red"><span class="icon-price">¥</span>{{item.sale_price == 0 ? item.market_price : item.sale_price}}</span>
@@ -35,13 +35,20 @@ export default {
       margin-right: 5px;
     }
   }
+	
+	&__hd {
+		width: 100%;
+		height: 180px;
+		position: relative;
+		border-top-left-radius: 15px;
+		border-top-right-radius: 15px;
+		 border-radius: 10px 10px 0 0;
+		background: #eaeaea;
+	}
   &__img {
-    width: 100%;
-    height: 180px;
-    border-radius: 10px 10px 0 0;
-    background: #eaeaea;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
+		position: absolute;
+		top: 0;right: 0;bottom: 0;left: 0;
+		margin: auto;
   }
   &__ft {
     margin-top: -7px;

@@ -83,7 +83,7 @@
                     <div class="li_bottom" style="overflow: hidden;line-height: 2.5em;padding-bottom: 10px;">
                         <div class="status"style="margin-right:1em">{$data.action|raw}
                         </div>
-                        <div class="total_price" style="=">{eq name="data.pay_type" value="90"}{$data.total_price}积分{else/}总价：¥{:wp_money_format($data['total_price']+$data['mail_money'])}{/eq}
+                        <div class="total_price" style="=">{eq name="data.pay_type" value="90"}{$data.total_price}积分{else/}实际支付：¥{:wp_money_format($data['pay_money'])}{//:wp_money_format($data['total_price']+$data['mail_money']-$data['dec_money'])}{/eq}
                             {notempty name="data.event_type"}
                             <span class="red_text_bg" style="width: 10%">{$data.event_type}</span>
                             {/notempty}

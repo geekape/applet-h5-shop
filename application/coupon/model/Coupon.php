@@ -29,6 +29,10 @@ class Coupon extends Base
             
             S($key, $info, 86400);
         }
+        if (!empty($info)){
+        	$info['background_img']=empty($info['background'])?'':get_cover_url($info['background']);
+        }
+        
         // dump($info);exit;
         return $info;
     }
@@ -141,11 +145,14 @@ class Coupon extends Base
         // $flat = false;
         // }
         // 判断用户是否有领取会员卡
-        $cardId = D('card/CardMember')->checkHasMemberCard($uid);
-        if (empty($cardId)) {
-            // $msg = '您还未领取会员卡，还不能领取该优惠券！';
-            $flat = false;
+        if (is_install('card')){
+        	$cardId = D('card/CardMember')->checkHasMemberCard($uid);
+        	if (empty($cardId)) {
+        		// $msg = '您还未领取会员卡，还不能领取该优惠券！';
+        		$flat = false;
+        	}
         }
+        
         if (! $flat) {
             return false;
         }

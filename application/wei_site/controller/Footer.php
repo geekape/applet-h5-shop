@@ -79,13 +79,13 @@ class Footer extends Base
     }
     public function edit()
     {
-        $Model = D ($this->model ['name']);
+        $Model = M ($this->model ['name']);
         $id    = I('id');
 
         if (IS_POST) {
             $data = I('post.');
             $data = $this->checkData($data, $this->model);
-            $res  = $Model->save($data, ['id' => $id]);
+            $res  = $Model->where('id',$id)->update($data);
             if ($res!==false) {
                 $this->success('保存' . $this->model['title'] . '成功！', U('lists?model=' . $this->model['name'], $this->get_param));
             } else {
@@ -132,7 +132,7 @@ class Footer extends Base
     }
     public function add()
     {
-        $Model = D ($this->model ['name']);
+        $Model = M ($this->model ['name']);
 
         if (IS_POST) {
             $data = I('post.');

@@ -224,6 +224,25 @@ str;
         if (isset($data['has_config']) && $data['has_config'] == 1) {
             file_put_contents("{$addon_dir}config.php", $data['config']);
         }
+        if($data['has_adminlist']=='1'){
+            //创建默认的数据模型
+            $model['name'] = $app_name;
+            $model['title'] = $data['info']['title'];
+            $model['engine_type'] = 'InnoDB';
+            $model['need_pk'] = '1';
+            $model['addon'] = $appName;
+            D('common/Models')->buildFileByData($model);
+
+            //创建默认数据表
+            $table_name = DB_PREFIX . $app_name;
+            $sql = <<<sql
+                CREATE TABLE IF NOT EXISTS `{$table_name}` (
+                `id`  int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键' ,
+                PRIMARY KEY (`id`)
+                )ENGINE={$model['engine_type']} DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci CHECKSUM=0 ROW_FORMAT=DYNAMIC DELAY_KEY_WRITE=0;
+sql;
+            D('common/Models')->execute($sql);
+        }
 
         // $this->success('创建成功', U('index'));
         $this->install($appName);

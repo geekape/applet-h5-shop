@@ -19,7 +19,7 @@ class Weixin extends Base
         if (! empty($doNotInit)) {
             return true;
         }
-        
+        addWeixinLog(GetCurUrl(), 'weixin_url');
         $content = wp_file_get_contents('php://input');
         // $content = "<xml><ToUserName><![CDATA[gh_f500368e90ad]]></ToUserName>
         // <FromUserName><![CDATA[o8rov1d6V8MxCc3xBI9XsU27geqI]]></FromUserName>

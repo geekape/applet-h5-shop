@@ -21,14 +21,15 @@
       </div>
     </div>
     
-    <a open-type="redirect" v-else="address.truename" href="../add_address/main?id=0" class="u-button u-button--primary u-button--big">新增地址</a>
-    <a open-type="redirect" v-if="address.truename" href="../add_address/main?id=1" class="u-button u-button--primary u-button--big">修改地址</a>
+    <a open-type="redirect" v-else="address.truename" href="../add_address/index?id=0" class="u-button u-button--primary u-button--big">新增地址</a>
+    <a open-type="redirect" v-if="address.truename" href="../add_address/index?id=1" class="u-button u-button--primary u-button--big">修改地址</a>
   </div>
 </template>
 
 <script>
 import {get} from "@/utils"
 export default {
+  mpType: 'page',
   data () {
     return {
       address: []

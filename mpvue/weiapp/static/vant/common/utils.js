@@ -7,4 +7,12 @@ function isObj(x) {
   return x !== null && (type === 'object' || type === 'function');
 }
 
-export { isObj, isDef };
+function isNumber(value) {
+  return /^\d+$/.test(value);
+}
+
+function range(num, min, max) {
+  return Math.min(Math.max(num, min), max);
+}
+
+export { isObj, isDef, isNumber, range };

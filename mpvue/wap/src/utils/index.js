@@ -3,6 +3,7 @@ var fly = new Fly
 const wx = require('weixin-js-sdk');
 
 import router from "../router/index";
+import store from '../store';
 import { Toast, Dialog } from 'vant';
 
 
@@ -32,7 +33,8 @@ let host = (function () {
 /** 
  ** 请求封装
  */
-function request(url, method, data, header = {}) {
+function request(url, method, data, opt) {
+		store.commit('togglePageStatus', false)
     return new Promise((resolve, reject) => {
         var new_host = host
         Toast.loading();
@@ -41,7 +43,8 @@ function request(url, method, data, header = {}) {
             fly.get(new_host + url)
                 .then(function (res) {
                     Toast.clear();
-                    console.log(res)
+										store.commit('togglePageStatus', true)
+                    // console.log('get为', res)
                     resolve(res.data)
                 })
                 .catch(function (error) {
@@ -50,8 +53,9 @@ function request(url, method, data, header = {}) {
         } else {
             fly.post(new_host + url, data)
                 .then(function (res) {
-                    console.log('host:', host)
+                    // console.log('post为', res)
                     Toast.clear();
+										store.commit('togglePageStatus', true)
                     resolve(res.data)
                 })
                 .catch(function (error) {
@@ -67,11 +71,15 @@ function request(url, method, data, header = {}) {
 }
 
 function get(url, data) {
-    return request(url, 'GET', data)
+    return request(url, 'GET', data,{
+			isShowLoading: true
+		})
 }
 
 function post(url, data) {
-    return request(url, 'POST', data)
+    return request(url, 'POST', data,{
+			isShowLoading: true
+		})
 }
 
 
@@ -80,15 +88,21 @@ function post(url, data) {
  ** 时间戳转换时间
  */
 
-function timeChange(time) {
+function timeChange(time, isHsm) {
     var date = new Date(time * 1000);
-    var Y = date.getFullYear() + '-';
-    var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+    var Y = date.getFullYear() + '.';
+    var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '.';
     var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' ';
     var h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
     var m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + ':';
     var s = (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds());
-    return Y + M + D + h + m + s
+    // 只传日期
+    if(isHsm) {
+        return Y + M + D
+    } else {
+        return Y + M + D + h + m + s
+    }
+    
 }
 
 
@@ -157,19 +171,20 @@ function dateDiff(timestamp) {
 /** 
  ** 自用方法
  */
-function wxConfig() {
+function wxConfig(isdebug) {
+    //可单独设置开启，不影响所有接口
+    isdebug=isdebug?isdebug:false;
     let selfUrl = window.location.href
     post("shop/api/wx_config", { url: selfUrl })
         .then(res => {
 
             wx.config({
-                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                debug: isdebug, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
                 appId: res.appId, // 必填，公众号的唯一标识
                 timestamp: res.timestamp + "", // 必填，生成签名的时间戳
                 nonceStr: res.nonceStr, // 必填，生成签名的随机串
                 signature: res.signature,// 必填，签名
-                jsApiList: ['chooseWXPay', 'updateAppMessageShareData'] // 必填，需要使用的JS接口列表
-
+                jsApiList: ['chooseWXPay', 'updateAppMessageShareData','updateTimelineShareData','onMenuShareTimeline','onMenuShareAppMessage','onMenuShareQQ','onMenuShareWeibo','onMenuShareQZone'] // 必填，需要使用的JS接口列表
             });
         })
         .catch(err => {
@@ -186,25 +201,131 @@ function wxConfig() {
  */
 
 // 分享
-function goShare() {
-    wxConfig()
-    let selfUrl = window.location.href
-    wx.updateAppMessageShareData({
-        title: '123', // 分享标题
-        desc: 'asdffdhgsdfg', // 分享描述
-        link: selfUrl, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-        imgUrl: '', // 分享图标
-        success: function () {
-            // 设置成功
-        }
+function goShare(shareData) {
+    wxConfig();
+    
+    shareData.title=shareData.title?shareData.title:'';
+    shareData.desc=shareData.desc?shareData.desc:'';
+    shareData.link=shareData.link?shareData.link:'';
+    shareData.imgUrl=shareData.imgUrl?shareData.imgUrl:'';
+    shareData.type=shareData.type?shareData.type:'';
+    shareData.dataUrl=shareData.dataUrl?shareData.dataUrl:'';
+    
+    //console.log('goShare:',shareData);
+    wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+        //alert('this is ready');
+        //alert(JSON.stringify(shareData));
+
+        //自定义“分享给朋友”及“分享到QQ”按钮的分享内容（1.4.0）
+        wx.updateAppMessageShareData({ 
+            title: shareData.title, // 分享标题
+            desc: shareData.desc, // 分享描述
+            link: shareData.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: shareData.imgUrl, // 分享图标
+            success: function () {
+              // 设置成功
+              
+            },
+            cancel: function () {
+                // 用户取消分享后执行的回调函数
+             
+            }
+        });
+
+        //自定义“分享到朋友圈”及“分享到QQ空间”按钮的分享内容（1.4.0）
+        wx.updateTimelineShareData({ 
+            title: shareData.title, // 分享标题
+            link: shareData.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: shareData.imgUrl, // 分享图标
+            success: function () {
+                // 设置成功
+               
+              },
+              cancel: function () {
+                  // 用户取消分享后执行的回调函数
+                 
+              }
+        });
+
+
+        //获取“分享到朋友圈”按钮点击状态及自定义分享内容接口（即将废弃）
+        wx.onMenuShareTimeline({
+            title: shareData.title, // 分享标题
+            link: shareData.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: shareData.imgUrl, // 分享图标
+            success: function () {
+                // 用户点击了分享后执行的回调函数
+               
+            },
+        });
+
+        //获取“分享给朋友”按钮点击状态及自定义分享内容接口（即将废弃）
+        wx.onMenuShareAppMessage({
+            title: shareData.title, // 分享标题
+            desc: shareData.desc, // 分享描述
+            link: shareData.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: shareData.imgUrl, // 分享图标
+            type: shareData.type, // 分享类型,music、video或link，不填默认为link
+            dataUrl: shareData.dataUrl, // 如果type是music或video，则要提供数据链接，默认为空
+            success: function () {
+            // 用户点击了分享后执行的回调函数
+                
+            }
+        });
+
+        //获取“分享到QQ”按钮点击状态及自定义分享内容接口（即将废弃）
+        wx.onMenuShareQQ({
+            title: shareData.title, // 分享标题
+            desc: shareData.desc, // 分享描述
+            link: shareData.link, // 分享链接
+            imgUrl: shareData.imgUrl, // 分享图标
+            success: function () {
+                // 用户确认分享后执行的回调函数
+                
+            },
+            cancel: function () {
+            // 用户取消分享后执行的回调函数
+            }
+        });
+
+        //获取“分享到腾讯微博”按钮点击状态及自定义分享内容接口
+        wx.onMenuShareWeibo({
+            title: shareData.title, // 分享标题
+            desc: shareData.desc, // 分享描述
+            link: shareData.link, // 分享链接
+            imgUrl: shareData.imgUrl, // 分享图标
+            success: function () {
+                // 用户确认分享后执行的回调函数
+               
+            },
+            cancel: function () {
+            // 用户取消分享后执行的回调函数
+            }
+        });
+
+        //获取“分享到QQ空间”按钮点击状态及自定义分享内容接口（即将废弃）
+        wx.onMenuShareQZone({
+            title: shareData.title, // 分享标题
+            desc: shareData.desc, // 分享描述
+            link: shareData.link, // 分享链接
+            imgUrl: shareData.imgUrl, // 分享图标
+            success: function () {
+                // 用户确认分享后执行的回调函数
+                
+            },
+            cancel: function () {
+            // 用户取消分享后执行的回调函数
+            }
+        });
+
     });
+
 }
 
 
 //  支付
 function goPay(id, price) {
     wxConfig();
-
     get("shop/api/do_pay/out_trade_no/" + id).then(res => {
         if (res.code == 0) {
             Toast(res.msg)
@@ -246,7 +367,6 @@ function goReceiving(id) {
             // on confirm
             get("shop/api/confirm_get?id=" + id).then(res => {
                 if (res.code == 1) {
-                    Toast.fail("收货成功");
                     router.push({ name: "msg", params: { type: 'success', msg: '收货成功' } });
                 } else {
                     Toast.fail("收货失败");
@@ -4044,7 +4164,13 @@ let data = {
         '820201': '离岛'
     }
 }
-
+function checkPhone(phone){ 
+    if(!(/^1(3|4|5|7|8)\d{9}$/.test(phone))){ 
+        return false;
+    } else {
+			return true
+		}
+}
 
 
 
@@ -4058,5 +4184,7 @@ export {
     data,
     goPay,
     goReceiving,
-    goShare
+    goShare,
+    wxConfig,
+		checkPhone
 }

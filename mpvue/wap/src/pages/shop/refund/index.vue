@@ -1,10 +1,12 @@
 <template>
   <div class="refund comment">
     <navbar text="退款"></navbar>
+    <scroller >
     <div>
       <textarea class="comment-box" name="" maxlength="999" placeholder="退款原因" v-model="text"></textarea>
     </div>
       <button class="u-button u-button--big u-button--primary" @click="formSubmit">提交</button>
+    </scroller>
   </div>
 </template>
 
@@ -41,8 +43,10 @@ export default {
         refund_content: text
       }).then((res) => {
         if(res.code == 1) {
-          Toast(res.msg)
-          this.$router.replace('/center')
+          this.$router.push({
+            name: "msg",
+            params: { msg: '申请退款成功', type: "success" }
+          });
         } else {
           Toast(res.msg)
         }

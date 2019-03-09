@@ -12,6 +12,9 @@
 // [ 应用入口文件 ]
 namespace think;
 
+if (version_compare ( PHP_VERSION, '5.6.0', '<' ))
+    die ( 'Your PHP Version is ' . PHP_VERSION . ', But WeiPHP require PHP >= 5.6.0 !' );
+
 /**
  * 微信接入验证
  * 在入口进行验证而不是放到框架里验证，主要是解决验证URL超时的问题

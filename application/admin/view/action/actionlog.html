@@ -33,7 +33,7 @@
 			<td>{:get_nickname($vo['user_id'])}</td>
 			<td><span>{$vo.create_time|time_format}</span></td>
 			<td><a href="{:U('Action/edit?id='.$vo['id'])}">详细</a>
-				<a class="confirm ajax-get" href="{:U('Action/remove?ids='.$vo['id'])}">删除</a>
+				<a class="confirm" href="{:U('Action/remove?ids='.$vo['id'])}">删除</a>
                 </td>
 		</tr>
 		{/volist}

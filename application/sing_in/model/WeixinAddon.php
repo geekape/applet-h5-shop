@@ -14,12 +14,15 @@ class WeixinAddon extends Weixin {
 		$pbid = get_pbid_by_token ( $dataArr ['ToUserName'] );
 
 		$uid = M ( 'public_follow' )->where ( 'openid', $dataArr ['FromUserName'] )->value ( 'uid' );
-		//判断是否已经领取会员卡，只能领取会员卡才能签到
-		$hasCard = D('card/CardMember')->checkHasMemberCard($uid);
-		if (!$hasCard){
-			$this->replyText ( '需领取会员卡后才能签到！！' );
-			return true;
+		if (is_install('card')){
+			//判断是否已经领取会员卡，只能领取会员卡才能签到
+			$hasCard = D('card/CardMember')->checkHasMemberCard($uid);
+			if (!$hasCard){
+				$this->replyText ( '需领取会员卡后才能签到！！' );
+				return true;
+			}
 		}
+		
 		if ($uid<=0){
 			$this->replyText ( '签到失败！！！' );
 			return true;

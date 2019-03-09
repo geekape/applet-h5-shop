@@ -1,4 +1,5 @@
 import { VantComponent } from '../common/component';
+import { RED } from '../common/color';
 VantComponent({
   props: {
     text: String,
@@ -8,7 +9,7 @@ VantComponent({
     },
     backgroundColor: {
       type: String,
-      value: '#e64340'
+      value: RED
     },
     duration: {
       type: Number,
@@ -21,7 +22,7 @@ VantComponent({
 
       var duration = this.data.duration;
       clearTimeout(this.timer);
-      this.setData({
+      this.set({
         show: true
       });
 
@@ -33,7 +34,7 @@ VantComponent({
     },
     hide: function hide() {
       clearTimeout(this.timer);
-      this.setData({
+      this.set({
         show: false
       });
     }

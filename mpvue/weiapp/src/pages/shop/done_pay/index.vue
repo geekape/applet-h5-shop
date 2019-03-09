@@ -12,7 +12,7 @@
       </div>
     </div>
     
-    <a href="../index/main" open-type="switchTab" class="u-button u-button--primary u-button--big">返回首页</a>
+    <a href="../index/index" open-type="switchTab" class="u-button u-button--primary u-button--big">返回首页</a>
   </div>
 </template>
 

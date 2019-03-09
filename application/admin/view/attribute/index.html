@@ -43,7 +43,7 @@
             <td><span>{$is_show_arr[$vo['is_show']]}</span></td>
             <td><span>{$is_must_arr[$vo['is_must']]}</span></td>
 			<td><a href="{:U('Attribute/edit',['name'=>$key,'model_id'=>$model_id])}">编辑</a>
-				<a class="confirm ajax-get" href="{:U('Attribute/remove',['name'=>$key,'model_id'=>$model_id])}">删除</a>
+				<a class="confirm" href="{:U('Attribute/remove',['name'=>$key,'model_id'=>$model_id])}">删除</a>
                 </td>
 		</tr>
 		{/volist}

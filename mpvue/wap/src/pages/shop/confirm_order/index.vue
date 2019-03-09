@@ -1,6 +1,7 @@
 <template>
   <div class="confirm-order">
     <navbar text="提交订单"></navbar>
+    <scroller v-if="datas.goods_id || datas.id">
     <!-- 地址 -->
     <div @click="jump" class="m-list order-line" v-if="address">
       <div class="m-list__l">{{address.truename}}</div>
@@ -19,17 +20,16 @@
       <i class="iconfont icon-fanhui right"></i>
     </div>
  
-
     <!-- 订单 -->
     <div class="switch-card" v-for="(item, index) in goodsList" :key="index">
       <div class="switch-card__hd">
         <p class="switch-card__tt">
-        <block v-if="item.key == 3">
+        <template v-if="item.key == 3">
           <van-radio-group class="switch-card__radio" v-model="item.type">
             <van-radio name="1">邮寄</van-radio>
             <van-radio name="2">自提</van-radio>
           </van-radio-group>
-        </block>
+        </template>
 
           <van-radio-group class="switch-card__radio" v-model="item.type" :data-index="index" v-else>
             <van-radio v-if="item.type == 1" name="1">邮寄</van-radio>
@@ -44,7 +44,11 @@
           <img class="u-goods__img" :src="item.cover"/>
 
           <div class="goods-line__right">
-            <p class="u-goods__tt overflow-dot">{{item.title}}</p>
+            <p class="u-goods__tt overflow-dot">
+              <span class="s-red" v-if="datas.event_type == 1">【拼团】</span>
+              <span class="s-red" v-else-if="datas.event_type == 2">【秒杀】</span>
+              <span class="s-red" v-else-if="datas.event_type == 3">【砍价】</span>
+              {{item.title}}</p>
             <div class="goods-line__ft">
               <div class="goods-line__price">
                 <span>¥{{item.sale_price}}</span>
@@ -64,20 +68,20 @@
           <p class="m-list__c">邮费:</p>
           <p>+ ¥{{item.express}}</p>
         </div>
-        <div class="m-list small" v-if="couponMoney != 0">
+        <!-- <div class="m-list small" v-if="couponMoney != 0">
           <p class="m-list__c">优惠券:</p>
           <p>- ¥{{couponMoney}}</p>
-        </div>
+        </div> -->
       </div>
     </div>
 
     <!-- 优惠券 -->
-    <!-- <div class="m-list link" v-if="couponNum > 0" @click="togglePopup">
+    <div class="m-list link" v-if="couponNum > 0" @click="togglePopup">
       <div class="m-list__l">优惠券</div>
       <p class="m-list__c" v-if="couponName==''">你有{{couponNum}}张优惠劵,点击使用</p>
       <p class="m-list__c" v-else>{{couponName}}</p>
       <i class="iconfont icon-fanhui right"></i>
-    </div> -->
+    </div>
 
     <!-- 门店 -->
     <div class="m-list link" v-if="isShop" @click="toggleShopPopup">
@@ -95,13 +99,14 @@
     <div class="tcp">
       <van-checkbox class="square-checkbox" shape="square" v-model="isTcp">我已同意</van-checkbox><span class="s-link" @click="openTcpPopup">《客户协议》</span>
     </div>
-    <van-popup class="tcpPopup" v-model="isTcpPopup">
-      <div class="tcpPopup-box" v-html="tcp"></div>
-    </van-popup>
+    
+
+    </scroller>
+    
 
 
     <!-- 固定底部栏 -->
-    <div class="bottom-bar g-flex">
+    <div class="bottom-bar g-flex" v-if="datas.goods_id || datas.id">
       <div class="g-flex__item g-flex">
         <p>实付款：<p class="s-red">¥{{totalPrice}}</p></p>
         <p class="f-font-sm">含运费</p>
@@ -109,6 +114,9 @@
 
       <button @click="submitOrder" class="u-button u-button--primary">提交订单</button>
     </div>
+    <van-popup class="tcpPopup" v-model="isTcpPopup">
+      <div class="tcpPopup-box" v-html="tcp"></div>
+    </van-popup>
     <van-popup v-model="isPopup" position="bottom" @close="togglePopup">
       <div class="coupon">
       <div class="coupon-not">
@@ -148,7 +156,7 @@
 </template>
 
 <script>
-import { post, get, host, goPay } from "@/utils";
+import { post, get, host, goPay,wxConfig } from "@/utils";
 import navbar from "@/components/navbar";
 import { Popup, Toast } from "vant";
 const wx = require("weixin-js-sdk");
@@ -186,11 +194,14 @@ export default {
       shopList: [],
       selfShopIdx: -1,
       shopName: "点击选择门店",
+			activeOrderParms: {},
       remark: "", // 留言
       goodsId: 0, //商品id
       storesId: 0, // 门店id
       snId: 0, // 优惠劵Id
-      sendType: 1 // 配送类型-
+      sendType: 1, // 配送类型
+      sendTypeObj: {}, // 配送商品对象
+      isClickShop:0//是否已经点击门店列表，获取门店列表信息
     };
   },
   components: {
@@ -199,23 +210,22 @@ export default {
 
   computed: {
     isShop() {
+      const _this = this
       let isShop = false;
       let money = 0;
       let sendArr = [];
       this.goodsList.forEach((item, index) => {
-        money +=
-          parseFloat(item.sale_price) * parseInt(item.num) +
-          parseFloat(item.express);
+        money = (parseFloat(money) + (parseFloat(item.sale_price) * parseInt(item.num)) + parseFloat(item.express)).toFixed(2)
         sendArr.push(item.type);
+        _this.sendTypeObj[item.id] = item.type
         if (item.type == 2) {
           isShop = true;
-          money -= parseFloat(item.express);
+          money = (parseFloat(money) - parseFloat(item.express)).toFixed(2)
         } else {
           // console.log('有选邮寄的')
         }
       });
-
-      this.totalPrice = money; // 总价
+      this.totalPrice = parseFloat(money) // 总价
       this.sendType = sendArr.join(","); //配送方式
       return isShop;
     },
@@ -235,10 +245,12 @@ export default {
     },
     // 选择优惠卷
     selectCoupon(idx) {
-      this.couponName = this.couponList[idx].money + "元优惠劵";
+      this.couponName = '-' + this.couponList[idx].money + "元优惠劵";
       this.isPopup = !this.isPopup;
       // 重新计算价格
       this.totalPrice -= parseFloat(this.couponList[idx].money);
+      this.totalPrice = this.totalPrice < 0 ?  0 : this.totalPrice
+      
       this.couponMoney = parseFloat(this.couponList[idx].money);
       this.snId = this.couponList[idx].sn_id; // 优惠券id
     },
@@ -253,10 +265,10 @@ export default {
       this.isPopup = !this.isPopup;
       const _this = this;
       if (this.isPopup == true) {
-        get(
-          "coupon/api/personal/PHPSESSID/" +
-            window.localStorage.getItem("PHPSESSID")
-        ).then(res => {
+        post('coupon/api/personal',{
+            PHPSESSID: window.localStorage.getItem("PHPSESSID"),
+            str_coupon_id: _this.datas.str_coupon_id
+          }).then(res => {
           console.log(res);
           _this.couponList = res.lists[0];
         });
@@ -273,6 +285,7 @@ export default {
           is_choose: 1,
           ids: id
         }).then(res => {
+          this.isClickShop=1;
           this.shopList = res.store_lists;
         });
       }
@@ -310,24 +323,32 @@ export default {
 
       // 配送门店
       if (this.sendType.includes(2)) {
+
+        if( this.isClickShop==1 && (!this.shopList || this.shopList.length<=0) ){
+         Toast("商品没有共同的门店，请分开下单！");
+          return false;
+        }
+
         if (this.storesId == 0) {
           Toast("请选择配送门店");
           return false;
         }
       }
-
+    
       post("shop/api/add_order", {
         address_id: _this.address.id,
         remark: _this.remark, // 留言
         sn_id: _this.snId, // 优惠卷id
         stores_id: _this.storesId, // 门店id
         send_type: _this.sendType, //送货类型
+        goods_send_type:_this.sendTypeObj,//各商品送货类型
         openid: window.localStorage.getItem("openid"),
         is_weiapp: 0,
         PHPSESSID: window.localStorage.getItem("PHPSESSID")
       }).then(res => {
         if (res.code == 0) {
-          Toast("请求错误");
+           let msg=res.msg!=''?res.msg:'请求错误';
+           Toast(msg);
         } else {
           console.log("开始改善get请求");
           goPay(res.out_trade_no, this.totalPrice);
@@ -344,6 +365,13 @@ export default {
       for (let [key, value] of entries(data)) {
         value.forEach((item, idx) => {
           item.arrowDir = "top";
+
+          // 从活动中进来，改变价格
+          if(_this.activeOrderParams) {
+            console.log(_this.activeOrderParams)
+            item.sale_price = JSON.parse(_this.activeOrderParams).activePrice
+          }
+
           if (key != 3) {
             item.type = key;
           } else {
@@ -351,7 +379,6 @@ export default {
             console.log("item.type:", item.type);
             item.key = 3;
           }
-
           arr.push(item);
         });
       }
@@ -373,30 +400,18 @@ export default {
           _this.address = _this.datas.address;
           _this.couponNum = parseInt(_this.datas.coupon_num);
           _this.shopListArr(_this.datas.lists);
-        })
-        .catch(err => {
-          console.log("错误信息：" + err);
-        });
 
-      let selfUrl = window.location.href;
-      post("shop/api/wx_config", { url: selfUrl })
-        .then(res => {
-          wx.config({
-            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-            appId: res.appId, // 必填，公众号的唯一标识
-            timestamp: res.timestamp + "", // 必填，生成签名的时间戳
-            nonceStr: res.nonceStr, // 必填，生成签名的随机串
-            signature: res.signature, // 必填，签名
-            jsApiList: ["chooseWXPay", "config"] // 必填，需要使用的JS接口列表
-          });
+          
         })
         .catch(err => {
           console.log("错误信息：" + err);
         });
+   
     },
 
     getData(type) {
       const _this = this;
+      this.activeOrderParams = this.$store.state.activeOrderParams
 
       if (type == 1) {
         console.log(this.$route);
@@ -408,6 +423,12 @@ export default {
           cart_ids: this.$route.params.cartIds
         };
         _this.sendRequest(opts);
+      } else if(this.activeOrderParams) {
+        let opt = JSON.parse(this.activeOrderParams)
+        // 活动
+        this.sendRequest(opt);
+        console.log('商品格格：', opt.activePrice)
+        
       } else {
         let id = this.$route.params.id;
         console.log(this.$route);
@@ -417,12 +438,15 @@ export default {
           PHPSESSID: window.localStorage.getItem("PHPSESSID")
         };
         _this.sendRequest(opts);
+        
       }
     }
   },
   created() {
     let type = this.$route.params.type;
+		this.activeOrderParms = this.$store.state.activeOrderParams
     this.getData(type);
+    wxConfig();
   },
 
   onShow() {
@@ -434,10 +458,13 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+
+
 .confirm-order {
   background: transparent;
   padding-top: 45px;
   padding-bottom: 55px;
+  /deep/ ._v-container > ._v-content {padding-bottom: 100px;}
   /deep/ .van-popup {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;

@@ -20,7 +20,7 @@ class Wap extends WapBase
             // 获取通知数
             $key = 'cardnotic_' . $wpid . '_' . $uid;
             $rrs = S($key);
-            if ($rrs === false) {
+            if ($rrs === false && is_install('card')) {
                 $beforetime = 7 * 24 * 60 * 60;
                 $thetime = strtotime(time_format(time(), 'Y-m-d')) - $beforetime;
                 $cmap['wpid'] = $wpid;

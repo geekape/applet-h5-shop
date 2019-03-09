@@ -19,10 +19,17 @@ import {Lazyload} from 'vant';
 import 'vant/lib/index.css';
 
 Vue.use(Vant)
+
 Vue.use(Lazyload, {
     lazyComponent: true,
-    preLoad: 1.3
+    preLoad: 1.3,
+    loading: '/static/img/icon-loading_before.png',
+    error: '/static/img/icon-loading_after.png'
 })
+
+import VueScroller from 'vue-scroller'
+Vue.use(VueScroller)
+
 
 
 

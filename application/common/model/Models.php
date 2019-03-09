@@ -558,4 +558,57 @@ sql;
             return $arr;
         }
     }
+    function buildFileByData($data){
+// dump ( $data );
+        $config = [
+            'name' => $data['name'],
+            'title' => $data['title'],
+            'search_key' => isset($data['search_key']) ? $data['search_key'] : '',
+            'add_button' => isset($data['add_button']) ? $data['add_button'] : 1,
+            'del_button' => isset($data['del_button']) ? $data['del_button'] : 1,
+            'search_button' => isset($data['search_button']) ? $data['search_button'] : 1,
+            'check_all' => isset($data['check_all']) ? $data['check_all'] : 1,
+            'list_row' => isset($data['list_row']) ? $data['list_row'] : 20,
+            'addon' => $data['addon']
+        ];
+
+        // dump ( $config );
+        $list_grid = [];
+        if (isset($data['attr_title'])) {
+            $j = 0;
+            foreach ($data['attr_title'] as $k => $vo) {
+                if (!empty($vo)) {
+                    $res = [];
+                    $res['title'] = $vo;
+                    $res['come_from'] = $from = $data['come_from'][$k];
+                    $res['width'] = $data['width'][$k];
+                    if ($from == 1) {
+                        $name = $j == 0 ? 'urls' : 'urls' . $j;
+                        $j++;
+
+                        $res['is_sort'] = 0;
+                        $res['href'] = [];
+                        foreach ($data['url_title'][$k] as $kk => $vv) {
+                            $title = $vv;
+                            $url = $data['url_url'][$k][$kk];
+                            if (!empty($title) && !empty($url)) {
+                                $res['href'][] = [
+                                    'title' => $title,
+                                    'url' => $url
+                                ];
+                            }
+                        }
+                    } else {
+                        $name = $data['field'][$k];
+                        $res['is_sort'] = $data['is_sort'][$k];
+                    }
+
+                    $list_grid[$name] = $res;
+                }
+            }
+        }
+        // dump ( $data );
+        $res = $this->buildFile($data, null, $list_grid, $config);
+        return $res;
+    }
 }

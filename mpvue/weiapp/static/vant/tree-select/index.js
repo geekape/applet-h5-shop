@@ -1,6 +1,7 @@
 import { VantComponent } from '../common/component';
 var ITEM_HEIGHT = 44;
 VantComponent({
+  classes: ['main-item-class', 'content-item-class', 'main-active-class', 'content-active-class', 'main-disabled-class', 'content-disabled-class'],
   props: {
     items: Array,
     mainActiveIndex: {
@@ -8,8 +9,7 @@ VantComponent({
       value: 0
     },
     activeId: {
-      type: Number,
-      value: 0
+      type: [Number, String]
     },
     maxHeight: {
       type: Number,
@@ -35,19 +35,27 @@ VantComponent({
   methods: {
     // 当一个子项被选择时
     onSelectItem: function onSelectItem(event) {
-      this.$emit('click-item', event.currentTarget.dataset.item);
+      var item = event.currentTarget.dataset.item;
+
+      if (!item.disabled) {
+        this.$emit('click-item', item);
+      }
     },
     // 当一个导航被点击时
     onClickNav: function onClickNav(event) {
       var index = event.currentTarget.dataset.index;
-      this.$emit('click-nav', {
-        index: index
-      });
+      var item = this.data.items[index];
+
+      if (!item.disabled) {
+        this.$emit('click-nav', {
+          index: index
+        });
+      }
     },
     // 更新子项列表
     updateSubItems: function updateSubItems() {
       var selectedItem = this.data.items[this.data.mainActiveIndex] || {};
-      this.setData({
+      this.set({
         subItems: selectedItem.children || []
       });
       this.updateItemHeight();
@@ -55,13 +63,13 @@ VantComponent({
     // 更新组件整体高度，根据最大高度和当前组件需要展示的高度来决定
     updateMainHeight: function updateMainHeight() {
       var maxHeight = Math.max(this.data.items.length * ITEM_HEIGHT, this.data.subItems.length * ITEM_HEIGHT);
-      this.setData({
+      this.set({
         mainHeight: Math.min(maxHeight, this.data.maxHeight)
       });
     },
     // 更新子项列表高度，根据可展示的最大高度和当前子项列表的高度决定
     updateItemHeight: function updateItemHeight() {
-      this.setData({
+      this.set({
         itemHeight: Math.min(this.data.subItems.length * ITEM_HEIGHT, this.data.maxHeight)
       });
     }

@@ -1,29 +1,28 @@
 <script>
-const common = require('@/utils/common')
+const common = require("@/utils/common");
+import { host } from "@/utils";
 export default {
-
-  data () {
+ 
+  data() {
     return {
-      url: 'https://leyao.tv/yi/public/index.php?pbid=72&s=/',
-      PHPSESSID: '',
-      common: common,
-    }
+      PHPSESSID: "",
+      common: common
+    };
   },
-  onLaunch (options) {
-    
-    var from_uid = options.query.from_uid == undefined ? '0' : options.query.from_uid
+  onLaunch(options) {
+    var from_uid =
+      options.query.from_uid == undefined ? "0" : options.query.from_uid;
     if (from_uid != 0) {
-      wx.setStorageSync("from_uid", from_uid)
+      wx.setStorageSync("from_uid", from_uid);
     }
 
-    common.initApp(this.url + 'weiapp/Api/', true)
+    common.initApp(host + "weiapp/Api/", true);
   }
-
-}
+};
 </script>
 
 <style lang="scss">
-@import '../static/styles/base.scss';
+@import "../static/styles/base.scss";
 
 /* this rule will be remove */
 * {
@@ -32,8 +31,4 @@ export default {
   -webkit-transition: width 2s;
   -o-transition: width 2s;
 }
-
-
-
-
 </style>

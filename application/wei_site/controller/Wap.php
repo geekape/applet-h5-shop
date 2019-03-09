@@ -239,9 +239,10 @@ class Wap extends WapBase
             $this->assign('cateMenuFileName', $file);
         } else {
             $list = D('WeiSite/Footer')->get_list();
-            
+            $list = $list->toArray();
             $one_arr = [];
-            foreach ($list as $k => $vo) {
+            foreach ($list as $k => &$vo) {
+            	$vo['icon']=empty($vo['icon'])?'':'<img width="25" height="25" src="' . get_cover_url($vo['icon']) . '" data-id="' . $vo['icon'] . '" >';
                 if ($vo['pid'] != 0) {
                     continue;
                 }

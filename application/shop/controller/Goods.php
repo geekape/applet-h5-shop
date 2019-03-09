@@ -44,7 +44,7 @@ class Goods extends Base
         $res['url'] = U('Shop/Goods/lists', $param);
         $res['class'] = ACTION_NAME == 'lists' && $type == 3 ? 'current' : '';
         $nav[] = $res;
-        
+
         if (ACTION_NAME == 'edit') {
             $res['title'] = '编辑商品';
             $res['url'] = '#';
@@ -54,10 +54,17 @@ class Goods extends Base
             $map['mdm'] = isset($_GET['mdm']) ? input('mdm') : '';
             $res['title'] = '发布商品';
             $res['url'] = U('Shop/Goods/add', $map);
-            $res['class'] = ACTION_NAME == 'add' ? 'current' : '';
+            $res['class'] = 'current';
+            $nav[] = $res;
+        } else if (ACTION_NAME == 'goodscommentlists') {
+            $map['mdm'] = isset($_GET['mdm']) ? input('mdm') : '';
+            $map['goods_id'] = input('goods_id');
+            $res['title'] = '商品评价';
+            $res['url'] = U('Shop/Goods/goodscommentlists', $map);
+            $res['class'] = 'current';
             $nav[] = $res;
         }
-        
+
         $this->assign('nav', $nav);
     }
 
@@ -68,13 +75,13 @@ class Goods extends Base
         $this->assign('add_button', false);
         $this->assign('del_button', false);
         $type = I('type/d', 0);
-        
+
         $res['title'] = '新增商品';
         $res['is_buttion'] = 0;
         $res['url'] = U('Shop/Goods/add');
         $res['class'] = 'btn';
         $top_more_button[] = $res;
-        
+
         if ($type == 0 || $type == 1) {
             $res['title'] = '批量下架';
             $res['is_buttion'] = 1;
@@ -257,6 +264,11 @@ class Goods extends Base
         } else {
             $this->error('请上传商品图片', '', true);
         }
+        //指定门店时必须选择门店
+        if (isset($data['is_all_store']) && $data['is_all_store']==1 && empty($data['goods_store_title'])){
+        	$this->error('请添加指定门店','',true);
+        }
+        
         
         return $data;
     }

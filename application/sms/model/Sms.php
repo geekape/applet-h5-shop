@@ -19,7 +19,7 @@ class Sms extends Base
             $res['result'] = 0;
             $res['msg'] = "请检查手机号是否填写正确";
         } else {
-            if ($this->config ['type'] == 1) {
+            if ($this->config ['type'] == 1 || true) { //TODO 目前只支持云之讯
                 //云之讯
                 $res = $this->_sendUcpassSms($to);
             } else if ($this->config ['type'] == 3) {
@@ -38,7 +38,7 @@ class Sms extends Base
         $sms = M('sms')->where($map)->order('id desc')->find();
         if ($sms && $code == $sms['code']) {
             $expire = (int)($this->config['expire']);
-            if (NOW - $sms['cTime'] > expire * 60) {
+            if (NOW_TIME - $sms['cTime'] > $expire) {
                 $res['result'] = 0;
                 $res['msg'] = "验证码已过期，请重新发送";
             } else {
@@ -113,7 +113,7 @@ class Sms extends Base
             $data['status'] = 0;
             $data['smsId'] = $res['smsid'];
             $data['cTime'] = time();
-            $this->add($data);
+            $this->insert($data);
             $result['result'] = 1;
             $result['msg'] = "发送成功";
         } else {
@@ -217,7 +217,7 @@ class Sms extends Base
             $data['status'] = 0;
             $data['smsId'] = $rsp['sid'];
             $data['cTime'] = time();
-            $this->add($data);
+            $this->insert($data);
             $res['result'] = 1;
             $res['msg'] = "发送成功";
 

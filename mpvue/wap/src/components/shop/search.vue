@@ -23,7 +23,7 @@ export default {
 
 <style lang="scss" scoped>
 .search {
-    background: url('http://shengxun.weiphp.cn/uploads/picture//20181017/5bc6afa9716ee.png') no-repeat -10px -10px;
+    background: url('~images/icon-search.png') no-repeat -10px -10px;
     background-size: 34px;
     background-position: 10px;
     height: 35px;

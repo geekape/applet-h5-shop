@@ -1,6 +1,6 @@
-# mpvue-shop
+# weiapp
 
-> A Mpvue project
+> A MPVue project
 
 ## Build Setup
 

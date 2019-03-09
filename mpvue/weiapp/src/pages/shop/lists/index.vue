@@ -8,7 +8,7 @@
 
     <!-- 没有商品 -->
     <div class="hint-page" v-else>
-      <img src="../../../../static/img/nothing.png" />
+      <img lazy-load :src="imgRoot+'nothing.png'" />
       <p class="hint-page__text">还没有任何商品</p>
     </div>
     <van-popup :show="isPopup" position="right" @close="togglePopup" class="popup">
@@ -48,6 +48,8 @@ import goodsList from "@/components/shop/goodsList";
 import { post, get, host } from "@/utils";
 
 export default {
+    mpType: 'page',
+
   components: {
     goodsList,
     search
@@ -55,6 +57,7 @@ export default {
 
   data() {
     return {
+			imgRoot: this.imgRoot,
       datas: [],
       goods: [],
       isPopup: false,
@@ -64,9 +67,7 @@ export default {
       checkSort: []
     };
   },
-  computed: {
-    checkList() {}
-  },
+ 
   methods: {
     toggleCheckbox(id) {
       let arr = this.checkSort
@@ -159,17 +160,6 @@ export default {
   },
 
   onLoad() {
-    // 设置购物车数量
-    get("shop/api/cart/PHPSESSID/" + wx.getStorageSync("PHPSESSID"))
-      .then(res => {
-        let num = res.lists.length;
-        this.$store.commit("getCartShopNum", {
-          num: num
-        });
-      })
-      .catch(err => {
-        console.log("失败：" + err);
-      });
     // 获取分类
     get("shop/api/category").then(res => {
       this.sortList = res;

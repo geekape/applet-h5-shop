@@ -15,3 +15,10 @@
         justify-content: space-around
     }
 }
+
+// 水平垂直居中
+.g-flex-center {
+	display: flex;
+	justify-content: center;
+	align-content: center;
+}

@@ -143,12 +143,15 @@ class ApiData extends Base
         
         $data['has_subscribe'] = $has_subscribe;
         // 判断是否需要领取会员卡
-        if (isset($info['need_member']) && $info['need_member'] == 1) {
-            $hasCard = D('card/CardMember')->checkHasMemberCard($this->mid);
-            if (empty($hasCard)) {
-                $errMsg = '需要成为会员才能参与游戏！';
-            }
+        if (is_install('card')){
+        	if (isset($info['need_member']) && $info['need_member'] == 1) {
+        		$hasCard = D('card/CardMember')->checkHasMemberCard($this->mid);
+        		if (empty($hasCard)) {
+        			$errMsg = '需要成为会员才能参与游戏！';
+        		}
+        	}
         }
+       
         if (empty($errMsg) && ! isWeixinBrowser()) {
             $errMsg = '请在手机端微信浏览器打开！';
         }
@@ -252,14 +255,17 @@ class ApiData extends Base
             $allow_draw = false;
         }
         // 判断是否需要领取会员卡
-        if (isset($info['need_member']) && $info['need_member'] == 1) {
-            $hasCard = D('card/CardMember')->checkHasMemberCard($this->mid);
-            if (empty($hasCard)) {
-                $status = 0;
-                $msg = '需要成为会员才能参与游戏！';
-                $allow_draw = false;
-            }
+        if (is_install('card')){
+        	if (isset($info['need_member']) && $info['need_member'] == 1) {
+        		$hasCard = D('card/CardMember')->checkHasMemberCard($this->mid);
+        		if (empty($hasCard)) {
+        			$status = 0;
+        			$msg = '需要成为会员才能参与游戏！';
+        			$allow_draw = false;
+        		}
+        	}
         }
+       
         if (! $allow_draw) {
             // 返回提示不继续走
             return $this->_error_return($status, $msg);
@@ -418,7 +424,8 @@ class ApiData extends Base
         // 根据优惠券的限制数发放
         if ($prizeid != 0) {
             $awardInfo = D('draw/Award')->getInfo($prizeid);
-            $prizeid = $awardInfo['id'];
+            $prizeid = isset($awardInfo['id'])?$awardInfo['id']:$prizeid;
+            if (isset($awardInfo['award_type']) && $awardInfo['award_type'] == 2 && is_install("coupon")) {
                 // 优惠券
                 $info = D('coupon/Coupon')->getInfo($awardInfo['coupon_id']);
 
@@ -431,7 +438,7 @@ class ApiData extends Base
                 } else if ($info['is_del'] == 1) {
                     $flat = false;
                 }
-                
+            }    
                
             if (! $flat) {
                 $prizeid = 0;

@@ -32,23 +32,7 @@ class Credit extends Base
         
         isset($data['score']) || $data['score'] = $credit['score'];
         $data['credit_title'] = isset($data['title']) ? $data['title'] : $credit['title'];
-        //是否对接ERP
-        if (isset($data['not_erp'])){
-        	$addErp = $data['not_erp'];
-        	unset($data['not_erp']);
-        }else{
-        	$addErp = 1;
-        }
         $data1 = $data;
-        $canAdd=1;
-			// 判断是否已经对接领取会员卡
-		$hasCard = D ( 'card/CardMember' )->checkHasMemberCard ( $data ['uid'] );
-		if (empty ( $hasCard )) {
-			$addErp=0;
-        }
-        if ($canAdd != 1){
-        	return false;
-        }
         $res = $this->insertGetId($data1);
         if ($res) {
             $score = abs($data['score']);

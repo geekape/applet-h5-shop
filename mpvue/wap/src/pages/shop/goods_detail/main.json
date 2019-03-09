@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "商品详情",
-  "usingComponents": {
-    "van-cell": "/static/vant/cell/index",
-    "van-cell-group": "/static/vant/cell-group/index",
-    "i-toast": "/static/iview/toast/index"
-  }
-}

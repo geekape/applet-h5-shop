@@ -141,7 +141,7 @@ class ApiData extends Base
     function show_error($error, $info = [])
     {
         $data ['info'] = $info;
-        
+        $data ['code']=0;
         $data ['error'] = $error;
         S('set_sn_code_lock', 0); // 解锁
         $data ['templateFile'] = 'over';
@@ -272,7 +272,9 @@ class ApiData extends Base
             $param ['publicid'] = I('publicid');
             $param ['rand'] = NOW_TIME . rand(10, 99);
             
-            return $this->error('排队领取中', U('set_sn_code', $param));
+//             return $this->error('排队领取中', U('set_sn_code', $param));
+
+            return $this->show_error('排队领取中',[]);
         } else {
             S('set_sn_code_lock', 1, 30);
         }
@@ -286,12 +288,12 @@ class ApiData extends Base
                 $forward = cookie('__forward__');
                 empty($forward) && cookie('__forward__', $_SERVER ['REQUEST_URI']);
                 S('set_sn_code_lock', 0); // 解锁
-                return redirect(U('weixin/Wap/bind_prize_info'));
+//                 return redirect(U('weixin/Wap/bind_prize_info'));
             }
         }
         $info = D('Coupon')->getInfo($id);
         $member = explode(',', $info ['member']);
-        if (! in_array(0, $member)) {
+        if (! in_array(0, $member) && is_install('card')) {
             // 判断是否为会员
             $card_map ['wpid'] = get_wpid();
             $card_map ['uid'] = $this->mid;
@@ -322,24 +324,25 @@ class ApiData extends Base
         if (! empty($error)) {
             S('set_sn_code_lock', 0); // 解锁
             $data ['error'] = $error;
+            $data ['code'] =0;
             $data ['templateFile'] = 'over';
             return $data;
         }
         
         // 判断用户是否有领取会员卡
-        $cardId = D('card/CardMember')->checkHasMemberCard($this->mid);
+       /*  $cardId = D('card/CardMember')->checkHasMemberCard($this->mid);
         if (empty($cardId)) {
             $msg = '您还未领取会员卡，还不能领取该优惠券！';
             $info ['need_card'] = 1;
             return $this->show_error($msg, $info);
-        }
+        } */
         
         $data ['target_id'] = $id;
         $data ['uid'] = $this->mid;
         $data ['sn'] = uniqid();
         $data ['cTime'] = NOW_TIME;
         $data ['wpid'] = $info ['wpid'];
-        $data ['openid'] = $param ['openid'];
+        $data ['openid'] = empty($param ['openid'])?get_openid():$param ['openid'];
         // 金额
         $data ['prize_title'] = $info ['money'];
         
@@ -352,13 +355,16 @@ class ApiData extends Base
             add_credit('coupon_credit_bug', $credit, 5);
         }
         if (isset($_GET ['is_stree'])) {
-            return false;
+        	$data ['error'] = '请在微信打开';
+        	$data ['code'] =0;
+        	return $data;
+//             return false;
         }
         
         unset($param);
         $param ['id'] = $id;
         $param ['sn_id'] = $sn_id;
-        return redirect(U('show', $param));
+        return $this->success('',U('show', $param));
     }
     function coupon_detail()
     {
@@ -395,14 +401,21 @@ class ApiData extends Base
     function index()
     {
         $param ['id'] = $id = I('id');
-        
+        $uid = intval($this->mid);
         // 已领取的直接进入详情页面，不需要再领取（TODO：仅为不需要多次领取的客户使用）
-        $mylist = D('common/SnCode')->getMyList($this->mid, $id);
-        if (! empty($mylist [0])) {
-            $param ['sn_id'] = $mylist [0] ['id'];
-            return redirect(U('show', $param));
+        $log['input']=input();
+        $log['session']=$_SESSION;
+        addWeixinLog($log,'coupon_data_'.$uid.'_'.session_id());
+        $info = D('Coupon')->getInfo($id);
+        $mylist = D('common/SnCode')->getMyList($uid, $id);
+        if (! empty($mylist [0]) ) {
+        	if ( $mylist[0]['is_use']==0 || count($mylist) >= $info['max_num'] && $info['max_num'] != 0){
+        		//已经领取且未使用的，或没有领取次数的
+        		$param ['sn_id'] = $mylist [0] ['id'];
+        		return $this->success('',U('show', $param));
+        	}
         }
-        $info = $public_info = get_pbid_appinfo();
+        $public_info = get_pbid_appinfo();
         
         $url = U("set_sn_code", $param);
         $data ['jumpURL'] = $url;
@@ -415,7 +428,8 @@ class ApiData extends Base
             $data ['shop_list'] = $shop_list;
         }
         
-        $info = D('Coupon')->getInfo($id);
+       
+        
         $data ['info'] = $info;
         $data ['public_info'] = $public_info;
         
@@ -547,7 +561,13 @@ class ApiData extends Base
                 NOW_TIME
         );
         // 获取用户的会员等级
-        $levelInfo = D('Card/CardLevel')->getCardMemberLevel($this->mid);
+        if (is_install('card')){
+        	$levelInfo = D('Card/CardLevel')->getCardMemberLevel($this->mid);
+        }else {
+        	//不被会员等级限制
+        	$levelInfo[0]=1;
+        }
+       
         // 读取模型数据列表
         // dump($map);
         $data = $dao->field('id,member')->where(wp_where($map))->order($order)->paginate($row);

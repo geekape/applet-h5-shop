@@ -102,7 +102,7 @@ function autoReg(baseUrl) {
   }
   console.log('autoReg')
   wx.redirectTo({
-    url: '/pages/shop/login/main'
+    url: '/pages/shop/login/index'
   })
 
 

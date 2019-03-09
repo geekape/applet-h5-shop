@@ -17,7 +17,7 @@
 <div class="span9 page_message">
     <section id="contents">
         {include file="common@base/_nav" /} {if condition="$add_button || $del_button || $search_button || !empty($top_more_button)|| !empty($muti_search)"}
-        <div class="table-bar" style="padding:0">
+        <div class="table-bar">
             <div class="fl">
                 {empty name="model.extend"}
                 <div class="tools" style="margin-bottom: 10px">
@@ -89,10 +89,10 @@
                         {notempty name="$list_data"} {volist name="list_data" id="data"}
                         <tr>
                             {if condition="$check_all"}
-                            <td><input autocomplete="off" class="ids regular-checkbox" type="checkbox" value="{$data['id']}" name="ids[]" id="check_{$data['id']}"><label for="check_{$data['id']}"></label></td>{/if} {volist name="list_grids" id="grid"} {if
-                            ($grid.raw == 1) OR ($grid.come_from == 1) }
+                            <td><input autocomplete="off" class="ids regular-checkbox" type="checkbox" value="{$data['id']}" name="ids[]" id="check_{$data['id']}"><label for="check_{$data['id']}"></label></td>{/if} {volist name="list_grids" id="grid"} 
+                            {if condition="(isset($grid.raw) && $grid.raw == 1) OR (isset($grid.come_from) && $grid.come_from == 1)" }
                             <td style="overflow: auto;white-space: normal ">{$data[$key]|raw}</td>{else /}
-                            <td title="{$data[$key]|raw}">{$data[$key]|raw}</td>{/if} {/volist}
+                            <td title="{$data[$key]}">{$data[$key]|raw}</td>{/if} {/volist}
                         </tr>
                         {/volist}{/notempty}
                     </tbody>

@@ -23,7 +23,7 @@
                 <div class="sleft">
                 {php}empty($search_key) && $search_key=$model['search_key'];empty($search_key) && $search_key='title';unset($get_param[$search_key]);{/php}
                 {php} $get_param['model']=$model['name']; isset($search_url) || $search_url = U('lists', $get_param);{/php}
-                <input type="text" name="{$search_key}" class="search-input" value="{:I($search_key)}" placeholder="搜索商品名或条码号">
+                <input type="text" name="{$search_key}" class="search-input" value="{:I($search_key)}" placeholder="搜索商品名">
                 <a class="sch-btn" href="javascript:;" id="search" url="{$search_url}"><i class="btn-search"></i></a> </div>
         </div>
         <!-- 多维过滤 -->

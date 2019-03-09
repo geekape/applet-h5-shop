@@ -708,7 +708,8 @@ class Order extends Base
         $param['data']['remark']['value'] = '欢迎再次光临！！！';
         $param['data']['remark']['color'] = "#173177";
         
-        $jumpUrl = U('shop/wap/my_order?wpid=' . $wpid);
+//         $jumpUrl = U('shop/wap/my_order?wpid=' . $wpid);
+        $jumpUrl = WAP_URL.'?pbid='.$pbid;
         addWeixinLog($param,'sendsuccesstempmsg_'.$uid);
         $rrr= D('common/TemplateMessage')->replyData($uid, $param, $info['order_payok_messageid'], $jumpUrl);
         addWeixinLog($rrr,'sendsuccesstempmsg_res_'.$info['order_payok_messageid']);
@@ -757,8 +758,10 @@ class Order extends Base
         // 增加订单时通知ERP
         $this->where('id', $order['id'])->setField('notice_erp', NOW_TIME);
         
-        // 执行退款
-        $total_fee = ($order['total_price'] + $order['mail_money']) * 100;
+        // 执行退款,退订单实际支付的钱
+//         $total_fee = ($order['total_price'] + $order['mail_money']) * 100;
+        $total_fee = $order['pay_money'] * 100;
+        $refund_fee = ($order['total_price'] - $order['dec_money']) * 100;
         if ($order['pay_type'] == 90) { // 退还用户积分
             $credit = [
                 'uid' => $order['uid'],
@@ -767,9 +770,14 @@ class Order extends Base
             ];
             return add_credit('payment', $credit);
         } else { // 微信退款
-            $appid = get_pbid_appinfo('', 'appid');//get_pbid_appinfo($order['wpid'], 'appid');
-            $total_fee = 1; // TODO 测试期间实际只支付1分，因此退款也只能退一分
-            return D('weixin/Payment')->refund($appid, $order['out_trade_no'], $total_fee, $refund_desc);
+        	//获取当前订单支付的公众号或小程序
+        	$pbid = M('public_follow')->where('uid',$order['uid'])->value('pbid');
+            $appid = get_pbid_appinfo($pbid, 'appid');//get_pbid_appinfo($order['wpid'], 'appid');
+//             $total_fee = 1; // TODO 测试期间实际只支付1分，因此退款也只能退一分
+            //单位分
+//             addWeixinLog($total_fee,'rebackpaymoneydatanew');
+
+            return D('weixin/Payment')->refund($appid, $order['out_trade_no'], $total_fee, $refund_desc,$refund_fee);
         }
     }
 

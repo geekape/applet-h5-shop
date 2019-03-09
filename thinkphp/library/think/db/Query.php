@@ -326,7 +326,7 @@ class Query
      */
     public function execute($sql, $bind = [])
     {
-        return $this->connection->execute($sql, $bind);
+        return $this->connection->execute($sql, $bind, $this);
     }
 
     /**
@@ -628,9 +628,6 @@ class Query
             $result = (float) $result;
         }
 
-        // 查询完成后清空聚合字段信息
-        $this->removeOption('field');
-
         return $result;
     }
 
@@ -656,9 +653,9 @@ class Query
                 $query->fetchSql(true);
             }
 
-            $count = $query->aggregate('COUNT', '*');
+            $count = $query->aggregate('COUNT', '*', true);
         } else {
-            $count = $this->aggregate('COUNT', $field);
+            $count = $this->aggregate('COUNT', $field, true);
         }
 
         return is_string($count) ? $count : (int) $count;
@@ -1008,11 +1005,13 @@ class Query
         if ($tableName) {
             // 添加统一的前缀
             $prefix = $prefix ?: $tableName;
-            foreach ($field as $key => $val) {
-                if (is_numeric($key)) {
-                    $val = $prefix . '.' . $val . ($alias ? ' AS ' . $alias . $val : '');
+            foreach ($field as $key => &$val) {
+                if (is_numeric($key) && $alias) {
+                    $field[$prefix . '.' . $val] = $alias . $val;
+                    unset($field[$key]);
+                } elseif (is_numeric($key)) {
+                    $val = $prefix . '.' . $val;
                 }
-                $field[$key] = $val;
             }
         }
 
@@ -3548,6 +3547,10 @@ class Query
      */
     protected function parseView(&$options)
     {
+        if (!isset($options['map'])) {
+            return;
+        }
+
         foreach (['AND', 'OR'] as $logic) {
             if (isset($options['where'][$logic])) {
                 foreach ($options['where'][$logic] as $key => $val) {
@@ -3567,7 +3570,7 @@ class Query
                 $options['order'] = explode(',', $options['order']);
             }
             foreach ($options['order'] as $key => $val) {
-                if (is_numeric($key)) {
+                if (is_numeric($key) && is_string($val)) {
                     if (strpos($val, ' ')) {
                         list($field, $sort) = explode(' ', $val);
                         if (array_key_exists($field, $options['map'])) {

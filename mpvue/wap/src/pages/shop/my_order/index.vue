@@ -6,7 +6,7 @@
       <p class="navbar-title overflow-dot_row">商品详情</p>
     </div> -->
     <navbar text="我的订单"></navbar>
-
+    <scroller >
     <van-tabs v-model="tabActive" @change="toggleTab" border="false" sticky swipeable>
       <van-tab title="全部">
         <div class="order-item" v-for="(order, index) in orders" :key="index">
@@ -101,6 +101,7 @@
         </div>
       </van-tab>
     </van-tabs>
+    </scroller>
   </div>
 </template>
 

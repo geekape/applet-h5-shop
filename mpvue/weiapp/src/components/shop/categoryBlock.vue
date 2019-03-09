@@ -4,7 +4,7 @@
         <swiper-item v-for="(item, index) in categoryList" :key="index"  class="category-block">
           <div @click="goToUrl(item.pid, item.id)" class="category-block__item" v-for='(category, idx) in item' 
             :key='category.id'>
-            <img :src="category.icon" class="category-block__img" mode="aspectFill"/>
+            <img lazy-load :src="category.icon" class="category-block__img" mode="aspectFill"/>
             <p class="category-block__txt overflow-dot_row">{{category.title}}</p>
           </div>
         </swiper-item>
@@ -25,7 +25,7 @@ export default {
       this.GLOBAL.app.pid = pid
       this.GLOBAL.app.id = id
       wx.switchTab({
-        url: '/pages/shop/lists/main'
+        url: '/pages/shop/lists/index'
       })
     }
   },

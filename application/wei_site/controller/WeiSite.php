@@ -25,11 +25,12 @@ class WeiSite extends Base
             }
             $flag = D('common/PublicConfig')->setConfig('wei_site_wei_site', $post);
             if ($flag !== false) {
-                $from = I('get.from');
+                $from = I('get.from','');
                 if ($from == 'preview') {
                     $url = U('preview');
                 } else {
-                    $url = cookie('__forward__');
+                	$url='';
+//                     $url = cookie('__forward__');
                 }
                 $this->success('保存成功', $url);
             } else {

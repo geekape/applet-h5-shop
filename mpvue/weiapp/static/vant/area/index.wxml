@@ -6,7 +6,7 @@
   </view>
 
   <view wx:if="{{ loading }}" class="van-picker__loading">
-    <van-loading color="#38f"/>
+    <van-loading color="#1989fa"/>
   </view>
 
   <picker-view
@@ -17,7 +17,8 @@
     class="van-picker__columns"
   >
     <picker-view-column
-      wx:for="{{ displayColumns }}"
+      wx:if="{{ rowIndex < columnsNum }}"
+      wx:for="{{ columns }}"
       wx:for-item="row"
       wx:for-index="rowIndex"
       wx:key="rowIndex"

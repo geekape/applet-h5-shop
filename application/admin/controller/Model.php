@@ -25,7 +25,7 @@ class Model extends Admin
         $dao = D('common/Models');
         // 根据文件查找还没安装的模型
         $files = $this->file_scan();
-        
+
         $modelArr = $dao->column('id', 'name');
         $objArr = $needImportModel = [];
         foreach ($files as $file) {
@@ -34,16 +34,16 @@ class Model extends Admin
             if (isset($objArr[$class])) {
                 continue;
             }
-            
+
             require_once $file;
             $objArr[$class] = new $class();
             $config = $objArr[$class]->config;
-            if (! isset($modelArr[$config['name']])) {
+            if (!isset($modelArr[$config['name']])) {
                 $config['id'] = 0;
                 $needImportModel[$config['name']] = $config;
             }
         }
-        
+
         // 自动加载数据模型文件
         $map = [];
         if (isset($_GET['title'])) {
@@ -56,24 +56,24 @@ class Model extends Admin
 
         $list = $this->lists_data('model', $map);
         empty($needImportModel) || $list = array_merge($needImportModel, $list);
-        
+
         $addonArr = $this->_get_all_addon();
         foreach ($list as $k => &$vo) {
             $file = $dao->requireFile($vo);
-            if (! $file) {
+            if (!$file) {
                 continue;
             }
-            
+
             $file_md5 = md5_file($file);
-            $vo['update_db'] = ! empty($vo['file_md5']) && ($vo['file_md5'] != $file_md5) ? 1 : 0;
-            
+            $vo['update_db'] = !empty($vo['file_md5']) && ($vo['file_md5'] != $file_md5) ? 1 : 0;
+
             $name = parse_name($vo['name'], 1);
             $class = $name . 'Table';
             $obj = $objArr[$class];
-            
+
             $fields_md5 = md5(json_encode($obj->fields));
             // dump ( $fields_md5 );
-            
+
             $data = $this->getDBInfo($vo['name'], $obj->fields, '');
             if (isset($needImportModel[$vo['name']])) {
                 // 数据表不存在
@@ -83,7 +83,7 @@ class Model extends Admin
             }
             $data_md5 = md5(json_encode($data));
             // dump ( $data_md5 );
-            
+
             if ($data_md5 != $fields_md5) {
                 // dump ( $obj->fields );
                 // dump ( $data );
@@ -92,18 +92,18 @@ class Model extends Admin
                 $vo['update_file'] = 0;
             }
             $addon = parse_name($vo['addon']);
-            if (! empty($addon) && isset($addonArr[$addon])) {
+            if (!empty($addon) && isset($addonArr[$addon])) {
                 $vo['addon_title'] = $addonArr[$addon];
             } else {
                 $vo['addon_title'] = '';
             }
         }
-        
+
         int_to_string($list);
         // 记录当前列表页的cookie
         $forward = cookie('__forward__');
         empty($forward) && cookie('__forward__', $_SERVER['REQUEST_URI']);
-        
+
         $this->assign('_list', $list);
         $this->meta_title = '模型管理';
         return $this->fetch();
@@ -111,7 +111,7 @@ class Model extends Admin
 
     public function freshDBtoFile()
     {
-        if(function_exists('set_time_limit')){
+        if (function_exists('set_time_limit')) {
             set_time_limit(0);
         }
         $dao = D('common/Models');
@@ -132,7 +132,7 @@ class Model extends Admin
                 $hrefArr = [];
                 $field = $v['name'];
                 $func = $v['function'];
-                
+
                 if (empty($hrefArr)) {
                     $list_grid_arr[$field] = [
                         'title' => $v['title'],
@@ -151,7 +151,7 @@ class Model extends Admin
                 }
             }
             // dump ( $list_grid_arr );
-            
+
             $config = [
                 'name' => $vo['name'],
                 'title' => $vo['title'],
@@ -163,7 +163,7 @@ class Model extends Admin
                 'list_row' => $vo['list_row'],
                 'addon' => $vo['addon']
             ];
-            
+
             // =================================================//
             $fields = $obj == false ? [] : $obj->fields;
             $data = $this->getDBInfo($vo['name'], $fields);
@@ -178,7 +178,7 @@ class Model extends Admin
                     unset($data[$name]);
                 }
             }
-            
+
             // 新增加的字段放最后
             foreach ($data as $name => $f) {
                 $newList[$name] = $f;
@@ -192,7 +192,7 @@ class Model extends Admin
 
     public function all()
     {
-        if(function_exists('set_time_limit')){
+        if (function_exists('set_time_limit')) {
             set_time_limit(0);
         }
         $list = M('model_copy')->select();
@@ -205,15 +205,15 @@ class Model extends Admin
     {
         $dao = D('common/Models');
         if (empty($vo)) {
-			if(function_exists('set_time_limit')){
-				set_time_limit(0);
-			}
+            if (function_exists('set_time_limit')) {
+                set_time_limit(0);
+            }
             $id_map[] = I('id/d', 0);
             $vo = M('model_copy')->where($id_map)->find();
         }
-        
+
         $model_map['name'] = $vo['name'];
-        if (! $dao->where($model_map)->find()) {
+        if (!$dao->where($model_map)->find()) {
             $add = $vo;
             unset($add['id']);
             $dao->removeOption('data')->insert($add);
@@ -224,7 +224,7 @@ class Model extends Admin
         // dump ( $fields );exit;
         // =================================================//
         $list_grid = wp_explode($vo['list_grid'], "\r\n");
-        
+
         $list_grid_arr = [];
         foreach ($list_grid as $v) {
             $func = $href = $title = '';
@@ -244,7 +244,7 @@ class Model extends Admin
                     $hrefArr[$k]['url'] = $arr2[0];
                 }
             }
-            
+
             if (empty($hrefArr)) {
                 $list_grid_arr[$field] = [
                     'title' => $title,
@@ -259,7 +259,7 @@ class Model extends Admin
                 ];
             }
         }
-        
+
         $config = [
             'name' => $vo['name'],
             'title' => $vo['title'],
@@ -271,15 +271,15 @@ class Model extends Admin
             'list_row' => $vo['list_row'],
             'addon' => $vo['addon']
         ];
-        
+
         // =================================================//
         // 组装数据
         $newList = $newList2 = [];
         foreach ($fields as $v) {
             $name = $v['name'];
-            
+
             $data = [];
-            
+
             $data['title'] = $v['title'];
             $data['field'] = $v['field'];
             $data['type'] = $v['type'];
@@ -287,32 +287,32 @@ class Model extends Admin
             empty($v['remark']) || $data['remark'] = $v['remark'];
             empty($v['is_show']) || $data['is_show'] = $v['is_show'];
             empty($v['extra']) || $data['extra'] = $v['extra'];
-            
-            if (! empty($v['validate_rule'])) {
+
+            if (!empty($v['validate_rule'])) {
                 $data['validate_type'] = $v['validate_type'];
                 $data['validate_rule'] = $v['validate_rule'];
                 $data['validate_time'] = $v['validate_time'];
                 $data['error_info'] = $v['error_info'];
             }
-            if (! empty($v['auto_rule'])) {
+            if (!empty($v['auto_rule'])) {
                 $data['auto_rule'] = $v['auto_rule'];
                 $data['auto_time'] = $v['auto_time'];
                 $data['auto_type'] = $v['auto_type'];
             }
-            
+
             $newList[$name] = $data;
         }
         // 保持字段排序
-        if (! empty($vo['field_sort'])) {
+        if (!empty($vo['field_sort'])) {
             $data = json_decode($vo['field_sort']);
-            
+
             foreach ($data as $name) {
                 if (isset($newList[$name])) {
                     $newList2[$name] = $newList[$name];
                     unset($newList[$name]);
                 }
             }
-            
+
             // 新增加的字段放最后
             foreach ($newList as $name => $f) {
                 $newList2[$name] = $f;
@@ -330,53 +330,53 @@ class Model extends Admin
 
     public function freshAttrtoFile()
     {
-		if(function_exists('set_time_limit')){
-			set_time_limit(0);
-		}
+        if (function_exists('set_time_limit')) {
+            set_time_limit(0);
+        }
         $dao = D('common/Models');
         $list = $dao->select(); // ->where ( 'id=123' )
         foreach ($list as $vo) {
             // dump ( $vo );
             $map['model_id'] = $vo['id'];
             $fields = M('attribute_copy')->where($map)->select();
-            
+
             $obj = $dao->getFileInfo($vo);
             $oldFields = $obj->fields;
             // 组装数据
             $newList = [];
             foreach ($fields as $v) {
                 $name = $v['name'];
-                if (! isset($oldFields[$name])) {
+                if (!isset($oldFields[$name])) {
                     continue;
                 }
-                
+
                 $data = [];
                 $info = $oldFields[$name];
                 // 'remark' => '', // 字段备注(用于表单中的提示]
                 // 'is_show' => '1', // 是否需要在表单里 1:始终显示 2:新增显示 3:编辑显示 5:条件控件 4:隐藏值 0:不显示
-                
+
                 // // 以下高级选项不用时可以去掉
                 // 'validate_type' => 'regex', // 验证方式 regex:正则验证 function:函数验证 unique:唯一验证 :length:长度验证 in:验证在范围内 notin:验证不在范围内 between:区间验证 notbetween：不在区间验证
                 // 'validate_rule' => '', // 验证规则（根据验证方式定义相关验证规则）,为空表示不验证
                 // 'validate_time' => '3', // 验证时间 0:无 3:始 终 1:新 增 2:编 辑
                 // 'error_info' => '', // 验证失败出错提示
-                
+
                 // 'auto_rule' => '', // 自动完成规则（根据完成方式订阅相关规则）
                 // 'auto_time' => '3', // 自动完成时间 0:无 3:始 终 1:新 增 2:编 辑
                 // 'auto_type' => 'function' /* 自动完成方式 function:函数 field:字段 string:字符串 */
-                
+
                 $data['type'] = $v['type'];
                 empty($v['remark']) || $data['remark'] = $v['remark'];
                 empty($v['is_show']) || $data['is_show'] = $v['is_show'];
                 empty($v['extra']) || $data['extra'] = $v['extra'];
-                
-                if (! empty($v['validate_rule'])) {
+
+                if (!empty($v['validate_rule'])) {
                     $data['validate_type'] = $v['validate_type'];
                     $data['validate_rule'] = $v['validate_rule'];
                     $data['validate_time'] = $v['validate_time'];
                     $data['error_info'] = $v['error_info'];
                 }
-                if (! empty($v['auto_rule'])) {
+                if (!empty($v['auto_rule'])) {
                     $data['auto_rule'] = $v['auto_rule'];
                     $data['auto_time'] = $v['auto_time'];
                     $data['auto_type'] = $v['auto_type'];
@@ -384,17 +384,17 @@ class Model extends Admin
                 if (empty($data)) {
                     continue;
                 }
-                
+
                 $newList[$name] = array_merge($info, $data);
             }
-            
+
             foreach ($oldFields as $name => &$f) {
                 if (isset($newList[$name])) {
                     $f = $newList[$name];
                     unset($newList[$name]);
                 }
             }
-            
+
             $dao->buildFile($vo, $oldFields);
             unset($vo);
         }
@@ -406,14 +406,14 @@ class Model extends Admin
     {
         // 检查表是否存在
         $table_exist = D('common/Models')->checkTableExist($dbname);
-        if (! $table_exist) {
+        if (!$table_exist) {
             return [];
         }
-        
+
         $db_name = DB_PREFIX . strtolower($dbname);
         $sql = 'SHOW FULL COLUMNS FROM ' . $db_name;
         $fields_list = M()->query($sql);
-        
+
         // 组装数据
         $data = [];
         foreach ($fields_list as $v) {
@@ -423,7 +423,7 @@ class Model extends Admin
             if ($name == 'id' || ($dbname == 'user' && $name == 'uid') || ($dbname == 'tool' && $name == 'uid')) {
                 continue;
             }
-            
+
             if ($v['Null'] == 'YES') {
                 $null = ' NULL';
                 $is_must = isset($info['is_must']) ? $info['is_must'] : 0;
@@ -431,7 +431,7 @@ class Model extends Admin
                 $null = ' NOT NULL';
                 $is_must = 1;
             }
-            
+
             $data[$name] = [
                 'title' => $v['Comment'],
                 'field' => $v['Type'] . $null,
@@ -443,11 +443,11 @@ class Model extends Admin
             if ($v['Default'] != null) {
                 $data[$name]['value'] = $v['Default'];
             }
-            
+
             $data[$name] = array_merge($info, $data[$name]);
         }
         unset($fields_list);
-        
+
         return $data;
     }
 
@@ -455,34 +455,34 @@ class Model extends Admin
     {
         $model['name'] = I('model_name');
         $model['addon'] = I('model_addon');
-        
+
         $dao = D('common/Models');
         $obj = $dao->getFileInfo($model);
-        
+
         if ($obj == false) {
             $this->error('获取模型文件出错');
         }
-        
+
         // 增加到模型数据表
         $model_id = $dao->insertGetId($obj->config);
         // 字段增加
-        if (! empty($obj->fields)) {
+        if (!empty($obj->fields)) {
             foreach ($obj->fields as $name => $f) {
                 $f['model_id'] = $model_id;
                 $f['name'] = $name;
-                
+
                 $dao->addField($f);
             }
         }
-        
+
         $this->success('导入成功', U('index'));
     }
 
     public function freshFiletoDB()
     {
-		if(function_exists('set_time_limit')){
-			set_time_limit(0);
-		}
+        if (function_exists('set_time_limit')) {
+            set_time_limit(0);
+        }
         $dao = D('common/Models');
         $map = [];
         if (isset($_GET['model_id'])) {
@@ -494,9 +494,9 @@ class Model extends Admin
             if ($obj == false) {
                 continue;
             }
-            
+
             $data = $this->getDBInfo($vo['name']);
-            
+
             // 字段比较
             foreach ($obj->fields as $name => $f) {
                 $f['model_id'] = $vo['id'];
@@ -513,8 +513,8 @@ class Model extends Admin
                     $dao->addField($f);
                 }
             }
-            
-            if (! empty($data)) {
+
+            if (!empty($data)) {
                 // 删除字段
                 foreach ($data as $n => $field) {
                     $field['name'] = $name;
@@ -522,15 +522,15 @@ class Model extends Admin
                 }
             }
         }
-        
+
         $this->success('更新完成', U('index'));
     }
 
     public function freshFileMd5()
     {
-		if(function_exists('set_time_limit')){
-			set_time_limit(0);
-		}
+        if (function_exists('set_time_limit')) {
+            set_time_limit(0);
+        }
         $dao = D('common/Models');
         $list = $dao->select();
         foreach ($list as $vo) {
@@ -539,7 +539,7 @@ class Model extends Admin
             $map['id'] = $vo['id'];
             $dao->save($save, $map);
         }
-        
+
         $this->success('更新完成', U('index'));
     }
 
@@ -553,9 +553,9 @@ class Model extends Admin
         // 获取所有的模型
         $models = M('model')->field('id,name,title')->select();
         $this->assign('models', $models);
-        
+
         $this->_get_all_addon();
-        
+
         $this->meta_title = '新增模型';
         return $this->fetch();
     }
@@ -563,7 +563,7 @@ class Model extends Admin
     public function _get_all_addon()
     {
         $list = M('apps')->field('name,title')->select();
-        
+
         $arr['core'] = '系统核心模式';
         foreach ($list as $vo) {
             $name = parse_name($vo['name']);
@@ -574,7 +574,7 @@ class Model extends Admin
         $arr['home'] = 'Home应用';
         $arr['weiapp'] = 'Weiapp应用';
         $this->assign('list', $arr);
-        
+
         return $arr;
     }
 
@@ -589,24 +589,24 @@ class Model extends Admin
         if (empty($id)) {
             $this->error('140156:参数不能为空！');
         }
-        
+
         /* 获取一条记录的详细数据 */
         $data = M('model')->field(true)
             ->where('id', $id)
             ->find();
-        if (! $data) {
+        if (!$data) {
             $this->error('140157:获取模型数据失败');
         }
         // 更新前台缓存
         S('getModelByName_' . $data['name'], null);
-        
+
         $obj = D('common/Models')->getFileInfo($data);
-        $config = (array) $obj->config;
-        $fields = (array) $obj->fields;
-        
+        $config = (array)$obj->config;
+        $fields = (array)$obj->fields;
+
         $this->_get_all_addon();
         $info = array_merge($data, $config);
-        
+
         if ($data['need_pk']) {
             $fields['id'] = [
                 'name' => 'id',
@@ -616,11 +616,11 @@ class Model extends Admin
             ];
         }
         // dump ($obj->list_grid);
-        
+
         $this->assign('fields', $fields);
         $this->assign('list_grid', $obj->list_grid);
         $this->assign('info', $info);
-        
+
         return $this->fetch();
     }
 
@@ -636,11 +636,11 @@ class Model extends Admin
         $ids = explode(',', $ids);
         foreach ($ids as $value) {
             $res = D('common/Models')->del($value);
-            if (! $res) {
+            if (!$res) {
                 break;
             }
         }
-        if (! $res) {
+        if (!$res) {
             $this->error(D('common/Models')->getError());
         } else {
             $this->success('删除模型成功！');
@@ -655,63 +655,14 @@ class Model extends Admin
     public function update()
     {
         $data = I('post.');
-        
-        // dump ( $data );
-        $config = [
-            'name' => $data['name'],
-            'title' => $data['title'],
-            'search_key' => isset($data['search_key']) ? $data['search_key'] : '',
-            'add_button' => isset($data['add_button']) ? $data['add_button'] : 1,
-            'del_button' => isset($data['del_button']) ? $data['del_button'] : 1,
-            'search_button' => isset($data['search_button']) ? $data['search_button'] : 1,
-            'check_all' => isset($data['check_all']) ? $data['check_all'] : 1,
-            'list_row' => isset($data['list_row']) ? $data['list_row'] : 20,
-            'addon' => $data['addon']
-        ];
-        
-        // dump ( $config );
-        $list_grid = [];
-        if (isset($data['attr_title'])) {
-            $j = 0;
-            foreach ($data['attr_title'] as $k => $vo) {
-                if (! empty($vo)) {
-                    $res = [];
-                    $res['title'] = $vo;
-                    $res['come_from'] = $from = $data['come_from'][$k];
-                    $res['width'] = $data['width'][$k];
-                    if ($from == 1) {
-                        $name = $j == 0 ? 'urls' : 'urls' . $j;
-                        $j ++;
-                        
-                        $res['is_sort'] = 0;
-                        $res['href'] = [];
-                        foreach ($data['url_title'][$k] as $kk => $vv) {
-                            $title = $vv;
-                            $url = $data['url_url'][$k][$kk];
-                            if (! empty($title) && ! empty($url)) {
-                                $res['href'][] = [
-                                    'title' => $title,
-                                    'url' => $url
-                                ];
-                            }
-                        }
-                    } else {
-                        $name = $data['field'][$k];
-                        $res['is_sort'] = $data['is_sort'][$k];
-                    }
-                    
-                    $list_grid[$name] = $res;
-                }
-            }
-        }
-        // dump ( $data );
-        $res = D('common/Models')->buildFile($data, null, $list_grid, $config);
+
+        $res = D('common/Models')->buildFileByData($data);
         // dump ( $res );
         // exit ();
-        if (! $res) {
+        if (!$res) {
             $this->error('140160:保存失败');
         } else {
-            ! empty($config['addon']) && $config['addon'] != 'Core' && $res['id'] > 0 && $this->update_sql($config['addon']);
+            !empty($config['addon']) && $config['addon'] != 'Core' && $res['id'] > 0 && $this->update_sql($config['addon']);
             $this->success('保存成功', U('index'));
         }
     }
@@ -723,10 +674,10 @@ class Model extends Admin
      */
     public function generate()
     {
-        if (! request()->isPost()) {
+        if (!request()->isPost()) {
             // 获取所有的数据表
             $tables = D('common/Models')->getTables();
-            
+
             $this->assign('tables', $tables);
             $this->meta_title = '生成模型';
             return $this->fetch();
@@ -751,19 +702,23 @@ class Model extends Admin
         $type = empty($export_type) ? I('type/d', 0) : $export_type;
         empty($id) && $this->error('140163:参数不能为空！');
         $px = DB_PREFIX;
-        
+
         // 模型信息
         $map['id'] = $id;
         $model = D('common/Models')->where($map)->find();
-        
+
         // 模型字段
         $list = D('common/Models')->getFileInfo($model);
-        
+        if (empty($list)){
+        	return '';
+        }
+
         // 模型数据表
         $name = $model['name'];
         $data = [];
         $return_sql || $data = M(parse_name($name, true))->select();
         $name = strtolower($name);
+        $sql = '';
         if ($type == 1) {
             $sql .= "DELETE FROM `{$px}model` WHERE `name`='{$model['name']}' ORDER BY id DESC LIMIT 1;\r\n";
             $sql .= "DROP TABLE IF EXISTS `{$px}" . strtolower($name) . "`;";
@@ -771,12 +726,18 @@ class Model extends Admin
         } else {
             // 获取索引表
             $index = '';
-            $index_list = M()->query("SHOW INDEX FROM {$px}{$name}");
+            $indexArr=[];
+            try {
+           		$index_list = M()->query("SHOW INDEX FROM {$px}{$name}");
+            }catch (\Exception $e) {
+            	dump($e->getMessage());
+            	return '';
+            }
             foreach ($index_list as $vo) {
                 if ($vo['Key_name'] == 'PRIMARY') {
                     continue;
                 }
-                
+
                 if (isset($indexArr[$vo['Key_name']])) {
                     $indexArr[$vo['Key_name']]['field'][] = $vo['Column_name'];
                 } else {
@@ -794,26 +755,28 @@ class Model extends Admin
                 $index .= $vv['text'] . ' (' . implode(',', $vv['field']) . "),\r\n";
             }
             $index = trim($index, ",\r\n");
-            
+
             if ($model['need_pk']) {
                 $create_table = "`id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',\r\n";
                 $key = empty($index) ? "PRIMARY KEY (`id`)" : "PRIMARY KEY (`id`),\r\n";
             }
+
+            foreach ( $list->fields as $n => $field ) {
+				// 获取默认值
+				if ($field ['value'] === '') {
+					$default = '';
+				} elseif (is_numeric ( $field ['value'] )) {
+					$default = ' DEFAULT ' . $field ['value'];
+				} elseif (is_string ( $field ['value'] )) {
+					$default = ' DEFAULT \'' . $field ['value'] . '\'';
+				} else {
+					$default = '';
+				}
+				$field['title'] = isset($field['title'])?$field['title']:'';
+				$create_table .= "`{$n}`  {$field['field']} {$default} COMMENT '{$field['title']}',\r\n";
+			}
             
-            foreach ($list->fields as $n => $field) {
-                // 获取默认值
-                if ($field['value'] === '') {
-                    $default = '';
-                } elseif (is_numeric($field['value'])) {
-                    $default = ' DEFAULT ' . $field['value'];
-                } elseif (is_string($field['value'])) {
-                    $default = ' DEFAULT \'' . $field['value'] . '\'';
-                } else {
-                    $default = '';
-                }
-                $create_table .= "`{$n}`  {$field['field']} {$default} COMMENT '{$field['title']}',\r\n";
-            }
-            
+
             $sql .= <<<sql
 CREATE TABLE IF NOT EXISTS `{$px}{$name}` (
 {$create_table}{$key}{$index}
@@ -838,30 +801,34 @@ sql;
                 $sql .= "INSERT INTO `" . $px . "{$name}` (" . rtrim($field, ',') . ') VALUES (' . rtrim($value, ',') . ");\r\n";
             }
             
+
             unset($model['id']);
             $field = '';
             $value = '';
+            if (is_object($model)){
+            	$model=$model->getData();
+            }
             foreach ($model as $k => $v) {
                 $field .= "`$k`,";
                 $value .= "'" . str_replace($search, $replace, $v) . "',";
             }
             $sql .= 'INSERT INTO `' . $px . 'model` (' . rtrim($field, ',') . ') VALUES (' . rtrim($value, ',') . ');' . "\r\n";
-            
+
             $path = $is_all ? env('runtime_path') . 'install/' . $model['name'] . '.sql' : env('runtime_path') . 'install.sql';
         }
-        
+
         if ($return_sql) {
             return $sql;
         }
-        
+
         if ($is_all) {
             mkdirs(env('runtime_path') . 'install');
             mkdirs(env('runtime_path') . 'uninstall');
         }
-        
+
         @file_put_contents($path, $sql);
-        
-        if (! $is_all) {
+
+        if (!$is_all) {
             return redirect(SITE_URL . '/' . $path);
         }
     }
@@ -888,18 +855,18 @@ sql;
         $info = M('model')->where(wp_where($map))
             ->order('id asc')
             ->find();
-        if (! $info) {
+        if (!$info) {
             echo 'It is over';
             exit();
         }
-        
+
         $this->export(true, $info['id'], 0);
         $this->export(true, $info['id'], 1);
-        
+
         $param['id'] = $info['id'];
-        
+
         echo 'export ' . $info['name'] . ' now...';
-        
+
         $url = U('export_all', $param);
         echo '<script>window.location.href="' . $url . '"</script> ';
     }
@@ -907,10 +874,10 @@ sql;
     // 更新应用的安装卸载文件
     public function update_sql()
     {
-		if(function_exists('set_time_limit')){
-			set_time_limit(0);
-		}
-        
+        if (function_exists('set_time_limit')) {
+            set_time_limit(0);
+        }
+
         $id = I('id/d', 0);
         $map['id'] = array(
             'gt',
@@ -919,7 +886,7 @@ sql;
         $addon = M('apps')->where(wp_where($map))
             ->order('id asc')
             ->find();
-        if (! $addon) {
+        if (!$addon) {
             return redirect(U('index'));
             exit();
         }
@@ -928,27 +895,27 @@ sql;
         $list = M('model')->where(wp_where($map2))
             ->order('id asc')
             ->select();
-        
-        if (! empty($list)) {
+
+        if (!empty($list)) {
             $path = realpath(SITE_PATH . '/application/' . $addon_name);
-            
+
             $install_sql = $uninstall_sql = '';
             foreach ($list as $info) {
                 $install_sql .= $this->export(true, $info['id'], 0, true) . "\r\n" . "\r\n" . "\r\n";
                 $uninstall_sql .= $this->export(true, $info['id'], 1, true) . "\r\n" . "\r\n" . "\r\n";
             }
-            
+
             // 更新文件
             @file_put_contents($path . '/install.sql', $install_sql);
             @file_put_contents($path . '/uninstall.sql', $uninstall_sql);
         }
-        if (! empty($addon_name)) {
-            return true;
-        }
-        
+//         if (!empty($addon_name)) {
+//             return true;
+//         }
+
         $param['id'] = $addon['id'];
         echo 'update ' . $addon_name . ' now...';
-        
+
         $url = U('update_sql', $param);
         echo '<script>window.location.href="' . $url . '"</script> ';
     }
@@ -957,14 +924,14 @@ sql;
     public function file_scan()
     {
         $fileArr = [];
-        
+
         $path = SITE_PATH . DIRECTORY_SEPARATOR . 'application';
         $dirfat = dir($path);
         while (false !== $entry = $dirfat->read()) {
-            if ($entry == '.' || $entry == '..' || $entry == '.svn') {
+            if ($entry == '.' || $entry == '..' || $entry == '.svn' || is_file($path . DIRECTORY_SEPARATOR . $entry)) {
                 continue;
             }
-            if (! is_dir($path . DIRECTORY_SEPARATOR . $entry . DIRECTORY_SEPARATOR . 'data_table')) {
+            if (!is_dir($path . DIRECTORY_SEPARATOR . $entry . DIRECTORY_SEPARATOR . 'data_table')) {
                 continue;
             }
             $fileDir = dir($path . DIRECTORY_SEPARATOR . $entry . DIRECTORY_SEPARATOR . 'data_table');
@@ -976,9 +943,9 @@ sql;
             }
             $fileDir->close();
         }
-        
+
         $dirfat->close();
-        
+
         return $fileArr;
     }
 }

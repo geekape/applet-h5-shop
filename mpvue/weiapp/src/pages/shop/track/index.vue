@@ -7,8 +7,8 @@
         </div>
 
         <div class="card-list__bd">
-          <div :href="'../goods_detail/main?id=' + goods.id" class="goods-line" v-for="(goods, idx) in item[1]" :key="idx">
-            <img class="u-goods__img" :src="goods.cover" />
+          <div :href="'../goods_detail/index?id=' + goods.id" class="goods-line" v-for="(goods, idx) in item[1]" :key="idx">
+            <img lazy-load class="u-goods__img" :src="goods.cover" />
 
             <div class="goods-line__right">
               <p class="u-goods__tt overflow-dot">{{goods.title}}</p>

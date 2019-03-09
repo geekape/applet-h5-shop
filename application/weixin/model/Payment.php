@@ -388,7 +388,7 @@ class Payment extends Base
     }
 
     // 申请退款
-    public function refund($appid, $out_trade_no, $total_fee = 0, $refund_desc = '')
+    public function refund($appid, $out_trade_no, $total_fee = 0, $refund_desc = '',$refund_money=-1)
     {
         // 测试期间关闭支付功能
         // return true;
@@ -406,8 +406,9 @@ class Payment extends Base
 
         $param['appid'] = $appid;
         $param['out_trade_no'] = $out_trade_no;
-        $param['out_refund_no'] = 'refund' . $out_trade_no;
-        $param['total_fee'] = $param['refund_fee'] = $total_fee;
+        $param['out_refund_no'] = 'refund_'.uniqid().'_' . $out_trade_no;
+        $param['total_fee'] =  $total_fee;
+        $param ['refund_fee'] = $refund_money == - 1 ? $total_fee : $refund_money;
 
         $param = $this->init_config($param, false, $config);
 
@@ -419,11 +420,9 @@ class Payment extends Base
         }
 
         // dump($useCert);
-        // dump($param);
         // exit();
         $url = 'https://api.mch.weixin.qq.com/secapi/pay/refund';
         $res_data = post_data($url, $param, 'xml', true, $useCert);
-        // dump($res_data);
         return $res_data;
     }
 

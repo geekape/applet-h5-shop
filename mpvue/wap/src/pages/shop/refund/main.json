@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "申请退款",
-  "usingComponents": {
-    "i-toast": "/static/iview/toast/index"
-  }
-}

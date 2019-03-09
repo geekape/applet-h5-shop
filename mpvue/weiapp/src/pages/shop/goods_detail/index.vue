@@ -1,16 +1,11 @@
 <template>
-  <div class="goods-detail" v-if="goods">
-    <!-- <div class="navbar">
-      <p class="navbar-icon_left iconfont">&#xe697;</p>
-      <p class="navbar-title overflow-dot_row">标题</p>
-    </div> -->
-
+  <div class="goods-detail" v-if="goods.id">
     <!-- 商品图 -->
     <div class="slide">
       <swiper class="swiper" :indicator-dots="false" autoplay @change="toggleSwiper">
           <swiper-item v-for="(item, index) in slides" :key="index" @click="pvwImg(item)">
               <a class="slide-url">
-                <img :src="item" class="slide-image" mode="aspectFill"/>
+                <img lazy-load :src="item" class="slide-image" mode="aspectFill"/>
               </a>
           </swiper-item>
       </swiper>
@@ -57,14 +52,14 @@
         <div class="goods-comment__item" v-for="(comment, commentIdx) in goods.comments" :key="commentIdx">
           <div class="goods-comment__left">
             <div class="g-flex g-flex__updown-center">
-              <img class="u-head__img" />
+              <img lazy-load class="u-head__img" :src="comment.headimgurl"/>
               <p class="goods-comment__name">{{comment.username}}</p>
             </div>
             <p class="goods-comment__text">{{comment.content}}</p>
           </div>
 
           <div class="goods-comment__right">
-            <img class="u-goods__img" :src="slides[0]"/>
+            <img lazy-load class="u-goods__img" :src="slides[0]"/>
           </div>
         </div>
       </scroll-view>
@@ -90,7 +85,7 @@
         <div class="bottom-bar__icon--active" v-show="isCollect"></div>
         <p class="bottom-bar__tt">收藏</p>
       </div>
-      <a href="../cart/main" open-type="switchTab" class="bottom-bar__cart">
+      <a href="../cart/index" open-type="switchTab" class="bottom-bar__cart">
         
         <div class="bottom-bar__icon"><span v-if="cartNum>0" class="weui-badge" style="position: absolute;top: -.2em;right: -.4em;">{{cartNum}}</span></div>
         <p class="bottom-bar__tt">购物车</p>
@@ -111,6 +106,7 @@ import Toast from "@/../static/vant/toast/toast";
 import wxParse from 'mpvue-wxparse'
 
 export default {
+  mpType: 'page',
   data () {
     return {
       slides: [],
@@ -146,7 +142,7 @@ export default {
       this.GLOBAL.app.pid = tab
       this.GLOBAL.app.listsType = 2
       wx.switchTab({
-        url: '/pages/shop/lists/main'
+        url: '/pages/shop/lists/index'
       })
     },
     // 购买
@@ -159,7 +155,7 @@ export default {
       }
       
       wx.navigateTo({
-        url: '../confirm_order/main?goodsId=' + goodsId
+        url: '../confirm_order/index?goodsId=' + goodsId
       })
     },
     // 切换箭头方向
@@ -222,7 +218,9 @@ export default {
 
   onLoad () {
     Object.assign(this, this.$options.data());
-
+    // 清空活动信息
+    this.$store.commit("saveData", {key: "activeOrderParams",value: "" });
+    
     const _this = this
     const id = this.$root.$mp.query.id
     post('shop/api/goods_detail', {
@@ -232,7 +230,7 @@ export default {
       // 商品图
       _this.slides = res.goods.imgs_url 
       _this.goods = res.goods
-      _this.detailPic = res.goods.content.replace(/\<img/gi, '<img style="width:100%;height:auto" ')
+      _this.detailPic = res.goods.content.replace(/\<img/gi, '<img lazy-load style="width:100%;height:auto" ')
       
 
       if(res.goods.is_collect == 0) {
@@ -247,7 +245,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
 @mixin overflow-dot($line: 2) {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -371,10 +368,10 @@ export default {
   height:55px;
   background:#fff;
 
-  &__collect  &__icon{ background-image: url('~images/new_icon/icon_heart.png')}
-  &__collect  &__icon--active{ background-image: url('~images/new_icon/icon_heart_active.png')}
-  &__service  &__icon{ background-image: url('~images/new_icon/icon_service2.png')}
-  &__cart  &__icon{ background-image: url('~images/new_icon/icon_cart2.png')}
+  &__collect  &__icon{ background-image: url($imgRoot+'/new_icon/icon_heart.png')}
+  &__collect  &__icon--active{ background-image: url($imgRoot+'/new_icon/icon_heart_active.png')}
+  &__service  &__icon{ background-image: url($imgRoot+'/new_icon/icon_service2.png')}
+  &__cart  &__icon{ background-image: url($imgRoot+'/new_icon/icon_cart2.png')}
   &__icon--active,
   &__icon {
     position: relative;

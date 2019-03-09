@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "我的物流",
-  "usingComponents": {
-    "van-steps": "/static/vant/steps/index"
-  }
-}

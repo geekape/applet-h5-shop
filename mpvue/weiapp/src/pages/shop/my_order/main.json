@@ -1,9 +1,0 @@
-{
-  "navigationBarTitleText": "我的订单",
-  "usingComponents": {
-    "van-tab": "/static/vant/tab/index",
-    "van-tabs": "/static/vant/tabs/index",
-    "van-toast": "/static/vant/toast/index",
-    "van-dialog": "/static/vant/dialog/index"
-  }
-}

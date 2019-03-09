@@ -136,8 +136,12 @@ class WebBase extends Base
         
         // 公众号
         $info = D('common/Publics')->getFieldByInfo($pbid);
-        if (empty($info)) {
-            $this->error('公众号不存在或已删除');
+        if (empty($info) ) {
+        	if ($index_3 != 'weixin/publics/lists' && $index_3 !='home/user/login'){
+        		return $this->error('公众号不存在或已删除',U('weixin/publics/lists'));
+        	}else{
+        		return false;
+        	}
         }
         $status = getUserInfo($info['uid'], 'status');
         if ($status == 0 && ACTION_NAME != 'logout' && ACTION_NAME != 'login') {

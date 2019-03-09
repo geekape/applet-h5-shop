@@ -1,7 +1,5 @@
-import { classNames } from '../common/class-names';
 export var basic = Behavior({
   methods: {
-    classNames: classNames,
     $emit: function $emit() {
       this.triggerEvent.apply(this, arguments);
     },

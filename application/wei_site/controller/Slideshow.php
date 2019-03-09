@@ -38,7 +38,7 @@ class Slideshow extends Base
 
         $list_data = $this->_get_model_list($this->model);
         foreach ($list_data['list_data'] as &$vo) {
-            $vo['img'] = '<img src="' . get_cover_url($vo['img']) . '" width="50px" >';
+//             $vo['img'] = '<img src="' . get_cover_url($vo['img']) . '" width="50px" >';
         }
         $this->assign($list_data);
 

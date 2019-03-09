@@ -4,6 +4,9 @@ VantComponent({
   mixins: [touch],
   props: {
     disabled: Boolean,
+    useButtonSlot: Boolean,
+    activeColor: String,
+    inactiveColor: String,
     max: {
       type: Number,
       value: 100
@@ -23,6 +26,11 @@ VantComponent({
     barHeight: {
       type: String,
       value: '2px'
+    }
+  },
+  watch: {
+    value: function value(_value) {
+      this.updateValue(_value, false);
     }
   },
   created: function created() {
@@ -61,9 +69,12 @@ VantComponent({
     },
     updateValue: function updateValue(value, end) {
       value = this.format(value);
-      this.setData({
+      this.set({
         value: value,
         barStyle: "width: " + value + "%; height: " + this.data.barHeight + ";"
+      });
+      this.$emit('drag', {
+        value: value
       });
 
       if (end) {

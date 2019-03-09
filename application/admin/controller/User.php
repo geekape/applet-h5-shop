@@ -99,7 +99,7 @@ class User extends Admin {
 		$nickname = M( 'User' )->getFieldByUid ( UID, 'nickname' );
 		$this->assign ( 'nickname', $nickname );
 		$this->meta_title = '修改昵称';
-		return $this->fetch();
+		return $this->fetch('updateNickname');
 	}
 
 	/**
@@ -147,7 +147,7 @@ class User extends Admin {
 	 */
 	public function updatePassword() {
 		$this->meta_title = '修改密码';
-		return $this->fetch();
+		return $this->fetch('updatePassword');
 	}
 
 	/**

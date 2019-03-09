@@ -12,7 +12,7 @@
       </div>
     </div>
     
-    <router-link to="/" open-type="switchTab" class="u-button u-button--primary u-button--big">返回首页</router-link>
+    <router-link to="/center" open-type="switchTab" class="u-button u-button--primary u-button--big">返回个人中心</router-link>
   </div>
 </template>
 

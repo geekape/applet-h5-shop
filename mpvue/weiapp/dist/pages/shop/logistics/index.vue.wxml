@@ -1,9 +1,0 @@
-<template name="fb33887e">
-  <view class="_div data-v-4f129644 logistics">
-    <view class="_div data-v-4f129644 logistics-head">
-      <view class="_p data-v-4f129644">物流公司：{{info.send_code_name ? info.send_code_name : '空'}}</view>
-      <view class="_p data-v-4f129644">物流单号：{{info.send_number ? info.send_number : '空'}}</view>
-    </view>
-    <van-steps steps="{{logs}}" active="{{active}}" direction="vertical" active-color="#ff0204" class="_van-steps data-v-4f129644"></van-steps>
-  </view>
-</template>

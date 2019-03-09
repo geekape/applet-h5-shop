@@ -6,6 +6,7 @@ VantComponent({
     icon: String,
     label: String,
     error: Boolean,
+    fixed: Boolean,
     focus: Boolean,
     center: Boolean,
     isLink: Boolean,
@@ -19,12 +20,21 @@ VantComponent({
     inputAlign: String,
     customClass: String,
     confirmType: String,
+    confirmHold: Boolean,
     errorMessage: String,
     placeholder: String,
     customStyle: String,
     useIconSlot: Boolean,
     useButtonSlot: Boolean,
+    showConfirmBar: {
+      type: Boolean,
+      value: true
+    },
     placeholderStyle: String,
+    adjustPosition: {
+      type: Boolean,
+      value: true
+    },
     cursorSpacing: {
       type: Number,
       value: 50
@@ -49,44 +59,55 @@ VantComponent({
   data: {
     showClear: false
   },
-  computed: {
-    inputClass: function inputClass() {
-      var data = this.data;
-      return this.classNames('input-class', 'van-field__input', {
-        'van-field--error': data.error,
-        'van-field__textarea': data.type === 'textarea',
-        'van-field__input--disabled': data.disabled,
-        ["van-field--" + data.inputAlign]: data.inputAlign
-      });
-    }
-  },
   beforeCreate: function beforeCreate() {
     this.focused = false;
   },
   methods: {
     onInput: function onInput(event) {
+      var _this = this;
+
       var _ref = event.detail || {},
           _ref$value = _ref.value,
           value = _ref$value === void 0 ? '' : _ref$value;
 
-      this.$emit('input', value);
-      this.$emit('change', value);
-      this.setData({
+      this.set({
         value: value,
         showClear: this.getShowClear(value)
+      }, function () {
+        _this.$emit('input', value);
+
+        _this.$emit('change', value);
       });
     },
-    onFocus: function onFocus() {
-      this.$emit('focus');
+    onFocus: function onFocus(event) {
+      var _ref2 = event.detail || {},
+          _ref2$value = _ref2.value,
+          value = _ref2$value === void 0 ? '' : _ref2$value,
+          _ref2$height = _ref2.height,
+          height = _ref2$height === void 0 ? 0 : _ref2$height;
+
+      this.$emit('focus', {
+        value: value,
+        height: height
+      });
       this.focused = true;
-      this.setData({
+      this.set({
         showClear: this.getShowClear()
       });
     },
-    onBlur: function onBlur() {
+    onBlur: function onBlur(event) {
+      var _ref3 = event.detail || {},
+          _ref3$value = _ref3.value,
+          value = _ref3$value === void 0 ? '' : _ref3$value,
+          _ref3$cursor = _ref3.cursor,
+          cursor = _ref3$cursor === void 0 ? 0 : _ref3$cursor;
+
+      this.$emit('blur', {
+        value: value,
+        cursor: cursor
+      });
       this.focused = false;
-      this.$emit('blur');
-      this.setData({
+      this.set({
         showClear: this.getShowClear()
       });
     },
@@ -98,12 +119,18 @@ VantComponent({
       return this.data.clearable && this.focused && value && !this.data.readonly;
     },
     onClear: function onClear() {
-      this.setData({
+      var _this2 = this;
+
+      this.set({
         value: '',
         showClear: this.getShowClear('')
+      }, function () {
+        _this2.$emit('input', '');
+
+        _this2.$emit('change', '');
+
+        _this2.$emit('clear', '');
       });
-      this.$emit('input', '');
-      this.$emit('change', '');
     },
     onConfirm: function onConfirm() {
       this.$emit('confirm', this.data.value);

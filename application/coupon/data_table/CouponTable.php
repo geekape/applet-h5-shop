@@ -68,7 +68,7 @@ class CouponTable
                 '4' => [
                     
                     'title' => '复制链接',
-                    'url' => 'coupon/Wap/index&id=[id]'
+                    'url' => '[WAP_URL]#/coupon/get/[id]'
                 ]
             ]
         ]

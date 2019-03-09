@@ -11,6 +11,8 @@ class Base extends WebBase
     {
         parent::initialize();
         $this->assign('nav', null);
+//         $this->getNavs();
+        
         $config = getAddonConfig('wei_site');
         if (!empty($config)) {
             $config['cover_url']      = get_cover_url($config['cover']);
@@ -37,4 +39,16 @@ class Base extends WebBase
         define('CUSTOM_TEMPLATE_PATH', __ROOT__ . '/wei_site/template');
     }
 
+    function getNavs(){
+        $controller = strtolower(CONTROLLER_NAME);
+    	$res ['title'] = '微信回复';
+    	$res ['url'] = U('wei_site/WeiSite/config');
+    	$res ['class'] =  $controller == 'weisite' ? 'current' : '';
+    	$nav [] = $res;
+    	$res ['title'] = '首页配置';
+    	$res ['url'] = U('wei_site/Template/index');
+    	$res ['class'] = $controller == 'template' ? 'current' : '';
+    	$nav [] = $res;
+    	$this->assign('nav', $nav);
+    }
 }

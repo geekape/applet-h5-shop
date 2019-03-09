@@ -1,29 +1,36 @@
+
 import Vue from "vue";
 import VueRouter from "vue-router";
 
-// 引入组件
-import center from "@/pages/shop/center/index.vue";
-import lists from "@/pages/shop/lists/index.vue";
-import cart from "@/pages/shop/cart/index.vue";
-import index from "@/pages/shop/index/index.vue";
-import goodsDetail from "@/pages/shop/goods_detail/index.vue";
-import order from "@/pages/shop/my_order/index.vue";
-import coupon from "@/pages/shop/coupon/index.vue";
-import collect from "@/pages/shop/collect/index.vue";
-import track from "@/pages/shop/track/index.vue";
-import address from "@/pages/shop/add_address/index.vue";
-import my_comment from "@/pages/shop/my_comment/index.vue";
-import comment from "@/pages/shop/comment/index.vue";
-import confirm_order from "@/pages/shop/confirm_order/index.vue";
-import done_pay from "@/pages/shop/done_pay/index.vue";
-import order_detail from "@/pages/shop/order_detail/index.vue";
-import logistics from "@/pages/shop/logistics/index.vue";
-import refund from "@/pages/shop/refund/index.vue";
-import msg from "@/pages/shop/msg/index.vue";
-import service from "@/pages/shop/service/index.vue";
-import shop_lists from "@/pages/shop/shop_list/index.vue";
+// 商城
 
 
+const center = () => import("@/pages/shop/center/index.vue") 
+const lists = () => import("@/pages/shop/lists/index.vue") 
+const cart = () => import("@/pages/shop/cart/index.vue") 
+const index = () => import("@/pages/shop/index/index.vue") 
+const goodsDetail = () => import("@/pages/shop/goods_detail/index.vue") 
+const order = () => import("@/pages/shop/my_order/index.vue") 
+const collect = () => import("@/pages/shop/collect/index.vue") 
+const track = () => import("@/pages/shop/track/index.vue") 
+const address = () => import("@/pages/shop/add_address/index.vue") 
+const my_comment = () => import("@/pages/shop/my_comment/index.vue") 
+const comment = () => import("@/pages/shop/comment/index.vue") 
+const confirm_order = () => import("@/pages/shop/confirm_order/index.vue") 
+const done_pay = () => import("@/pages/shop/done_pay/index.vue") 
+const order_detail = () => import("@/pages/shop/order_detail/index.vue") 
+const logistics = () => import("@/pages/shop/logistics/index.vue") 
+const refund = () => import("@/pages/shop/refund/index.vue") 
+const msg = () => import("@/pages/shop/msg/index.vue") 
+const service = () => import("@/pages/shop/service/index.vue") 
+const shop_lists = () => import("@/pages/shop/shop_list/index.vue") 
+
+// 活动
+import seckill from './seckill'
+import haggle from './haggle'
+import collage from './collage'
+import coupon from './coupon'
+import members from './members'
 
 // 要告诉 vue 使用 vueRouter
 Vue.use(VueRouter);
@@ -32,7 +39,8 @@ const routes = [
   {
     path: '/lists',
     name: 'lists',
-    component: lists
+    component: lists,
+    meta: { keepAlive: true, isBack: false }
   },
   {
     path: '/service',
@@ -42,34 +50,35 @@ const routes = [
   {
     path: '/center',
     name: 'center',
-    component: center
+    component: center,
+    meta: { keepAlive: true, isBack: false }
   },
   {
     path: '/cart',
     name: 'cart',
-    component: cart
+    component: cart,
+    meta: { keepAlive: true, isBack: false }
   },
   {
     path: '/',
     name: 'index',
     component: index,
+    meta: { keepAlive: true }
   },
 
   {
     path: '/goods_detail/:id',
     name: 'goods_detail',
-    component: goodsDetail
+    component: goodsDetail,
+    meta: { keepAlive: true, isBack: false }
+    
   },
   {
     path: '/order',
     name: 'order',
     component: order
   },
-  {
-    path: '/coupon',
-    name: 'coupon',
-    component: coupon
-  },
+
   {
     path: '/collect',
     name: 'collect',
@@ -98,7 +107,8 @@ const routes = [
   {
     path: '/confirm_order/:id',
     name: 'confirm_order',
-    component: confirm_order
+    component: confirm_order,
+
   },
   {
     path: '/order_detail/:id',
@@ -129,12 +139,24 @@ const routes = [
     path: '/shop_lists/:id',
     name: 'shop_lists',
     component: shop_lists
-  }
+  },
+].concat([...seckill], [...haggle], [...collage], [...coupon], [...members])
 
-]
+
 
 var router = new VueRouter({
   // mode: 'history',
   routes
 })
+router.beforeEach((to, from, next) => {
+  // console.log('从:', from)
+  // console.log('到:', to)
+  next();
+
+  // 指定页面跳转才重载数据
+  if (from.name == "coupon_lists") {
+    to.meta.isBack = true
+  }
+})
+
 export default router;

@@ -1,4 +1,5 @@
 import { VantComponent } from '../common/component';
+import { BLUE } from '../common/color';
 VantComponent({
   props: {
     inactive: Boolean,
@@ -11,7 +12,7 @@ VantComponent({
     },
     color: {
       type: String,
-      value: '#38f'
+      value: BLUE
     },
     textColor: {
       type: String,
@@ -52,12 +53,12 @@ VantComponent({
       var _this = this;
 
       this.getRect('.van-progress').then(function (rect) {
-        _this.setData({
+        _this.set({
           progressWidth: rect.width
         });
       });
       this.getRect('.van-progress__pivot').then(function (rect) {
-        _this.setData({
+        _this.set({
           pivotWidth: rect.width || 0
         });
       });

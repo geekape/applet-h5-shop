@@ -46,13 +46,6 @@ function check_env()
             '2.0+',
             '未知',
             'success'
-        ),
-        'disk' => array(
-            '磁盘空间',
-            '5M',
-            '不限制',
-            '未知',
-            'success'
         )
     );
 
@@ -76,11 +69,6 @@ function check_env()
         $items['gd'][3] = $tmp['GD Version'];
     }
     unset($tmp);
-
-    // 磁盘空间检测
-    if (function_exists('disk_free_space')) {
-        $items['disk'][3] = floor(disk_free_space(SITE_PATH) / (1024 * 1024)) . 'M';
-    }
 
     return $items;
 }

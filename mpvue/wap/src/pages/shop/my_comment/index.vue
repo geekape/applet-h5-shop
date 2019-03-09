@@ -1,6 +1,7 @@
 <template>
   <div class="comment">
     <navbar text="我的评价"></navbar>
+    <scroller >
     <div class="comment-item" v-for="(item, index) in commentList" :key="index">
       <div class="comment-item__hd">
         <img class="u-head__img" :src="userInfo.headimgurl" />
@@ -25,6 +26,7 @@
         </a>
         </div>
     </div>
+    </scroller>
 
 
   </div>
@@ -46,10 +48,12 @@ export default {
   computed: {
     // 时间处理
     commentList () {
-      let arr = this.comments
-      arr.forEach((item,idx) => {
-        item.cTime = dateDiff(item.cTime)
-      })
+      let arr = []
+      let { keys, values, entries } = Object;
+      for (let [key, value] of entries(this.comments)) {
+        value.cTime = dateDiff(value.cTime)
+        arr.push(value)
+      }
       return arr
     }
   },

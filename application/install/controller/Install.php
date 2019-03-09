@@ -21,7 +21,9 @@ class Install extends Base
             $this->error('已经成功安装了WeiPHP，请不要重复安装!');
         }
     }
-
+    function index(){
+        return $this->fetch();
+    }
     // 安装第一步，检测运行所需的环境设置
     public function step1()
     {

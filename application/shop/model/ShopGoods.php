@@ -84,6 +84,7 @@ class ShopGoods extends Base {
 				$cc ['username'] = '匿名';
 			}
 			$cc ['cTime'] = time_format ( $cc ['cTime'] );
+			$cc ['headimgurl']=get_userface($cc['uid']);
 		}
 		$goods ['comments'] = $comments;
 		$goods ['comment_count'] = count ( $comments );

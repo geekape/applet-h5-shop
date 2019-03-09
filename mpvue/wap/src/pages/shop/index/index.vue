@@ -1,34 +1,39 @@
 <template>
-  <div class="index" v-cloak>
-    <search></search>
-     <div class="m15 swiper">
-      <van-swipe>
-        <van-swipe-item class="pic-align-center" v-for="(item,index) in slides" :key="index">
-          <a :href="item.url ? item.url : '#'"><img :src="item.img" alt=""></a>
+  <div class="index">
+    <scroller>
+      <search></search>
+      <div class="m15 swiper">
+        <van-swipe>
+          <van-swipe-item class="pic-align-center" v-for="(item,index) in slides" :key="index">
+            <a :href="item.url ? item.url : '#'">
+              <img :src="item.img" alt>
+            </a>
           </van-swipe-item>
-      
-      </van-swipe>
-     </div>
+        </van-swipe>
+      </div>
 
-    <!-- 分类 -->
-     <div class="categorys">
-      <van-swipe>
-        <van-swipe-item v-for="(item,index) in categoryList" :key="index">
-          <div @click="goToUrl(category.pid, category.id)" class="category-block__item" v-for='(category, idx) in item' 
-            :key='category.id'>
-            <img :src="category.icon" class="category-block__img" mode="aspectFill"/>
-            <p class="category-block__txt overflow-dot_row">{{category.title}}</p>
-          </div>
-        </van-swipe-item>
-      
-      </van-swipe>
-        
-    </div>
+      <!-- 分类 -->
+      <div class="categorys">
+        <van-swipe>
+          <van-swipe-item v-for="(item,index) in categoryList" :key="index">
+            <div
+              @click="goToUrl(category.pid, category.id)"
+              class="category-block__item"
+              v-for="(category, idx) in item"
+              :key="category.id"
+            >
+              <img :src="category.icon" class="category-block__img" mode="aspectFill">
+              <p class="category-block__txt overflow-dot_row">{{category.title}}</p>
+            </div>
+          </van-swipe-item>
+        </van-swipe>
+      </div>
 
-    <!-- 推荐商品 -->
-    <p class="page-title">猜你喜欢</p>
+      <!-- 推荐商品 -->
+      <p class="page-title">猜你喜欢</p>
+      <goodsList v-if="goods" :goodsData="goods"></goodsList>
+    </scroller>
 
-    <goodsList v-if='goods' :goodsData='goods'></goodsList>
     <tabbar checkedIndex="1"></tabbar>
   </div>
 </template>
@@ -37,7 +42,8 @@
 import search from "@/components/shop/search";
 import tabbar from "@/components/tabbar";
 import goodsList from "@/components/shop/goodsList";
-import { get, goShare } from "@/utils";
+import { get, post, wxConfig } from "@/utils";
+const wx = require("weixin-js-sdk");
 
 export default {
   config: {
@@ -48,7 +54,8 @@ export default {
       motto: "Hello World",
       slides: [],
       categorys: [],
-      goods: []
+      goods: [],
+      isLoad: false
     };
   },
   components: {
@@ -87,27 +94,41 @@ export default {
       _this.categorys = res.category;
       _this.goods = res.goods;
     });
-    goShare();
-  },
-  beforeCreate() {
-    document.querySelector("body").className = "s-bg-white";
-  },
-  beforeDestroy: function() {
-    document.querySelector("body").removeAttribute("class", "s-bg-white");
+
+    post("shop/api/cart/", {
+      PHPSESSID: window.localStorage.getItem("PHPSESSID")
+    })
+      .then(res => {
+        let num = res.lists.length;
+        _this.$store.commit("getCartShopNum", {
+          num: num
+        });
+      })
+      .catch(err => {
+        console.log("失败：" + err);
+      });
+
+      
   }
+  
+  // gq9nfmqafvnk96lhjqh8rarcvi
 };
 </script>
 
 
 <style lang="scss" scoped>
+._v-container {
+    padding-top: 15px;
+    padding-bottom: 45px;
+    background: #fff;
+}
 .flex-wrap {
   display: flex;
   flex-wrap: wrap;
 }
 .index {
   background: #fff;
-  padding-bottom: 45px;
-  padding-top: 15px;
+  
 
   /deep/ .search {
     margin: $box-size;
@@ -166,9 +187,9 @@ export default {
 // 轮播
 .swiper {
   &,
-	& a {
-		height: 150px;
-	}
+  & a {
+    height: 150px;
+  }
   img {
     height: 100%;
   }

@@ -80,7 +80,7 @@
                 <a href="{:U('AuthManager/public_count?uid='.$vo['uid'])}">公众号设置</a>
                 <a href="{:U('Menu/lists',array('uid'=>$vo['uid']))}">导航管理</a>
             {/if}
-                <a href="{:U('changeStatus?method=deleteUser&id='.$vo['uid'])}" class="confirm ajax-get">删除</a>
+                <a href="{:U('changeStatus?method=deleteUser&id='.$vo['uid'])}" class="confirm">删除</a>
                 </td>
 		</tr>
 		{/volist}

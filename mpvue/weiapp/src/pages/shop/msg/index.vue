@@ -32,7 +32,7 @@ export default {
 
   methods: {
     goUrl() {
-      wx.switchTab({url: '../center/main'})
+      wx.switchTab({url: '../center/index'})
     }
   },
 

@@ -748,7 +748,8 @@ body {
     height: 66px;
     background: #fff;
     margin-bottom: 2em;
-        position: relative; 
+    position: relative; 
+    padding: 0 1rem;
 }
 
 .brand {

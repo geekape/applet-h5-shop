@@ -1,4 +1,2 @@
 build/*.js
 config/*.js
-
-static/vant/*/*.js

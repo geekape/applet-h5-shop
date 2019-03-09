@@ -1,0 +1,94 @@
+$font_size: 14px;
+$theme_color: #ff0204;
+
+//（秒杀、砍价、拼团）首页
+/*activeBanner*/
+.active,.active_detail,.collage_banner{font-size:$font_size;
+  .active_bg{width:100%;height:200px;}
+}
+/*activeContent*/
+.active{
+  .active_banner{text-align: center;overflow: hidden;}
+  .active_goods{width:100%;padding-bottom:50px;
+    .goods{margin: .4rem;box-shadow:0 5px 18px #ddd;background: #fff;border-radius: 10px;position: relative;
+      .collage_tag{margin-left:20px;padding:3px;color:white;background: $theme_color;border-radius:0 0 8px 8px;box-shadow:0 3px 5px #ddd;}
+      .active_img{
+        .good_img{width:90%;margin:0 5%;}
+      }
+      .active_time {background: #feedd6;text-align: center;height: 30px;line-height: 30px;}
+      .active_good_detail{display:flex;margin:10px;padding-bottom:10px;
+        .good_detail{width:70%;
+          .title{margin:5px 0;}
+          .red{display:flex;color:#ff0204;animation: twinkle 1.5s infinite;}
+          .tag{background:#ff0204;color:white;margin:3px 5px;padding:0 5px;font-size:10px;line-height:16px;animation: twinkle1 1.5s infinite;border-radius:10px;}
+          .market_price{text-decoration:line-through;}
+        }
+        .active-btn{width:auto;text-align:center;line-height:34px;margin:auto;padding:0 15px;color:white;background:linear-gradient(90deg, #ff0204 60%, #ffb3b3);border-radius:17px;}
+      }
+    }
+  }
+  .active_null{margin:50px 0;text-align:center;}
+  @keyframes  twinkle{ 0%{ color: $theme_color;opacity:1;} 50%{color: #8b0000;opacity:.7} 100%{color:$theme_color; opacity:1} }
+}
+.active_end{text-align:center;font-size:16px;margin:40px 0;
+  img{width:70%;}
+}
+//（秒杀、砍价、拼团）详情页&&砍价帮砍页
+/*活动信息*/
+.active_detail,.haggle_help,.group_detail{
+  .active_name{text-align: center;padding:10px 0 0;}
+  .active_img{}
+  .active_time,.invite_haggle{background: #feedd6;text-align: center;width:90%;height: 30px;line-height: 30px;margin:5px auto;font-size:12px;
+    .active_price{float:left;margin-left:5px;}
+    .countdown,.active_timeout,.active_not_begin{float:right;color:#aaa;margin-right:5px;}
+  }
+  /*轮播*/
+  .slide{
+    .swiper{
+      .swiper-item{
+        .slide-url{overflow:hidden;
+          .slide-image{width:90%;height:auto;margin:5%;box-shadow:0 5px 20px #aaa;}
+        }
+      }
+    }
+  }
+  /*商品信息*/
+  .good_detail {width:90%;margin:10px 5%;text-align: center;background:white;padding:5px 0;box-shadow:0 0 10px #eee;
+
+    .active_price{font-size:16px !important;}
+    .good_name{font-size:16px;margin:2px 0;}
+    .price-icon{display:inline-flex;}
+    .cost_price{
+
+      .market_price{text-decoration:line-through;}
+    }
+    .tag {width: auto;display:inline-flex;padding:0 10px;margin: 8px auto;border-radius:10px;color:white;background-color: #ff0204;font-size: 12px;animation: twinkle1 1.5s infinite; }
+    .red{color:$theme_color;text-align: center;display:inline-flex;font-size:$font_size;}
+  }
+  /*产品参数*/
+  .parameter{width:94%;margin: 10px 3%;}
+  .iconfont{float:right;padding-top:3px;}
+  .switch-card{padding:10px;}
+  .switch-card-list-item{width:100%;display:inline-flex;border-bottom:1px solid #ddd;line-height:30px;}
+  .gray{ width:25%;color:#aaa;}
+  /*详情、评价*/
+  .detail_estimate{width:100%;padding-bottom:50px;}
+  .van_tab {padding-bottom:50px;}
+  .detail{padding: 5px 10px 50px;}
+  .estimate {text-align: center;padding: 5px 10px 50px;}
+  .null_img {width:80%;height:300px;margin:auto;}
+  /*活动按钮*/
+  .bottom-btn{text-align:center;color:white;position:fixed;width:100%;bottom:0;display:inline-flex;z-index:100;}
+}
+@keyframes  twinkle1{ 0%{ background: $theme_color;opacity:1;} 50%{background:white;opacity:.7} 100%{background:$theme_color; opacity:1} }
+
+
+//（秒杀、砍价、拼团）说明页
+//.instruction{margin:10px;
+//  .null_instruction{text-align:center;font-size:16px;margin:20px 0;
+//  }
+//}
+
+//砍价帮砍页
+
+

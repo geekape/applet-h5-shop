@@ -2,7 +2,7 @@
   <div class="comment">
     <div class="comment-item" v-for="(item, index) in commentList" :key="index">
       <div class="comment-item__hd">
-        <img class="u-head__img" :src="userInfo.avatarUrl" />
+        <img lazy-load class="u-head__img" :src="userInfo.avatarUrl" />
         <p class="comment-item__name">{{userInfo.name}}</p>
         <p class="comment-item__time">{{item.cTime}}</p>
       </div>
@@ -11,7 +11,7 @@
       </div>
       <div class="comment-item__ft">
         <a class="goods-line">
-          <img class="u-goods__img" :src="item.goods_img"/>
+          <img lazy-load class="u-goods__img" :src="item.goods_img"/>
 
           <div class="goods-line__right">
             <p class="u-goods__tt overflow-dot_row">{{item.goods_title}}</p>
@@ -41,10 +41,12 @@ export default {
   computed: {
     // 时间处理
     commentList () {
-      let arr = this.comments
-      arr.forEach((item,idx) => {
-        item.cTime = dateDiff(item.cTime)
-      })
+      let arr = []
+      let { keys, values, entries } = Object;
+      for (let [key, value] of entries(this.comments)) {
+        value.cTime = dateDiff(value.cTime)
+        arr.push(value)
+      }
       return arr
     }
   },
@@ -54,11 +56,12 @@ export default {
   },
 
   onLoad () {
+    var _this = this
     post('shop/api/my_comment', {
       PHPSESSID: wx.getStorageSync('PHPSESSID'),
       uid: 1
     }).then(res => {
-      this.comments = res.lists
+      _this.comments = res.lists
     })
   }
 }
@@ -66,7 +69,7 @@ export default {
 
 
 <style lang="scss" scoped>
-  .comment-item {
+.comment-item {
     background: #fff;
     padding: 15px;
     margin-top: 10px;
@@ -93,15 +96,16 @@ export default {
       margin-top: 10px;
       padding-top: 10px;
       border-top: 1px solid #eee;
-      &,
       /deep/ .u-goods__tt {
         font-size: 14px;
-        max-width: 250px;
+        max-width: 300PX;
       }
+      /deep/ .u-goods__price{font-size: 14PX}
       .goods-line {padding: 0}
       .u-goods__img {width: 50px;min-width: 50px;height: 50px;}
     }
 
   }
+
 
 </style>
